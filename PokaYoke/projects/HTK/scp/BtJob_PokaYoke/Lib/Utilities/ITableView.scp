@@ -1,0 +1,44 @@
+
+Package ITableView
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+        Names[0] = "BtHistoryDataView_PokaYoke_BtTableView_HistoryData"
+        ICommons[0] = BtHistoryDataView_PokaYoke_BtTableView_HistoryData:ITableViewInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method SetOriginalDataSource(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetOriginalDataSource", args, ICommons))
+    End Method
+
+    Method GetDisplayColumnCount(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetDisplayColumnCount", args, ICommons))
+    End Method
+
+    Method UpdateData(controlName, needUpdateFilterdData)
+        args[1]
+    Begin
+        args[0] = needUpdateFilterdData
+        Return(InterfaceCommon:Call(controlName, Names, "UpdateData", args, ICommons))
+    End Method
+
+    Method UpdateLogData(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "UpdateLogData", args, ICommons))
+    End Method
+
+End Package
+

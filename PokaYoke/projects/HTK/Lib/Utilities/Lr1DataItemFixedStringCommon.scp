@@ -1,0 +1,36 @@
+#pushdefine
+
+#insert "\Lib\Utilities\Lr1DataItemFixedStringConstants"
+
+Package Lr1DataItemFixedStringCommon
+
+#pushdefine
+#insert "\Lib\Utilities\Lr1DataItem"
+#popdefine
+
+    Method GetId(properties[]) Begin Return(properties[DEF_ID_PROPERTY]) End Method
+
+    Method GetLogData(properties[]) Begin Return(properties[DEF_LOGDATA_PROPERTY]) End Method
+
+    Method GetLogDataIndex(properties[]) Begin Return(0) End Method
+
+    Method GetTableItemTypes(properties[]) Begin Return(DbAccess:SQLITE_DATA_TYPE_TEXT) End Method
+
+    Method GetIsDate(properties[]) Begin Return(false) End Method
+
+    Method GetIsTime(properties[]) Begin Return(false) End Method
+
+    Method GetDecimalPlaces(properties[]) Begin Return(OUTPUT_DATA_UTILITY_DEFAULT_DECIMALPLACE) End Method
+
+#insert "\Lib\Utilities\ILr1DataItemInvokeCommon"
+
+    Method New(properties[], id, logData)
+    Begin
+        NewBase(properties)
+        properties[DEF_ID_PROPERTY] = id
+        properties[DEF_LOGDATA_PROPERTY] = logData
+    End Method
+
+End Package
+
+#popdefine

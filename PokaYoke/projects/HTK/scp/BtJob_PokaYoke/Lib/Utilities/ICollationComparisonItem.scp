@@ -1,0 +1,132 @@
+
+Package ICollationComparisonItem
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_PokaYoke_CollationComparisonItem_0"
+        ICommons[0] = BtWindow_PokaYoke_CollationComparisonItem_0:ICollationComparisonItemInvoke
+    End Method
+
+    Method IsImplemented(comparisonItemName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(comparisonItemName, Names))
+    End Method
+
+    Method GetComparisonTarget(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetComparisonTarget", args, ICommons))
+    End Method
+    Method SetComparisonTarget(comparisonItemName, value)
+        args[1]
+    Begin
+        args[0] = value
+        InterfaceCommon:Call(comparisonItemName, Names, "SetComparisonTarget", args, ICommons)
+    End Method
+
+    Method GetColumnNumber(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetColumnNumber", args, ICommons))
+    End Method
+    Method SetColumnNumber(comparisonItemName, value)
+        args[1]
+    Begin
+        args[0] = value
+        InterfaceCommon:Call(comparisonItemName, Names, "SetColumnNumber", args, ICommons)
+    End Method
+
+    Method GetInputTarget(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetInputTarget", args, ICommons))
+    End Method
+    Method SetInputTarget(comparisonItemName, value)
+        args[1]
+    Begin
+        args[0] = value
+        InterfaceCommon:Call(comparisonItemName, Names, "SetInputTarget", args, ICommons)
+    End Method
+
+    Method GetConditionSetting(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetConditionSetting", args, ICommons))
+    End Method
+    Method SetConditionSetting(comparisonItemName, value)
+        args[1]
+    Begin
+        args[0] = value
+        InterfaceCommon:Call(comparisonItemName, Names, "SetConditionSetting", args, ICommons)
+    End Method
+
+    Method GetComparisonRangeSettings(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetComparisonRangeSettings", args, ICommons))
+    End Method
+    Method SetComparisonRangeSettings(comparisonItemName, value)
+        args[1]
+    Begin
+        args[0] = value
+        InterfaceCommon:Call(comparisonItemName, Names, "SetComparisonRangeSettings", args, ICommons)
+    End Method
+
+    Method GetInputRangeSettings(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetInputRangeSettings", args, ICommons))
+    End Method
+    Method SetInputRangeSettings(comparisonItemName, value)
+        args[1]
+    Begin
+        args[0] = value
+        InterfaceCommon:Call(comparisonItemName, Names, "SetInputRangeSettings", args, ICommons)
+    End Method
+
+    Method GetInputExclusionCharacters(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetInputExclusionCharacters", args, ICommons))
+    End Method
+    Method SetInputExclusionCharacters(comparisonItemName, value)
+        args[1]
+    Begin
+        args[0] = value
+        InterfaceCommon:Call(comparisonItemName, Names, "SetInputExclusionCharacters", args, ICommons)
+    End Method
+
+    Method GetComparisonExclusionCharacters(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetComparisonExclusionCharacters", args, ICommons))
+    End Method
+    Method SetComparisonExclusionCharacters(comparisonItemName, value)
+        args[1]
+    Begin
+        args[0] = value
+        InterfaceCommon:Call(comparisonItemName, Names, "SetComparisonExclusionCharacters", args, ICommons)
+    End Method
+
+    Method GetInputRangedValue(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetInputRangedValue", args, ICommons))
+    End Method
+
+    Method GetComparisonRangedDispValue(comparisonItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetComparisonRangedDispValue", args, ICommons))
+    End Method
+
+    Method GetComparisonRangedInternalValue(comparisonItemName, rowIndex)
+        args[1]
+    Begin
+        args[0] = rowIndex
+        Return(InterfaceCommon:Call(comparisonItemName, Names, "GetComparisonRangedInternalValue", args, ICommons))
+    End Method
+
+End Package

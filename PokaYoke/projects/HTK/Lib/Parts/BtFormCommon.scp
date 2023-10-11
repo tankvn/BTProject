@@ -1,0 +1,383 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtFormConstants"
+
+Package BtFormCommon
+    Method GetBtComponents(properties[]) 
+    Begin
+        Return (properties[DEF_BT_COMPONENTS_PROPERTY])
+    End Method
+
+    Method GetText(properties[])
+    Begin
+        Return(properties[DEF_TEXT])
+    End Method
+    Method SetText(properties[], value)
+    Begin
+        properties[DEF_TEXT] = value
+    End Method
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (Window<properties[DEF_NAME_PROPERTY]>:backColor)
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:backColor = value
+    End Method
+
+    Method GetFormBorderStyle(properties[])
+    Begin
+        Return(Window<properties[DEF_NAME_PROPERTY]>:frame)
+    End Method
+    Method SetFormBorderStyle(properties[], value)
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:frame = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return(Window<properties[DEF_NAME_PROPERTY]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return(Window<properties[DEF_NAME_PROPERTY]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:top = value
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return(Window<properties[DEF_NAME_PROPERTY]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:width = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return (Window<properties[DEF_NAME_PROPERTY]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:height = value
+    End Method
+
+    Method GetVisible(properties[])
+    Begin
+        Return(Window<properties[DEF_NAME_PROPERTY]>:visible)
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:visible = value
+    End Method
+
+    Method GetLastTime(properties[])
+    Begin
+        Return(properties[DEF_LAST_TIME])
+    End Method
+    Method SetLastTime(properties[], value)
+    Begin
+        properties[DEF_LAST_TIME] = value
+    End Method
+
+    Method GetEventWaitCounter(properties[])
+    Begin
+        Return(properties[DEF_EVENT_WAIT_COUNTER_PROPERTY])
+    End Method
+    Method SetEventWaitCounter(properties[], value)
+    Begin
+        properties[DEF_EVENT_WAIT_COUNTER_PROPERTY] = value
+    End Method
+
+    Method GetTimerId(properties[])
+    Begin
+        Return(properties[DEF_TIMER_ID_PROPERTY])
+    End Method
+    Method SetTimerId(properties[], value)
+    Begin
+        properties[DEF_TIMER_ID_PROPERTY] = value
+    End Method
+
+    Method UpdateVisible(properties[])
+    Begin
+    End Method
+
+
+    Method New(properties[])
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:Create("ROOT_WINDOW")
+        SetWidth(properties, TERMINAL_SETTING_WINDOW_SIZE_WIDTH)
+        SetHeight(properties, TERMINAL_SETTING_WINDOW_SIZE_HEIGHT)
+        SetLeft(properties, 0)
+        SetTop(properties, 0)
+        SetBackColor(properties, "255|255|255")
+        SetFormBorderStyle(properties, "none")
+        With Window<properties[DEF_NAME_PROPERTY]>
+            :width = GetWidth(properties)
+            :height = GetHeight(properties)
+            :enable = true
+            :frame = "none"
+            :SetFocus()
+        End With
+
+        SetLastTime(properties, 0)
+        SetEventWaitCounter(properties, 0)
+        SetTimerId(properties, DEF_TIMER_1)
+    End Method
+
+    Method GetActiveControl(properties[], checkControl) 
+    Begin
+        Return (Window<properties[DEF_NAME_PROPERTY]>:GetFocus())
+    End Method
+
+    Method Close(properties[])
+    Begin
+        With Window<properties[DEF_NAME_PROPERTY]>
+            :Delete()
+            :Update()
+        End With
+        Window<"ROOT_WINDOW">:Update()
+    End Method
+
+    Method Show(properties[], value)
+    Begin
+        With Window<properties[DEF_NAME_PROPERTY]>
+            :backColor = GetBackColor(properties)
+            :visible = GetVisible(properties)
+            :enable = true
+            :left = GetLeft(properties)
+            :top = GetTop(properties)
+            :width = GetWidth(properties)
+            :height = GetHeight(properties)
+            :frame = GetFormBorderStyle(properties)
+            :visible = value
+            :Update()
+            :SetFocus()
+        End With
+    End Method
+
+    Method EventWait(properties[])
+        eventWaitCounter
+    Begin
+        eventWaitCounter = GetEventWaitCounter(properties)
+        If (0 < eventWaitCounter) Then
+            Event:Exit()
+            eventWaitCounter = eventWaitCounter - 1
+        End If
+        eventWaitCounter = eventWaitCounter + 1
+        SetEventWaitCounter(properties, eventWaitCounter)
+        Event:Wait()
+        Event:Clear()
+    End Method
+
+
+    Const EndKeyList[] = {KEYS_F1, KEYS_F2, KEYS_F3, KEYS_ENTER} 
+
+    Method AddInputKeysList(_inputKeysList[], value)
+        i
+    Begin
+        If _inputKeysList[3] is nil Then
+
+            For i = 0 To _inputKeysList.size - 1
+                If _inputKeysList[i] is nil Then
+                    _inputKeysList[i] = value
+                    Fbreak
+                End If
+            Next
+        Else
+
+            For i = 0 To _inputKeysList.size - 1 - 1
+                _inputKeysList[i] = _inputKeysList[i + 1]
+            Next
+
+            _inputKeysList[3] = value
+        End If
+    End Method
+    Method CheckFullInputKeysList(_inputKeysList[])
+    Begin
+        Return(_inputKeysList[3] is nil)
+    End Method
+    Method CheckJudgeInputKeyList(_inputKeysList[])
+    Begin
+        Return((_inputKeysList[0] == EndKeyList[0])
+        And (_inputKeysList[1] == EndKeyList[1])
+        And (_inputKeysList[2] == EndKeyList[2])
+        And (_inputKeysList[3] == EndKeyList[3]))
+    End Method
+
+    Method Focus(properties[])
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:SetFocus()
+    End Method
+    Method SetEnable(properties[], value)
+    Begin
+        Window<properties[DEF_NAME_PROPERTY]>:enable = value
+    End Method
+
+    Method StartTimer(properties[], handler)
+    Begin
+        Timer<GetTimerId(properties)>:onTimer = handler
+        Timer<GetTimerId(properties)>:Set(DEF_TIMER_INTERVAL)
+    End Method
+    Method StopTimer(properties[])
+    Begin
+        Timer<GetTimerId(properties)>:Kill()
+    End Method
+    Method EventEffect(handler, effect)
+    Begin
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(handler)>:Set(1, effect)
+    End Method
+
+    Method UpdateChildren(ctrl[], components[])
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                If IBtInputControl:IsImplemented(ctrl[i]) Then
+                    If IBtInputControl:GetIsPartOfControl(ctrl[i]) is false Then
+                        IBtInputControl:Reset(ctrl[i])
+                    End If
+                End If
+
+                If ICollationTarget:IsImplemented(ctrl[i]) Then
+                    ICollationTarget:ClearCollationValue(ctrl[i])
+                End If
+            Next
+        End If
+
+        If Not components[0] is nil Then
+            For i = 0 To components.size - 1
+                If IBtInputComponent:IsImplemented(components[i]) Then
+                    IBtInputComponent:Reset(components[i])
+                End If
+                If ICollationTarget:IsImplemented(components[i]) Then
+                    ICollationTarget:ClearCollationValue(components[i])
+                End If
+                If IBtCollationControl:IsImplemented(components[i]) Then
+                    IBtCollationControl:Reset(components[i])
+                End If
+            Next
+        End If
+    End Method
+
+    Method RegisterSharedParameter(ctrl[])
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                If ISharedParameterInputTool:IsImplemented(ctrl[i]) And IBtInputControl:IsImplemented(ctrl[i]) Then
+                    If ISharedParameterInputTool:GetIsShared(ctrl[i])
+                    And(Not SharedParameterUtility:IsExistKey(ISharedParameterInputTool:GetSharedParameterKey(ctrl[i]))) Then
+                        IBtInputControl:Reset(ctrl[i])
+                        ISharedParameterInputTool:RegisterSharedParameter(ctrl[i])
+                    End If
+                End If
+            Next
+        End If
+    End Method
+
+    Method UpdateSharedParameterInputTool(ctrl[], components[])
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                If ISharedParameterInputTool:IsImplemented(ctrl[i]) Then
+                    If ISharedParameterInputTool:GetIsShared(ctrl[i]) Then
+                        ISharedParameterInputTool:RestoreSharedParameter(ctrl[i])
+                    End If
+                End If
+            Next
+        End If
+        If Not components[0] is nil Then
+            For i = 0 To components.size - 1
+                If ISharedParameterInputTool:IsImplemented(components[i]) Then
+                    If ISharedParameterInputTool:GetIsShared(components[i]) Then
+                        ISharedParameterInputTool:RestoreSharedParameter(components[i])
+                    End If
+                End If
+            Next
+        End If
+    End Method
+
+    Method UpdateSharedParameter(ctrl[])
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                If IBtSharedParameterLabel:IsImplemented(ctrl[i]) Then
+                    IBtSharedParameterLabel:RestoreSharedParameter(ctrl[i])
+                End If
+            Next
+        End If
+    End Method
+
+    Method CloseDatabase(ctrl[], components[])
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                If IMasterDataOwnerControl:IsImplemented(ctrl[i]) Then
+                    IMasterDataOwnerControl:CloseMasterData(ctrl[i])
+                End If
+            Next
+        End If
+
+        If Not components[0] is nil Then
+            For i = 0 To components.size - 1
+                If IMasterDataOwnerControl:IsImplemented(components[i]) Then
+                    IMasterDataOwnerControl:CloseMasterData(components[i])
+                End If
+            Next
+        End If
+    End Method
+
+    Method Dispose(ctrl[])
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                IControl:Dispose(ctrl[i])
+            Next
+        End If
+    End Method
+
+    Method ShowDisplay(properties[], ctrl[], value)
+        i
+    Begin
+        SetVisible(properties, value)
+        If value Then
+            Window<properties[DEF_NAME_PROPERTY]>:visible = GetVisible(properties)
+            Window<"__UPDATE_OFF__">:Update()
+
+            If Not ctrl[0] is nil Then
+                For i = 0 To ctrl.size - 1
+                    IControl:UpdateVisible(ctrl[i])
+                Next
+            End If
+
+            Show(properties, value)
+        Else
+            If Not ctrl[0] is nil Then
+                For i = 0 To ctrl.size - 1
+                    IControl:TemporaryHide(ctrl[i])
+                Next
+            End If
+        End If
+    End Method
+End Package
+
+#popdefine

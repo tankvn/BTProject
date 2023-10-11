@@ -1,0 +1,28 @@
+
+Package ISearchViewDisplayControl
+    Names[1]
+    ICommons[1]
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method SetSearchResult(controlName, listId_SearchResult, columnIndex)
+        args[2]
+    Begin
+        args[0] = listId_SearchResult
+        args[1] = columnIndex
+        Return(InterfaceCommon:Call(controlName, Names, "SetSearchResult", args, ICommons))
+    End Method
+
+    Method Reset(displayControlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(displayControlName, Names, "Reset", args, ICommons))
+    End Method
+End Package
+

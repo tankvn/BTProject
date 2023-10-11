@@ -1,0 +1,21 @@
+    Method ILogItemControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetLogEditType"
+                InterfaceCommon:Result = GetLogEditType(properties, UserObj<this>:Get(2))
+            Case "GetDecimalPlaces"
+                InterfaceCommon:Result = GetDecimalPlacesIndex(properties, UserObj<this>:Get(2))
+            Case "GetCheckDuplicateReading"
+                InterfaceCommon:Result = GetCheckDuplicateReading(properties, UserObj<this>:Get(2))
+            Case "GetIsSameLogItem"
+                InterfaceCommon:Result = GetIsSameLogItem(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetControlName"
+                InterfaceCommon:Result = GetControlName(properties, UserObj<this>:Get(2))
+            Case "GetLogTableFieldType"
+                InterfaceCommon:Result = GetLogTableFieldType(properties, UserObj<this>:Get(2))
+            Case "GetLogData"
+                InterfaceCommon:Result = GetLogData(properties, UserObj<this>:Get(2))
+            Case "CheckValidInput"
+                InterfaceCommon:Result = CheckValidInput(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+        End Select
+    End Method

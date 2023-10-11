@@ -1,0 +1,180 @@
+Package SharedParameterUtility
+
+    Method GetPathSharedParameterDataBase()
+    Begin
+        Return ("1:" & "SharedParameter.dat")
+    End Method
+
+    Method GetTableItemTypes()
+        id_tableFields
+    Begin
+        id_tableFields = ListTable:CreateList()
+        ListTable:Add(id_tableFields, "field1", "text primary key")
+        ListTable:Add(id_tableFields, "field2", "text")
+        ListTable:Add(id_tableFields, "field3", "text")
+        Return(id_tableFields)
+    End Method
+
+    Method UpdateSharedParameter(sharedParameterKey, displayValue, logValue)
+        id_tableFieldTypePairs
+        errormessage
+        id_fieldValuePairs
+        dataCount
+        id_insertFiledValuePair
+        id_newvalueFiledValuePair
+    Begin
+        id_tableFieldTypePairs = GetTableItemTypes()
+        DbAccess:CreateTable("1:" & "SharedParameter.dat", "SharedParameter", id_tableFieldTypePairs)
+        ListTable:DeleteList(id_tableFieldTypePairs)
+        errormessage= ErrorManager:GetError()
+        If errormessage ne "" Then
+            ErrorManager:SetError("The operation to update the shared parameters failed.")
+            Return()
+        End If
+
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, "field1", sharedParameterKey)
+
+        dataCount = DbAccess:SelectCount("1:" & "SharedParameter.dat", "SharedParameter", id_fieldValuePairs, False, 0)
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne "") Then
+            ErrorManager:SetError("The operation to update the shared parameters failed.")
+            ListTable:DeleteList(id_fieldValuePairs)
+            Return()
+        End If
+        If dataCount == 0 Then
+            id_insertFiledValuePair = ListTable:CreateList()
+            ListTable:Add(id_insertFiledValuePair, "field1", sharedParameterKey)
+            ListTable:Add(id_insertFiledValuePair, "field2", displayValue)
+            ListTable:Add(id_insertFiledValuePair, "field3", logValue)
+            DbAccess:InsertRecord("1:" & "SharedParameter.dat", "SharedParameter", id_insertFiledValuePair)
+            ListTable:DeleteList(id_insertFiledValuePair)
+        Else
+            id_newvalueFiledValuePair = ListTable:CreateList()
+            ListTable:Add(id_newvalueFiledValuePair, "field2", displayValue)
+            ListTable:Add(id_newvalueFiledValuePair, "field3", logValue)
+            DbAccess:UpdateValue("1:" & "SharedParameter.dat", "SharedParameter", id_fieldValuePairs, id_newvalueFiledValuePair)
+            ListTable:DeleteList(id_newvalueFiledValuePair)
+        End If
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne "") Then
+            ErrorManager:SetError("The operation to update the shared parameters failed.")
+            Return()
+        End If
+    End Method
+
+    Method GetSharedParameter(sharedParameterKey)
+        id_fieldValuePairs
+        id_sharedParameter
+        errormessage
+        str
+    Begin
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, "field1", sharedParameterKey)
+        id_sharedParameter = DbAccess:SelectValue("1:" & "SharedParameter.dat", "SharedParameter", "field2",
+                                id_fieldValuePairs, False, 0)
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        errormessage= ErrorManager:GetError()
+        If errormessage ne "" Then
+            If (id_sharedParameter <> 0) Then
+                ListTable:DeleteList(id_sharedParameter)
+            End If
+            Return("")
+        End If
+        If id_sharedParameter <= 0 Then
+            Return ("")
+        End If
+        str = ListTable:Get(id_sharedParameter, 0, "val")
+        ListTable:DeleteList(id_sharedParameter)
+        If (str is nil) Then
+          Return ("")
+        End If
+        Return(str)
+    End Method
+
+    Method GetSharedLogParameter(sharedParameterKey)
+        id_fieldValuePairs
+        id_sharedParameter
+        errormessage
+        str
+    Begin
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, "field1", sharedParameterKey)
+        id_sharedParameter= DbAccess:SelectValue("1:" & "SharedParameter.dat", "SharedParameter", "field3",
+                                id_fieldValuePairs, False, 0)
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        errormessage= ErrorManager:GetError()
+        If errormessage ne "" Then
+            If (id_sharedParameter <> 0) Then
+                ListTable:DeleteList(id_sharedParameter)
+            End If
+            Return("")
+        End If
+        If id_sharedParameter <= 0 Then
+            Return ("")
+        End If
+        str = ListTable:Get(id_sharedParameter, 0, "val")
+        ListTable:DeleteList(id_sharedParameter)
+        If (str is nil) Then
+          Return ("")
+        End If
+        Return(str)
+    End Method
+
+    Method IsExistKey(sharedParameterKey)
+        id_fieldValuePairs
+        count
+    Begin
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, "field1", sharedParameterKey)
+        count = DbAccess:SelectCount("1:" & "SharedParameter.dat",
+                                                    "SharedParameter", id_fieldValuePairs, False, 0)
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        ErrorManager:GetError()
+        If count == 0 Then
+            Return(False)
+        End If
+        Return(True)
+    End Method
+
+    Method ClearSharedParameter(sharedParameterKey)
+        id_fieldValuePairs
+        errormessage
+    Begin
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, "field1", sharedParameterKey)
+        DbAccess:DeleteRecord("1:" & "SharedParameter.dat", "SharedParameter", id_fieldValuePairs)
+        ListTable:DeleteList(id_fieldValuePairs)
+        errormessage = ErrorManager:GetError()
+        If errormessage ne "" Then
+            Return()
+        End If
+    End Method
+
+    Method CheckEnableClearTiming(clearTimings, targetClearTiming)
+    Begin
+        If (clearTimings == 0x0) Then
+            Return(false)
+        End If
+
+        If (clearTimings >= 0x2) Then
+            If (targetClearTiming == 0x2) Then
+                Return(true)
+            End If
+            clearTimings = clearTimings - 0x2
+        End If
+
+        If (clearTimings >= 0x1) Then
+            If (targetClearTiming == 0x1) Then
+                Return(true)
+            End If
+        End If
+
+        Return(false)
+    End Method
+End Package

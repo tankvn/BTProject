@@ -1,0 +1,32 @@
+Package CurrentDateCollationTarget
+
+    _properties[1]
+
+    Method GetTabStop() Begin Return (_properties[0]) End Method
+    Method SetTabStop(value) Begin _properties[0] = value End Method
+
+    Method New()
+    Begin
+    End Method
+
+    Method GetCollationValue(index)
+    Begin
+        Return (Handy:date)
+    End Method
+
+    Method GetAllCollationValues(index)
+    Begin
+        Return (1)
+    End Method
+
+    Method GetCollationInputControl(index)
+    Begin
+        Return (nil)
+    End Method
+
+    Method GetType()
+    Begin
+        Return ("CurrentDateCollationTarget")
+    End Method
+
+End Package

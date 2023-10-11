@@ -1,0 +1,13 @@
+Package DbAccessException
+
+    #define DEF_ERROR_CODE_PROPERTY 0
+    #define DEF_PROPERTY_NUM 1
+    _properties[DEF_PROPERTY_NUM]
+
+    Method GetErrorCode() Begin Return(_properties[DEF_ERROR_CODE_PROPERTY]) End Method
+
+    Method New(errorCode)
+    Begin
+        _properties[DEF_ERROR_CODE_PROPERTY] = errorCode
+    End Method
+End Package

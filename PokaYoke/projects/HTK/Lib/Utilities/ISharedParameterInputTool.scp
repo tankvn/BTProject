@@ -1,0 +1,78 @@
+#pushdefine
+
+#define DEF_ITEM_NUM 256
+Package ISharedParameterInputTool
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    Names[DEF_IMPLEMENT_NAME_ARRAY@~]
+    ICommons[DEF_IMPLEMENT_NAME_ARRAY@~]
+#else
+    Names[1]
+    ICommons[1]
+#endif
+
+    Method New()
+    Begin
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Names[@^] = "DEF_IMPLEMENT_NAME_ARRAY"
+        ICommons[@^] = DEF_IMPLEMENT_NAME_ARRAY:ISharedParameterInputToolInvoke
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetIsShared(controlName) /*As Boolean*/
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetIsShared", args, ICommons))
+    End Method
+
+    Method SetIsShared(controlName, value) /*As Boolean*/
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetIsShared", args, ICommons))
+    End Method
+
+    Method GetSharedParameterKey(controlName) /*As String*/
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSharedParameterKey", args, ICommons))
+    End Method
+
+    Method SetSharedParameterKey(controlName, value) /*As String*/
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetSharedParameterKey", args, ICommons))
+    End Method
+
+    Method GetSharedParameterClearTiming(controlName) /*As SharedParameterClearTiming*/
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSharedParameterClearTiming", args, ICommons))
+    End Method
+
+    Method SetSharedParameterClearTiming(controlName, value) /*As SharedParameterClearTiming*/
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetSharedParameterClearTiming", args, ICommons))
+    End Method
+
+    Method RegisterSharedParameter(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RegisterSharedParameter", args, ICommons))
+    End Method
+
+    Method RestoreSharedParameter(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RestoreSharedParameter", args, ICommons))
+    End Method
+End Package
+
+#popdefine

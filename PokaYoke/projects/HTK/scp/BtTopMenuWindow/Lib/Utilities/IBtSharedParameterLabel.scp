@@ -1,0 +1,21 @@
+
+Package IBtSharedParameterLabel
+    Names[1]
+    ICommons[1]
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method RestoreSharedParameter(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RestoreSharedParameter", args, ICommons))
+    End Method
+
+End Package
+

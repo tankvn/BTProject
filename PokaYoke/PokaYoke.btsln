@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BuilderProject FileVersion="2.3.1.0" ApplicationVersion="2.3.3.0" TerminalAppGuid="4CB06EA1-821C-40EF-B05A-6CC01F8CFEE6" ServerAppGuid="9B8B6E2F-EF3C-4503-A697-0FC80566E6E1">
+  <CodeDataId>BaseCodeData</CodeDataId>
+  <Template Id="PokaYokeTemplate">
+    <TemplateJob Id="PokaYoke">
+      <TerminalJobKey>2d9ce5b5-157e-4447-8ff4-6535073ae6ac</TerminalJobKey>
+      <ServerWindowKey>d91a0818-1bb7-4987-8b25-015ff22cd4c6</ServerWindowKey>
+    </TemplateJob>
+  </Template>
+</BuilderProject>

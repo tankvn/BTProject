@@ -1,0 +1,251 @@
+
+#insert "\Lib\Utilities\FocusTransitionUtilityConstants"
+
+Package FocusTransitionUtilityCommon
+    currentFocusControl
+
+    Method MoveControl(properties[], controlID[], control_, forward_)
+        nextControl
+    Begin
+        nextControl = GetMoveControlId(properties, controlID, control_, forward_)
+        If nextControl eq control_ Then
+            Return()
+        End If
+        SetFocus(nextControl)
+    End Method
+
+    Method GetMoveControlId(properties[], controlID[], control_, forward_)
+        i
+        endIndex
+        currentControl
+        firstControl = nil
+        isPassed = false
+    Begin
+        If properties[DEF_CONTROL_COUNT_PROPERTY] is nil Then
+            Return(control_)
+        End If
+        endIndex = properties[DEF_CONTROL_COUNT_PROPERTY] - 1
+        If endIndex < 0 Then
+            Return(control_)
+        End If
+
+        For i = 0 To endIndex
+            If forward_ Then
+                currentControl = controlID[i]
+            Else
+                currentControl = controlID[endIndex - i]
+            End If
+            If currentControl eq control_ Then
+                isPassed = true
+                Fcontinue
+            End If
+            With TextBox<currentControl>
+                If (:enable And :visible) Then
+                    If isPassed Then
+                        Return(currentControl)
+                    End If
+                    If firstControl is nil Then
+                        firstControl = currentControl
+                    End If
+                End If
+            End With
+        Next
+        If Not firstControl is nil Then
+            Return(firstControl)
+        End If
+        Return(control_)
+    End Method
+
+    Method SetFocus(control_)
+        prevControl
+    Begin
+        If control_ is nil Then
+            Return()
+        End If
+
+        Window<"__UPDATE_OFF__">:Update()
+
+        prevControl = TextBox<control_>:GetFocus()
+
+        If prevControl ne control_ Then
+            TextBox<control_>:SetFocus()
+
+            If Not prevControl is nil Then
+                IControl:InvokeFocusHandler(prevControl, false)
+            End If
+            IControl:InvokeFocusHandler(control_, true)
+        End If
+
+        Window<"ROOT_WINDOW">:Update()
+    End Method
+
+    Method ForceLostFocus(control_)
+    Begin
+        If currentFocusControl is nil Then
+            currentFocusControl = control_
+            Return(false)
+        End If
+        If control_ eq currentFocusControl Then
+            Return(false)
+        End If
+
+        IControl:InvokeFocusHandler(currentFocusControl, false)
+        currentFocusControl = control_
+        Return(true)
+    End Method
+
+    Method SetControl(properties[], controlID[], controlid)
+        i        
+    Begin
+        For i = 0 To controlID.size - 1
+            If controlID[i] is nil Then
+                controlID[i] = controlid
+                properties[DEF_CONTROL_COUNT_PROPERTY] = i+1
+                Return(true)
+            End If
+        next
+        Return(false)
+    End Method
+
+    Method Reset(properties[], controlID[])
+        i        
+    Begin
+        properties[DEF_CONTROL_COUNT_PROPERTY] = 0
+        For i = 0 To controlID.size - 1
+            controlID[i] = nil
+        next
+    End Method
+
+    Method ResetTargetControls(properties[], transitionSource, transitionDestination, listId_Controls, listId_Components)
+    Begin
+        If (transitionSource eq "") Then
+            Return (nil)
+        End If
+        If (transitionDestination eq "") Then
+            Return (nil)
+        End If
+
+        ResetTargetRangeControls(properties, IControl:GetTabIndex(transitionSource), IControl:GetTabIndex(transitionDestination), listId_Controls, listId_Components)
+    End Method
+
+    Method ResetTargetInputComponents(properties[], transitionSourceComponent, transitionDestinationControl, listId_Controls, listId_Components)
+    Begin
+        If (transitionSourceComponent eq "") Then
+            Return (nil)
+        End If
+        If (transitionDestinationControl eq "") Then
+            Return (nil)
+        End If
+
+        ResetTargetRangeControls(properties, IBtInputComponent:GetTabIndex(transitionSourceComponent), IControl:GetTabIndex(transitionDestinationControl), listId_Controls, listId_Components)
+    End Method
+
+    Method ResetTargetRangeControls(properties[], sourceTabIndex, destinationTabIndex, listId_Controls, listId_Components)
+        beginTabIndex
+        endTabIndex
+        count
+        controlName
+        tabIndex
+        componentName
+    Begin
+
+        If (sourceTabIndex < destinationTabIndex) Then
+            beginTabIndex = sourceTabIndex
+            endTabIndex = destinationTabIndex
+        Else
+            beginTabIndex = destinationTabIndex
+            endTabIndex = sourceTabIndex
+        End If
+
+        Window<"__UPDATE_OFF__">:Update()
+
+        If (listId_Controls <> INVALID_LIST_TABLE_ID) Then
+            For count = 0 To ListTable:Count(listId_Controls) - 1
+                controlName = ListTable:Get(listId_Controls, count, "key")
+
+                If IControl:IsImplemented(controlName) is false Then
+                    Fcontinue
+                End If
+                If (IControl:GetVisible(controlName) is false) Then
+                    Fcontinue
+                End If
+
+                If IBtInputControl:IsImplemented(controlName) is false Then
+                    Fcontinue
+                End If
+                If (IBtInputControl:GetIsPartOfControl(controlName) is true) Then
+                    Fcontinue
+                End If
+
+                tabIndex = IControl:GetTabIndex(controlName)
+                If ((tabIndex < beginTabIndex) Or (endTabIndex < tabIndex)) Then
+                    Fcontinue
+                End If
+
+                IBtInputControl:Reset(controlName)
+
+                ClearCollationValue(controlName)
+            Next
+        End If
+
+        Window<"ROOT_WINDOW">:Update()
+
+        If (listId_Components <> INVALID_LIST_TABLE_ID) Then
+            For count = 0 To ListTable:Count(listId_Components) - 1
+                componentName = ListTable:Get(listId_Components, count, "key")
+                ResetComponent(properties, beginTabIndex, endTabIndex, componentName)
+            Next
+        End If
+    End Method
+
+    Method ResetComponent(properties[], beginTabIndex, endTabIndex, component)
+        isVisible
+        tabIndex
+        minTabIndex
+        maxTabIndex
+        startTabIndex
+    Begin
+
+        If (component eq "") Then
+            Return (nil)
+        End If
+
+        If IBtInputComponent:IsImplemented(component) Then
+            isVisible = IBtInputComponent:GetVisible(component)
+            tabIndex = IBtInputComponent:GetTabIndex(component)
+            If (isVisible) And (Not ((tabIndex < beginTabIndex) Or (endTabIndex < tabIndex))) Then
+                IBtInputComponent:Reset(component)
+                ClearCollationValue(component)
+                Return (nil)
+            End If
+        End If
+
+        If IBtCombinationComponent:IsImplemented(component) Then
+            isVisible = IBtCombinationComponent:GetVisible(component)
+            minTabIndex = IBtCombinationComponent:GetMinTabIndex(component)
+            maxTabIndex = IBtCombinationComponent:GetMaxTabIndex(component)
+            If (isVisible) And (Not ((minTabIndex < beginTabIndex) Or (endTabIndex < maxTabIndex))) Then
+                IBtCombinationComponent:Reset(component)
+                ClearCollationValue(component)
+            End If
+        End If
+
+        If IBtStopWatch:IsImplemented(component) Then
+            startTabIndex = IControl:GetTabIndex(IBtStopWatch:GetStartStopButtonName(component))
+            If startTabIndex ne "" Then
+                If (beginTabIndex <= startTabIndex) And (startTabIndex <= endTabIndex) Then
+                    IBtStopWatch:Clear(component)
+                End If
+            End If
+        End If
+
+    End Method
+
+    Method ClearCollationValue(component)
+    Begin
+        If ICollationTarget:IsImplemented(component) Then
+            ICollationTarget:ClearCollationValue(component)
+        End If
+    End Method
+
+End Package

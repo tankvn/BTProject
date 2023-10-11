@@ -1,0 +1,18 @@
+
+Package BtWindow_PokaYoke_BtTextBox_Input_BtVerifyControl_1_RangeSettings_0
+    Properties[8]
+
+    Method New(outputRangeType, rangeStart, rangeEnd, aiType)
+    Begin
+        Properties[0] = "BtWindow_PokaYoke_BtTextBox_Input_BtVerifyControl_1_RangeSettings_0"
+        RangeSettingsCommon:SetRangeType(Properties, outputRangeType)
+        RangeSettingsCommon:SetRangeStart(Properties, rangeStart)
+        RangeSettingsCommon:SetRangeEnd(Properties, rangeEnd)
+        RangeSettingsCommon:SetAiType(Properties, aiType)
+    End Method
+    Method IRangeSettingsInvoke(this)
+    Begin
+        RangeSettingsCommon:IRangeSettingsInvokeCommon(this, Properties)
+    End Method
+
+End Package

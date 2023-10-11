@@ -1,0 +1,52 @@
+
+#insert "\Lib\Utilities\RangeSettingsConstants"
+
+Package RangeSettingsCommon
+
+    Method GetName(properties[]) Begin Return (properties[DEF_NAME_PROPERTY]) End Method
+    Method SetName(properties[], value) Begin properties[DEF_NAME_PROPERTY] = value End Method
+
+    Method GetRangeType(properties[]) Begin Return (properties[DEF_RANGETYPE_PROPERTY]) End Method
+    Method SetRangeType(properties[], value) Begin properties[DEF_RANGETYPE_PROPERTY] = value End Method
+
+    Method GetRangeStart(properties[]) Begin Return (properties[DEF_RANGESTART_PROPERTY]) End Method
+    Method SetRangeStart(properties[], value) Begin properties[DEF_RANGESTART_PROPERTY] = value End Method
+
+    Method GetRangeEnd(properties[]) Begin Return (properties[DEF_RANGEEND_PROPERTY]) End Method
+    Method SetRangeEnd(properties[], value) Begin properties[DEF_RANGEEND_PROPERTY] = value End Method
+
+    Method GetAiType(properties[]) Begin Return (properties[DEF_AITYPE_PROPERTY]) End Method
+    Method SetAiType(properties[], value) Begin properties[DEF_AITYPE_PROPERTY] = value End Method
+
+    Method GetNew1Handler(properties[]) Begin Return(properties[DEF_NEW_1_HANDLER]) End Method
+    Method SetNew1Handler(properties[], value) Begin properties[DEF_NEW_1_HANDLER] = value End Method
+    Method GetNew3Handler(properties[]) Begin Return(properties[DEF_NEW_3_HANDLER]) End Method
+    Method SetNew3Handler(properties[], value) Begin properties[DEF_NEW_3_HANDLER] = value End Method
+    Method GetNew4Handler(properties[]) Begin Return(properties[DEF_NEW_4_HANDLER]) End Method
+    Method SetNew4Handler(properties[], value) Begin properties[DEF_NEW_4_HANDLER] = value End Method
+
+#insert "\Lib\Utilities\IRangeSettingsInvokeCommon"
+
+    Method New1(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetNew1Handler(properties), GetName(properties), parameter)
+    End Method
+
+    Method New3(properties[], outputRangeType, rangeStart, rangeEnd)
+        parameter[3]
+    Begin
+        parameter[0] = outputRangeType
+        parameter[1] = rangeStart
+        parameter[2] = rangeEnd
+        EventUtility:Exec(GetNew3Handler(properties), GetName(properties), parameter)
+    End Method
+
+    Method New4(properties[], outputRangeType, aiType)
+        parameter[1]
+    Begin
+        parameter[0] = outputRangeType
+        parameter[1] = aiType
+        EventUtility:Exec(GetNew4Handler(properties), GetName(properties), parameter)
+    End Method
+End Package 

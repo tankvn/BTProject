@@ -1,0 +1,4 @@
+    Method ILogItemScreenDataInvoke(this)
+    Begin
+        DEF_COMMON:ILogItemScreenDataInvokeCommon(this, Properties)
+    End Method

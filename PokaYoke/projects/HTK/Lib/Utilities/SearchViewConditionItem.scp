@@ -1,0 +1,27 @@
+
+#insert "\Lib\Utilities\SearchViewConditionItemConstants"
+
+Package DEF_PACKAGE_NAME
+    Properties[DEF_PROPERTY_NUM]
+
+#insert "\Lib\Utilities\ISearchViewConditionItemInvoke"
+
+    Method New(tableFieldName, searchViewControl)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        Properties[DEF_INPUT_CONTROL_PROPERTY] = searchViewControl
+        DEF_SEARCHVIEW_ITEM:New(tableFieldName)
+        SearchViewConditionItemCommon:SetRangeExtractedStringHandler(Properties, GetRangeExtractedString)
+        SearchViewConditionItemCommon:SetTableFieldNameHandler(Properties, GetTableFieldName)
+    End Method
+
+    Method GetRangeExtractedString(this) 
+    Begin
+        Return(SearchViewItemCommon:GetRangeExtractedString(DEF_SEARCHVIEW_ITEM:Properties, EventUtility:GetParameter(this, 0)))
+    End Method
+
+    Method GetTableFieldName(this)
+    Begin
+        Return(SearchViewItemCommon:GetTableFieldName(DEF_SEARCHVIEW_ITEM:Properties))
+    End Method
+End Package 

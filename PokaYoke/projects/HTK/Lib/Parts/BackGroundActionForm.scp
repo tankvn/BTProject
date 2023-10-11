@@ -1,0 +1,51 @@
+
+#pushdefine
+#include "\Lib\Parts\RES\BackGroundActionForm_res" "Lib\Parts\RES\BackGroundActionForm_res"
+#popdefine
+
+/*Public*/ Package BackGroundActionForm
+
+    #define DEF_ERROR_MESSAGE_PROPERTY 0
+    #define DEF_IS_ACTIVE_PROPERTY 1
+    #define DEF_PROPERTY_NUM 2
+    _properties[DEF_PROPERTY_NUM]
+
+
+    Method GetErrorMessage() /*As String*/
+    Begin
+        Return (_properties[DEF_ERROR_MESSAGE_PROPERTY])
+    End Method
+
+
+
+    Method New(title, status)
+    Begin
+        BackGroundActionForm_res:InitializeComponent()
+
+        BackGroundActionForm_res:SetTitleLabelText(title)
+        BackGroundActionForm_res:SetStatusLabelText(status)
+
+        BackGroundActionForm_res:LayoutSetting()
+    End Method
+
+    Method Show()
+    Begin
+        _properties[DEF_IS_ACTIVE_PROPERTY] = true
+
+        BackGroundActionForm_res:Show()
+    End Method
+
+    Method Close()
+    Begin
+        _properties[DEF_ERROR_MESSAGE_PROPERTY] = ErrorManager:GetError()
+        _properties[DEF_IS_ACTIVE_PROPERTY] = false
+
+        BackGroundActionForm_res:Close()
+    End Method
+
+    Method Reflesh()
+    Begin
+        BackGroundActionForm_res:Reflesh()
+    End Method
+
+End Package

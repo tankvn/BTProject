@@ -1,0 +1,66 @@
+Package Dispatcher
+    Name = "Dispatcher"
+
+    Const ID_SCANNEDEVENT = 0
+    Const ID_CRADLEEVENT = 1
+
+    _isCradleProcessing = False
+    Method GetIsCradleProcessing() Begin Return(_isCradleProcessing) End Method
+
+    _isCradleOn = False
+    Method GetIsCradleOn() Begin Return(_isCradleOn) End Method
+
+    _scanResult = 0
+    Method GetScanResult() Begin Return(_scanResult) End Method
+
+    Method AddScannedEvent()
+    Begin
+        BCR:onScanComplete = My_onScanComplete
+        BCR:onScanTimeout = My_onScanTimeout
+    End Method
+
+    Method RemoveScannedEvent()
+    Begin
+        BCR:onScanComplete = nil
+        BCR:onScanTimeout = nil
+    End Method
+
+    Method My_onScanComplete(sender)
+    Begin
+        IndicatorUtility:ReadSuccessBVLAction()
+    End Method
+
+    Method My_onScanTimeout(sender)
+        partsName
+    Begin
+        IndicatorUtility:ReadErrorBVLAction()
+
+        partsName = Window<"ROOT_WINDOW">:GetFocus()
+        IControl:InvokeFocusHandler(partsName, false)
+
+        MessageUtility:ShowMessage("The operation to read the code failed.",
+                                   "Warning",
+                                   "ok",
+                                   "exclamation",
+                                   1)
+    End Method
+
+    Method SetCradleEvent(func)
+    Begin
+        UserObj<Name>:Open()
+        UserObj<Name>:Set(ID_CRADLEEVENT, func)
+        Handy:onCradle = My_onCradle
+    End Method
+
+    Method My_onCradle(sender)
+    Begin
+        _isCradleProcessing = true
+        If sender == 1 Then _isCradleOn = true
+        Else _isCradleOn = false End If
+        If Not UserObj<Name>:Get(ID_CRADLEEVENT) is nil Then
+            UserObj<Name>:Exec(ID_CRADLEEVENT)
+        End If
+        _isCradleProcessing = false
+    End Method
+
+End Package

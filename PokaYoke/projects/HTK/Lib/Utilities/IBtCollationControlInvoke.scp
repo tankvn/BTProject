@@ -1,0 +1,4 @@
+    Method IBtCollationControlInvoke(this)
+    Begin
+        DEF_COMMON:IBtCollationControlInvokeCommon(this, Properties)
+    End Method

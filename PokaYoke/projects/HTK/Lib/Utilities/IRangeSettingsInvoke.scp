@@ -1,0 +1,4 @@
+    Method IRangeSettingsInvoke(this)
+    Begin
+        DEF_COMMON:IRangeSettingsInvokeCommon(this, Properties)
+    End Method

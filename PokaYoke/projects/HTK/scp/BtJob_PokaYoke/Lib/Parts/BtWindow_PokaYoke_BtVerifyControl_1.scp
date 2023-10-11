@@ -1,0 +1,101 @@
+
+Package BtWindow_PokaYoke_BtVerifyControl_1
+
+    Properties[18]
+
+    Method New()
+    Begin
+    End Method
+
+    Method IBtCollationControlInvoke(this)
+    Begin
+        BtCollationControlCommon:IBtCollationControlInvokeCommon(this, Properties)
+    End Method
+    Method IBtCombinationComponentInvoke(this)
+    Begin
+        BtCollationControlCommon:IBtCombinationComponentInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemControlInvoke(this)
+    Begin
+        BtCollationControlCommon:ILogItemControlInvokeCommon(this, Properties)
+    End Method
+
+    Method Create(parentName)
+    Begin
+        BtCollationControlCommon:Create(Properties, "BtWindow_PokaYoke_BtVerifyControl_1")
+
+        New()
+    End Method
+
+    Method Initialize()
+    Begin
+        BtCollationControlCommon:Initialize(Properties)
+    End Method
+
+    Method AddItem(comparisonItem, comparison, columnNumber, input, setting, comparisonExclusionCharacters, inputExclusionCharacters, comparisonRangeSettings, inputRangeSettings)
+    Begin
+        BtCollationControlCommon:AddItem(Properties, comparisonItem, comparison, columnNumber, input, setting, comparisonExclusionCharacters, inputExclusionCharacters, comparisonRangeSettings, inputRangeSettings)
+    End Method
+
+    Method Judge()
+    Begin
+        Return (BtCollationControlCommon:Judge(Properties))
+    End Method
+
+    Method GetControlName(index)
+    Begin
+        Return (BtCollationControlCommon:GetControlName(Properties, index))
+    End Method
+
+    Method GetLogTableFieldType(index)
+    Begin
+        Return (BtCollationControlCommon:GetLogTableFieldType(Properties, index))
+    End Method
+
+    Method GetLogData(index)
+    Begin
+        Return (BtCollationControlCommon:GetLogData(Properties, index))
+    End Method
+
+    Method CheckValidInput(checkTarget, index)
+    Begin
+        Return (BtCollationControlCommon:CheckValidInput(Properties, checkTarget, index))
+    End Method
+
+    Method Reset()
+    Begin
+        BtCollationControlCommon:Reset(Properties)
+    End Method
+
+    Method ComparisonDataInputForCollation(sender, result)
+        target
+    Begin
+        If Not result Then Return(false) End If
+
+        If BtCollationControlCommon:IsComparisonTarget(Properties, sender) is true Then
+            If (2 == BtCollationControlCommon:GetCollationPattern(Properties)) Then
+                target = sender
+                If target is nil Then Return() End If
+                If target eq "" Then Return() End If
+                ICollationTarget:AddCollationValue(target)
+            End If
+            BtCollationControlCommon:UpdateCollationCountLabel(Properties)
+        End If
+        If IControl:GetName("BtWindow_PokaYoke_BtTextBox_Input") eq sender Then
+            BtWindow_PokaYoke:BtTextBox_Input_DataInput(sender, true)
+        End If
+        Return (true)
+    End Method
+
+    Method FocusTransitionRequested(sender)
+    Begin
+        Return (BtCollationControlCommon:FocusTransitionRequested(Properties, sender))
+    End Method
+
+    Method ComparisonValueCountUpdated(sender)
+    Begin
+        Return (BtCollationControlCommon:ComparisonValueCountUpdated(Properties, sender))
+    End Method
+
+End Package
+

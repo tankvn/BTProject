@@ -1,0 +1,192 @@
+
+Include "Lib\Utilities\BtDataFormatControlCommon"
+Include "Lib\Utilities\LogItemCommon"
+Include "Lib\Utilities\LogItemFixedStringCommon"
+Include "Lib\Utilities\LogItemSharedParameterCommon"
+Include "Lib\Utilities\LogItemSystemParameterCommon"
+Include "Lib\Utilities\LogItemScreenDataCommon"
+Include "BtJob_PokaYoke\Lib\Utilities\BtJob_PokaYoke_LogItem_0"
+Include "BtJob_PokaYoke\Lib\Utilities\BtJob_PokaYoke_LogItem_1"
+Include "BtJob_PokaYoke\Lib\Utilities\BtJob_PokaYoke_LogItem_2"
+Include "BtJob_PokaYoke\Lib\Utilities\BtJob_PokaYoke_LogItem_3"
+Include "BtJob_PokaYoke\Lib\Utilities\BtJob_PokaYoke_LogItem_4"
+Include "BtJob_PokaYoke\Lib\Utilities\BtJob_PokaYoke_LogItem_5"
+Include "BtJob_PokaYoke\Lib\Utilities\BtJob_PokaYoke_LogItem_6"
+Include "BtJob_PokaYoke\Lib\Utilities\BtJob_PokaYoke_PokaYokeData"
+
+Include "BtTopMenuWindow\RES\BtTopMenuWindowForm_res"
+Include "BtTopMenuWindow\BtTopMenuWindowForm_partial"
+Include "BtTopMenuWindow\ActiveForm"
+Include "BtTopMenuWindow\BtTopMenuWindow"
+Include "BtJob_PokaYoke\BtJob_PokaYoke_partial"
+
+Method main()
+    title
+Begin
+    If System:arg1 eq "App" Then
+        title = "Starting"
+    Else
+        title = "Processing"
+    End If
+    BackGroundActionForm:New(title, "Please wait ...")
+    BackGroundActionForm:Show()
+
+    BtTopMenuWindowForm_partial:CheckLogFormat()
+    IndicatorUtility:LoadSettings()
+    FileSystem:Mount(5)
+
+    While (1)
+        BtTopMenuWindowForm:New()
+        BackGroundActionForm:Reflesh()
+        BtTopMenuWindowForm:Initialize()
+        BackGroundActionForm:Close()
+        BtTopMenuWindowForm:OnShown()
+    Wend
+Catch
+    Handy:ShowMessageBox("An error occred in the application." &"("&System:error&")", "ok" )
+End Method
+
+Package BtTopMenuWindowForm
+    _isInitialized = false
+
+    Method New()
+    Begin
+        BtTopMenuWindowForm_res:InitializeComponent()
+    End Method
+
+    Method Initialize()
+    Begin
+        BtTopMenuWindowForm_res:RegisterSharedParameter(true)
+        BtTopMenuWindowForm_res:InitializeChildren()
+
+        Dispatcher:AddScannedEvent()
+
+        BtTopMenuWindow:Initialize()
+        _isInitialized = true
+    End Method
+
+    Method Finalized()
+    Begin
+        RealTimeConnectionController:Disconnect()
+        Dispatcher:RemoveScannedEvent()
+        OcrSettings:LoadConfigFile("1:DefaultOCRSetting.ini")
+
+        BtTopMenuWindow:Finalized()
+
+        BtTopMenuWindowForm_res:Dispose()
+    End Method
+
+    Method OnShown()
+        isShownScreen
+    Begin
+        Select Case System:arg1
+        Case nil, 0, "", "App"
+            ShowTrialModeMessage()
+        End Select
+
+        Key:maskKey = 0x00000020+0x00000040+0x00000080+0x00000100+0x00000200+0x00000400+0x00000800+0x00001000+0x00002000+0x00004000+0x00000008+0x00000010+0x00000001+0x00000002+0x00000004+0x02000000+0x00200000+0x00400000+0x00010000+0x00020000+0x00040000+0x00080000+0x20008000+0x00800000+0x00100000+0x10000000
+        Key:onPress = OnKeyDown
+
+        Select Case System:arg1
+        Case "BtJob_PokaYoke"
+            If (Not BtTopMenuWindow_BtMenuItem_PokaYoke:FocusTransitionRequested(BtButtonCommon:GetName(BtTopMenuWindow_BtMenuItem_PokaYoke:Properties))) And (System:arg3 == 1) Then
+                ShowBtTopMenuWindow()
+                BtButtonCommon:Focus(BtTopMenuWindow_BtMenuItem_PokaYoke:Properties)
+                isShownScreen = true
+            End If
+        End Select
+
+        If (isShownScreen is false) Then
+            ShowBtTopMenuWindow()
+        End If
+
+        BtTopMenuWindowForm_res:EventWait()
+    End Method
+
+    Method OnKeyDown(sender)
+    Begin
+        If (BtScreenCommon:GetVisible(BtTopMenuWindow_res:Properties)) Then
+            BtTopMenuWindowForm_res:AddInputKeysList(sender)
+
+            If (BtTopMenuWindowForm_res:CheckFullInputKeysList()) Then
+                Return (0)
+            End If
+
+            If (BtTopMenuWindowForm_res:CheckJudgeInputKeyList()) Then
+                ExitTerminal()
+                Return (0)
+            End If
+
+            BtTopMenuWindow_res:KeyAssignedAction(sender)
+            Return()
+        End If
+    End Method
+
+    Method CloseDatabase()
+    Begin
+        DbAccess:Close(SharedParameterUtility:GetPathSharedParameterDataBase())
+        BtTopMenuWindow_res:CloseDatabase()
+    End Method
+
+    Method OnWakeUpReset()
+    Begin
+        ExitTerminal()
+    End Method
+
+    Method ExitTerminal()
+    Begin
+        BtTopMenuWindowForm_res:Close()
+        BtTopMenuWindowForm_Closed()
+
+        Event:Exit()
+        If "BTW" eq "BTW" Then
+            Utility:StartExe("__Terminate_BTEmu__", "", 0)
+        End If
+        Handy:Reset()
+    End Method
+
+    Method ShowBtJob_PokaYoke()
+    Begin
+        BackGroundActionForm:New("Processing", "Please wait ...")
+        BackGroundActionForm:Show()
+        BtTopMenuWindowForm_res:Close()
+        BtTopMenuWindowForm_Closed()
+        BackGroundActionForm:Close()
+        System:Load("BtJob_PokaYoke", "BtTopMenuWindowForm", "BtJob_PokaYoke", 0, 0)
+    End Method
+
+    Method ShowConfiguration()
+    Begin
+        BtFormCommon:SetVisible(BtTopMenuWindowForm_res:Properties, false)
+        Handy:leftKey = "L"
+        Handy:rightKey = "R"
+        BtEnvironmentSettingsForm:New()
+        BtEnvironmentSettingsForm:ShowDialog()
+        Handy:leftKey = "L"
+        Handy:rightKey = "TRG"
+        BtFormCommon:SetVisible(BtTopMenuWindowForm_res:Properties, true)
+        Window<"ROOT_WINDOW">:Update()
+        BtTopMenuWindow_BtMenuItem_Configuration:Focus()
+    End Method
+
+    Method ShowBtTopMenuWindow()
+    Begin
+        Handy:leftKey = "L"
+        Handy:rightKey = "TRG"
+        BtTopMenuWindowForm_ScreenManager:ShowScreen(BtScreenCommon:GetName(BtTopMenuWindow_res:Properties))
+        BtTopMenuWindow_res:Focus()
+    End Method
+
+    Method ShowTrialModeMessage()
+    Begin
+        MessageUtility:ShowMessageOk("This application is a trial version.")
+        SystemParameterUtility:SetResume(false)
+        SystemParameterUtility:SetAutoPowerOffTime(5)
+    End Method
+
+    Method BtTopMenuWindowForm_Closed()
+    Begin
+        Finalized()
+        CloseDatabase()
+    End Method
+End Package

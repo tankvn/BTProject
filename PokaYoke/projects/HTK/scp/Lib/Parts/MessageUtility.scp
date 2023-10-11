@@ -1,0 +1,79 @@
+
+Package MessageUtility
+
+    _properties[1]
+
+    Const frm = "thin"
+    Const font = "middle"
+
+    Method GetDisableMessage()
+    Begin
+        Return (_properties[0])
+    End Method
+    Method SetDisableMessage(value)
+    Begin
+        _properties[0] = value
+    End Method
+
+    Method ShowMessageOk(message)
+    Begin
+        If (GetDisableMessage()) Then
+            Return(0)
+        End If
+
+        Dialog:Message("", message.Mid(0, 1023), "ok", frm, "information", font)
+    Catch
+        Return(0)
+    End Method
+
+    Method ShowMessage(message, title, buttonType, icon, defaultButton)
+        btn
+    Begin
+        If (GetDisableMessage()) Then
+            Select Case buttonType
+                Case "ok"
+                    Return (1)
+                Case "okcancel"
+                    If (defaultButton == 256) Then
+                        Return (2)
+                    End If
+                    Return (1)
+                Case "yesno"
+                    If (defaultButton == 256) Then
+                        Return (7)
+                    End If
+                    Return (6)
+            End Select
+        End If
+
+        Select Case buttonType
+            Case "ok"
+                btn = "ok"
+                Dialog:Message(title.Mid(0, 127), message.Mid(0, 1023), btn, frm, icon, font)
+                Return(1)
+            Case "okcancel"
+                If (defaultButton == 256) Then
+                    btn = "okcancel" & "|cancel"
+                Else
+                    btn = "okcancel" & "|ok"
+                End If
+                If Dialog:Message(title.Mid(0, 127), message.Mid(0, 1023), btn, frm, icon, font) Then
+                    Return(1)
+                Else
+                    Return(2)
+                End If
+            Case "yesno"
+                If (defaultButton == 256) Then
+                    btn = "yesno" & "|no"
+                Else
+                    btn = "yesno" & "|yes"
+                End If
+                If Dialog:Message(title.Mid(0, 127), message.Mid(0, 1023), btn, frm, icon, font) Then
+                    Return(6)
+                Else
+                    Return(7)
+                End If
+        End Select
+    End Method
+
+End Package

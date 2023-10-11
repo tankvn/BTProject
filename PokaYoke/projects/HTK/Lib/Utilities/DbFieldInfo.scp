@@ -1,0 +1,18 @@
+Package DEF_PARTS_NAME
+    Const Name = "DEF_PACKAGE_NAME"
+
+    #define DEF_FIELD_NAME_PROPERTY 0
+    #define DEF_FIELD_TYPE_PROPERTY 1
+    #define DEF_PROPERTY_NUM 2
+    _properties[DEF_PROPERTY_NUM]
+
+    Method GetFieldName() Begin Return(_properties[DEF_FIELD_NAME_PROPERTY]) End Method
+
+    Method GetFieldType() Begin Return(_properties[DEF_FIELD_TYPE_PROPERTY]) End Method
+
+    Method New(fieldName, fieldType)
+    Begin
+        _properties[DEF_FIELD_NAME_PROPERTY] = fieldName
+        _properties[DEF_FIELD_TYPE_PROPERTY] = fieldType
+    End Method
+End Package

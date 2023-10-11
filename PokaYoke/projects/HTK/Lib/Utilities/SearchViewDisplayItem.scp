@@ -1,0 +1,34 @@
+
+#insert "\Lib\Utilities\SearchViewDisplayItemConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+#insert "\Lib\Utilities\ISearchViewDisplayItemInvoke"
+
+    Method New(tableFieldName, searchViewDisplayControl, columnIndex)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        Properties[DEF_DISPLAY_CONTROL_PROPERTY] = searchViewDisplayControl
+        Properties[DEF_COLUMNINDEX_PROPERTY] = columnIndex
+        DEF_SEARCHVIEW_ITEM:New(tableFieldName)
+        SearchViewDisplayItemCommon:SetRangeExtractedStringHandler(Properties, GetRangeExtractedString)
+        SearchViewDisplayItemCommon:SetTableFieldNameHandler(Properties, GetTableFieldName)
+    End Method
+
+    Method SetSearchResult(listId_SearchResult)
+    Begin
+        ISearchViewDisplayControl:SetSearchResult(Properties[DEF_DISPLAY_CONTROL_PROPERTY], listId_SearchResult, Properties[DEF_COLUMNINDEX_PROPERTY])
+    End Method
+
+    Method GetRangeExtractedString(this) 
+    Begin
+        Return(SearchViewItemCommon:GetRangeExtractedString(DEF_SEARCHVIEW_ITEM:Properties, EventUtility:GetParameter(this, 0)))
+    End Method
+
+    Method GetTableFieldName(this)
+    Begin
+        Return(SearchViewItemCommon:GetTableFieldName(DEF_SEARCHVIEW_ITEM:Properties))
+    End Method
+End Package 

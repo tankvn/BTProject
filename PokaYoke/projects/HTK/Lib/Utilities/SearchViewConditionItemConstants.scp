@@ -1,0 +1,7 @@
+#define DEF_COMMON SearchViewConditionItemCommon
+
+    #define DEF_NAME_PROPERTY 0
+    #define DEF_INPUT_CONTROL_PROPERTY 1
+    #define DEF_RANGE_EXTRACTED_STRING_HANDLER 2
+    #define DEF_TABLE_FIELD_NAME_HANDLER 3
+    #define DEF_PROPERTY_NUM 4

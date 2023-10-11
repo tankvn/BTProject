@@ -1,0 +1,17 @@
+#pushdefine
+Package DEF_PACKAGE_NAME
+
+
+    Method ClosePickingMasterData(controlName)
+    Begin
+        Select Case controlName
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+            Case "DEF_IMPLEMENT_NAME_ARRAY"
+                Return (DEF_IMPLEMENT_NAME_ARRAY:ClosePickingMasterData())
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+        End Select
+    End Method
+
+End Package 
+
+#popdefine

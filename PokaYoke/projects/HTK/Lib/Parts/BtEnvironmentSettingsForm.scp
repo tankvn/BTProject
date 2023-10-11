@@ -1,0 +1,448 @@
+
+#insert "\Lib\Utilities\SystemSettingFileUtilityConstants"
+
+#pushdefine
+#include "\Lib\Parts\RES\BtEnvironmentSettingsForm_res" "..\Lib\Parts\RES\BtEnvironmentSettingsForm_res"
+#popdefine
+
+#pushdefine
+#include "\Lib\Parts\DateAndTimeSettingDialog" "..\Lib\Parts\DateAndTimeSettingDialog"
+#popdefine
+
+/*Public*/ Package BtEnvironmentSettingsForm
+
+
+
+    Method GetBackLightSelectionItems() /*As String()*/
+        listId_BackLightSelectionItems = INVALID_LIST_TABLE_ID
+    Begin
+        listId_BackLightSelectionItems = ListTable:CreateList()
+        ListTable:Add(listId_BackLightSelectionItems, BACK_LIGHT_VALUE_NORMAL, MESSAGE_BACK_LIGHT_SELECTION_ITEM_NORMAL)
+        ListTable:Add(listId_BackLightSelectionItems, BACK_LIGHT_VALUE_LIGHT, MESSAGE_BACK_LIGHT_SELECTION_ITEM_LIGHT)
+        ListTable:Add(listId_BackLightSelectionItems, BACK_LIGHT_VALUE_HIGH_LIGHT, MESSAGE_BACK_LIGHT_SELECTION_ITEM_HIGH_LIGHT)
+        Return (listId_BackLightSelectionItems)
+    End Method
+
+    Method GetOperationSoundSelectionItems() /*As String()*/
+        listId_OperationSoundSelectionItems = INVALID_LIST_TABLE_ID
+    Begin
+        listId_OperationSoundSelectionItems = ListTable:CreateList()
+        ListTable:Add(listId_OperationSoundSelectionItems, "OPERATION_SOUND_OFF", MESSAGE_OPERATION_SOUND_SELECTION_ITEM_OFF)
+        ListTable:Add(listId_OperationSoundSelectionItems, "OPERATION_SOUND_LOW", MESSAGE_OPERATION_SOUND_SELECTION_ITEM_LOW)
+        ListTable:Add(listId_OperationSoundSelectionItems, "OPERATION_SOUND_MEDIUM", MESSAGE_OPERATION_SOUND_SELECTION_ITEM_MEDIUM)
+        ListTable:Add(listId_OperationSoundSelectionItems, "OPERATION_SOUND_HIGH", MESSAGE_OPERATION_SOUND_SELECTION_ITEM_HIGH)
+        Return (listId_OperationSoundSelectionItems)
+    End Method
+
+    Method GetScanSoundSelectionItems() /*As String()*/
+        listId_ScanSoundSelectionItems = INVALID_LIST_TABLE_ID
+    Begin
+        listId_ScanSoundSelectionItems = ListTable:CreateList()
+        ListTable:Add(listId_ScanSoundSelectionItems, "SCAN_SOUND_OFF", MESSAGE_SCAN_SOUND_SELECTION_ITEM_OFF)
+        ListTable:Add(listId_ScanSoundSelectionItems, "SCAN_SOUND_LOW", MESSAGE_SCAN_SOUND_SELECTION_ITEM_LOW)
+        ListTable:Add(listId_ScanSoundSelectionItems, "SCAN_SOUND_MEDIUM", MESSAGE_SCAN_SOUND_SELECTION_ITEM_MEDIUM)
+        ListTable:Add(listId_ScanSoundSelectionItems, "SCAN_SOUND_HIGH", MESSAGE_SCAN_SOUND_SELECTION_ITEM_HIGH)
+        Return (listId_ScanSoundSelectionItems)
+    End Method
+
+
+    Method New()
+    Begin
+        BtEnvironmentSettingsForm_res:InitializeComponent()
+
+        BtEnvironmentSettingsForm_FocusTransitionUtility:SetControl("BtEnvironmentSettingsForm_BtDropDownBoxBacklight")
+        BtEnvironmentSettingsForm_FocusTransitionUtility:SetControl("BtEnvironmentSettingsForm_BtTextBoxBackLighttime")
+        BtEnvironmentSettingsForm_FocusTransitionUtility:SetControl("BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime")
+        BtEnvironmentSettingsForm_FocusTransitionUtility:SetControl("BtEnvironmentSettingsForm_BtDropDownBoxScanningSound")
+        BtEnvironmentSettingsForm_FocusTransitionUtility:SetControl("BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound")
+        BtEnvironmentSettingsForm_FocusTransitionUtility:SetControl("BtEnvironmentSettingsForm_BtButtonDateTimeSetting")
+        BtEnvironmentSettingsForm_FocusTransitionUtility:SetControl("BtEnvironmentSettingsForm_BtButtonCancel")
+        BtEnvironmentSettingsForm_FocusTransitionUtility:SetControl("BtEnvironmentSettingsForm_BtButtonOK")
+
+        BtEnvironmentSettingsForm_BtButtonDateTimeSetting:Invalidate()
+        BtEnvironmentSettingsForm_BtButtonCancel:Invalidate()
+        BtEnvironmentSettingsForm_BtButtonOK:Invalidate()
+    End Method
+
+    Method ShowDialog()
+    Begin
+        BtEnvironmentSettingsForm_Load("BtEnvironmentSettingsForm", "")
+
+        Key:onPress = BtEnvironmentSettingsForm_KeyDown
+
+        BtEnvironmentSettingsForm_res:Show(true)
+        BtDropDownBoxCommon:Focus(BtEnvironmentSettingsForm_BtDropDownBoxBacklight:Properties)
+
+        Window<"ROOT_WINDOW">:Update()
+
+        Event:Wait()
+    End Method
+
+    Method CloseDialog()
+    Begin
+#ifdef DEF_EVENT_FORM_KEY_DOWN
+        Key:onPress = DEF_EVENT_FORM_KEY_DOWN
+#else
+        Key:onPress = nil
+#endif
+
+        Event:Exit()
+
+        BtEnvironmentSettingsForm_res:Show(false)
+        BtEnvironmentSettingsForm_res:Dispose()
+    End Method
+
+    Method ShowOperationSoundSettings()
+        operationSoundLevel
+        listId_OperationSoundSelectionItems
+        index
+        itemKey
+        itemName
+    Begin
+
+        operationSoundLevel = SystemParameterUtility:GetOperationSoundSettings()
+        If (operationSoundLevel eq "") Then
+            operationSoundLevel = "OPERATION_SOUND_HIGH"
+        End If
+
+        BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound:RemoveItem(BT_DROP_DOWN_BOX_ITEM_INDEX_ALL)
+        listId_OperationSoundSelectionItems = GetOperationSoundSelectionItems()
+        For index = 0 To ListTable:Count(listId_OperationSoundSelectionItems) - 1
+            itemKey = ListTable:Get(listId_OperationSoundSelectionItems, index, "key")
+            itemName = ListTable:Get(listId_OperationSoundSelectionItems, index, "val")
+            BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound:AddItem(itemName)
+            If (itemKey eq operationSoundLevel) Then
+                BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound:SelectItem(index)
+            End If
+        Next
+        ListTable:DeleteList(listId_OperationSoundSelectionItems)
+    End Method
+
+    Method ShowScanningSettings()
+        buzzerLevel
+        listId_ScanSoundSelectionItems
+        index
+        itemKey
+        itemName
+    Begin
+
+        buzzerLevel = SystemParameterUtility:GetBuzzerLevelWhenScanningSucceed()
+        If (buzzerLevel eq "") Then
+            buzzerLevel = "SCAN_SOUND_HIGH"
+        End If
+
+        BtEnvironmentSettingsForm_BtDropDownBoxScanningSound:RemoveItem(BT_DROP_DOWN_BOX_ITEM_INDEX_ALL)
+        listId_ScanSoundSelectionItems = GetScanSoundSelectionItems()
+        For index = 0 To ListTable:Count(listId_ScanSoundSelectionItems) - 1
+            itemKey = ListTable:Get(listId_ScanSoundSelectionItems, index, "key")
+            itemName = ListTable:Get(listId_ScanSoundSelectionItems, index, "val")
+            BtEnvironmentSettingsForm_BtDropDownBoxScanningSound:AddItem(itemName)
+            If (itemKey eq buzzerLevel) Then
+                BtEnvironmentSettingsForm_BtDropDownBoxScanningSound:SelectItem(index)
+            End If
+        Next
+        ListTable:DeleteList(listId_ScanSoundSelectionItems)
+    End Method
+
+    Method ShowAutoPowerOffTime()
+        autoPowerOffTime
+    Begin
+
+        autoPowerOffTime = SystemParameterUtility:GetAutoPowerOffTime()
+        If autoPowerOffTime is nil Then
+            autoPowerOffTime = 0
+        End If
+
+        BtTextBoxCommon:SetInitialText(BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime:Properties, autoPowerOffTime.toInt)
+    End Method
+
+    Method ShowBackLightTime()
+        backlightTime
+    Begin
+
+        backlightTime = SystemParameterUtility:GetBackLightTime()
+
+        BtTextBoxCommon:SetInitialText(BtEnvironmentSettingsForm_BtTextBoxBackLighttime:Properties, backlightTime)
+    End Method
+
+    Method ShowBackLightSettings()
+        backLightLevelWhenStandby
+        backLightLevelWhenNormal
+        listId_BackLightSelectionItems
+        index
+        itemKey
+        itemName
+        itemCount
+        terminalKind = TERMINAL_SETTING_TERMINAL_KIND
+    Begin
+
+        backLightLevelWhenStandby = SystemParameterUtility:GetBackLightLevelWhenStandby()
+        backLightLevelWhenNormal = SystemParameterUtility:GetBackLightLevelWhenNormal()
+
+        BtEnvironmentSettingsForm_BtDropDownBoxBacklight:RemoveItem(BT_DROP_DOWN_BOX_ITEM_INDEX_ALL)
+        listId_BackLightSelectionItems = GetBackLightSelectionItems()
+        itemCount = 0
+        For index = 0 To ListTable:Count(listId_BackLightSelectionItems) - 1
+            itemKey = ListTable:Get(listId_BackLightSelectionItems, index, "key")
+            itemName = ListTable:Get(listId_BackLightSelectionItems, index, "val")
+            If terminalKind eq "BTW" Then
+                If (ConvertSettableValue(itemKey) < ConvertSettableValue(backLightLevelWhenStandby)) Then
+                    Fcontinue
+                End If
+            End If
+            itemCount = itemCount + 1
+
+            BtEnvironmentSettingsForm_BtDropDownBoxBacklight:AddItem(itemName)
+            If (itemKey eq backLightLevelWhenNormal) Then
+                BtEnvironmentSettingsForm_BtDropDownBoxBacklight:SelectItem(itemCount - 1)
+            End If
+        Next
+        ListTable:DeleteList(listId_BackLightSelectionItems)
+    End Method
+
+    Method ConvertSettableValue(backLightLevel) /*As Integer*/
+        settableBackLightLevel
+    Begin
+        Select Case backLightLevel
+            Case BACK_LIGHT_VALUE_NORMAL
+                settableBackLightLevel = 1
+
+            Case BACK_LIGHT_VALUE_LIGHT
+                settableBackLightLevel = 6
+
+            Case BACK_LIGHT_VALUE_HIGH_LIGHT
+                settableBackLightLevel = 8
+
+            Case Else
+                settableBackLightLevel = 0
+        End Select
+
+        Return (settableBackLightLevel)
+    End Method
+
+    Method SetBacklight()
+        listId_BackLightSelectionItems
+        index
+        itemKey
+        itemName
+        selectedIndex
+        curItem
+    Begin
+        selectedIndex = BtEnvironmentSettingsForm_BtDropDownBoxBacklight:GetSelectedIndex()
+        curItem = BtEnvironmentSettingsForm_BtDropDownBoxBacklight:GetItem(selectedIndex)
+
+        listId_BackLightSelectionItems = GetBackLightSelectionItems()
+        For index = 0 To ListTable:Count(listId_BackLightSelectionItems) - 1
+            itemKey = ListTable:Get(listId_BackLightSelectionItems, index, "key")
+            itemName = ListTable:Get(listId_BackLightSelectionItems, index, "val")
+            If (itemName ne curItem) Then
+                Fcontinue
+            End If
+
+            SystemParameterUtility:SetBackLightLevel(itemKey)
+            Fbreak
+        Next
+        ListTable:DeleteList(listId_BackLightSelectionItems)
+    End Method
+
+    Method SetBacklightTime()
+        backlightTime
+    Begin
+
+        backlightTime = BtTextBoxCommon:GetText(BtEnvironmentSettingsForm_BtTextBoxBackLighttime:Properties)
+        SystemParameterUtility:SetBackLightTime(backlightTime)
+    End Method
+
+    Method SetAutoPowerOffTime()
+        autoPowerOffTime
+    Begin
+
+        autoPowerOffTime = BtTextBoxCommon:GetText(BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime:Properties)
+        If autoPowerOffTime == 0 Then
+            autoPowerOffTime = nil
+        End If
+
+        SystemParameterUtility:SetAutoPowerOffTime(autoPowerOffTime)
+    End Method
+
+    Method SetScanningSound()
+        listId_ScanSoundSelectionItems
+        index
+        itemKey
+        itemName
+        selectedIndex
+        curItem
+    Begin
+        selectedIndex = BtEnvironmentSettingsForm_BtDropDownBoxScanningSound:GetSelectedIndex()
+        curItem = BtEnvironmentSettingsForm_BtDropDownBoxScanningSound:GetItem(selectedIndex)
+
+        listId_ScanSoundSelectionItems = GetScanSoundSelectionItems()
+        For index = 0 To ListTable:Count(listId_ScanSoundSelectionItems) - 1
+            itemKey = ListTable:Get(listId_ScanSoundSelectionItems, index, "key")
+            itemName = ListTable:Get(listId_ScanSoundSelectionItems, index, "val")
+            If (itemName ne curItem) Then
+                Fcontinue
+            End If
+
+            SystemParameterUtility:SetScanningSuccessSoundLevel(itemKey)
+            SystemParameterUtility:SetScanningErrorSoundLevel(itemKey)
+            IndicatorUtility:LoadSettings()
+            Fbreak
+        Next
+        ListTable:DeleteList(listId_ScanSoundSelectionItems)
+    End Method
+
+    Method SetOperationSound()
+        listId_OperationSoundSelectionItems
+        index
+        itemKey
+        itemName
+        selectedIndex
+        curItem
+    Begin
+        selectedIndex = BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound:GetSelectedIndex()
+        curItem = BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound:GetItem(selectedIndex)
+
+        listId_OperationSoundSelectionItems = GetOperationSoundSelectionItems()
+        For index = 0 To ListTable:Count(listId_OperationSoundSelectionItems) - 1
+            itemKey = ListTable:Get(listId_OperationSoundSelectionItems, index, "key")
+            itemName = ListTable:Get(listId_OperationSoundSelectionItems, index, "val")
+            If (itemName ne curItem) Then
+                Fcontinue
+            End If
+
+            SystemParameterUtility:SetOperationSoundLevel(itemKey)
+            Fbreak
+        Next
+        ListTable:DeleteList(listId_OperationSoundSelectionItems)
+    End Method
+
+    Method CheckValidInputBeforeFixing() /*As Boolean*/
+    Begin
+        If (BtTextBoxCommon:CheckValidInput(BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime:Properties,
+                                             BtTextBoxCommon:GetText(BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime:Properties),
+                                             0) is false) Then
+            Return (false)
+        End If
+        If (BtTextBoxCommon:CheckValidInput(BtEnvironmentSettingsForm_BtTextBoxBackLighttime:Properties,
+                                             BtTextBoxCommon:GetText(BtEnvironmentSettingsForm_BtTextBoxBackLighttime:Properties),
+                                             0) is false) Then
+            Return (false)
+        End If
+        Return (true)
+    End Method
+
+    Method KeyActionCancel(eventArgs)
+    Begin
+        BtEnvironmentSettingsForm_res:ResetInvalidInput()
+        BtButtonCommon:Focus(BtEnvironmentSettingsForm_BtButtonCancel:Properties)
+        BtEnvironmentSettingsForm_BtButtonCancel:PerformClick()
+    End Method
+
+    Method KeyActionOk(eventArgs)
+    Begin
+        BtEnvironmentSettingsForm_res:ResetInvalidInput()
+        BtButtonCommon:Focus(BtEnvironmentSettingsForm_BtButtonOK:Properties)
+        BtEnvironmentSettingsForm_BtButtonOK:PerformClick()
+    End Method
+
+
+
+    Method BtEnvironmentSettingsForm_Load(sender, e) /*Handles MyBase.Load*/
+        errormessage
+    Begin
+        ShowBackLightSettings()
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errormessage)
+        End If
+
+        ShowBackLightTime()
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errormessage)
+        End If
+
+        ShowAutoPowerOffTime()
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errormessage)
+        End If
+
+        ShowScanningSettings()
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errormessage)
+        End If
+
+        ShowOperationSoundSettings()
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errormessage)
+        End If
+    End Method
+
+    Method BtEnvironmentSettingsForm_KeyDown(sender) /*Handles MyBase.KeyDown*/
+    Begin
+        BtEnvironmentSettingsForm_res:KeyAssignedAction(sender)
+    End Method
+
+    Method DateAndTimeSettingButton_Click(sender, result) /*Handles _btButtonDateTimeSetting.Click*/
+    Begin
+        BtFormCommon:SetVisible(BtEnvironmentSettingsForm_res:Properties, false)
+        DateAndTimeSettingDialog:New()
+        DateAndTimeSettingDialog:ShowDialog()
+        BtFormCommon:SetVisible(BtEnvironmentSettingsForm_res:Properties, true)
+        Window<"ROOT_WINDOW">:Update()
+        BtEnvironmentSettingsForm_BtButtonDateTimeSetting:Focus()
+    End Method
+
+    Method OKButton_Click(sender, result) /*Handles _btButtonOK.Click*/
+        errorMessage
+    Begin
+
+        If (CheckValidInputBeforeFixing() is false) Then
+            Return (nil)
+        End If
+
+        SetBacklight()
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+        End If
+
+        SetBacklightTime()
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+        End If
+
+        SetAutoPowerOffTime()
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+        End If
+
+        SetScanningSound()
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+        End If
+
+        SetOperationSound()
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+        End If
+
+        Handy:SaveConfig("1:___CommonSetting___.bin", 2)
+
+        CloseDialog()
+    End Method
+
+    Method CancelButton_Click(sender, result) /*Handles _btButtonCancel.Click*/
+    Begin
+        CloseDialog()
+    End Method
+
+End Package

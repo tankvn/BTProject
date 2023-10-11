@@ -1,0 +1,116 @@
+
+/*Public*/ Package BtSendDataFileControl
+
+    #define DEF_TRANSMISSION_ROUTE_PROPERTY 0   
+    #define DEF_RETRY_COUNT_PROPERTY 1          
+    #define DEF_TIMEOUT_PROPERTY 2              
+    #define DEF_PROPERTY_NUM 3
+    _properties[DEF_PROPERTY_NUM + 1]
+
+
+
+    Method New(transmissionRoute, numberOfRetry, timeout)
+    Begin
+        _properties[DEF_TRANSMISSION_ROUTE_PROPERTY] = transmissionRoute
+        _properties[DEF_RETRY_COUNT_PROPERTY] = numberOfRetry
+        _properties[DEF_TIMEOUT_PROPERTY] = timeout
+        Return (TransmissionController:Create())
+    End Method
+
+    Method Execute(processingId, listId_SendFileNamePairs, checkNoSendingDataError, parentWindow)
+        listId_SentFiles = INVALID_LIST_TABLE_ID
+    Begin
+
+        If (TransmissionController:StartTransmitting(processingId) is false) Then
+            Return (listId_SentFiles)
+        End If 
+
+        If (ListTable:Count(listId_SendFileNamePairs) == 0) Then
+            If (checkNoSendingDataError is true) Then
+                ErrorManager:SetError(MESSAGE_ERROR_NOT_EXIST_SENDING_DATA)
+            End If 
+            Return (listId_SentFiles)
+        End If 
+
+        Window<parentWindow>:enable = false
+        TransmittingForm:New(MESSAGE_LABEL_TRANSMIT_DATA_FILE_SEND, MESSAGE_LABEL_TRANSMIT_CONNECTING)
+        TransmittingForm:Show()
+        
+        listId_SentFiles = ExecuteCore(listId_SendFileNamePairs)
+
+        TransmittingForm:Close()
+        Window<parentWindow>:enable = true
+
+        If (TransmittingForm:GetErrorMessage() ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(TransmittingForm:GetErrorMessage())
+        End If 
+        If (TransmittingForm:GetCommunicationError() is true) Then
+            ErrorManager:SetCommunicationError()
+        End If 
+
+        Return (listId_SentFiles)
+    End Method
+
+    Method Close(processingId)
+    Begin
+        TransmissionController:FinishTransmitting(processingId)
+    End Method
+
+    Method UpdateTransmittingFormLabel(text)
+    Begin
+        If (TransmittingForm:GetIsActive() Is false) Then 
+            Return (nil)
+        End If
+
+        TransmittingForm:SetInfomationLabelText(text)
+    End Method
+
+    Method ExecuteCore(listId_SendFileNamePairs)
+        listId_SentFiles = INVALID_LIST_TABLE_ID
+    Begin
+        listId_SentFiles = SendFile(listId_SendFileNamePairs)
+
+        If (TransmissionController:GetIsCancelled() is false) And (ListTable:Count(listId_SentFiles) <> ListTable:Count(listId_SendFileNamePairs)) Then
+            ErrorManager:SetCommunicationError()
+            Return (listId_SentFiles)
+        End If 
+        Return (listId_SentFiles)
+    Catch
+        ErrorManager:SetCommunicationError()
+        ListTable:DeleteList(listId_SentFiles)
+        Return (INVALID_LIST_TABLE_ID)
+    End Method
+
+    Method SendFile(listId_SendFileNamePairs)
+        index
+        localFileName
+        remoteFileName
+        listId_SentFiles = INVALID_LIST_TABLE_ID
+    Begin
+
+        listId_SentFiles = ListTable:CreateList()
+
+        If (TransmissionController:Connect(_properties[DEF_TRANSMISSION_ROUTE_PROPERTY], _properties[DEF_TIMEOUT_PROPERTY], _properties[DEF_RETRY_COUNT_PROPERTY]) is true) Then
+
+            UpdateTransmittingFormLabel(MESSAGE_LABEL_TRANSMIT_SENDING)
+
+            For index = 0 To ListTable:Count(listId_SendFileNamePairs) - 1
+                localFileName = ListTable:Get(listId_SendFileNamePairs, index, "key")
+                remoteFileName = ListTable:Get(listId_SendFileNamePairs, index, "val")
+            
+                DbAccess:Close(localFileName)
+
+                If (TransmissionController:PutFile(localFileName, remoteFileName, _properties[DEF_TIMEOUT_PROPERTY], _properties[DEF_RETRY_COUNT_PROPERTY]) is true) Then
+                    ListTable:Add(listId_SentFiles, localFileName, "")
+                Else
+                    Fbreak
+                End If 
+            Next
+
+            TransmissionController:Disconnect(_properties[DEF_TIMEOUT_PROPERTY], _properties[DEF_RETRY_COUNT_PROPERTY])
+
+        End If 
+        Return (listId_SentFiles)
+    End Method
+
+End Package 

@@ -1,0 +1,69 @@
+
+Package CollationConditionSettingCommon
+
+    Method GetName(properties[]) Begin Return (properties[0]) End Method
+    Method SetName(properties[], value) Begin properties[0] = value End Method
+
+    Method GetJudgeKind(properties[]) Begin Return (properties[1]) End Method
+    Method SetJudgeKind(properties[], value) Begin properties[1] = value End Method
+
+    Method GetCalculationKind(properties[]) Begin Return (properties[2]) End Method
+    Method SetCalculationKind(properties[], value) Begin properties[2] = value End Method
+
+    Method GetCalculationValue(properties[]) Begin Return (properties[3]) End Method
+    Method SetCalculationValue(properties[], value) Begin properties[3] = value End Method
+
+    Method GetCalculationTarget(properties[]) Begin Return (properties[4]) End Method
+    Method SetCalculationTarget(properties[], value) Begin properties[4] = value End Method
+
+    Method GetNew1Handler(properties[]) Begin Return(properties[5]) End Method
+    Method SetNew1Handler(properties[], value) Begin properties[5] = value End Method
+    Method GetNew2Handler(properties[]) Begin Return(properties[6]) End Method
+    Method SetNew2Handler(properties[], value) Begin properties[6] = value End Method
+    Method GetNew3Handler(properties[]) Begin Return(properties[7]) End Method
+    Method SetNew3Handler(properties[], value) Begin properties[7] = value End Method
+
+    Method ICollationConditionSettingInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetJudgeKind"
+                InterfaceCommon:Result = GetJudgeKind(properties)
+            Case "SetJudgeKind"
+                InterfaceCommon:Result = SetJudgeKind(properties, UserObj<this>:Get(2))
+            Case "GetCalculationKind"
+                InterfaceCommon:Result = GetCalculationKind(properties)
+            Case "SetCalculationKind"
+                InterfaceCommon:Result = SetCalculationKind(properties, UserObj<this>:Get(2))
+            Case "GetCalculationValue"
+                InterfaceCommon:Result = GetCalculationValue(properties)
+            Case "SetCalculationValue"
+                InterfaceCommon:Result = SetCalculationValue(properties, UserObj<this>:Get(2))
+            Case "GetCalculationTarget"
+                InterfaceCommon:Result = GetCalculationTarget(properties)
+            Case "SetCalculationTarget"
+                InterfaceCommon:Result = SetCalculationTarget(properties, UserObj<this>:Get(2))
+        End Select
+    End Method
+
+    Method New1(properties[])
+        parameter[1]
+    Begin
+        Return(EventUtility:Exec(GetNew1Handler(properties), GetName(properties), parameter))
+    End Method
+
+    Method New2(properties[], judgeKind)
+        parameter[1]
+    Begin
+        parameter[0] = judgeKind
+        Return(EventUtility:Exec(GetNew2Handler(properties), GetName(properties), parameter))
+    End Method
+
+    Method New3(properties[], judgeKind, calculationKind, calculationValue)
+        parameter[3]
+    Begin
+        parameter[0] = judgeKind
+        parameter[1] = calculationKind
+        parameter[2] = calculationValue
+        Return(EventUtility:Exec(GetNew3Handler(properties), GetName(properties), parameter))
+    End Method
+End Package

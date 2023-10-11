@@ -1,0 +1,317 @@
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\TerminalSetting"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+
+#define DEF_FOCUS_TRANSITION_UTILITY DateAndTimeSettingDialog_FocusTransitionUtility
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_labelTitle
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\DateAndTimeSettingDialog_labelTitle"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_DateLabel
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\DateAndTimeSettingDialog_DateLabel"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_InputDateBox
+#define DEF_EVENT_FORM_KEY_DOWN DateAndTimeSettingDialog:EditDateAndTimeDialog_KeyDown
+#include "\Lib\Parts\BtInputDateBox" "..\Lib\Parts\DateAndTimeSettingDialog_InputDateBox"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_TimeLabel
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\DateAndTimeSettingDialog_TimeLabel"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_HourTextBox
+#define DEF_EVENT_FORM_KEY_DOWN DateAndTimeSettingDialog:EditDateAndTimeDialog_KeyDown
+#include "\Lib\Parts\BtTextBox" "..\Lib\Parts\DateAndTimeSettingDialog_HourTextBox"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_TimeSeparatorLabel
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\DateAndTimeSettingDialog_TimeSeparatorLabel"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_MinuteTextBox
+#define DEF_EVENT_FORM_KEY_DOWN DateAndTimeSettingDialog:EditDateAndTimeDialog_KeyDown
+#include "\Lib\Parts\BtTextBox" "..\Lib\Parts\DateAndTimeSettingDialog_MinuteTextBox"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_cancelButton
+#define DEF_EVENT_DATA_INPUT DateAndTimeSettingDialog:CancelButton_Click
+#define DEF_EVENT_FORM_KEY_DOWN DateAndTimeSettingDialog:EditDateAndTimeDialog_KeyDown
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\DateAndTimeSettingDialog_cancelButton"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_okButton
+#define DEF_EVENT_DATA_INPUT DateAndTimeSettingDialog:OKButton_Click
+#define DEF_EVENT_FORM_KEY_DOWN DateAndTimeSettingDialog:EditDateAndTimeDialog_KeyDown
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\DateAndTimeSettingDialog_okButton"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog_FocusTransitionUtility
+#include "\Lib\Utilities\FocusTransitionUtility" "..\Lib\Utilities\DateAndTimeSettingDialog_FocusTransitionUtility"
+#popdefine
+
+/*<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>*/ 
+Package DateAndTimeSettingDialog_res
+    /*Inherits BtForm*/
+#define DEF_PACKAGE_NAME DateAndTimeSettingDialog
+#define DEF_EVENT_F1_KEY_ACTION DateAndTimeSettingDialog:KeyActionCancel
+#define DEF_EVENT_F4_KEY_ACTION DateAndTimeSettingDialog:KeyActionOk
+#defineexpand DEF_INPUT_CONTROL DateAndTimeSettingDialog_HourTextBox|DateAndTimeSettingDialog_MinuteTextBox
+#defineexpand DEF_CONTROL DateAndTimeSettingDialog_labelTitle|DateAndTimeSettingDialog_DateLabel|DateAndTimeSettingDialog_InputDateBox|DateAndTimeSettingDialog_TimeLabel|DateAndTimeSettingDialog_HourTextBox|DateAndTimeSettingDialog_TimeSeparatorLabel|DateAndTimeSettingDialog_MinuteTextBox|DateAndTimeSettingDialog_cancelButton|DateAndTimeSettingDialog_okButton
+#insert "\Lib\Parts\BtForm"
+
+    /*<System.Diagnostics.DebuggerStepThrough()>*/ 
+    Method InitializeComponent()
+        displaySize[2]
+        outSize[2]
+    Begin
+        Window<"__UPDATE_OFF__">:Update()
+        New()
+        BtFormCommon:SetWidth(Properties, 230)
+        BtFormCommon:SetHeight(Properties, 255)
+        displaySize[0] = BtFormCommon:GetWidth(Properties)
+        displaySize[1] = BtFormCommon:GetHeight(Properties)
+        LayoutUtility:CalculateDisplayLocation(displaySize, outSize)
+        BtFormCommon:SetLeft(Properties, outSize[0])
+        BtFormCommon:SetTop(Properties, outSize[1])
+        BtFormCommon:SetFormBorderStyle(Properties, "thin")
+        Window<"ROOT_WINDOW">:Update()
+        DateAndTimeSettingDialog_labelTitle:Create(BtFormCommon:GetName(Properties))
+        DateAndTimeSettingDialog_DateLabel:Create(BtFormCommon:GetName(Properties))
+        DateAndTimeSettingDialog_InputDateBox:Create(BtFormCommon:GetName(Properties))
+        DateAndTimeSettingDialog_TimeLabel:Create(BtFormCommon:GetName(Properties))
+        DateAndTimeSettingDialog_HourTextBox:Create(BtFormCommon:GetName(Properties))
+        DateAndTimeSettingDialog_TimeSeparatorLabel:Create(BtFormCommon:GetName(Properties))
+        DateAndTimeSettingDialog_MinuteTextBox:Create(BtFormCommon:GetName(Properties))
+        DateAndTimeSettingDialog_cancelButton:Create(BtFormCommon:GetName(Properties))
+        DateAndTimeSettingDialog_okButton:Create(BtFormCommon:GetName(Properties))
+        With DateAndTimeSettingDialog_labelTitle
+            BtLabelCommon:SetLeft(:Properties, 2)
+            BtLabelCommon:SetTop(:Properties, 2)
+            BtLabelCommon:SetWidth(:Properties, 223)
+            BtLabelCommon:SetHeight(:Properties, 30)
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetBold(:Properties, true)
+            BtLabelCommon:SetInitialText(:Properties, "Set Date / Time")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, STORAGE_DESTINATION_DRIVE1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With DateAndTimeSettingDialog_DateLabel
+            BtLabelCommon:SetLeft(:Properties, 10)
+            BtLabelCommon:SetTop(:Properties, 50)
+            BtLabelCommon:SetWidth(:Properties, 200)
+            BtLabelCommon:SetHeight(:Properties, 29)
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetBold(:Properties, true)
+            BtLabelCommon:SetInitialText(:Properties, "Date")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetForeColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, STORAGE_DESTINATION_DRIVE1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With DateAndTimeSettingDialog_InputDateBox
+            BtInputDateBoxCommon:SetText(:Properties, Handy:date)
+            BtInputDateBoxCommon:SetLeft(:Properties, 20)
+            BtInputDateBoxCommon:SetTop(:Properties, 90)
+            BtInputDateBoxCommon:SetWidth(:Properties, 150)
+            BtInputDateBoxCommon:SetHeight(:Properties, 30)
+            BtInputDateBoxCommon:SetBorderStyle(:Properties, "thin")
+            BtInputDateBoxCommon:SetAlignment(:Properties, "center")
+            BtInputDateBoxCommon:SetForeColor(:Properties, "0|0|0")
+            BtInputDateBoxCommon:SetBackColor(:Properties, "255|255|255")
+            BtInputDateBoxCommon:SetFontSize(:Properties, 24)
+            BtInputDateBoxCommon:SetDateInputType(:Properties, DATE_INPUT_TYPE_NUMERIC_KEYPAD)
+            BtInputDateBoxCommon:SetText(:Properties, Handy:date)
+            BtInputDateBoxCommon:SetAnnoDominiDigit(:Properties, OCR_DATE_SCAN_ANNO_DOMINI_DIGIT_DOUBLE_OR_FOUR_DIGITS)
+            BtInputDateBoxCommon:SetDateNotation(:Properties, OCR_DATE_SCAN_NOTATION_DATE_EXIST_OR_NOT_EXIST)
+            BtInputDateBoxCommon:SetFocusedBackColor(:Properties, "162|255|255")
+            BtInputDateBoxCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtInputDateBoxCommon:SetIsEditOnF2(:Properties, true)
+            BtInputDateBoxCommon:SetIsPartOfControl(:Properties, false)
+            BtInputDateBoxCommon:SetIsScanSingleDigitMonthAndDay(:Properties, true)
+            BtInputDateBoxCommon:SetIsShared(:Properties, false)
+            BtInputDateBoxCommon:SetOutputPattern(:Properties, DATE_PATTERN_YYYYMMDD)
+            BtInputDateBoxCommon:SetOutputSeparator(:Properties, DATE_SEPARATOR_NONE)
+            BtInputDateBoxCommon:SetSharedParameterKey(:Properties, nil)
+            BtInputDateBoxCommon:SetVisible(:Properties, true)
+        End With
+        With DateAndTimeSettingDialog_TimeLabel
+            BtLabelCommon:SetLeft(:Properties, 10)
+            BtLabelCommon:SetTop(:Properties, 130)
+            BtLabelCommon:SetWidth(:Properties, 200)
+            BtLabelCommon:SetHeight(:Properties, 29)
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetBold(:Properties, true)
+            BtLabelCommon:SetInitialText(:Properties, "Time")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetForeColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, STORAGE_DESTINATION_DRIVE1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With DateAndTimeSettingDialog_HourTextBox
+            BtTextBoxCommon:SetLeft(:Properties, 20)
+            BtTextBoxCommon:SetTop(:Properties, 170)
+            BtTextBoxCommon:SetWidth(:Properties, 40)
+            BtTextBoxCommon:SetHeight(:Properties, 30)
+            BtTextBoxCommon:SetFontSize(:Properties, 24)
+            BtTextBoxCommon:SetAlignment(:Properties, "center")
+            BtTextBoxCommon:SetDecimalPlaces(:Properties, 0)
+            BtTextBoxCommon:SetEnableOcrFormatRegistrationNumbers(:Properties, false)
+            BtTextBoxCommon:SetEnableOcrSettingsFile(:Properties, false)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "162|255|255")
+            BtTextBoxCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtTextBoxCommon:SetForeColor(:Properties, "0|0|0")
+            BtTextBoxCommon:SetFullDetectionCount(:Properties, 0)
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetInputMode(:Properties, INPUT_MODE_KEY_NUMERIC)
+            BtTextBoxCommon:SetIsCheckRepdigit(:Properties, false)
+            BtTextBoxCommon:SetIsEditOnF2(:Properties, true)
+            BtTextBoxCommon:SetIsEmptyProhibited(:Properties, true)
+            BtTextBoxCommon:SetIsPartOfControl(:Properties, false)
+            BtTextBoxCommon:SetIsShared(:Properties, false)
+            BtTextBoxCommon:SetIsShowOutOfRangeError(:Properties, true)
+            BtTextBoxCommon:SetLightingEnabled(:Properties, true)
+            BtTextBoxCommon:SetMinimum(:Properties, 0)
+            BtTextBoxCommon:SetMaximum(:Properties, 23)
+            BtTextBoxCommon:SetOcrEnableType(:Properties, OCR_ENABLE_TYPE_DISABLE)
+            BtTextBoxCommon:SetOcrSettingsFileName(:Properties, "")
+            BtTextBoxCommon:SetPreventDuplicateReading(:Properties, false)
+            BtTextBoxCommon:SetScanEnableCodeType(:Properties, SCAN_ENABLE_CODE_TYPE_ALL)
+            BtTextBoxCommon:SetScanInverseType(:Properties, SCAN_INVERSE_TYPE_NEGA_POSI)
+            BtTextBoxCommon:SetScanMirrorType(:Properties, SCAN_MIRROR_TYPE_UN_MIRROR)
+            BtTextBoxCommon:SetScanRangeType(:Properties, SCAN_RANGE_TYPE_FIRST)
+            BtTextBoxCommon:SetSharedParameterKey(:Properties, "")
+            BtTextBoxCommon:SetStorageDestination(:Properties, STORAGE_DESTINATION_DRIVE1)
+            BtTextBoxCommon:SetTriggerMode(:Properties, TRIGGER_MODE_AUTO_OFF)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        With DateAndTimeSettingDialog_TimeSeparatorLabel
+            BtLabelCommon:SetLeft(:Properties, 70)
+            BtLabelCommon:SetTop(:Properties, 170)
+            BtLabelCommon:SetWidth(:Properties, 20)
+            BtLabelCommon:SetHeight(:Properties, 30)
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetBold(:Properties, true)
+            BtLabelCommon:SetInitialText(:Properties, ":")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetForeColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, STORAGE_DESTINATION_DRIVE1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With DateAndTimeSettingDialog_MinuteTextBox
+            BtTextBoxCommon:SetLeft(:Properties, 90)
+            BtTextBoxCommon:SetTop(:Properties, 170)
+            BtTextBoxCommon:SetWidth(:Properties, 40)
+            BtTextBoxCommon:SetHeight(:Properties, 30)
+            BtTextBoxCommon:SetFontSize(:Properties, 24)
+            BtTextBoxCommon:SetAlignment(:Properties, "center")
+            BtTextBoxCommon:SetDecimalPlaces(:Properties, 0)
+            BtTextBoxCommon:SetEnableOcrFormatRegistrationNumbers(:Properties, false)
+            BtTextBoxCommon:SetEnableOcrSettingsFile(:Properties, false)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "162|255|255")
+            BtTextBoxCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtTextBoxCommon:SetForeColor(:Properties, "0|0|0")
+            BtTextBoxCommon:SetFullDetectionCount(:Properties, 0)
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetInputMode(:Properties, INPUT_MODE_KEY_NUMERIC)
+            BtTextBoxCommon:SetIsCheckRepdigit(:Properties, false)
+            BtTextBoxCommon:SetIsEditOnF2(:Properties, true)
+            BtTextBoxCommon:SetIsEmptyProhibited(:Properties, true)
+            BtTextBoxCommon:SetIsPartOfControl(:Properties, false)
+            BtTextBoxCommon:SetIsShared(:Properties, false)
+            BtTextBoxCommon:SetIsShowOutOfRangeError(:Properties, true)
+            BtTextBoxCommon:SetLightingEnabled(:Properties, true)
+            BtTextBoxCommon:SetMinimum(:Properties, 0)
+            BtTextBoxCommon:SetMaximum(:Properties, 59)
+            BtTextBoxCommon:SetOcrEnableType(:Properties, OCR_ENABLE_TYPE_DISABLE)
+            BtTextBoxCommon:SetOcrSettingsFileName(:Properties, "")
+            BtTextBoxCommon:SetPreventDuplicateReading(:Properties, false)
+            BtTextBoxCommon:SetScanEnableCodeType(:Properties, SCAN_ENABLE_CODE_TYPE_ALL)
+            BtTextBoxCommon:SetScanInverseType(:Properties, SCAN_INVERSE_TYPE_NEGA_POSI)
+            BtTextBoxCommon:SetScanMirrorType(:Properties, SCAN_MIRROR_TYPE_UN_MIRROR)
+            BtTextBoxCommon:SetScanRangeType(:Properties, SCAN_RANGE_TYPE_FIRST)
+            BtTextBoxCommon:SetSharedParameterKey(:Properties, "")
+            BtTextBoxCommon:SetStorageDestination(:Properties, STORAGE_DESTINATION_DRIVE1)
+            BtTextBoxCommon:SetTriggerMode(:Properties, TRIGGER_MODE_AUTO_OFF)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        With DateAndTimeSettingDialog_cancelButton
+            BtButtonCommon:SetLeft(:Properties, 7)
+            BtButtonCommon:SetTop(:Properties, 210)
+            BtButtonCommon:SetWidth(:Properties, 100)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetText(:Properties, "Cancel")
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetNormalImageFileName(:Properties, nil)
+            BtButtonCommon:SetStorageDestination(:Properties, STORAGE_DESTINATION_DRIVE1)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        With DateAndTimeSettingDialog_okButton
+            BtButtonCommon:SetLeft(:Properties, 120)
+            BtButtonCommon:SetTop(:Properties, 210)
+            BtButtonCommon:SetWidth(:Properties, 100)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetText(:Properties, "OK")
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetNormalImageFileName(:Properties, nil)
+            BtButtonCommon:SetStorageDestination(:Properties, STORAGE_DESTINATION_DRIVE1)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+    End Method
+End Package 

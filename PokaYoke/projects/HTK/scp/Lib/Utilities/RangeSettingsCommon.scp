@@ -1,0 +1,70 @@
+
+Package RangeSettingsCommon
+
+    Method GetName(properties[]) Begin Return (properties[0]) End Method
+    Method SetName(properties[], value) Begin properties[0] = value End Method
+
+    Method GetRangeType(properties[]) Begin Return (properties[1]) End Method
+    Method SetRangeType(properties[], value) Begin properties[1] = value End Method
+
+    Method GetRangeStart(properties[]) Begin Return (properties[2]) End Method
+    Method SetRangeStart(properties[], value) Begin properties[2] = value End Method
+
+    Method GetRangeEnd(properties[]) Begin Return (properties[3]) End Method
+    Method SetRangeEnd(properties[], value) Begin properties[3] = value End Method
+
+    Method GetAiType(properties[]) Begin Return (properties[4]) End Method
+    Method SetAiType(properties[], value) Begin properties[4] = value End Method
+
+    Method GetNew1Handler(properties[]) Begin Return(properties[5]) End Method
+    Method SetNew1Handler(properties[], value) Begin properties[5] = value End Method
+    Method GetNew3Handler(properties[]) Begin Return(properties[6]) End Method
+    Method SetNew3Handler(properties[], value) Begin properties[6] = value End Method
+    Method GetNew4Handler(properties[]) Begin Return(properties[7]) End Method
+    Method SetNew4Handler(properties[], value) Begin properties[7] = value End Method
+
+    Method IRangeSettingsInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetRangeType"
+                InterfaceCommon:Result = GetRangeType(properties)
+            Case "SetRangeType"
+                InterfaceCommon:Result = SetRangeType(properties, UserObj<this>:Get(2))
+            Case "GetRangeStart"
+                InterfaceCommon:Result = GetRangeStart(properties)
+            Case "SetRangeStart"
+                InterfaceCommon:Result = SetRangeStart(properties, UserObj<this>:Get(2))
+            Case "GetRangeEnd"
+                InterfaceCommon:Result = GetRangeEnd(properties)
+            Case "SetRangeEnd"
+                InterfaceCommon:Result = SetRangeEnd(properties, UserObj<this>:Get(2))
+            Case "GetAiType"
+                InterfaceCommon:Result = GetAiType(properties)
+            Case "SetAiType"
+                InterfaceCommon:Result = SetAiType(properties, UserObj<this>:Get(2))
+        End Select
+    End Method
+
+    Method New1(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetNew1Handler(properties), GetName(properties), parameter)
+    End Method
+
+    Method New3(properties[], outputRangeType, rangeStart, rangeEnd)
+        parameter[3]
+    Begin
+        parameter[0] = outputRangeType
+        parameter[1] = rangeStart
+        parameter[2] = rangeEnd
+        EventUtility:Exec(GetNew3Handler(properties), GetName(properties), parameter)
+    End Method
+
+    Method New4(properties[], outputRangeType, aiType)
+        parameter[1]
+    Begin
+        parameter[0] = outputRangeType
+        parameter[1] = aiType
+        EventUtility:Exec(GetNew4Handler(properties), GetName(properties), parameter)
+    End Method
+End Package

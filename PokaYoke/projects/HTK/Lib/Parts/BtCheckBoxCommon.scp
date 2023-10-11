@@ -1,0 +1,420 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtCheckBoxConstants"
+
+Package BtCheckBoxCommon
+
+
+    Method GetType(properties[]) /* Implements IControl.GetType */
+    Begin
+        Return (properties[DEF_TYPE_PROPERTY])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetName(properties[]) /* Implements IControl.GetName */
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method GetTabIndex(properties[]) /* Implements IBtInputControl.GetTabIndex */
+    Begin
+        Return (properties[DEF_TAB_INDEX_PROPERTY])
+    End Method
+    Method SetTabIndex(properties[], value) /* Implements IBtInputControl.SetTabIndex */
+    Begin
+        properties[DEF_TAB_INDEX_PROPERTY] = value
+    End Method
+
+    Method GetTabStop(properties[])
+    Begin
+        Return (properties[DEF_TAB_STOP_PROPERTY])
+    End Method
+    Method SetTabStop(properties[], value)
+    Begin
+        properties[DEF_TAB_STOP_PROPERTY] = value
+    End Method
+
+    Method GetVisible(properties[]) /* Implements IControl.GetVisible */ /* Implements IBtInputControl.GetVisible */
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:visible)
+    End Method
+    Method SetVisible(properties[], value) /* Implements IControl.SetVisible */ /* Implements IBtInputControl.SetVisible */
+    Begin
+        properties[DEF_VISIBLE_PROPERTY] = value
+    End Method
+
+    Method UpdateVisible(properties[]) /* Implements IControl.Visible */ /* Implements IBtInputControl.Visible */
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:visible = properties[DEF_VISIBLE_PROPERTY]
+    End Method
+
+    Method GetEnabled(properties[]) /* Implements IControl.GetEnabled */
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:enable)
+    End Method
+    Method SetEnabled(properties[], value) /* Implements IControl.SetEnabled */
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:enable = value
+    End Method
+
+    Method GetIsPartOfControl(properties[]) /* Implements IBtInputControl.GetIsPartOfControl */
+    Begin
+        Return (properties[DEF_IS_PART_OF_CONTROL_PROPERTY])
+    End Method
+    Method SetIsPartOfControl(properties[], value) /* Implements IBtInputControl.SetIsPartOfControl */
+    Begin
+        properties[DEF_IS_PART_OF_CONTROL_PROPERTY] = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:outFocusBackColor)
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:inFocusBackColor = value
+        CheckBox<properties[DEF_NAME_PROPERTY]>:outFocusBackColor = value
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:foreColor)
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:foreColor = value
+        CheckBox<properties[DEF_NAME_PROPERTY]>:inFocusTextColor = value
+        CheckBox<properties[DEF_NAME_PROPERTY]>:outFocusTextColor = value
+    End Method
+
+    Method GetInitialChecked(properties[])
+    Begin
+        Return (properties[DEF_INITIAL_CHECKED_PROPERTY])
+    End Method
+    Method SetInitialChecked(properties[], value)
+    Begin
+        properties[DEF_INITIAL_CHECKED_PROPERTY] = value
+        CheckBox<properties[DEF_NAME_PROPERTY]>:checked = value
+    End Method
+
+    Method GetFontSize(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:fontSize)
+    End Method
+    Method SetFontSize(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:fontSize = value
+    End Method
+
+    Method GetFontName(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:fontName)
+    End Method
+    Method SetFontName(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:fontName = value
+    End Method
+
+    Method GetBold(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:fontBold)
+    End Method
+    Method SetBold(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:fontBold = value
+    End Method
+
+    Method GetText(properties[]) /* Implements IControl.GetText */
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:text)
+    End Method
+    Method SetText(properties[], value) /* Implements IControl.SetText */
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:text = value
+    End Method
+
+    Method GetAlignment(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:textAlign)
+    End Method
+    Method SetAlignment(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:textAlign = value
+    End Method
+
+    Method GetFocusColor(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:focusColor)
+    End Method
+    Method SetFocusColor(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:focusColor = value
+    End Method
+
+    Method GetChecked(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:checked)
+    End Method
+    Method SetChecked(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:checked = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:top = value
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:width = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return (CheckBox<properties[DEF_NAME_PROPERTY]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:height = value
+    End Method
+
+    Method GetLogEditType(properties[], index) /* Implements ILogItemControl.GetLogEditType */
+    Begin
+        Return (INPUT_CONTROL_CHECK_BOX)
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index) /* Implements ILogItemControl.GetDecimalPlacesIndex */
+    Begin
+        Return (0)
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index)
+    Begin
+        Return (false)
+    End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl) /* Implements ILogItemControl.GetIsSameLogItem */
+    Begin
+        Return (properties[DEF_NAME_PROPERTY] eq targetLogItemControl)
+    End Method
+
+    Method GetDataInputHandler(properties[])
+    Begin
+        Return (properties[DEF_DATA_INPUT_HANDLER])
+    End Method
+    Method SetDataInputHandler(properties[], handle)
+    Begin
+        properties[DEF_DATA_INPUT_HANDLER] = handle
+    End Method
+
+    Method GetMoveNextControlHandler(properties[])
+    Begin
+        Return (properties[DEF_MOVE_NEXT_CONTROL_HANDLER])
+    End Method
+    Method SetMoveNextControlHandler(properties[], handle)
+    Begin
+        properties[DEF_MOVE_NEXT_CONTROL_HANDLER] = handle
+    End Method
+
+    Method GetMovePreviousControlHandler(properties[])
+    Begin
+        Return (properties[DEF_MOVE_PREVIOUS_CONTROL_HANDLER])
+    End Method
+    Method SetMovePreviousControlHandler(properties[], handle)
+    Begin
+        properties[DEF_MOVE_PREVIOUS_CONTROL_HANDLER] = handle
+    End Method
+
+
+
+#insert "\Lib\Utilities\IControlInvokeCommon"
+#insert "\Lib\Utilities\IBtInputControlInvokeCommon"
+#insert "\Lib\Utilities\ILogItemControlInvokeCommon"
+
+    Method New(properties[])
+    Begin
+        SetIsPartOfControl(properties, false)
+        SetInitialChecked(properties, false)
+        SetFocusColor(properties, TERMINAL_SETTING_FRAME_COLOR)
+        SetFontSize(properties, "large")
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BTW" Then
+            SetFontName(properties, TERMINAL_SETTING_DEFAULT_FONT_NAME)
+            SetBold(properties, false)
+        End If
+        SetTabStop(properties, true)
+        SetTabIndex(properties, 0)
+    End Method
+
+    Method Create(properties[], parentName)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = "BtCheckBox"
+        properties[DEF_IS_GOT_FOCUSED] = false
+        properties[DEF_IS_LOST_FOCUSED] = false
+        With CheckBox<properties[DEF_NAME_PROPERTY]>
+            :Create(parentName)
+            :enable = true
+            :simpleWidget = false
+        End With
+    End Method
+
+    Method SetHandler(properties[], dataInputHandler, moveNextControlHandler, movePreviousControlHandler)
+    Begin
+        SetDataInputHandler(properties, dataInputHandler)
+        SetMoveNextControlHandler(properties, moveNextControlHandler)
+        SetMovePreviousControlHandler(properties, movePreviousControlHandler)
+    End Method
+
+    Method SetEventHandler(properties[], onFocusIn, onFocusOut)
+    Begin
+        With CheckBox<properties[DEF_NAME_PROPERTY]>
+            :onFocusIn = onFocusIn
+            :onFocusOut = onFocusOut
+        End With
+    End Method
+
+    Method Focus(properties[]) /* Implements IControl.Focus */
+    Begin
+        FocusTransitionUtilityCommon:SetFocus(properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+        focusHandler
+        parameter[1]
+    Begin
+        If isFocused Then
+            focusHandler = CheckBox<properties[DEF_NAME_PROPERTY]>:onFocusIn
+        Else
+            focusHandler = CheckBox<properties[DEF_NAME_PROPERTY]>:onFocusOut
+        End If
+        If Not focusHandler is nil Then
+            EventUtility:Exec(focusHandler, properties[DEF_NAME_PROPERTY], parameter)
+        End If
+    End Method
+
+    Method Reset(properties[]) /* Implements IBtInputControl.Reset */
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:checked = GetInitialChecked(properties)
+    End Method
+
+    Method GetControlName(properties[], index)
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method GetLogTableFieldType(properties[], index) /* Implements ILogItemControl.GetLogTableFieldType */
+    Begin
+        Return (SQ_LITE_FIELD_TYPE_INTEGER_NUMBER)
+    End Method
+
+    Method GetLogData(properties[], index) /* Implements ILogItemControl.GetLogData */
+    Begin
+        If (CheckBox<properties[DEF_NAME_PROPERTY]>:checked) Then
+            Return (LOG_DATA_CHECKED)
+        End If
+        Return (LOG_DATA_UNCHECKED)
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget, index) /* Implements ILogItemControl.CheckValidInput */
+    Begin
+        Return (true)
+    End Method
+
+    Method GotFocus(properties[], onKeyDownHandler)
+    Begin
+        Key:onPress = onKeyDownHandler
+
+        properties[DEF_IS_LOST_FOCUSED] = false
+        If properties[DEF_IS_GOT_FOCUSED] Then
+            Return()
+        End If
+        If FocusTransitionUtilityCommon:ForceLostFocus(properties[DEF_NAME_PROPERTY]) Then
+            Key:onPress = onKeyDownHandler
+        End If
+        properties[DEF_IS_GOT_FOCUSED] = true
+    End Method
+
+    Method LostFocus(properties[], onFormKeyDownHandler)
+    Begin
+        Key:onPress = onFormKeyDownHandler
+
+        properties[DEF_IS_GOT_FOCUSED] = false
+        If properties[DEF_IS_LOST_FOCUSED] Then
+            Return()
+        End If
+        properties[DEF_IS_LOST_FOCUSED] = true
+    End Method
+
+    Method KeyDown(properties[], sender)
+        parameter[1]
+    Begin
+        Select Case sender
+            Case KEYS_ENTER
+                parameter[0] = true
+                If (Not EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), parameter)) Then
+                    Return (nil)
+                End If
+
+            Case KEYS_UP, KEYS_LEFT
+                SetFocus(
+                    CheckBox<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMovePreviousControlHandler(properties), GetName(properties), parameter))
+
+            Case KEYS_DOWN, KEYS_RIGHT
+                SetFocus(
+                    CheckBox<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+        End Select
+    End Method
+
+    Method SetFocus(focusControlId, controlId)
+    Begin
+        If focusControlId.isString And controlId.isString Then
+            If focusControlId ne controlId Then
+                FocusTransitionUtilityCommon:SetFocus(controlId)
+            End If
+        End If
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:visible = false
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        CheckBox<properties[DEF_NAME_PROPERTY]>:Delete()
+    End Method
+
+    Method StoreTemporaryText(properties[])
+    Begin
+    End Method
+
+    Method ResetTemporaryText(properties[])
+    Begin
+    End Method
+
+End Package
+
+#popdefine

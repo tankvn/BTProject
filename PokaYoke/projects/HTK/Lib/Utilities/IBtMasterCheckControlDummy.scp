@@ -1,0 +1,144 @@
+#pushdefine
+
+Package IBtMasterCheckControl
+
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case controlName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (true)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (false)
+    End Method
+
+    Method GetInputVoucher(controlName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case controlName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return ("DEF_IMPLEMENT_NAME_ARRAY@1")
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetStorageDestination(controlName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case controlName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (DEF_IMPLEMENT_NAME_ARRAY@2)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetMasterFileName(controlName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case controlName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return ("DEF_IMPLEMENT_NAME_ARRAY@3")
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetItemKeysCount(controlName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case controlName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (DEF_IMPLEMENT_NAME_ARRAY@4)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetLogVoucherColumnNumber(controlName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case controlName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (DEF_IMPLEMENT_NAME_ARRAY@5)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetLogItemKeysColumnNumbers(controlName, index)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case controlName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Select Case index
+            Case 0
+                Return (DEF_IMPLEMENT_NAME_ARRAY@6)
+            Case 1
+                Return (DEF_IMPLEMENT_NAME_ARRAY@7)
+            Case 2
+                Return (DEF_IMPLEMENT_NAME_ARRAY@8)
+            Case 3
+                Return (DEF_IMPLEMENT_NAME_ARRAY@9)
+            End Select
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetLogQuantityColumnNumber(controlName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case controlName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (DEF_IMPLEMENT_NAME_ARRAY@10)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetUserMasterDataInfo(controlName)
+    Begin
+        Return (INVALID_LIST_TABLE_ID)
+    End Method
+
+    Method UpdateLogData(controlName)
+    Begin
+        Return (nil)
+    End Method
+
+    Method RefrectSentNumWithMaxRowId(controlName, logDataMaxRowId)
+    Begin
+        Return (nil)
+    End Method
+
+    Method RefrectSentNumByRealTime(controlName)
+    Begin
+        Return (nil)
+    End Method
+
+End Package
+
+#popdefine

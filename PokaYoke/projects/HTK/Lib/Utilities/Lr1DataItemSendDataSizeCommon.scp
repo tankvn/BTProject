@@ -1,0 +1,44 @@
+#pushdefine
+
+#insert "\Lib\Utilities\Lr1DataItemSendDataSizeConstants"
+
+Package Lr1DataItemSendDataSizeCommon
+
+#pushdefine
+#insert "\Lib\Utilities\Lr1DataItem"
+#popdefine
+
+    Method GetDataSize(properties[]) Begin Return(properties[DEF_DATASIZE_PROPERTY]) End Method
+    Method SetDataSize(properties[], value) Begin properties[DEF_DATASIZE_PROPERTY] = value End Method
+
+    Method GetLogData(properties[]) Begin Return(properties[DEF_DATASIZE_PROPERTY]) End Method
+
+    Method GetLogDataIndex(properties[]) Begin Return(0) End Method
+
+    Method GetTableItemTypes(properties[]) Begin Return(DbAccess:SQLITE_DATA_TYPE_INTEGER) End Method
+
+    Method GetIsDate(properties[]) Begin Return(false) End Method
+
+    Method GetIsTime(properties[]) Begin Return(false) End Method
+
+    Method MaxDigit(properties[], dataLength, maxValue)
+        targetValue
+    Begin
+        targetValue = maxValue
+        Return(StringUtility:GetByteCount(GetFixedFormattedData(properties, dataLength, targetValue)))
+    End Method
+
+    Method GetDecimalPlaces(properties[]) Begin Return(OUTPUT_DATA_UTILITY_DEFAULT_DECIMALPLACE) End Method
+    Method GetLogItemControl(properties[]) Begin Return("") End Method
+
+    Method New(properties[])
+    Begin
+        NewBase(properties)
+    End Method
+
+#insert "\Lib\Utilities\ILr1DataItemInvokeCommon"
+#insert "\Lib\Utilities\ILr1DataItemSendDataSizeInvokeCommon"
+
+End Package
+
+#popdefine

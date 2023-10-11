@@ -1,0 +1,19 @@
+Package ComparisonInvalidItem
+    Method New(name)
+    Begin
+        With UserObj<name>
+            :Open()
+            :Set(0, "ComparisonInvalidItem")
+        End With
+    End Method
+
+    Method DoJudgement(name)
+    Begin
+        Return(False)
+    End Method
+
+    Method GetType(name)
+    Begin
+        Return(UserObj<name>:Get(0))
+    End Method
+End Package

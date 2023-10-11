@@ -1,0 +1,246 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+#define DEF_FOCUS_TRANSITION_UTILITY BtJob_PokaYoke_FocusTransitionUtility
+#define DEF_EVENT_FORM_KEY_DOWN ActiveForm:OnKeyDown
+
+#pushdefine
+#define DEF_PACKAGE_NAME IControl
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_BtLabel_Comparison,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Input,BtLabelCommon|BtWindow_PokaYoke_BtTextBox_Compare,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Input,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Person,BtTextBoxCommon|BtWindow_PokaYoke_BtLabel_Person,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Title,BtLabelCommon|BtWindow_PokaYoke_BtF1Key_Back,BtButtonCommon|BtWindow_PokaYoke_BtF2Key_SendDataFile,BtButtonCommon|BtWindow_PokaYoke_BtF3Key_HistoryDataView,BtButtonCommon|BtHistoryDataView_PokaYoke_BtLabel_Title,BtLabelCommon|BtHistoryDataView_PokaYoke_BtF1Key_Back,BtButtonCommon|BtHistoryDataView_PokaYoke_BtLabel_DataCountDisplay,BtLabelCommon|BtHistoryDataView_PokaYoke_BtTableView_HistoryData,BtTableViewCommon|BtHistoryDataView_PokaYoke_BtF2Key_Previous,BtButtonCommon|BtHistoryDataView_PokaYoke_BtF3Key_Next,BtButtonCommon|BtHistoryDataView_PokaYoke_BtF4Key_Delete,BtButtonCommon|BtCollationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message2,BtLabelCommon|BtCollationErrorDialog_1_BtButton_Exit,BtButtonCommon|BtCommunicationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCommunicationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCommunicationErrorDialog_1_BtLabel_Message2,BtLabelCommon|BtCommunicationErrorDialog_1_BtButton_Exit,BtButtonCommon|HistoryDataEditDialog_labelTitle,BtLabelCommon|HistoryDataEditDialog_labelFieldName,BtLabelCommon|HistoryDataEditDialog_dataStringLabel,BtLabelCommon|HistoryDataEditDialog_fieldStringLabel,BtLabelCommon|HistoryDataEditDialog_textBox,BtTextBoxCommon|HistoryDataEditDialog_inputDateBox,BtInputDateBoxCommon|HistoryDataEditDialog_okButton,BtButtonCommon|HistoryDataEditDialog_cancelButton,BtButtonCommon|DeleteConfirmationDialog_BtLabel1,BtLabelCommon|DeleteConfirmationDialog_messageLabel,BtLabelCommon|DeleteConfirmationDialog_deletionOneRecordButton,BtButtonCommon|DeleteConfirmationDialog_deletionAllRecordsButton,BtButtonCommon|DeleteConfirmationDialog_cancelButton,BtButtonCommon
+#include "\Lib\Utilities\IControl" "..\Lib\Utilities\IControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IBtInputControl
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_BtLabel_Comparison,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Input,BtLabelCommon|BtWindow_PokaYoke_BtTextBox_Compare,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Input,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Person,BtTextBoxCommon|BtWindow_PokaYoke_BtLabel_Person,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Title,BtLabelCommon|BtHistoryDataView_PokaYoke_BtLabel_Title,BtLabelCommon|BtHistoryDataView_PokaYoke_BtLabel_DataCountDisplay,BtLabelCommon|BtHistoryDataView_PokaYoke_BtTableView_HistoryData,BtTableViewCommon|BtCollationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message2,BtLabelCommon|BtCommunicationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCommunicationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCommunicationErrorDialog_1_BtLabel_Message2,BtLabelCommon
+#include "\Lib\Utilities\IBtInputControl" "..\Lib\Utilities\IBtInputControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IFilterControl
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_BtLabel_Comparison,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Input,BtLabelCommon|BtWindow_PokaYoke_BtTextBox_Compare,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Input,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Person,BtTextBoxCommon|BtWindow_PokaYoke_BtLabel_Person,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Title,BtLabelCommon|BtHistoryDataView_PokaYoke_BtLabel_Title,BtLabelCommon|BtHistoryDataView_PokaYoke_BtLabel_DataCountDisplay,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message2,BtLabelCommon|BtCommunicationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCommunicationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCommunicationErrorDialog_1_BtLabel_Message2,BtLabelCommon
+#include "\Lib\Utilities\IFilterControl" "..\Lib\Utilities\IFilterControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IMasterDataOwnerControl
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtHistoryDataView_PokaYoke_BtTableView_HistoryData,BtTableViewCommon
+#include "\Lib\Utilities\IMasterDataOwnerControl" "..\Lib\Utilities\IMasterDataOwnerControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IMasterCheckDataOwnerControl
+#include "\Lib\Utilities\IMasterCheckDataOwnerControl" "..\Lib\Utilities\IMasterCheckDataOwnerControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IBtInputComponent
+#include "\Lib\Utilities\IBtInputComponent" "..\Lib\Utilities\IBtInputComponent"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ISharedParameterInputTool
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_BtLabel_Comparison,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Input,BtLabelCommon|BtWindow_PokaYoke_BtTextBox_Compare,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Input,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Person,BtTextBoxCommon|BtWindow_PokaYoke_BtLabel_Person,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Title,BtLabelCommon|BtHistoryDataView_PokaYoke_BtLabel_Title,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message2,BtLabelCommon
+#include "\Lib\Utilities\ISharedParameterInputTool" "..\Lib\Utilities\ISharedParameterInputTool"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IBtSharedParameterLabel
+#include "\Lib\Utilities\IBtSharedParameterLabel" "..\Lib\Utilities\IBtSharedParameterLabel"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_ScreenManager
+#defineexpand DEF_BT_SCREEN BtWindow_PokaYoke_res|BtHistoryDataView_PokaYoke_res
+#include "\Lib\Parts\ScreenManager" "..\Lib\Parts\ScreenManager"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IBtInputDateControl
+#include "\Lib\Utilities\IBtInputDateControl" "..\Lib\Utilities\IBtInputDateControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ITableView
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtHistoryDataView_PokaYoke_BtTableView_HistoryData,BtTableViewCommon
+#include "\Lib\Utilities\ITableView" "..\Lib\Utilities\ITableView"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ILookUpBoxInputTool
+#include "\Lib\Utilities\ILookUpBoxInputTool" "..\Lib\Utilities\ILookUpBoxInputTool"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ILookUpBoxDisplayTool
+#include "\Lib\Utilities\ILookUpBoxDisplayTool" "..\Lib\Utilities\ILookUpBoxDisplayTool"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IBtStopWatch
+#include "\Lib\Utilities\IBtStopWatch" "..\Lib\Utilities\IBtStopWatch"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IInputItemTool
+#include "\Lib\Utilities\IInputItemTool" "..\Lib\Utilities\IInputItemTool"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IInputQuantityTool
+#include "\Lib\Utilities\IInputQuantityTool" "..\Lib\Utilities\IInputQuantityTool"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ISearchViewConditionControl
+#include "\Lib\Utilities\ISearchViewConditionControl" "..\Lib\Utilities\ISearchViewConditionControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ISearchViewDisplayControl
+#include "\Lib\Utilities\ISearchViewDisplayControl" "..\Lib\Utilities\ISearchViewDisplayControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ISearchViewConditionItem
+#include "\Lib\Utilities\ISearchViewConditionItem" "..\Lib\Utilities\ISearchViewConditionItem"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ISearchViewDisplayItem
+#include "\Lib\Utilities\ISearchViewDisplayItem" "..\Lib\Utilities\ISearchViewDisplayItem"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IBtCollationControl
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_BtVerifyControl_1,BtCollationControlCommon
+#include "\Lib\Utilities\IBtCollationControl" "..\Lib\Utilities\IBtCollationControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IRangeSettings
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_BtTextBox_Input_BtVerifyControl_1_RangeSettings_0,RangeSettingsCommon|BtWindow_PokaYoke_BtTextBox_Compare_BtVerifyControl_1_RangeSettings_0,RangeSettingsCommon
+#include "\Lib\Utilities\IRangeSettings" "..\Lib\Utilities\IRangeSettings"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ICollationTarget
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_BtTextBox_Input,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Compare,BtTextBoxCommon
+#include "\Lib\Utilities\ICollationTarget" "..\Lib\Utilities\ICollationTarget"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ICollationComparisonItem
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_CollationComparisonItem_0,CollationComparisonItemCommon
+#include "\Lib\Utilities\ICollationComparisonItem" "..\Lib\Utilities\ICollationComparisonItem"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ICollationConditionSetting
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_CollationConditionSetting_0,CollationConditionSettingCommon
+#include "\Lib\Utilities\ICollationConditionSetting" "..\Lib\Utilities\ICollationConditionSetting"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IBtCombinationComponent
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_BtVerifyControl_1,BtCollationControlCommon
+#include "\Lib\Utilities\IBtCombinationComponent" "..\Lib\Utilities\IBtCombinationComponent"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IBtLr1OutputDataControl
+#include "\Lib\Utilities\IBtLr1OutputDataControl" "..\Lib\Utilities\IBtLr1OutputDataControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ILr1DataItem
+#include "\Lib\Utilities\ILr1DataItem" "..\Lib\Utilities\ILr1DataItem"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ILr1DataItemScreenData
+#include "\Lib\Utilities\ILr1DataItemScreenData" "..\Lib\Utilities\ILr1DataItemScreenData"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ILr1DataItemSendDataSize
+#include "\Lib\Utilities\ILr1DataItemSendDataSize" "..\Lib\Utilities\ILr1DataItemSendDataSize"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME IBtMasterCheckControl
+#include "\Lib\Utilities\IBtMasterCheckControl" "..\Lib\Utilities\IBtMasterCheckControl"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_LogItem_0
+#include "\Lib\Utilities\LogItemSystemParameter" "..\Lib\Utilities\BtJob_PokaYoke_LogItem_0"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_LogItem_1
+#include "\Lib\Utilities\LogItemSystemParameter" "..\Lib\Utilities\BtJob_PokaYoke_LogItem_1"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_LogItem_2
+#include "\Lib\Utilities\LogItemSystemParameter" "..\Lib\Utilities\BtJob_PokaYoke_LogItem_2"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_LogItem_3
+#include "\Lib\Utilities\LogItemScreenData" "..\Lib\Utilities\BtJob_PokaYoke_LogItem_3"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_LogItem_4
+#include "\Lib\Utilities\LogItemScreenData" "..\Lib\Utilities\BtJob_PokaYoke_LogItem_4"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_LogItem_5
+#include "\Lib\Utilities\LogItemScreenData" "..\Lib\Utilities\BtJob_PokaYoke_LogItem_5"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_LogItem_6
+#include "\Lib\Utilities\LogItemScreenData" "..\Lib\Utilities\BtJob_PokaYoke_LogItem_6"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ILogItemSystemParameter
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtJob_PokaYoke_LogItem_0,LogItemSystemParameterCommon|BtJob_PokaYoke_LogItem_1,LogItemSystemParameterCommon|BtJob_PokaYoke_LogItem_2,LogItemSystemParameterCommon
+#include "\Lib\Utilities\ILogItemSystemParameter" "..\Lib\Utilities\ILogItemSystemParameter"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME ILogItemControl
+#defineexpand DEF_IMPLEMENT_NAME_ARRAY BtWindow_PokaYoke_BtLabel_Comparison,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Input,BtLabelCommon|BtWindow_PokaYoke_BtTextBox_Compare,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Input,BtTextBoxCommon|BtWindow_PokaYoke_BtTextBox_Person,BtTextBoxCommon|BtWindow_PokaYoke_BtLabel_Person,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Title,BtLabelCommon|BtWindow_PokaYoke_BtVerifyControl_1,BtCollationControlCommon|BtHistoryDataView_PokaYoke_BtLabel_Title,BtLabelCommon|BtHistoryDataView_PokaYoke_BtLabel_DataCountDisplay,BtLabelCommon|BtHistoryDataView_PokaYoke_BtTableView_HistoryData,BtTableViewCommon|BtCollationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message2,BtLabelCommon
+#include "\Lib\Utilities\ILogItemControl" "..\Lib\Utilities\ILogItemControl"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_PokaYokeData
+#include "\Lib\Utilities\BtDataFormatControl" "..\Lib\Utilities\BtJob_PokaYoke_PokaYokeData"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_HistoryDataEditDialog
+#include "\Lib\Parts\HistoryDataEditDialog" "..\Lib\Parts\HistoryDataEditDialog"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtJob_PokaYoke_DeleteConfirmationDialog
+#include "\Lib\Parts\DeleteConfirmationDialog" "..\Lib\Parts\DeleteConfirmationDialog"
+#popdefine
+
+#define DEF_COLLATION_ERROR_DIALOG
+
+
+Package BtJob_PokaYoke_res
+    #define DEF_PACKAGE_NAME BtJob_PokaYoke
+    #defineexpand DEF_SCREEN BtWindow_PokaYoke_res|BtHistoryDataView_PokaYoke_res
+    #insert "\Lib\Parts\BtForm"
+    Method InitializeComponent()
+    Begin
+        IControl:New()
+        IBtInputControl:New()
+        IFilterControl:New()
+        ICollationTarget:New()
+        IMasterDataOwnerControl:New()
+        IMasterCheckDataOwnerControl:New()
+        IBtInputComponent:New()
+        ISharedParameterInputTool:New()
+        IBtSharedParameterLabel:New()
+        IDataFormatControl:New()
+        ILogItemSystemParameter:New()
+        ILogItemScreenData:New()
+        ILogItemControl:New()
+        IRangeSettings:New()
+        ICollationConditionSetting:New()
+        ICollationComparisonItem:New()
+        IBtCombinationComponent:New()
+        ITableView:New()
+        
+        New()
+        InitializeTimer()
+        BtWindow_PokaYoke:New()
+        BtHistoryDataView_PokaYoke:New()
+        BtCollationErrorDialog_1:New()
+        With BtJob_PokaYoke_res
+        End With
+        
+        With BtJob_PokaYoke_res
+            BtFormCommon:SetWidth(:Properties, 240)
+            BtFormCommon:SetHeight(:Properties, 320)
+            BtFormCommon:SetFormBorderStyle(:Properties, "none")
+            BtFormCommon:SetVisible(:Properties, true)
+            BtFormCommon:UpdateVisible(:Properties)
+        End With
+        
+    End Method
+End Package

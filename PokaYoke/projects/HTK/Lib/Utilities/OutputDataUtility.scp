@@ -1,0 +1,269 @@
+
+/*Public*/ Package OutputDataUtility
+
+
+    #define DEFAULT_RECORD_TYPE DATA_LENGTH_VARIABLE 
+
+    #define DEFAULT_SEPARATOR_TYPE LOG_SEPARATOR_TYPE_COMMA 
+
+    #define FIRST_LOGITEM_ID 0 
+
+    #define DEFAULT_OUTPUT_DIGIT 10 
+
+    #define DEFAULT_EXCLUSION_CHARACTERS EXCLUSION_CHARACTERS_NONE 
+
+    #define DEFAULT_OUTPUT_DOUBLE_QUOTATION false 
+
+    #define DEFAULT_PADDING_TYPE LOG_PADDING_TYPE_SPACE 
+
+    #define DEFAULT_DATA_ALIGN_TYPE DATA_ALIGN_RIGHT 
+
+    #define DEFAULT_DATE_FORMAT_TYPE DATE_PATTERN_YYYYMMDD 
+
+    #define DEFAULT_DATE_SEPARATOR_TYPE DATE_SEPARATOR_NONE 
+
+    #define DEFAULT_TIME_FORMAT_TYPE TIME_FORMAT_HOURS_COLON_MINUTES_COLON_SECONDS 
+
+    #define DEFAULT_CALCULATION_TYPE OPERATION_KIND_NONE 
+
+    #define DEFAULT_CALCULATION_PARAMETER 0 
+
+    #define DEFAULT_DATE_CALCULATION_UNIT_TYPE OPERATION_UNIT_DAY 
+
+    #define DEFAULT_OUTPUT_RANGE_TYPE OUTPUT_RANGE_TYPE_NONE 
+
+    #define DEFAULT_OUTPUT_RANGE_START 1 
+
+    #define DEFAULT_OUTPUT_RANGE_END 8192 
+
+    #define DEFAULT_DECIMALPLACE 3 
+
+    #define LOGPADDING_SPACE " " 
+
+    #define LOGPADDING_ZERO "0" 
+
+
+
+    Method GetFormattedData(targetValue, dataLength, isDate, isTime, outputDoubleQuotation, outputDigit, dataAlignType, paddingType) /*As String*/
+        outputValue
+    Begin
+        outputValue = targetValue
+        If (outputValue.isString is false) Then
+            If (outputValue is nil) Then
+                outputValue = ""
+            End If
+        End If
+
+        If (dataLength == DATA_LENGTH_FIXED) And (isDate is false) And (isTime is false) Then
+            outputValue = AddPaddingData(outputValue, outputDigit, dataAlignType, paddingType)
+        End If
+
+        If (dataLength == DATA_LENGTH_VARIABLE) And (outputDoubleQuotation is true) Then
+            outputValue = "\"" & outputValue & "\""
+        End If
+
+        Return (outputValue)
+    End Method
+
+    Method GetFixedFormattedData(targetValue, dataLength, isDate, isTime, outputDigit, dataAlignType, paddingType) /*As String*/
+        outputValue
+    Begin
+        outputValue = targetValue
+        If (outputValue.isString is false) Then
+            If (outputValue is nil) Then
+                outputValue = ""
+            End If
+        End If
+
+        If (dataLength == DATA_LENGTH_FIXED) And (isDate is false) And (isTime is false) Then
+            outputValue = AddPaddingData(outputValue, outputDigit, dataAlignType, paddingType)
+        End If
+
+        Return (outputValue)
+    End Method
+
+    Method GetOutputData(targetValue, dataLength, tableItemType, isDate, isTime, exclusionCharacters, outputRangeType, outputRangeStart, outputRangeEnd, calculationType, parameterValue, dateCulculationUnit, decimalPlaces, dateFormat, dateSeparator, timeFormat) /*As String*/
+        formattedValue
+        subStringValue
+        errorMessage
+        dateData
+        timeData
+        errorValue
+    Begin
+        formattedValue = targetValue
+        If (formattedValue.isString is false) Then
+            If (formattedValue is nil) Then
+                Return (formattedValue)
+            End If
+        End If
+        If (formattedValue eq "") Then
+            Return (formattedValue)
+        End If
+
+        If (dataLength == DATA_LENGTH_VARIABLE) Then
+            formattedValue = StringUtility:DeleteCharacters(formattedValue, exclusionCharacters)
+        End If
+
+        If (isDate is false) And (isTime is false) Then
+            If (outputRangeType == OUTPUT_RANGE_TYPE_RANGE) Then
+                subStringValue = StringUtility:SubstringByte(formattedValue, outputRangeStart - 1, outputRangeEnd - outputRangeStart + 1)
+                errorMessage = ErrorManager:GetError()
+                If (errorMessage ne MESSAGE_ERROR_NONE) Then
+                    Return ("")
+                End If
+                formattedValue = subStringValue
+            ElseIf (outputRangeType == OUTPUT_RANGE_TYPE_AI) Then
+                ErrorManager:SetError(MESSAGE_ERROR_GET_FORMATTED_LOG_DATA)
+                Return (formattedValue)
+            End If
+        End If
+
+        If (isDate is true) Then
+            dateData = DateUtility:ToDateFromCommonFormat(formattedValue)
+            dateData = DateUtility:CalculateDate(dateData, calculationType, dateCulculationUnit, parameterValue.toInt)
+            formattedValue = DateUtility:FormatDate(dateData, dateFormat, dateSeparator)
+            If (formattedValue.isString is false) Then
+                If (formattedValue is nil) Then
+                    ErrorManager:SetError(MESSAGE_ERROR_GET_FORMATTED_LOG_DATA)
+                    Return (formattedValue)
+                End If
+            End If
+            If (formattedValue eq "") Then
+                ErrorManager:SetError(MESSAGE_ERROR_GET_FORMATTED_LOG_DATA)
+                Return (formattedValue)
+            End If
+        ElseIf (isTime is true) Then
+            timeData = TimeUtility:ToTimeFromCommonFormat(formattedValue)
+            formattedValue = TimeUtility:ConvertTimeFormat(timeData, TIME_FORMAT_HOURS_COLON_MINUTES_COLON_SECONDS, timeFormat)
+            If (formattedValue.isString is false) Then
+                If (formattedValue is nil) Then
+                    ErrorManager:SetError(MESSAGE_ERROR_GET_FORMATTED_LOG_DATA)
+                    Return (formattedValue)
+                End If
+            End If
+            If (formattedValue eq "") Then
+                ErrorManager:SetError(MESSAGE_ERROR_GET_FORMATTED_LOG_DATA)
+                Return (formattedValue)
+            End If
+        Else
+            formattedValue = CalculateNumericData(formattedValue, tableItemType, calculationType, parameterValue, decimalPlaces)
+            errorValue = ErrorManager:GetError()
+            If (errorValue ne MESSAGE_ERROR_NONE) Then
+                ErrorManager:SetError(MESSAGE_ERROR_GET_FORMATTED_LOG_DATA)
+                Return (formattedValue)
+            End If
+        End If
+
+        Return (formattedValue)
+    End Method
+
+    Method GetSeparatorString(separatorType) /*As String*/
+    Begin
+        If (separatorType == LOG_SEPARATOR_TYPE_COMMA) Then
+            Return (OUTPUT_DATA_UTILITY_SEPARATOR_COMMA)
+        End If
+
+        If (separatorType == LOG_SEPARATOR_TYPE_SPACE) Then
+            Return (OUTPUT_DATA_UTILITY_SEPARATOR_SPACE)
+        End If
+
+        If (separatorType == LOG_SEPARATOR_TYPE_TAB) Then
+            Return (OUTPUT_DATA_UTILITY_SEPARATOR_TAB)
+        End If
+
+        Return (OUTPUT_DATA_UTILITY_SEPARATOR_COMMA)
+    End Method
+
+    Method CalculateNumericData(targetValue, tableItemType, calculationType, parameterValue, decimalPlaces) /*As String*/
+        decimalValue
+        convertResult
+        calcResult
+        newValue
+    Begin
+
+        If (calculationType == OPERATION_KIND_NONE) Then
+            Return (targetValue)
+        End If
+
+        decimalValue = MathUtility:ParseToDecimal(targetValue)
+        convertResult = (ErrorManager:GetError() eq MESSAGE_ERROR_NONE)
+        If (convertResult is false) Then
+            Return ("")
+        End If
+        decimalValue = MathUtility:CalculateByOperator(decimalValue, calculationType, parameterValue)
+        calcResult = (ErrorManager:GetError() eq MESSAGE_ERROR_NONE)
+        If (calcResult is false) Then
+            Return ("")
+        End If
+
+        decimalValue = RoundToOutputDigit(decimalValue, tableItemType, decimalPlaces)
+
+        newValue = decimalValue
+        Return (newValue)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_ABNORMAL_CALCULATION)
+        Return ("")
+    End Method
+
+    Method RoundToOutputDigit(roundTarget, tableItemType, decimalPlaces) /*As Decimal*/
+    Begin
+        If (tableItemType eq DB_ACCESS_SQLITE_DATA_TYPE_REAL) Then
+            Return (MathUtility:Round(roundTarget, decimalPlaces))
+        Else
+            Return (MathUtility:Round(roundTarget, 0))
+        End If
+    End Method
+
+    Method AddPaddingData(targetValue, outputDigit, dataAlignType, paddingType) /*As String*/
+        lengthDiff
+        workString
+        paddingNum
+        padString
+        index
+    Begin
+
+        lengthDiff = outputDigit - targetValue.Length
+
+        workString = targetValue
+
+        If (lengthDiff < 0) Then
+            workString = StringUtility:SubstringByte(workString, 0, outputDigit)
+            ErrorManager:GetError()
+
+            lengthDiff = outputDigit - workString.Length
+        End If
+
+        If 0 < lengthDiff Then
+            paddingNum = lengthDiff
+
+            padString = ""
+            For index = 0 to paddingNum - 1
+                padString = padString & GetPaddingChar(paddingType)
+            Next
+            If (dataAlignType == DATA_ALIGN_RIGHT) Then
+                workString = padString & workString
+            ElseIf (dataAlignType == DATA_ALIGN_LEFT) Then
+                workString = workString & padString
+            End If
+
+        End If
+
+        Return (workString)
+
+    End Method
+
+    Method GetPaddingChar(padding) /*As String*/
+    Begin
+
+        If (padding == LOG_PADDING_TYPE_SPACE) Then
+            Return (LOGPADDING_SPACE)
+        ElseIf (padding == LOG_PADDING_TYPE_ZERO) Then
+            Return (LOGPADDING_ZERO)
+        End If
+
+        Return (LOGPADDING_SPACE)
+
+    End Method
+
+
+End Package

@@ -1,0 +1,21 @@
+
+Package ISearchViewConditionControl
+    Names[1]
+    ICommons[1]
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(conditionControlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(conditionControlName, Names))
+    End Method
+
+    Method GetInputValue(conditionControlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(conditionControlName, Names, "GetInputValue", args, ICommons))
+    End Method
+
+End Package
+

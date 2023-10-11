@@ -1,0 +1,56 @@
+
+Package BtWindow_PokaYoke_FocusTransitionUtility
+
+    Properties[1]
+    ControlID[256]
+
+    Method MovePreviousControl(control_)
+    Begin
+        FocusTransitionUtilityCommon:MoveControl(Properties, ControlID, control_, false)
+    End Method
+
+    Method MoveNextControl(control_)
+    Begin
+        FocusTransitionUtilityCommon:MoveControl(Properties, ControlID, control_, true)
+    End Method
+
+    Method GetMovePreviousControlId(control_)
+    Begin
+        Return(FocusTransitionUtilityCommon:GetMoveControlId(Properties, ControlID, control_, false))
+    End Method
+
+    Method GetMoveNextControlId(control_)
+    Begin
+        Return(FocusTransitionUtilityCommon:GetMoveControlId(Properties, ControlID, control_, true))
+    End Method
+
+    Method SetControl(controlid)
+    Begin
+        Return(FocusTransitionUtilityCommon:SetControl(Properties, ControlID, controlid))
+    End Method
+
+    Method Reset()
+    Begin
+        FocusTransitionUtilityCommon:Reset(Properties, ControlID)
+    End Method
+
+    Method ResetTargetControls(transitionSource, transitionDestination, listId_Controls, listId_Components)
+    Begin
+        Return(FocusTransitionUtilityCommon:ResetTargetControls(
+            Properties,
+            transitionSource,
+            transitionDestination,
+            listId_Controls,
+            listId_Components))
+    End Method
+
+    Method ResetTargetInputComponents(transitionSourceComponent, transitionDestinationControl, listId_Controls, listId_Components)
+    Begin
+        Return(FocusTransitionUtilityCommon:ResetTargetInputComponents(
+            Properties,
+            transitionSourceComponent,
+            transitionDestinationControl,
+            listId_Controls,
+            listId_Components))
+    End Method
+End Package

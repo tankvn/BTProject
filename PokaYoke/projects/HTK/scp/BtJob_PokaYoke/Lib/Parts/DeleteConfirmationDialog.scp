@@ -1,0 +1,70 @@
+
+Package DeleteConfirmationDialog
+
+    _logDeleteType = 0
+    Method GetLogDeleteType()
+    Begin
+        Return (_logDeleteType)
+    End Method
+    _maskKey
+
+    Method New()
+        displaySize[2]
+        outSize[2]
+    Begin
+        _maskKey = Key:maskKey
+        Key:maskKey = 0x00010000 + 0x00020000 + 0x00040000 + 0x00080000
+
+        DeleteConfirmationDialog_res:InitializeComponent()
+
+        displaySize[0] = BtFormCommon:GetWidth(DeleteConfirmationDialog_res:Properties)
+        displaySize[1] = BtFormCommon:GetHeight(DeleteConfirmationDialog_res:Properties)
+        LayoutUtility:CalculateDisplayLocation(displaySize, outSize)
+        BtFormCommon:SetLeft(DeleteConfirmationDialog_res:Properties, outSize[0])
+        BtFormCommon:SetTop(DeleteConfirmationDialog_res:Properties, outSize[1])
+
+        DeleteConfirmationDialog_FocusTransitionUtility:SetControl("DeleteConfirmationDialog_deletionOneRecordButton")
+        DeleteConfirmationDialog_FocusTransitionUtility:SetControl("DeleteConfirmationDialog_deletionAllRecordsButton")
+        DeleteConfirmationDialog_FocusTransitionUtility:SetControl("DeleteConfirmationDialog_cancelButton")
+
+        DeleteConfirmationDialog_deletionOneRecordButton:Invalidate()
+        DeleteConfirmationDialog_deletionAllRecordsButton:Invalidate()
+        DeleteConfirmationDialog_cancelButton:Invalidate()
+
+        DeleteConfirmationDialog_res:Show(true)
+        BtButtonCommon:Focus(DeleteConfirmationDialog_cancelButton:Properties)
+    End Method
+
+    Method Finalize()
+    Begin
+        Key:maskKey = _maskKey
+        DeleteConfirmationDialog_res:Show(false)
+        DeleteConfirmationDialog_res:Close()
+        DeleteConfirmationDialog_res:Dispose()
+        Event:Exit()
+    End Method
+
+    Method _deletionOneRecordButton_Click(sender, result)
+    Begin
+        _logDeleteType = 1
+        Finalize()
+    End Method
+
+    Method _deletionAllRecordsButton_Click(sender, result)
+    Begin
+        _logDeleteType = 2
+        Finalize()
+    End Method
+
+    Method _cancelButton_Click(sender, result)
+    Begin
+        _logDeleteType = 0
+        Finalize()
+    End Method
+
+    Method OnPaint(e)
+    Begin
+    End Method
+
+End Package
+

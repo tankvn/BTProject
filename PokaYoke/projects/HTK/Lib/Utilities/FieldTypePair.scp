@@ -1,0 +1,17 @@
+Package DEF_PACKAGE_NAME
+    Const Name = "DEF_PACKAGE_NAME"
+    #define DEF_FIELD_PROPERTY 0
+    #define DEF_TYPE_PROPERTY 1
+    #define DEF_PROPERTY_NUM 2
+    _properties[DEF_PROPERTY_NUM]
+
+    Method GetField() Begin Return(_properties[DEF_FIELD_PROPERTY]) End Method
+
+    Method GetType() Begin Return(_properties[DEF_TYPE_PROPERTY]) End Method
+
+    Method New(field , type)
+    Begin
+        _properties[DEF_FIELD_PROPERTY] = field
+        _properties[DEF_TYPE_PROPERTY] = type
+    End Method
+End Package 

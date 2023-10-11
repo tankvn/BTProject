@@ -1,0 +1,76 @@
+
+Package ISharedParameterInputTool
+    Names[5]
+    ICommons[5]
+
+    Method New()
+    Begin
+        Names[0] = "BtTopMenuWindow_BtLabel_Version"
+        ICommons[0] = BtTopMenuWindow_BtLabel_Version:ISharedParameterInputToolInvoke
+        Names[1] = "BtTopMenuWindow_BtLabel_Title"
+        ICommons[1] = BtTopMenuWindow_BtLabel_Title:ISharedParameterInputToolInvoke
+        Names[2] = "BtCommunicationErrorDialog_1_BtLabel_Title"
+        ICommons[2] = BtCommunicationErrorDialog_1_BtLabel_Title:ISharedParameterInputToolInvoke
+        Names[3] = "BtCommunicationErrorDialog_1_BtLabel_Message1"
+        ICommons[3] = BtCommunicationErrorDialog_1_BtLabel_Message1:ISharedParameterInputToolInvoke
+        Names[4] = "BtCommunicationErrorDialog_1_BtLabel_Message2"
+        ICommons[4] = BtCommunicationErrorDialog_1_BtLabel_Message2:ISharedParameterInputToolInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetIsShared(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetIsShared", args, ICommons))
+    End Method
+
+    Method SetIsShared(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetIsShared", args, ICommons))
+    End Method
+
+    Method GetSharedParameterKey(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSharedParameterKey", args, ICommons))
+    End Method
+
+    Method SetSharedParameterKey(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetSharedParameterKey", args, ICommons))
+    End Method
+
+    Method GetSharedParameterClearTiming(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSharedParameterClearTiming", args, ICommons))
+    End Method
+
+    Method SetSharedParameterClearTiming(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetSharedParameterClearTiming", args, ICommons))
+    End Method
+
+    Method RegisterSharedParameter(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RegisterSharedParameter", args, ICommons))
+    End Method
+
+    Method RestoreSharedParameter(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RestoreSharedParameter", args, ICommons))
+    End Method
+End Package
+

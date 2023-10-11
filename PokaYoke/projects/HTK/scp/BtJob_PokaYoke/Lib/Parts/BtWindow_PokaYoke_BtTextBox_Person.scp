@@ -1,0 +1,220 @@
+
+Package BtWindow_PokaYoke_BtTextBox_Person
+
+    Properties[71]
+
+    FullDetectionCode[4]
+
+    FullDetectionColumnParam[4]
+
+    FullDetectionColumnString[4]
+
+    OcrFormatRegistrationNumbers[1]
+
+    Method GotFocusExtension(this)
+    Begin
+    End Method
+
+    Method LostFocusExtension(this)
+    Begin
+    End Method
+
+    Method DataInput(this)
+    Begin
+        Return (true)
+    End Method
+
+    Method DataInputCheck(this)
+    Begin
+        Return (true)
+    End Method
+
+    Method FocusTransitionRequested(this)
+        result = false
+    Begin
+        Return (result)
+    End Method
+
+    Method AfterReset(this)
+    Begin
+    End Method
+
+    Method ComparisonValueCountUpdated(this)
+    Begin
+    End Method
+
+    Method CollationCountUpdated(this)
+    Begin
+    End Method
+
+    Method DataUpdated(this)
+    Begin
+    End Method
+
+    Method New()
+    Begin
+        BtTextBoxCommon:New(Properties, OcrFormatRegistrationNumbers, FullDetectionCode, FullDetectionColumnParam, FullDetectionColumnString)
+        BtTextBoxCommon:SetHandler(Properties, GotFocusExtension, LostFocusExtension, DataInput, DataInputCheck,
+                                   FocusTransitionRequested, AfterReset, ComparisonValueCountUpdated, CollationCountUpdated,
+                                   MoveNextControl, MovePreviousControl, HasSameControlValue, DataUpdated)
+    End Method
+
+    Method IControlInvoke(this)
+    Begin
+        BtTextBoxCommon:IControlInvokeCommon(this, Properties)
+    End Method
+    Method IBtInputControlInvoke(this)
+    Begin
+        BtTextBoxCommon:IBtInputControlInvokeCommon(this, Properties)
+    End Method
+    Method ISharedParameterInputToolInvoke(this)
+    Begin
+        BtTextBoxCommon:ISharedParameterInputToolInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemControlInvoke(this)
+    Begin
+        BtTextBoxCommon:ILogItemControlInvokeCommon(this, Properties)
+    End Method
+    Method IBtInputComponentInvoke(this)
+    Begin
+        BtTextBoxCommon:IBtInputComponentInvokeCommon(this, Properties)
+    End Method
+    Method ICollationTargetInvoke(this)
+    Begin
+        BtTextBoxCommon:ICollationTargetInvokeCommon(this, Properties)
+    End Method
+    Method ISearchViewDisplayControlInvoke(this)
+    Begin
+        BtTextBoxCommon:ISearchViewDisplayControlInvokeCommon(this, Properties)
+    End Method
+    Method ISearchViewConditionControlInvoke(this)
+    Begin
+        BtTextBoxCommon:ISearchViewConditionControlInvokeCommon(this, Properties)
+    End Method
+    Method IFilterControlInvoke(this)
+    Begin
+        BtTextBoxCommon:IFilterControlInvokeCommon(this, Properties)
+    End Method
+    Method ILookUpBoxInputToolInvoke(this)
+    Begin
+        BtTextBoxCommon:ILookUpBoxInputToolInvokeCommon(this, Properties)
+    End Method
+    Method IInputItemToolInvoke(this)
+    Begin
+        BtTextBoxCommon:IInputItemToolInvokeCommon(this, Properties)
+    End Method
+    Method IInputQuantityToolInvoke(this)
+    Begin
+        BtTextBoxCommon:IInputQuantityToolInvokeCommon(this, Properties)
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[0] = "BtWindow_PokaYoke_BtTextBox_Person"
+        BtTextBoxCommon:Create(Properties, parentName, OcrFormatRegistrationNumbers)
+        BtTextBoxCommon:SetEventHandler(Properties, BtTextBox_GotFocus, BtTextBox_LostFocus, BtTextBox_onEditStart,
+                                        BtTextBox_onEditEnd, OnScanned, BtTextBox_onTouchOut, BtTextBox_onOverflow)
+
+        New()
+    End Method
+
+    Method SetFullDetectionSetting(index, codeType, columnParam, columnString)
+    Begin
+        BtTextBoxCommon:SetFullDetectionSetting(index,
+                                                codeType,
+                                                columnParam,
+                                                columnString,
+                                                Properties,
+                                                FullDetectionCode,
+                                                FullDetectionColumnParam,
+                                                FullDetectionColumnString)
+    End Method
+
+    Method MoveNextControl(this)
+    Begin
+        Return(BtWindow_PokaYoke_FocusTransitionUtility:GetMoveNextControlId(BtTextBoxCommon:GetName(Properties)))
+    End Method
+
+    Method MovePreviousControl(this)
+    Begin
+        Return(BtWindow_PokaYoke_FocusTransitionUtility:GetMovePreviousControlId(BtTextBoxCommon:GetName(Properties)))
+    End Method
+
+    Method HasSameControlValue(this)
+    Begin
+    End Method
+
+    Method IsExistDuplicateData()
+    Begin
+        Return (BtTextBoxCommon:IsExistDuplicateData(Properties))
+    End Method
+
+    Method ResetInvalidInput()
+    Begin
+        BtTextBoxCommon:ResetInvalidInput(Properties)
+    End Method
+
+    Method Focus()
+    Begin
+        BtTextBoxCommon:Focus(Properties)
+    End Method
+
+    Method Invalidate()
+    Begin
+    End Method
+
+    Method BtTextBox_GotFocus(sender)
+    Begin
+        BtTextBoxCommon:GotFocus(Properties, FullDetectionCode,
+                                 FullDetectionColumnParam, FullDetectionColumnString, OcrFormatRegistrationNumbers,
+                                 BtTextBox_KeyDown, BtTextBox_GotFocus)
+    End Method
+
+    Method BtTextBox_LostFocus(sender)
+    Begin
+        BtTextBoxCommon:LostFocus(Properties, ActiveForm:OnKeyDown, BtTextBox_LostFocus)
+    End Method
+
+    Method BtTextBox_onEditStart(sender)
+    Begin
+        BtTextBoxCommon:OnEditStart(Properties, BtTextBox_onEditStart)
+    End Method
+
+    Method BtTextBox_onEditEnd(sender)
+    Begin
+        BtTextBoxCommon:OnEditEnd(Properties, BtTextBox_onEditEnd)
+    End Method
+
+    Method BtTextBox_KeyDown(sender)
+    Begin
+        If Not BtScreenCommon:IsEnabledControl(Properties[0]) Then
+            Return()
+        End If
+
+        Key:onPress = nil
+
+        ActiveForm:OnKeyDown(sender)
+        BtTextBoxCommon:KeyDown(Properties, sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = BtTextBox_KeyDown
+        End If
+    End Method
+
+    Method BtTextBox_onTouchOut(sender)
+    Begin
+        BtTextBoxCommon:TouchOut(Properties, BtTextBox_onTouchOut)
+    End Method
+
+    Method BtTextBox_onOverflow(sender)
+    Begin
+        BtTextBoxCommon:Overflow(Properties, BtTextBox_onOverflow)
+    End Method
+
+    Method OnScanned(sender)
+    Begin
+        BtTextBoxCommon:OnScanned(Properties, sender, OnScanned)
+    End Method
+
+End Package
+

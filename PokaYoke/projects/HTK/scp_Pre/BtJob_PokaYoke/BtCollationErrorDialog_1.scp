@@ -1,0 +1,70 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+
+Include "BtJob_PokaYoke\RES\BtCollationErrorDialog_1_res"
+
+
+
+Package BtCollationErrorDialog_1
+    _isInitialized = false
+    
+    Method New()
+    Begin
+        BtCollationErrorDialog_1_res:InitializeComponent()
+        
+        BtCollationErrorDialog_1_FocusTransitionUtility:SetControl("BtCollationErrorDialog_1_BtButton_Exit")
+    End Method
+    
+    Method Initialize()
+    Begin
+        BtCollationErrorDialog_1_res:InitializeChildren()
+        
+        BtCollationErrorDialog_1_BtButton_Exit:Invalidate()
+        _isInitialized = true
+    End Method
+    
+    Method Finalized()
+    Begin
+        BtCollationErrorDialog_1_res:Dispose()
+    End Method
+    
+    Method ShowDialog()
+    Begin
+        Key:onPress = BtCollationErrorDialog_1:OnKeyDown
+        BtCollationErrorDialog_1_res:Show(true)
+        BtCollationErrorDialog_1_BtButton_Exit:Focus()
+        BtFormCommon:EventEffect(BtCollationErrorDialog_1_res:InvertControlColor, true)
+        BtCollationErrorDialog_1_res:EventWait()
+    End Method
+    
+    Method CloseDialog(sender, result)
+    Begin
+        #ifdef DEF_EVENT_FORM_KEY_DOWN
+        Key:onPress = DEF_EVENT_FORM_KEY_DOWN
+        #else
+        Key:onPress = nil
+        #endif
+        BtCollationErrorDialog_1_res:Show(false)
+        IndicatorUtility:StopBVLAction()
+        BtCollationErrorDialog_1_res:TerminateTimer()
+        
+        Event:Exit()
+    End Method
+    
+    Method OnKeyDown(sender)
+    Begin
+        BtCollationErrorDialog_1_res:KeyAssignedAction(sender)
+    End Method
+    
+    Method BtButton_Exit_DataInput(sender, result)
+    Begin
+        BtFormCommon:EventEffect(BtCollationErrorDialog_1_res:InvertControlColor, false)
+        CloseDialog(sender, result)
+        Return (result)
+    End Method
+End Package

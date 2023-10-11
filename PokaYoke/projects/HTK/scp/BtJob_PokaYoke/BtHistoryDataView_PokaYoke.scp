@@ -1,0 +1,64 @@
+
+Include "BtJob_PokaYoke\RES\BtHistoryDataView_PokaYoke_res"
+
+Package BtHistoryDataView_PokaYoke
+    _isInitialized = false
+
+    Method New()
+    Begin
+        BtHistoryDataView_PokaYoke_res:InitializeComponent()
+
+        BtHistoryDataView_PokaYoke_FocusTransitionUtility:SetControl("BtHistoryDataView_PokaYoke_BtTableView_HistoryData")
+        BtHistoryDataView_PokaYoke_FocusTransitionUtility:SetControl("BtHistoryDataView_PokaYoke_BtF1Key_Back")
+        BtHistoryDataView_PokaYoke_FocusTransitionUtility:SetControl("BtHistoryDataView_PokaYoke_BtF2Key_Previous")
+        BtHistoryDataView_PokaYoke_FocusTransitionUtility:SetControl("BtHistoryDataView_PokaYoke_BtF3Key_Next")
+        BtHistoryDataView_PokaYoke_FocusTransitionUtility:SetControl("BtHistoryDataView_PokaYoke_BtF4Key_Delete")
+
+        With BtHistoryDataView_PokaYoke_BtTableView_HistoryData
+            BtTableViewCommon:SetTableName(:Properties, "htdat")
+        End With
+    End Method
+
+    Method Initialize()
+    Begin
+        BtHistoryDataView_PokaYoke_res:SetLogFormat(nil)
+        BtHistoryDataView_PokaYoke_res:InitializeChildren()
+
+        BtHistoryDataView_PokaYoke_BtF1Key_Back:Invalidate()
+        BtHistoryDataView_PokaYoke_BtF2Key_Previous:Invalidate()
+        BtHistoryDataView_PokaYoke_BtF3Key_Next:Invalidate()
+        BtHistoryDataView_PokaYoke_BtF4Key_Delete:Invalidate()
+        _isInitialized = true
+    End Method
+
+    Method Finalized()
+    Begin
+        BtHistoryDataView_PokaYoke_res:Dispose()
+    End Method
+
+    Method UpdateDatabase()
+    Begin
+        BtHistoryDataView_PokaYoke_res:SetCurrentLogData()
+    End Method
+
+    Method OnCommunicationErrorOccurred()
+    Begin
+        ActiveForm:ShowBtCommunicationErrorDialog_1()
+    End Method
+
+    Method F1KeyAction(sender)
+        result = true
+    Begin
+        BtHistoryDataView_PokaYoke_res:ResetInvalidInput()
+        BtHistoryDataView_PokaYoke_BtF1Key_Back:Focus()
+        BtHistoryDataView_PokaYoke_BtF1Key_Back:PerformClick()
+        Return (result)
+    End Method
+
+    Method BtF1Key_Back_DataInput(sender, result)
+    Begin
+        BtJob_PokaYoke:ShowBtWindow_PokaYoke()
+        Return (result)
+        Return (result)
+    End Method
+End Package

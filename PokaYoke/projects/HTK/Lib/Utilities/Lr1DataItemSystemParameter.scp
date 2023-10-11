@@ -1,0 +1,20 @@
+#pushdefine
+
+#insert "\Lib\Utilities\Lr1DataItemSystemParameterConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+#insert "\Lib\Utilities\ILr1DataItemInvoke"
+
+    Method New(systemParameter)
+    Begin
+        Lr1DataItemSystemParameterCommon:New(Properties, systemParameter)
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        Properties[DEF_TYPE_PROPERTY] = "Lr1DataItemSystemParameter"
+    End Method
+
+End Package
+
+#popdefine

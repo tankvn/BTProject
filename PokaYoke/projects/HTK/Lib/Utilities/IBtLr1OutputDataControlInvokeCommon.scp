@@ -1,0 +1,9 @@
+    Method IBtLr1OutputDataControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetOutputData"
+                InterfaceCommon:Result = GetOutputData(properties)
+            Case "GetOutputTerminalData"
+                InterfaceCommon:Result = GetOutputTerminalData(properties)
+        End Select
+    End Method

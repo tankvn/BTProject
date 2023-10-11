@@ -1,0 +1,56 @@
+#pushdefine
+
+#insert "\Lib\Utilities\BtLr1ConnectionControllerConstants"
+
+Package BtLr1ConnectionController
+
+    Properties[DEF_PROPERTY_NUM]
+
+    Method Lr1ConnectionChanged(this)
+    Begin
+#ifdef DEF_EVENT_LR1_CONNECTION_CHANGED
+        DEF_EVENT_LR1_CONNECTION_CHANGED()
+#endif
+    End Method
+
+     Method New(retry, timeout, tryConnectAndDisconnect, isPrimaryBdAddressInDb)
+     Begin
+        Properties[DEF_NAME_PROPERTY] = "BtLr1ConnectionController"
+        BtLr1ConnectionControllerCommon:New(Properties, retry, timeout, tryConnectAndDisconnect, isPrimaryBdAddressInDb)
+        BtLr1ConnectionControllerCommon:SetLr1ConnectionChangedHandler(Properties, Lr1ConnectionChanged)
+    End Method
+
+    Method Connect(parentWindow)
+    Begin
+        Return(BtLr1ConnectionControllerCommon:Connect(Properties, "", false, parentWindow))
+    End Method
+
+    Method ConnectSpecifiedTarget(parentWindow, connectingTarget)
+    Begin
+        Return(BtLr1ConnectionControllerCommon:Connect(Properties, connectingTarget, true, parentWindow))
+    End Method
+
+    Method Disconnect()
+    Begin
+        BtLr1ConnectionControllerCommon:DisconnectCore(Properties)
+    End Method
+
+    Method Send(data, status, parentWindow)
+    Begin
+        Return(BtLr1ConnectionControllerCommon:Send(Properties, data, status, parentWindow))
+    End Method
+
+    Method Search(searchMax, parentWindow)
+    Begin
+        Return(BtLr1ConnectionControllerCommon:Search(Properties, searchMax, parentWindow))
+    End Method
+
+    Method Cancel()
+    Begin
+        BtLr1ConnectionControllerCommon:Cancel(Properties)
+    End Method
+
+
+End Package
+
+#popdefine

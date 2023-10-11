@@ -1,0 +1,13 @@
+    Method ITableViewInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "SetOriginalDataSource"
+                InterfaceCommon:Result = SetOriginalDataSource(properties, UserObj<this>:Get(2))
+            Case "GetDisplayColumnCount"
+                InterfaceCommon:Result = GetDisplayColumnCount(properties)
+            Case "UpdateData"
+                InterfaceCommon:Result = UpdateData(properties, UserObj<this>:Get(2))
+            Case "UpdateLogData"
+                InterfaceCommon:Result = UpdateLogData(properties)
+        End Select
+    End Method

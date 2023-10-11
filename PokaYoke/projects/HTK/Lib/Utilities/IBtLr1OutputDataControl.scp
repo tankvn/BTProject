@@ -1,0 +1,40 @@
+#pushdefine
+
+Package IBtLr1OutputDataControl
+
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    Names[DEF_IMPLEMENT_NAME_ARRAY@~]
+    ICommons[DEF_IMPLEMENT_NAME_ARRAY@~]
+#else
+    Names[1]
+    ICommons[1]
+#endif
+    
+    Method New()
+    Begin
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Names[@^] = "DEF_IMPLEMENT_NAME_ARRAY"
+        ICommons[@^] = DEF_IMPLEMENT_NAME_ARRAY:IBtLr1OutputDataControlInvoke
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+    End Method
+
+    Method IsImplemented(lr1OutputDataControlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(lr1OutputDataControlName, Names))
+    End Method
+
+    Method GetOutputData(lr1OutputDataControlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(lr1OutputDataControlName, Names, "GetOutputData", args, ICommons))
+    End Method
+    
+    Method GetOutputTerminalData(lr1OutputDataControlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(lr1OutputDataControlName, Names, "GetOutputTerminalData", args, ICommons))
+    End Method
+    
+End Package
+
+#popdefine

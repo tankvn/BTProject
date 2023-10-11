@@ -1,0 +1,33 @@
+Package EventUtility
+
+    Const StartParameterIndex = 2
+
+    Method Exec(handler, name, parameter[])
+        symbol
+        result
+        i
+    Begin
+        symbol = StringUtility:GetHandleTagNameEraseSymbol(handler)
+        If parameter.size > 4 - StartParameterIndex Then
+            UserObj<symbol>:Open()
+        Else
+            UserObj<"__SMALL_OBJ__" & symbol>:Open()
+        End If
+        UserObj<symbol>:Set(0, handler)
+        UserObj<symbol>:Set(1, name)
+
+        For i = 0 to parameter.size - 1
+            UserObj<symbol>:Set(i + StartParameterIndex, parameter[i])
+        Next
+
+        result = UserObj<symbol>:Exec(0)
+        UserObj<symbol>:Close()
+
+        Return(result)
+    End Method
+
+    Method GetParameter(this, idx)
+    Begin
+        Return(UserObj<this>:Get(idx + StartParameterIndex))
+    End Method
+End Package

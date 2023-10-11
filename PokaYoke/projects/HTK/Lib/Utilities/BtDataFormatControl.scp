@@ -1,0 +1,58 @@
+#insert "\Lib\Utilities\BtDataFormatControlConstants"
+
+/*Public*/ Package DEF_PACKAGE_NAME
+    Properties[DEF_PROPERTY_NUM + 1]
+
+#insert "\Lib\Utilities\IDataFormatControlInvoke"
+
+    Method New(databaseName, csvFileName, addDateForFileName, updateDateLimitTimeHour, updateDateLimitTimeMinute)
+    Begin
+        BtDataFormatControlCommon:New(Properties, "DEF_PACKAGE_NAME", databaseName, csvFileName, addDateForFileName, updateDateLimitTimeHour, updateDateLimitTimeMinute)
+    End Method
+
+    Method Finalize()
+    Begin
+        BtDataFormatControlCommon:Finalize(Properties)
+    End Method
+
+    Method AddLogItem(itemName)
+    Begin
+        BtDataFormatControlCommon:AddLogItem(Properties, itemName)
+    End Method
+
+    Method GetLogItem(targetIndex)
+    Begin
+        Return (BtDataFormatControlCommon:GetLogItem(Properties, targetIndex))
+    End Method
+
+    Method CreateLogFormatInfo(enableFormatCheck)
+    Begin
+        Return (BtDataFormatControlCommon:CreateLogFormatInfo(Properties, enableFormatCheck))
+    End Method
+
+    Method WriteJobData(parentWindow)
+    Begin
+        Return (BtDataFormatControlCommon:WriteJobData(Properties, parentWindow))
+    End Method
+
+    Method PrepareForSendLog() /*As Boolean*/
+    Begin
+        Return (BtDataFormatControlCommon:PrepareForSendLog(Properties))
+    End Method
+
+    Method BackupLogData()
+    Begin
+        BtDataFormatControlCommon:BackupLogData(Properties)
+    End Method
+
+    Method DeleteBackupLogData()
+    Begin
+        BtDataFormatControlCommon:DeleteBackupLogData(Properties)
+    End Method
+
+    Method HasSameControlValue(logItemControl) /*As Boolean*/
+    Begin
+        Return (BtDataFormatControlCommon:HasSameControlValue(Properties, logItemControl))
+    End Method
+
+End Package 

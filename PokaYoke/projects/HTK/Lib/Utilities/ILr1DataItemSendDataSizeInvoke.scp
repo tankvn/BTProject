@@ -1,0 +1,4 @@
+    Method ILr1DataItemSendDataSizeInvoke(this)
+    Begin
+        DEF_COMMON:ILr1DataItemSendDataSizeInvokeCommon(this, Properties)
+    End Method

@@ -1,0 +1,11 @@
+    Method IBtInputDateControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetOutputPattern"
+                InterfaceCommon:Result = GetOutputPattern(properties)
+            Case "GetOutputSeparator"
+                InterfaceCommon:Result = GetOutputSeparator(properties)
+            Case "DisplayDate"
+                InterfaceCommon:Result = DisplayDate(properties)
+        End Select
+    End Method

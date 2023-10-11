@@ -1,0 +1,1019 @@
+
+Package BtCollationControlCommon
+
+    Method GetName(properties[]) Begin Return (properties[0]) End Method
+    Method SetName(properties[], value) Begin properties[0] = value End Method
+
+    Method GetCollationPattern(properties[]) Begin Return (properties[1]) End Method
+    Method SetCollationPattern(properties[], value) Begin properties[1] = value End Method
+
+    Method GetIsEnableCollationCount(properties[]) Begin Return (properties[2]) End Method
+    Method SetIsEnableCollationCount(properties[], value) Begin properties[2] = value End Method
+
+    Method GetCollationCount(properties[]) Begin Return (properties[3]) End Method
+    Method SetCollationCount(properties[], value) Begin properties[3] = value End Method
+
+    Method GetIsEnableCollationOrder(properties[]) Begin Return (properties[4]) End Method
+    Method SetIsEnableCollationOrder(properties[], value) Begin properties[4] = value End Method
+
+    Method GetIsEnableReconciliation(properties[]) Begin Return (properties[5]) End Method
+    Method SetIsEnableReconciliation(properties[], value) Begin properties[5] = value End Method
+
+    Method GetJudgeResult(properties[]) Begin Return (properties[6]) End Method
+    Method SetJudgeResult(properties[], value) Begin properties[6] = value End Method
+
+    Method GetLogEditType(properties[], index) Begin Return (0) End Method
+
+    Method GetDecimalPlaces(properties[], index) Begin Return (properties[7]) End Method
+
+    Method GetCheckDuplicateReading(properties[], index) Begin Return (properties[8]) End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl)
+    Begin
+        Return (properties[0] eq targetLogItemControl)
+    End Method
+
+    Method GetCollationCountLabel(properties[]) Begin Return (properties[9]) End Method
+    Method SetCollationCountLabel(properties[], value) Begin properties[9] = value End Method
+
+    Method GetComparisonValueCountLabel(properties[]) Begin Return (properties[10]) End Method
+    Method SetComparisonValueCountLabel(properties[], value) Begin properties[10] = value End Method
+
+    Method GetVisible(properties[]) Begin Return (properties[13]) End Method
+    Method SetVisible(properties[], value) Begin properties[13] = value End Method
+
+    Method GetMinTabIndex(properties[])
+    Begin
+        If properties[11] is nil Then
+            SetMinTabIndex(properties, GetMinTabIndex2(properties))
+        End If
+        Return (properties[11])
+    End Method
+    Method SetMinTabIndex(properties[], value)
+    Begin
+        properties[11]  = value
+    End Method
+
+    Method GetMaxTabIndex(properties[])
+    Begin
+        If properties[12] is nil Then
+            SetMaxTabIndex(properties, GetMaxTabIndex2(properties))
+        End If
+        Return (properties[12])
+    End Method
+    Method SetMaxTabIndex(properties[], value)
+    Begin
+        properties[12]  = value
+    End Method
+
+    Method GetCurrentIteration(properties[]) Begin Return (properties[14]) End Method
+    Method SetCurrentIteration(properties[], value) Begin properties[14] = value End Method
+
+    Method GetComparisonIteration(properties[]) Begin Return (properties[15]) End Method
+    Method SetComparisonIteration(properties[], value) Begin properties[15] = value End Method
+
+    Method GetIsOverCollationCount(properties[]) Begin Return (properties[16]) End Method
+    Method SetIsOverCollationCount(properties[], value) Begin properties[16] = value End Method
+
+    Method GetListIdComparisonItem(properties[]) Begin Return (properties[17]) End Method
+    Method SetListIdComparisonItem(properties[], value) Begin properties[17] = value End Method
+
+    Method IBtCollationControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+        End Select
+    End Method
+    Method IBtCombinationComponentInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetMinTabIndex"
+                InterfaceCommon:Result = GetMinTabIndex(properties)
+            Case "SetMinTabIndex"
+                InterfaceCommon:Result = SetMinTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetMaxTabIndex"
+                InterfaceCommon:Result = GetMaxTabIndex(properties)
+            Case "SetMaxTabIndex"
+                InterfaceCommon:Result = SetMaxTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                InterfaceCommon:Result = SetVisible(properties, UserObj<this>:Get(2))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+        End Select
+    End Method
+    Method ILogItemControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetLogEditType"
+                InterfaceCommon:Result = GetLogEditType(properties, UserObj<this>:Get(2))
+            Case "GetDecimalPlaces"
+                InterfaceCommon:Result = GetDecimalPlacesIndex(properties, UserObj<this>:Get(2))
+            Case "GetCheckDuplicateReading"
+                InterfaceCommon:Result = GetCheckDuplicateReading(properties, UserObj<this>:Get(2))
+            Case "GetIsSameLogItem"
+                InterfaceCommon:Result = GetIsSameLogItem(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetControlName"
+                InterfaceCommon:Result = GetControlName(properties, UserObj<this>:Get(2))
+            Case "GetLogTableFieldType"
+                InterfaceCommon:Result = GetLogTableFieldType(properties, UserObj<this>:Get(2))
+            Case "GetLogData"
+                InterfaceCommon:Result = GetLogData(properties, UserObj<this>:Get(2))
+            Case "CheckValidInput"
+                InterfaceCommon:Result = CheckValidInput(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+        End Select
+    End Method
+
+    Method Create(properties[], name)
+    Begin
+        SetName(properties, name)
+        SetListIdComparisonItem(properties, ListTable:CreateList())
+        SetJudgeResult(properties, false)
+        SetCollationPattern(properties, 0)
+        SetIsEnableCollationOrder(properties, false)
+        SetIsEnableReconciliation(properties, false)
+        SetIsEnableCollationCount(properties, false)
+        SetCollationCount(properties, 10)
+        SetCurrentIteration(properties, 1)
+        SetComparisonIteration(properties, 1)
+        SetIsOverCollationCount(properties, false)
+        SetVisible(properties, true)
+    End Method
+
+    Method TryCastDateTime(target)
+        result
+    Begin
+        result = DateUtility:ToDate(target, 1, 1)
+        If result is nil Or ErrorManager:GetError() ne "" Then
+            result = ""
+        End If
+        Return (result)
+    Catch
+        Return ("")
+    End Method
+
+    Method TryCastTimeSpan(target)
+        result
+    Begin
+        result = TimeUtility:ToTimeForJudge(target)
+        If result eq "" Then
+            result = ""
+        End If
+        Return (result)
+    Catch
+        Return ("")
+    End Method
+
+    Method GetMinTabIndex2(properties[])
+        comparisonMin = 2147483647
+        inputMin = 2147483647
+        listId_Comparison
+        listId_InputTargets
+        index
+    Begin
+        listId_Comparison = GetSortedComparisonTargets(properties)
+        listId_InputTargets = GetSortedInputTargets(properties)
+        If (ListTable:Count(listId_Comparison) <> 0) Then
+            index = ListTable:Count(listId_Comparison) - 1
+            comparisonMin = ListTable:Get(listId_Comparison, index, "key")
+        End If
+        ListTable:DeleteList(listId_Comparison)
+        If (ListTable:Count(listId_InputTargets) <> 0) Then
+            index = ListTable:Count(listId_InputTargets) - 1
+            inputMin = ListTable:Get(listId_InputTargets, index, "key")
+        End If
+        ListTable:DeleteList(listId_InputTargets)
+        If inputMin > comparisonMin Then Return(comparisonMin)
+        Else Return(inputMin) End If
+    End Method
+
+    Method GetMaxTabIndex2(properties[])
+        comparisonMax = -1
+        inputMax = -1
+        listId_Comparison
+        listId_InputTargets
+        index
+    Begin
+        listId_Comparison = GetSortedComparisonTargets(properties)
+        listId_InputTargets = GetSortedInputTargets(properties)
+        If ListTable:Count(listId_Comparison) <> 0 Then
+            index = ListTable:Count(listId_Comparison) - 1
+            comparisonMax = ListTable:Get(listId_Comparison, index, "key")
+        End If
+        ListTable:DeleteList(listId_Comparison)
+        If ListTable:Count(listId_InputTargets) <> 0 Then
+            index = ListTable:Count(listId_InputTargets) - 1
+            inputMax = ListTable:Get(listId_InputTargets, index, "key")
+        End If
+        ListTable:DeleteList(listId_InputTargets)
+        If comparisonMax > inputMax Then Return(comparisonMax)
+        Else Return(inputMax) End If
+    End Method
+
+    Method Initialize(properties[])
+    Begin
+        Reset(properties)
+    End Method
+
+    Method AddItem(properties[], comparisonItem, comparison, columnNumber, input, setting, comparisonExclusionCharacters, inputExclusionCharacters, comparisonRangeSettings, inputRangeSettings)
+    Begin
+        ListTable:Add(GetListIdComparisonItem(properties), comparisonItem, "")
+        ICollationComparisonItem:SetComparisonTarget(comparisonItem, comparison)
+        ICollationComparisonItem:SetColumnNumber(comparisonItem, columnNumber)
+        ICollationComparisonItem:SetInputTarget(comparisonItem, input)
+        ICollationComparisonItem:SetConditionSetting(comparisonItem, setting)
+        ICollationComparisonItem:SetComparisonExclusionCharacters(comparisonItem, comparisonExclusionCharacters)
+        ICollationComparisonItem:SetInputExclusionCharacters(comparisonItem, inputExclusionCharacters)
+        ICollationComparisonItem:SetComparisonRangeSettings(comparisonItem, comparisonRangeSettings)
+        ICollationComparisonItem:SetInputRangeSettings(comparisonItem, inputRangeSettings)
+        DB_DAT:Delete_All(comparison, "Collation")
+    Catch
+    End Method
+
+    Method GetDistinctInputTargets(properties[])
+        i
+        f_flg
+        comparisonItem
+        listId_InputTargets
+    Begin
+        listId_InputTargets = ListTable:CreateList()
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            f_flg = ListTable:Find(listId_InputTargets, "key", ICollationComparisonItem:GetInputTarget(comparisonItem))
+            If f_flg is false Then
+                ListTable:Add(listId_InputTargets, ICollationComparisonItem:GetInputTarget(comparisonItem), "")
+            End If
+        Next
+        Return(listId_InputTargets)
+    End Method
+
+    Method GetDistinctComparisonTargets(properties[])
+        i
+        f_flg
+        comparisonItem
+        listId_Comparison
+    Begin
+        listId_Comparison = ListTable:CreateList()
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            f_flg = ListTable:Find(listId_Comparison, "key", ICollationComparisonItem:GetComparisonTarget(comparisonItem))
+            If f_flg is false Then
+                ListTable:Add(listId_Comparison, ICollationComparisonItem:GetComparisonTarget(comparisonItem), "")
+            End If
+        Next
+        Return(listId_Comparison)
+    End Method
+
+    Method Judge(properties[])
+        count
+        valuesCount
+        compareIndex
+    Begin
+        SetJudgeResult(properties, false)
+
+        If GetCollationPattern(properties) <> 2 Then
+            SetJudgeResult(properties, CompareItem(properties, true, 0))
+
+            chkCollationCount(properties)
+            Return (GetJudgeResult(properties))
+        End If
+
+        valuesCount = GetValuesCount(properties)
+        If valuesCount == 0 Then
+            chkCollationCount(properties)
+            Return (GetJudgeResult(properties))
+        End If
+
+        If GetIsEnableCollationOrder(properties) Then
+            If GetIsEnableReconciliation(properties) is true Then compareIndex = 0
+            Else compareIndex = GetCurrentIteration(properties) - 1
+            End If
+
+            If (compareIndex < valuesCount) Then
+                SetJudgeResult(properties, CompareItem(properties, false, compareIndex))
+            End If
+
+            If GetJudgeResult(properties) Then
+                RemoveMatchedValues(properties, compareIndex)
+            End If
+
+            chkCollationCount(properties)
+            Return (GetJudgeResult(properties))
+        End If
+
+        For count = 0 to valuesCount - 1
+            SetJudgeResult(properties, CompareItem(properties, false, count))
+            If GetJudgeResult(properties) Then
+                RemoveMatchedValues(properties, count)
+                chkCollationCount(properties)
+                Return (GetJudgeResult(properties))
+            End If
+        Next
+
+        chkCollationCount(properties)
+
+        Return (GetJudgeResult(properties))
+
+    End Method
+
+    Method chkCollationCount(properties[])
+    Begin
+        If (GetJudgeResult(properties)) Then
+            If GetIsEnableCollationCount(properties) And (GetCollationCount(properties) <= GetCurrentIteration(properties)) Then
+                SetIsOverCollationCount(properties, true)
+            End If
+            UpdateIteration(properties)
+        End If
+    End Method
+
+    Method RemoveMatchedValues(properties[], rowIndex)
+        listId_Comparison
+        i
+    Begin
+        If GetIsEnableReconciliation(properties) is false Then
+            Return()
+        End If
+
+        listId_Comparison = GetDistinctComparisonTargets(properties)
+        For i = 0 To ListTable:Count(listId_Comparison) - 1
+            ICollationTarget:RemoveCollationValue(ListTable:Get(listId_Comparison, i, "key"), rowIndex)
+        Next
+        ListTable:DeleteList(listId_Comparison)
+    End Method
+
+    Method GetValuesCount(properties[])
+        maxCount = -1
+        count
+        i
+        target
+        comparisonItem
+    Begin
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            target = ICollationComparisonItem:GetComparisonTarget(comparisonItem)
+            count = CollationComparisonItemCommon:GetAllCollationValues(target, 0)
+            If count == 0 Then
+                If ICollationTarget:GetType(target) eq "BtLabel" Then
+                    count = 1
+                Else
+                    count = 0
+                End If
+            Else
+                If ICollationTarget:GetType(target) eq "BtLabel" Then
+                    If count == 0 Then
+                        count = 1
+                    End If
+                End If
+            End If
+            If (maxCount < count) Then
+                maxCount = count
+            End If
+        Next
+        Return (maxCount)
+    End Method
+
+    Method CompareItem(properties[], isDispValue, rowIndex)
+        result
+        i
+    Begin
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            If IsDateComparisonItem(properties, i) Then
+                result = CompareDateValue(properties, i, isDispValue, rowIndex)
+            ElseIf IsTimeComparisonItem(properties, i) Then
+                result = CompareTimeValue(properties, i, isDispValue, rowIndex)
+            Else
+                result = CompareStringValue(properties, i, isDispValue, rowIndex)
+            End If
+            If Not result Then
+                Return(false)
+            End If
+        Next
+        Return (true)
+    End Method
+
+    Method IsDateComparisonItem(properties[], itemidx)
+        c_type
+        i_type
+        comparisonItem
+        comparisonTarget
+    Begin
+        comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), itemidx, "key")
+        comparisonTarget = ICollationComparisonItem:GetComparisonTarget(comparisonItem)
+        c_type = ICollationTarget:GetType(comparisonTarget)
+        i_type = ICollationTarget:GetType(ICollationComparisonItem:GetInputTarget(comparisonItem))
+        If c_type eq "BtInputDateBox" Or comparisonTarget eq "CurrentDateCollationTarget" Or i_type eq "BtInputDateBox" Then Return(true)
+        Else Return(false) End If
+    End Method
+
+    Method IsTimeComparisonItem(properties[], itemidx)
+        comparisonItem
+        comparisonTarget
+    Begin
+        comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), itemidx, "key")
+        comparisonTarget = ICollationComparisonItem:GetComparisonTarget(comparisonItem)
+        If comparisonTarget eq "CurrentTimeCollationTarget" Then Return(true)
+        Else Return(false) End If
+    End Method
+
+    Method CompareStringValue(properties[], itemidx, isDispValue, rowIndex)
+        inputValue
+        comparisonValue
+        rangeType
+        setting
+        comparisonItem
+    Begin
+
+        comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), itemidx, "key")
+        inputValue = ICollationComparisonItem:GetInputRangedValue(comparisonItem)
+        If inputValue is nil Then Return (false) End If
+        If isDispValue Then
+            comparisonValue = ICollationComparisonItem:GetComparisonRangedDispValue(comparisonItem)
+        Else
+            comparisonValue = ICollationComparisonItem:GetComparisonRangedInternalValue(comparisonItem, rowIndex)
+        End If
+        If comparisonValue is nil Then Return (false) End If
+
+        rangeType = IRangeSettings:GetRangeType(ICollationComparisonItem:GetInputRangeSettings(comparisonItem))
+        If rangeType == 2 And inputValue eq "" Then
+            Return (false)
+        End If
+        rangeType = IRangeSettings:GetRangeType(ICollationComparisonItem:GetComparisonRangeSettings(comparisonItem))
+        If rangeType == 2 And comparisonValue eq "" Then
+            Return (false)
+        End If
+
+        setting = ICollationComparisonItem:GetConditionSetting(comparisonItem)
+        Return (StringUtility:Judge(ICollationConditionSetting:GetJudgeKind(setting),
+                                  inputValue,
+                                  comparisonValue,
+                                  ICollationConditionSetting:GetCalculationKind(setting),
+                                  ICollationConditionSetting:GetCalculationValue(setting)))
+    End Method
+
+    Method CompareDateValue(properties[], itemidx, isDispValue, rowIndex)
+        inputValue
+        comparisonValue
+        isIncludeDay
+        setting
+        dateTimeInput
+        dateTimeComparison
+        comparisonItem
+    Begin
+        comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), itemidx, "key")
+        inputValue = ICollationComparisonItem:GetInputRangedValue(comparisonItem)
+
+        If isDispValue Then
+            comparisonValue = ICollationComparisonItem:GetComparisonRangedDispValue(comparisonItem)
+        Else
+            comparisonValue = ICollationComparisonItem:GetComparisonRangedInternalValue(comparisonItem, rowIndex)
+        End If
+        isIncludeDay = ConfirmIncludeDay(properties, itemidx)
+
+        dateTimeInput = TryCastDateTime(inputValue)
+        If dateTimeInput eq "" Then
+            Return (false)
+        End If
+        dateTimeComparison = TryCastDateTime(comparisonValue)
+        If dateTimeComparison eq "" Then
+            Return (false)
+        End If
+
+        setting = ICollationComparisonItem:GetConditionSetting(comparisonItem)
+        Return (DateUtility:Judge(ICollationConditionSetting:GetJudgeKind(setting),
+                                  dateTimeInput,
+                                  dateTimeComparison,
+                                  ICollationConditionSetting:GetCalculationKind(setting),
+                                  ICollationConditionSetting:GetCalculationTarget(setting),
+                                  ICollationConditionSetting:GetCalculationValue(setting),
+                                  isIncludeDay))
+    Catch
+        Return (false)
+    End Method
+
+    Method CompareTimeValue(properties[], itemidx, isDispValue, rowIndex)
+        inputValue
+        comparisonValue
+        isIncludeSec = false
+        setting
+        timeInput
+        timeComparison
+        comparisonItem
+    Begin
+        comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), itemidx, "key")
+        inputValue = ICollationComparisonItem:GetInputRangedValue(comparisonItem)
+
+        If isDispValue Then
+            comparisonValue = ICollationComparisonItem:GetComparisonRangedDispValue(comparisonItem)
+        Else
+            comparisonValue = ICollationComparisonItem:GetComparisonRangedInternalValue(comparisonItem, rowIndex)
+        End If
+
+        timeInput = TryCastTimeSpan(inputValue)
+        If timeInput eq "" Then
+            Return (false)
+        End If
+        timeComparison = TryCastTimeSpan(comparisonValue)
+        If timeComparison eq "" Then
+            Return (false)
+        End If
+        If timeInput.length == 8 And timeComparison.length == 8 Then isIncludeSec = true End If
+
+        setting = ICollationComparisonItem:GetConditionSetting(comparisonItem)
+        Return (TimeUtility:Judge(ICollationConditionSetting:GetJudgeKind(setting), timeInput, timeComparison, isIncludeSec))
+    Catch
+        Return (false)
+    End Method
+
+    Method ConfirmIncludeDay(properties[], itemidx)
+        comparisonDateBox
+        comparisonDatePattern
+        inputDateBox
+        inputDatePattern
+        comparisonItem
+    Begin
+        comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), itemidx, "key")
+        comparisonDateBox = ICollationComparisonItem:GetComparisonTarget(comparisonItem)
+        If Not ICollationTarget:GetType(comparisonDateBox) eq "BtInputDateBox" Then
+            comparisonDatePattern = 1
+        Else
+            If IBtInputDateControl:IsImplemented(comparisonDateBox) Then
+                comparisonDatePattern = IBtInputDateControl:GetOutputPattern(comparisonDateBox)
+            Else
+                comparisonDatePattern = 1
+            End If
+        End If
+
+        inputDateBox = ICollationComparisonItem:GetInputTarget(comparisonItem)
+        If Not ICollationTarget:GetType(inputDateBox) eq "BtInputDateBox" Then
+            inputDatePattern = 1
+        Else
+            If IBtInputDateControl:IsImplemented(inputDateBox) Then
+                inputDatePattern = IBtInputDateControl:GetOutputPattern(inputDateBox)
+            Else
+                inputDatePattern = 1
+            End If
+        End If
+
+        Return ((DateUtility:IsIncludeDay(comparisonDatePattern) And DateUtility:IsIncludeDay(inputDatePattern)))
+    End Method
+
+    Method GetNextComparisonControl(properties[], index, listId_Comparison)
+        control_ = ""
+        currentIndex
+        target
+        collationItem
+    Begin
+        currentIndex = index
+        While (control_ eq "") Or (Not IControl:GetVisible(control_)) Or (Not ICollationTarget:GetTabStop(control_))
+            If ListTable:Count(listId_Comparison) <= currentIndex Then Return("") End If
+            target = ListTable:Get(listId_Comparison, currentIndex, "val")
+            collationItem = GetComparisonCollationItem(properties, target)
+            If collationItem eq "" Then
+                currentIndex = currentIndex + 1
+                control_ = ""
+                Wcontinue
+            End If
+            control_ = ICollationTarget:GetCollationInputControl(collationItem, ICollationComparisonItem:GetColumnNumber(target))
+            currentIndex = currentIndex + 1
+        Wend
+        Return (control_)
+    End Method
+
+    Method GetComparisonCollationItem(properties[], target)
+        i
+        comparisonItem
+        comparisonTarget
+    Begin
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            comparisonTarget = ICollationComparisonItem:GetComparisonTarget(comparisonItem)
+            If target eq comparisonTarget Then
+                Return (comparisonTarget)
+            End If
+        Next
+        Return ("")
+    End Method
+
+    Method GetNextInputControl(properties[], index, listId_InputTargets)
+        control_ = ""
+        currentIndex
+        target
+        collationItem
+    Begin
+        currentIndex = index
+        While (control_ eq "") Or (Not IControl:GetVisible(control_)) Or (Not ICollationTarget:GetTabStop(control_))
+            If ListTable:Count(listId_InputTargets) <= currentIndex Then Return("") End If
+            target = ListTable:Get(listId_InputTargets, currentIndex, "val")
+            collationItem = GetInputCollationItem(properties, target)
+            If collationItem eq "" Then
+                currentIndex = currentIndex + 1
+                control_ = ""
+                Wcontinue
+            End If
+            control_ = ICollationTarget:GetCollationInputControl(collationItem, 0)
+            currentIndex = currentIndex + 1
+        Wend
+        Return (control_)
+
+    End Method
+
+    Method GetInputCollationItem(properties[], target)
+        i
+        comparisonItem
+        inputTarget
+    Begin
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            inputTarget = ICollationComparisonItem:GetInputTarget(comparisonItem)
+            If target eq inputTarget Then
+                Return (inputTarget)
+            End If
+        Next
+        Return ("")
+    End Method
+
+    Method ResetAllControl(properties[])
+    Begin
+        ResetComparison(properties)
+        ResetInput(properties)
+    End Method
+
+    Method ResetComparison(properties[])
+        targetBtControl
+        targetBtCompnent
+        i
+        item
+        comparisonItem
+    Begin
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            item = ICollationComparisonItem:GetComparisonTarget(comparisonItem)
+            If ICollationTarget:GetType(item) eq "BtLookUpBox" Or ICollationTarget:GetType(item) eq "BtTableView" Then Fcontinue End If
+
+            targetBtControl = item
+            If IBtInputControl:GetVisible(targetBtControl) is true Then
+                IBtInputControl:Reset(targetBtControl)
+            End If
+
+            targetBtCompnent = item
+            If IBtInputComponent:GetVisible(targetBtCompnent) is true Then
+                IBtInputComponent:Reset(targetBtCompnent)
+            End If
+        Next
+    End Method
+
+    Method ResetInput(properties[])
+        targetBtControl
+        targetBtCompnent
+        i
+        item
+        comparisonItem
+    Begin
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            item = ICollationComparisonItem:GetInputTarget(comparisonItem)
+            If ICollationTarget:GetType(item) eq "BtLookUpBox" Then Fcontinue End If
+
+            targetBtControl = item
+            If IBtInputControl:GetVisible(targetBtControl) is true Then
+                IBtInputControl:Reset(targetBtControl)
+            End If
+
+            targetBtCompnent = item
+            If IBtInputComponent:GetVisible(targetBtCompnent) is true Then
+                IBtInputComponent:Reset(targetBtCompnent)
+            End If
+        Next
+    End Method
+
+    Method GetControlName(properties[], index)
+    Begin
+        Return (properties[0])
+    End Method
+
+    Method GetLogTableFieldType(properties[], index)
+    Begin
+        Return (2)
+    End Method
+
+    Method GetLogData(properties[], index)
+    Begin
+        If GetJudgeResult(properties) is True Then Return("OK")
+        Else Return("NG") End If
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget, index)
+    Begin
+        Return (true)
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index)
+    Begin
+        Return (0)
+    End Method
+
+    Method UpdateCollationCountLabel(properties[])
+        displayValue
+        ctl
+    Begin
+        ctl = GetCollationCountLabel(properties)
+        If ctl is nil Then
+            Return()
+        End If
+        displayValue = GetCurrentIteration(properties) - 1
+        IControl:SetText(ctl, displayValue)
+    End Method
+
+    Method UpdateComparisonValueCountLabel(properties[])
+        ctl
+    Begin
+        If (GetCollationPattern(properties) <> 2) Then
+            Return()
+        End If
+        ctl = GetComparisonValueCountLabel(properties)
+        If ctl is nil Then
+            Return()
+        End If
+        IControl:SetText(ctl, GetValuesCount(properties))
+    End Method
+
+    Method UpdateIteration(properties[])
+        currentIteration = GetCurrentIteration(properties)
+    Begin
+        SetCurrentIteration(properties, currentIteration + 1)
+        UpdateCollationCountLabel(properties)
+    End Method
+
+    Method ResetCurrentIteration(properties[])
+    Begin
+        SetCurrentIteration(properties, 1)
+        SetIsOverCollationCount(properties, false)
+    End Method
+
+    Method Reset(properties[])
+    Begin
+        SetJudgeResult(properties, false)
+        ResetCurrentIteration(properties)
+        UpdateCollationCountLabel(properties)
+        UpdateComparisonValueCountLabel(properties)
+    End Method
+
+    Method IsComparisonTarget(properties[], name)
+        i
+        comparisonItem
+        comparisonTarget
+        columnNumber
+    Begin
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            comparisonTarget = ICollationComparisonItem:GetComparisonTarget(comparisonItem)
+            If comparisonTarget eq name Then Return(true) End If
+            If ICollationTarget:GetType(comparisonTarget) eq "BtLookUpBox" Then
+                columnNumber = ICollationComparisonItem:GetColumnNumber(comparisonItem)
+                comparisonTarget = ICollationTarget:GetCollationInputControl(comparisonTarget, columnNumber)
+                If comparisonTarget eq name Then Return(true) End If
+            End If
+        Next
+        Return(false)
+    End Method
+
+    Method FocusTransitionRequested(properties[], sender)
+    Begin
+        If IsComparisonTarget(properties, sender) is true Then
+            Return(ComparisonTarget_FocusTransitionRequested(properties, sender))
+        Else
+            Return(InputTarget_FocusTransitionRequested(properties, sender))
+        End If
+        Return(false)
+    End Method
+
+    Method ComparisonValueCountUpdated(properties[], sender)
+    Begin
+        If IsComparisonTarget(properties, sender) is true Then
+            Return(UpdateComparisonValueCountLabel(properties))
+        Else
+        End If
+        Return(false)
+    End Method
+
+    Method ComparisonTarget_FocusTransitionRequested(properties[], sender)
+        target
+        currentIndex = -1
+        nextControl
+        listId_Comparison
+        listId_InputTargets
+        i
+        comparisonIteration
+        comparisonItem
+        comparisonTarget = ""
+        columnNumber
+    Begin
+        target = sender
+        If target is nil Then Return() End If
+        If target eq "" Then Return() End If
+
+        listId_Comparison = GetSortedComparisonTargets(properties)
+        listId_InputTargets = GetSortedInputTargets(properties)
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            comparisonTarget = ICollationComparisonItem:GetComparisonTarget(comparisonItem)
+            If target eq comparisonTarget Then Fbreak End If
+            If ICollationTarget:GetType(comparisonTarget) eq "BtLookUpBox" Then
+                columnNumber = ICollationComparisonItem:GetColumnNumber(comparisonItem)
+                If target eq ICollationTarget:GetCollationInputControl(comparisonTarget, columnNumber) Then Fbreak End If
+            End If
+        Next
+        For i = 0 To ListTable:Count(listId_Comparison) - 1
+            If comparisonTarget eq ListTable:Get(listId_Comparison, i, "val") Then currentIndex = i Fbreak End If
+        Next
+
+        nextControl = GetNextComparisonControl(properties, currentIndex + 1, listId_Comparison)
+        If nextControl ne "" Then
+            IControl:Focus(nextControl)
+            ListTable:DeleteList(listId_Comparison)
+            ListTable:DeleteList(listId_InputTargets)
+            Return(true)
+        End If
+
+        If (GetCollationPattern(properties) == 0) Or (GetCollationPattern(properties) == 1) Then
+            nextControl = GetNextInputControl(properties, 0, listId_InputTargets)
+            If (nextControl eq "") Then
+                nextControl = GetNextComparisonControl(properties, 0, listId_Comparison)
+            End If
+        Else
+            comparisonIteration = GetComparisonIteration(properties)
+            If (GetIsEnableCollationCount(properties)) And (GetCollationCount(properties) <= comparisonIteration) Then
+                nextControl = GetNextInputControl(properties, 0, listId_InputTargets)
+                SetComparisonIteration(properties, 1)
+            Else
+                ResetComparison(properties)
+                nextControl = GetNextComparisonControl(properties, 0, listId_Comparison)
+                SetComparisonIteration(properties, comparisonIteration + 1)
+            End If
+        End If
+
+        If nextControl eq "" Then
+            ListTable:DeleteList(listId_Comparison)
+            ListTable:DeleteList(listId_InputTargets)
+            Return(true)
+        End If
+
+        IControl:Focus(nextControl)
+        ListTable:DeleteList(listId_Comparison)
+        ListTable:DeleteList(listId_InputTargets)
+        Return(true)
+
+    End Method
+
+    Method InputTarget_FocusTransitionRequested(properties[], sender)
+        target
+        currentIndex = -1
+        nextControl
+        listId_InputTargets
+        i
+        comparisonItem
+        inputTarget = ""
+    Begin
+        target = sender
+        If target is nil Then Return() End If
+        If target eq "" Then Return() End If
+
+        listId_InputTargets = GetSortedInputTargets(properties)
+        For i = 0 To ListTable:Count(GetListIdComparisonItem(properties)) - 1
+            comparisonItem = ListTable:Get(GetListIdComparisonItem(properties), i, "key")
+            inputTarget = ICollationComparisonItem:GetInputTarget(comparisonItem)
+            If target eq inputTarget Then Fbreak End If
+        Next
+        For i = 0 To ListTable:Count(listId_InputTargets) - 1
+            If inputTarget eq ListTable:Get(listId_InputTargets, i, "val") Then currentIndex = i Fbreak End If
+        Next
+
+        nextControl = GetNextInputControl(properties, currentIndex + 1, listId_InputTargets)
+        If nextControl ne "" Then
+            IControl:Focus(nextControl)
+            ListTable:DeleteList(listId_InputTargets)
+            Return(true)
+        End If
+
+        If GetCollationPattern(properties) == 0 Then
+            ListTable:DeleteList(listId_InputTargets)
+            Return()
+        Else
+            If GetIsOverCollationCount(properties) Then
+                ResetCurrentIteration(properties)
+                ListTable:DeleteList(listId_InputTargets)
+                Return()
+            Else
+                ResetInput(properties)
+                nextControl = GetNextInputControl(properties, 0, listId_InputTargets)
+            End If
+        End If
+
+        If nextControl eq "" Then
+            ListTable:DeleteList(listId_InputTargets)
+            Return(true)
+        End If
+
+        IControl:Focus(nextControl)
+        ListTable:DeleteList(listId_InputTargets)
+        Return(true)
+    End Method
+
+    Method Sort(listId_Target)
+        i
+        j
+        tabIndex1
+        value1
+        tabIndex2
+        value2
+    Begin
+        For i=0 to ListTable:Count(listId_Target) - 1
+            For j=ListTable:Count(listId_Target) - 1 to i + 1 step -1
+                tabIndex1 = ListTable:Get(listId_Target, j, "key")
+                value1 = ListTable:Get(listId_Target, j, "val")
+                tabIndex2 = ListTable:Get(listId_Target, j-1, "key")
+                value2 = ListTable:Get(listId_Target, j-1, "val")
+                If (tabIndex1 < tabIndex2) Then
+                    ListTable:Set(listId_Target, j, "key", tabIndex2)
+                    ListTable:Set(listId_Target, j, "val", value2)
+                    ListTable:Set(listId_Target, j-1, "key", tabIndex1)
+                    ListTable:Set(listId_Target, j-1, "val", value1)
+                End If
+            Next
+        Next
+    End Method
+
+    Method GetSortedComparisonTargets(properties[])
+        listId_DistinctComparison
+        listId_Comparison
+        targetBtControl
+        targetBtCompnent
+        i
+        comparisonTarget
+        tabIndex
+    Begin
+        listId_Comparison = ListTable:CreateList()
+        listId_DistinctComparison = GetDistinctComparisonTargets(properties)
+        For i = 0 To ListTable:Count(listId_DistinctComparison) - 1
+            comparisonTarget = ListTable:Get(listId_DistinctComparison, i, "key")
+
+            targetBtControl = comparisonTarget
+            If IBtInputControl:GetVisible(targetBtControl) is true Then
+                tabIndex = IBtInputControl:GetTabIndex(targetBtControl)
+                If tabIndex ne "" Then
+                    ListTable:Add(listId_Comparison, tabIndex, targetBtControl)
+                End If
+            End If
+
+            targetBtCompnent = comparisonTarget
+            If IBtInputComponent:GetVisible(targetBtCompnent) is true Then
+                tabIndex = IBtInputComponent:GetTabIndex(targetBtCompnent)
+                If tabIndex ne "" Then
+                    ListTable:Add(listId_Comparison, tabIndex, targetBtCompnent)
+                End If
+            End If
+        Next
+        Sort(listId_Comparison)
+        ListTable:DeleteList(listId_DistinctComparison)
+        Return (listId_Comparison)
+    End Method
+
+    Method GetSortedInputTargets(properties[])
+        listId_DistinctInputTargets
+        listId_InputTargets
+        targetBtControl
+        targetBtCompnent
+        i
+        inputTarget
+        tabIndex
+    Begin
+        listId_InputTargets = ListTable:CreateList()
+        listId_DistinctInputTargets = GetDistinctInputTargets(properties)
+        For i = 0 To ListTable:Count(listId_DistinctInputTargets) - 1
+            inputTarget = ListTable:Get(listId_DistinctInputTargets, i, "key")
+
+            targetBtControl = inputTarget
+            If IBtInputControl:GetVisible(targetBtControl) is true Then
+                tabIndex = IBtInputControl:GetTabIndex(targetBtControl)
+                If tabIndex ne "" Then
+                    ListTable:Add(listId_InputTargets, tabIndex, targetBtControl)
+                End If
+            End If
+
+            targetBtCompnent = inputTarget
+            If IBtInputComponent:GetVisible(targetBtCompnent) is true Then
+                tabIndex = IBtInputComponent:GetTabIndex(targetBtCompnent)
+                If tabIndex ne "" Then
+                    ListTable:Add(listId_InputTargets, tabIndex, targetBtCompnent)
+                End If
+            End If
+        Next
+        Sort(listId_InputTargets)
+        ListTable:DeleteList(listId_DistinctInputTargets)
+        Return (listId_InputTargets)
+    End Method
+
+End Package
+

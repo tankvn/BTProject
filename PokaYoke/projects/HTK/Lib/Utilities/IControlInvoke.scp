@@ -1,0 +1,4 @@
+    Method IControlInvoke(this)
+    Begin
+        DEF_COMMON:IControlInvokeCommon(this, Properties)
+    End Method

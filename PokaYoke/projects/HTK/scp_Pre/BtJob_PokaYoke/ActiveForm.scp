@@ -1,0 +1,66 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+
+Include "CommonScreen\BtCommunicationErrorDialog_1"
+
+
+
+Package ActiveForm
+    Method GetName()
+    Begin
+        Return (BtFormCommon:GetName(BtJob_PokaYoke_res:Properties))
+    End Method
+    
+    Method ReflectMasterCheckSentNum(logDataMaxRowId)
+    Begin
+        BtJob_PokaYoke_res:ReflectMasterCheckSentNum(logDataMaxRowId)
+    End Method
+    
+    Method UpdateLogData()
+    Begin
+        BtJob_PokaYoke_res:UpdateLogData(true)
+    End Method
+    
+    Method UpdateChildren()
+    Begin
+        BtJob_PokaYoke_res:UpdateChildren(true)
+    End Method
+    
+    Method ShowBtCommunicationErrorDialog_1()
+    Begin
+        BtFormCommon:SetEnable(BtJob_PokaYoke_res:Properties, false)
+        BtJob_PokaYoke_res:Show(false)
+        BtCommunicationErrorDialog_1:New()
+        BtCommunicationErrorDialog_1:Initialize()
+        BtCommunicationErrorDialog_1:ShowDialog()
+        BtJob_PokaYoke_res:Show(true)
+        BtFormCommon:SetEnable(BtJob_PokaYoke_res:Properties, true)
+    End Method
+    
+    Method ShowBtCollationErrorDialog_1()
+    Begin
+        BtFormCommon:SetEnable(BtJob_PokaYoke_res:Properties, false)
+        BtJob_PokaYoke_res:Show(false)
+        BtCollationErrorDialog_1:New()
+        BtCollationErrorDialog_1:Initialize()
+        BtCollationErrorDialog_1:ShowDialog()
+        BtJob_PokaYoke_res:Show(true)
+        BtFormCommon:SetEnable(BtJob_PokaYoke_res:Properties, true)
+    End Method
+    
+    Method OnKeyDown(sender)
+    Begin
+        BtJob_PokaYoke:OnKeyDown(sender)
+    End Method
+    
+    Method CloseDatabase()
+    Begin
+        BtJob_PokaYoke:CloseDatabase()
+    End Method
+    
+End Package

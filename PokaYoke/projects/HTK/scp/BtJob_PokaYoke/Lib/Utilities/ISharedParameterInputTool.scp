@@ -1,0 +1,88 @@
+
+Package ISharedParameterInputTool
+    Names[11]
+    ICommons[11]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_PokaYoke_BtLabel_Comparison"
+        ICommons[0] = BtWindow_PokaYoke_BtLabel_Comparison:ISharedParameterInputToolInvoke
+        Names[1] = "BtWindow_PokaYoke_BtLabel_Input"
+        ICommons[1] = BtWindow_PokaYoke_BtLabel_Input:ISharedParameterInputToolInvoke
+        Names[2] = "BtWindow_PokaYoke_BtTextBox_Compare"
+        ICommons[2] = BtWindow_PokaYoke_BtTextBox_Compare:ISharedParameterInputToolInvoke
+        Names[3] = "BtWindow_PokaYoke_BtTextBox_Input"
+        ICommons[3] = BtWindow_PokaYoke_BtTextBox_Input:ISharedParameterInputToolInvoke
+        Names[4] = "BtWindow_PokaYoke_BtTextBox_Person"
+        ICommons[4] = BtWindow_PokaYoke_BtTextBox_Person:ISharedParameterInputToolInvoke
+        Names[5] = "BtWindow_PokaYoke_BtLabel_Person"
+        ICommons[5] = BtWindow_PokaYoke_BtLabel_Person:ISharedParameterInputToolInvoke
+        Names[6] = "BtWindow_PokaYoke_BtLabel_Title"
+        ICommons[6] = BtWindow_PokaYoke_BtLabel_Title:ISharedParameterInputToolInvoke
+        Names[7] = "BtHistoryDataView_PokaYoke_BtLabel_Title"
+        ICommons[7] = BtHistoryDataView_PokaYoke_BtLabel_Title:ISharedParameterInputToolInvoke
+        Names[8] = "BtCollationErrorDialog_1_BtLabel_Title"
+        ICommons[8] = BtCollationErrorDialog_1_BtLabel_Title:ISharedParameterInputToolInvoke
+        Names[9] = "BtCollationErrorDialog_1_BtLabel_Message1"
+        ICommons[9] = BtCollationErrorDialog_1_BtLabel_Message1:ISharedParameterInputToolInvoke
+        Names[10] = "BtCollationErrorDialog_1_BtLabel_Message2"
+        ICommons[10] = BtCollationErrorDialog_1_BtLabel_Message2:ISharedParameterInputToolInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetIsShared(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetIsShared", args, ICommons))
+    End Method
+
+    Method SetIsShared(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetIsShared", args, ICommons))
+    End Method
+
+    Method GetSharedParameterKey(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSharedParameterKey", args, ICommons))
+    End Method
+
+    Method SetSharedParameterKey(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetSharedParameterKey", args, ICommons))
+    End Method
+
+    Method GetSharedParameterClearTiming(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSharedParameterClearTiming", args, ICommons))
+    End Method
+
+    Method SetSharedParameterClearTiming(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetSharedParameterClearTiming", args, ICommons))
+    End Method
+
+    Method RegisterSharedParameter(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RegisterSharedParameter", args, ICommons))
+    End Method
+
+    Method RestoreSharedParameter(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RestoreSharedParameter", args, ICommons))
+    End Method
+End Package
+

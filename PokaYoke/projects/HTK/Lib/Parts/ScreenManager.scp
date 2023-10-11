@@ -1,0 +1,31 @@
+#pushdefine
+
+Package DEF_PACKAGE_NAME
+
+    Method ShowScreen(targetScreen)
+    Begin
+#beginexpand DEF_BT_SCREEN
+        If Not(BtScreenCommon:GetName(DEF_BT_SCREEN:Properties) eq targetScreen) Then
+            DEF_BT_SCREEN:Show(false)
+        End If
+#endexpand DEF_BT_SCREEN
+#beginexpand DEF_BT_SCREEN
+        If BtScreenCommon:GetName(DEF_BT_SCREEN:Properties) eq targetScreen Then
+            DEF_BT_SCREEN:Show(true)
+            DEF_BT_SCREEN:OnShown()
+        End If
+#endexpand DEF_BT_SCREEN
+    End Method
+
+    Method GetCurrentScreen()
+    Begin
+#beginexpand DEF_BT_SCREEN
+        If BtScreenCommon:GetVisible(DEF_BT_SCREEN:Properties) Then
+            Return(BtScreenCommon:GetName(DEF_BT_SCREEN:Properties))
+        End If
+#endexpand DEF_BT_SCREEN
+        Return(nil)
+    End Method
+
+End Package 
+#popdefine

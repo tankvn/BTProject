@@ -1,0 +1,976 @@
+
+Package BtDropDownBoxCommon
+
+    Method GetType(properties[])
+    Begin
+        Return (properties[1])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[1] = value
+    End Method
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[0])
+    End Method
+
+    Method GetTabStop(properties[])
+    Begin
+        Return (properties[2])
+    End Method
+    Method SetTabStop(properties[], value)
+    Begin
+        properties[2] = value
+    End Method
+
+    Method GetTabIndex(properties[])
+    Begin
+        Return (properties[3])
+    End Method
+    Method SetTabIndex(properties[], value)
+    Begin
+        properties[3] = value
+    End Method
+
+    Method GetVisible(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:visible)
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        properties[12] = value
+    End Method
+
+    Method UpdateVisible(properties[])
+    Begin
+        ComboBox<properties[0]>:visible = properties[12]
+    End Method
+
+    Method GetEnabled(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:enable)
+    End Method
+    Method SetEnabled(properties[], value)
+    Begin
+        ComboBox<properties[0]>:enable = value
+    End Method
+
+    Method GetIsPartOfControl(properties[])
+    Begin
+        Return (properties[4])
+    End Method
+    Method SetIsPartOfControl(properties[], value)
+    Begin
+        properties[4] = value
+    End Method
+
+    Method GetInitialValueIndex(properties[])
+    Begin
+        Return (properties[5])
+    End Method
+    Method SetInitialValueIndex(properties[], value)
+    Begin
+        properties[5] = value
+    End Method
+
+    Method GetText(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:text)
+    End Method
+    Method SetText(properties[], value)
+    Begin
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+        Return (properties[13])
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+        ComboBox<properties[0]>:foreColor = value
+        ComboBox<properties[0]>:outFocusTextColor = value
+        properties[13] = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (properties[14])
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        ComboBox<properties[0]>:backColor = value
+        ComboBox<properties[0]>:outFocusBackColor = value
+        properties[14] = value
+    End Method
+
+    Method GetFocusedForeColor(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:inFocusTextColor)
+    End Method
+    Method SetFocusedForeColor(properties[], value)
+    Begin
+        ComboBox<properties[0]>:inFocusTextColor = value
+    End Method
+
+    Method GetFocusedBackColor(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:inFocusBackColor)
+    End Method
+    Method SetFocusedBackColor(properties[], value)
+    Begin
+        ComboBox<properties[0]>:inFocusBackColor = value
+    End Method
+
+    Method GetFocusColor(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:focusColor)
+    End Method
+    Method SetFocusColor(properties[], value)
+    Begin
+        ComboBox<properties[0]>:focusColor = value
+    End Method
+
+    Method GetFontSize(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:fontSize)
+    End Method
+    Method SetFontSize(properties[], value)
+    Begin
+        ComboBox<properties[0]>:fontSize = value
+    End Method
+
+    Method GetFontName(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:fontName)
+    End Method
+    Method SetFontName(properties[], value)
+    Begin
+        ComboBox<properties[0]>:fontName = value
+    End Method
+
+    Method GetBold(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:fontBold)
+    End Method
+    Method SetBold(properties[], value)
+    Begin
+        ComboBox<properties[0]>:fontBold = value
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        ComboBox<properties[0]>:width = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        ComboBox<properties[0]>:height = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        ComboBox<properties[0]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        ComboBox<properties[0]>:top = value
+    End Method
+
+    Method GetMasterFileName(properties[])
+    Begin
+        Return (properties[6])
+    End Method
+    Method SetMasterFileName(properties[], value)
+    Begin
+        properties[6] = value
+    End Method
+
+    Method GetStorageDestination(properties[])
+    Begin
+        Return (properties[7])
+    End Method
+    Method SetStorageDestination(properties[], value)
+    Begin
+        properties[7] = value
+    End Method
+
+    Method GetIsShared(properties[])
+    Begin
+        Return (properties[8])
+    End Method
+    Method SetIsShared(properties[], value)
+    Begin
+        properties[8] = value
+    End Method
+
+    Method GetSharedParameterKey(properties[])
+    Begin
+        Return (properties[9])
+    End Method
+    Method SetSharedParameterKey(properties[], value)
+    Begin
+        properties[9] = value
+    End Method
+
+    Method GetSharedParameterClearTiming(properties[])
+    Begin
+        Return (properties[10])
+    End Method
+    Method SetSharedParameterClearTiming(properties[], value)
+    Begin
+        properties[10] = value
+    End Method
+
+    Method GetKeyOperationType(properties[])
+    Begin
+        Return (properties[11])
+    End Method
+    Method SetKeyOperationType(properties[], value)
+    Begin
+        properties[11] = value
+    End Method
+
+    Method GetLogEditType(properties[], index)
+    Begin
+        Return (0)
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index)
+    Begin
+        Return (0)
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index)
+    Begin
+        Return (false)
+    End Method
+
+    Method GetIsSameLogItem(properties[], index , targetLogItemControl)
+    Begin
+        Return (properties[0] eq targetLogItemControl)
+    End Method
+
+    Method GetDataInputHandler(properties[])
+    Begin
+        Return (properties[16])
+    End Method
+    Method SetDataInputHandler(properties[], handle)
+    Begin
+        properties[16] = handle
+    End Method
+
+    Method GetFocusTransitionRequestedHandler(properties[])
+    Begin
+        Return (properties[17])
+    End Method
+    Method SetFocusTransitionRequestedHandler(properties[], handle)
+    Begin
+        properties[17] = handle
+    End Method
+
+    Method GetComparisonValueCountUpdatedHandler(properties[])
+    Begin
+        Return (properties[18])
+    End Method
+    Method SetComparisonValueCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[18] = handle
+    End Method
+
+    Method GetCollationCountUpdatedHandler(properties[])
+    Begin
+        Return (properties[19])
+    End Method
+    Method SetCollationCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[19] = handle
+    End Method
+
+    Method GetMoveNextControlHandler(properties[])
+    Begin
+        Return (properties[20])
+    End Method
+    Method SetMoveNextControlHandler(properties[], handle)
+    Begin
+        properties[20] = handle
+    End Method
+
+    Method GetMovePreviousControlHandler(properties[])
+    Begin
+        Return (properties[21])
+    End Method
+    Method SetMovePreviousControlHandler(properties[], handle)
+    Begin
+        properties[21] = handle
+    End Method
+
+    Method IControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+            Case "GetName"
+                InterfaceCommon:Result = GetName(properties)
+            Case "GetText"
+                InterfaceCommon:Result = GetText(properties)
+            Case "SetText"
+                SetText(properties, UserObj<this>:Get(2))
+            Case "Focus"
+                Focus(properties)
+            Case "InvokeFocusHandler"
+                InvokeFocusHandler(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetEnabled"
+                InterfaceCommon:Result = GetEnabled(properties)
+            Case "SetEnabled"
+                SetEnabled(properties, UserObj<this>:Get(2))
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "TemporaryHide"
+                InterfaceCommon:Result = TemporaryHide(properties)
+            Case "UpdateVisible"
+                InterfaceCommon:Result = UpdateVisible(properties)
+            Case "Dispose"
+                InterfaceCommon:Result = Dispose(properties)
+        End Select
+    End Method
+    Method IBtInputControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "SetTabIndex"
+                InterfaceCommon:Result = SetTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                InterfaceCommon:Result = SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetIsPartOfControl"
+                InterfaceCommon:Result = GetIsPartOfControl(properties)
+            Case "SetIsPartOfControl"
+                InterfaceCommon:Result = SetIsPartOfControl(properties, UserObj<this>:Get(2))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+            Case "StoreTemporaryText"
+                InterfaceCommon:Result = StoreTemporaryText(properties)
+            Case "ResetTemporaryText"
+                InterfaceCommon:Result = ResetTemporaryText(properties)
+        End Select
+    End Method
+    Method ILogItemControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetLogEditType"
+                InterfaceCommon:Result = GetLogEditType(properties, UserObj<this>:Get(2))
+            Case "GetDecimalPlaces"
+                InterfaceCommon:Result = GetDecimalPlacesIndex(properties, UserObj<this>:Get(2))
+            Case "GetCheckDuplicateReading"
+                InterfaceCommon:Result = GetCheckDuplicateReading(properties, UserObj<this>:Get(2))
+            Case "GetIsSameLogItem"
+                InterfaceCommon:Result = GetIsSameLogItem(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetControlName"
+                InterfaceCommon:Result = GetControlName(properties, UserObj<this>:Get(2))
+            Case "GetLogTableFieldType"
+                InterfaceCommon:Result = GetLogTableFieldType(properties, UserObj<this>:Get(2))
+            Case "GetLogData"
+                InterfaceCommon:Result = GetLogData(properties, UserObj<this>:Get(2))
+            Case "CheckValidInput"
+                InterfaceCommon:Result = CheckValidInput(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+        End Select
+    End Method
+    Method IMasterDataOwnerControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "UpdateMasterData"
+                InterfaceCommon:Result = UpdateMasterData(properties)
+            Case "CloseMasterData"
+                InterfaceCommon:Result = CloseMasterData(properties)
+        End Select
+    End Method
+    Method ICollationTargetInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabStop"
+                InterfaceCommon:Result = GetTabStop(properties)
+            Case "SetTabStop"
+                InterfaceCommon:Result = SetTabStop(properties, UserObj<this>:Get(2))
+            Case "DataInput"
+                InterfaceCommon:Result = DataInput(properties, UserObj<this>:Get(2))
+            Case "FocusTransitionRequested"
+                InterfaceCommon:Result = FocusTransitionRequested(properties)
+            Case "ComparisonValueCountUpdated"
+                InterfaceCommon:Result = ComparisonValueCountUpdated(properties)
+            Case "CollationCountInitialized"
+                InterfaceCommon:Result = CollationCountInitialized(properties)
+            Case "GetCollationValue"
+                InterfaceCommon:Result = GetCollationValue(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetAllCollationValues"
+                InterfaceCommon:Result = GetAllCollationValues(properties, UserObj<this>:Get(2))
+            Case "AddCollationValue"
+                InterfaceCommon:Result = AddCollationValue(properties)
+            Case "RemoveCollationValue"
+                InterfaceCommon:Result = RemoveCollationValue(properties, UserObj<this>:Get(2))
+            Case "ClearCollationValue"
+                InterfaceCommon:Result = ClearCollationValue(properties)
+            Case "GetCollationInputControl"
+                InterfaceCommon:Result = GetCollationInputControl(properties, UserObj<this>:Get(2))
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+        End Select
+    End Method
+    Method ISharedParameterInputToolInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetIsShared"
+                InterfaceCommon:Result = GetIsShared(properties)
+            Case "SetIsShared"
+                InterfaceCommon:Result = SetIsShared(properties, UserObj<this>:Get(2))
+            Case "GetSharedParameterKey"
+                InterfaceCommon:Result = GetSharedParameterKey(properties)
+            Case "SetSharedParameterKey"
+                InterfaceCommon:Result = SetSharedParameterKey(properties, UserObj<this>:Get(2))
+            Case "GetSharedParameterClearTiming"
+                InterfaceCommon:Result = GetSharedParameterClearTiming(properties)
+            Case "SetSharedParameterClearTiming"
+                InterfaceCommon:Result = SetSharedParameterClearTiming(properties, UserObj<this>:Get(2))
+            Case "RegisterSharedParameter"
+                InterfaceCommon:Result = RegisterSharedParameter(properties)
+            Case "RestoreSharedParameter"
+                InterfaceCommon:Result = RestoreSharedParameter(properties)
+        End Select
+    End Method
+
+    Method New(properties[])
+    Begin
+        SetForeColor(properties, "0|0|0")
+        SetBackColor(properties, "255|255|255")
+        SetFocusedForeColor(properties, "0|0|0")
+        SetFocusedBackColor(properties, "162|255|255")
+        SetFontSize(properties, "large")
+        If "BTW" eq "BTW" Then
+            SetFontName(properties, "TT Hira UD Sans Rd Mono StdN W4")
+            SetBold(properties, false)
+        End If
+        SetIsShared(properties, false)
+        SetSharedParameterKey(properties, "")
+        SetSharedParameterClearTiming(properties, 0x0)
+
+        SetMasterFileName(properties, "")
+        SetStorageDestination(properties, 1)
+        SetInitialValueIndex(properties, 0)
+
+        SetTabStop(properties, true)
+        SetTabIndex(properties, 0)
+        SetIsPartOfControl(properties, false)
+        SetKeyOperationType(properties, 0)
+        SetFocusColor(properties, "0|0|255")
+
+        properties[15] = ListTable:CreateList()
+    End Method
+
+    Method SetHandler(properties[], dataInputHandler, focusTransitionRequestedHandler, comparisonValueCountUpdatedHandler, collationCountUpdatedHandler, moveNextControlHandler, movePreviousControlHandler)
+    Begin
+        SetDataInputHandler(properties, dataInputHandler)
+        SetFocusTransitionRequestedHandler(properties, focusTransitionRequestedHandler)
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountUpdatedHandler(properties, collationCountUpdatedHandler)
+        SetMoveNextControlHandler(properties, moveNextControlHandler)
+        SetMovePreviousControlHandler(properties, movePreviousControlHandler)
+    End Method
+
+    Method Create(properties[], parentName)
+    Begin
+        SetType(properties, "BtDropDownBox")
+
+        properties[22] = false
+        properties[23] = false
+        With ComboBox<properties[0]>
+            :Create(parentName)
+            :enable = true
+        End With
+    End Method
+
+    Method SetEventHandler(properties[], onFocusIn, onFocusOut, onEditStart, onEditEnd)
+    Begin
+        With ComboBox<properties[0]>
+            :onFocusIn = onFocusIn
+            :onFocusOut = onFocusOut
+            :onEditStart = onEditStart
+            :onEditEnd = onEditEnd
+        End With
+    End Method
+
+    Method GetInitialIndex(properties[], maxDataCount)
+    Begin
+        If (maxDataCount <= GetInitialValueIndex(properties)) Then
+            Return (0)
+        End If
+
+        Return (GetInitialValueIndex(properties))
+    End Method
+
+    Method Reset(properties[])
+    Begin
+        UpdateListData(properties)
+        RestoreSharedParameter(properties)
+        ChangeMode(properties, 0)
+        ComparisonValueCountUpdated(properties)
+    End Method
+
+    Method RestoreSharedParameter(properties[])
+        indexValue
+        displayValue
+        newIndex
+        sharedValueIndex
+    Begin
+        If Not GetIsShared(properties) Then
+            Return (nil)
+        End If
+        If (Not SharedParameterUtility:IsExistKey(GetSharedParameterKey(properties))) Then
+            Return (nil)
+        End If
+
+        indexValue = SharedParameterUtility:GetSharedLogParameter(GetSharedParameterKey(properties))
+        displayValue = SharedParameterUtility:GetSharedParameter(GetSharedParameterKey(properties))
+        newIndex = GetInitialIndex(properties, ListTable:Count(properties[15]))
+        sharedValueIndex = ListTable:Find(properties[15], "key", indexValue)
+        If ((Not sharedValueIndex is nil) And (Not displayValue is nil)) Then
+            If (ComboBox<properties[0]>:GetItem(sharedValueIndex) eq displayValue) Then
+                newIndex = sharedValueIndex
+            End If
+        End If
+        ComboBox<properties[0]>:Select(newIndex)
+    End Method
+
+    Method UpdateListData(properties[])
+        storagePath
+        dbName
+        id_selectFields
+        id_keyFieldValuePairs
+        id_sortFields
+        masterData
+        record
+        errorMessage
+        displayValue
+        logValue
+        recordIndex
+        index
+        itemCount
+        ret
+    Begin
+        ComboBox<properties[0]>:Remove(-1)
+        itemCount = ListTable:Count(properties[15])
+        For index = 0 To itemCount - 1
+            ListTable:Remove(properties[15], 0)
+        Next
+
+        storagePath = PathUtility:StorageTypeToPath(GetStorageDestination(properties))
+        dbName = PathUtility:Combine(storagePath, GetMasterFileName(properties))
+        id_selectFields = ListTable:CreateList()
+        id_keyFieldValuePairs = ListTable:CreateList()
+        id_sortFields = ListTable:CreateList()
+        masterData = DbAccess:SelectValues(dbName, "htdat",
+                                           id_selectFields, id_keyFieldValuePairs,
+                                           false, 0, false,
+                                           id_sortFields, 200, 0)
+        ListTable:DeleteList(id_selectFields)
+        ListTable:DeleteList(id_keyFieldValuePairs)
+        ListTable:DeleteList(id_sortFields)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne "") Then
+            Return (nil)
+        End If
+
+        For recordIndex = 0 To ListTable:Count(masterData) - 1
+            record = ListTable:Get(masterData, recordIndex, "val")
+            displayValue = ""
+            If Not (ListTable:Get(record, 1, "val") is nil) Then
+                displayValue = ListTable:Get(record, 1, "val")
+            End If
+            ret = ComboBox<properties[0]>:Add(displayValue.Left(64))
+            If (ret is false) Then
+                Fbreak
+            End If
+
+            logValue = ""
+            If Not (ListTable:Get(record, 0, "val") is nil) Then
+                logValue = ListTable:Get(record, 0, "val")
+            End If
+            ListTable:Add(properties[15], logValue, "")
+        Next
+
+        ComboBox<properties[0]>:Select(GetInitialIndex(properties, ListTable:Count(masterData)))
+        ListTable:DeleteList(masterData)
+    End Method
+
+    Method RegisterSharedParameter(properties[])
+        logIndex
+        logValue
+        count
+    Begin
+        If (Not GetIsShared(properties)) Then
+            Return (nil)
+        End If
+
+        logIndex = ComboBox<properties[0]>:GetSelectedIndex()
+        If logIndex is false Then
+            MessageUtility:ShowMessageOk("The operation to update the shared parameters failed.")
+            Return (nil)
+        End If
+        count = ListTable:Count(properties[15])
+        logValue = ListTable:Get(properties[15], logIndex, "key")
+        SharedParameterUtility:UpdateSharedParameter(GetSharedParameterKey(properties),
+                                                     ComboBox<properties[0]>:GetItem(ComboBox<properties[0]>:GetSelectedIndex()),
+                                                     logValue)
+
+        If (ErrorManager:GetError() ne "") Then
+            MessageUtility:ShowMessageOk("The operation to update the shared parameters failed.")
+        End If
+    End Method
+
+    Method EnterData(properties[])
+        parameter[1]
+    Begin
+        RegisterSharedParameter(properties)
+
+        parameter[0] = true
+        Return (EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method ExecuteIrregularFocusTransition(properties[])
+        parameter[1]
+    Begin
+        Return (EventUtility:Exec(GetFocusTransitionRequestedHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method GetControlName(properties[], index)
+    Begin
+        Return (properties[0])
+    End Method
+
+    Method GetLogTableFieldType(properties[], index)
+    Begin
+        Return (2)
+    End Method
+
+    Method GetLogData(properties[], index)
+    Begin
+        If ComboBox<properties[0]>:GetSelectedIndex() is false Then
+            Return ("")
+        End If
+
+        Return (ListTable:Get(properties[15], ComboBox<properties[0]>:GetSelectedIndex(), "key"))
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget, index)
+    Begin
+        Return (true)
+    End Method
+
+    Method GetCollationValue(properties[], dataIndex, index)
+        value
+    Begin
+        If dataIndex is nil Then Return (GetLogData(properties, dataIndex)) End If
+
+        value = DB_DAT:Get_Offset(GetName(properties), "Collation", dataIndex)
+        If value is nil Then
+            If dataIndex == 0 Then Return (GetLogData(properties, dataIndex)) End If
+            Return("")
+        End If
+        Return(value)
+    End Method
+
+    Method AddCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Add(GetName(properties), "Collation", GetCollationValue(properties, nil, 0))
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method RemoveCollationValue(properties[], rowIndex)
+        parameter[1]
+    Begin
+        DB_DAT:Delete_Offset(GetName(properties), "Collation", rowIndex)
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method GetAllCollationValues(properties[], index)
+    Begin
+        Return (DB_DAT:Count(GetName(properties), "Collation"))
+    End Method
+
+    Method ClearCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Delete_All(GetName(properties), "Collation")
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method UpdateMasterData(properties[])
+    Begin
+        UpdateListData(properties)
+    End Method
+
+    Method CloseMasterData(properties[])
+        drive
+    Begin
+        drive = PathUtility:StorageTypeToPath(GetStorageDestination(properties))
+        DbAccess:Close(PathUtility:Combine(drive, GetMasterFileName(properties)))
+    End Method
+
+    Method UpdateFocusStatus(properties[], newFocusStatus)
+        newForeColor
+        newBackColor
+    Begin
+        If newFocusStatus Then
+
+            newForeColor = GetFocusedForeColor(properties)
+            newBackColor = GetFocusedBackColor(properties)
+        Else
+            newForeColor = GetForeColor(properties)
+            newBackColor = GetBackColor(properties)
+        End If
+
+        SetForeColor(properties, newForeColor)
+        SetBackColor(properties, newBackColor)
+
+    End Method
+
+    Method ChangeMode(properties[], keyOperationType)
+    Begin
+        SetKeyOperationType(properties, keyOperationType)
+    End Method
+
+    Method AddItem(properties[], item)
+    Begin
+        ComboBox<properties[0]>:Add(item)
+        ListTable:Add(properties[15], item, "")
+    End Method
+
+    Method RemoveItem(properties[], index)
+    Begin
+        ComboBox<properties[0]>:Remove(index)
+        ListTable:Remove(properties[15], index)
+    End Method
+
+    Method GetItem(properties[], index)
+    Begin
+        Return (ComboBox<properties[0]>:GetItem(index))
+    End Method
+
+    Method SelectItem(properties[], index)
+    Begin
+        ComboBox<properties[0]>:Select(index)
+    End Method
+
+    Method GetSelectedIndex(properties[])
+    Begin
+        Return (ComboBox<properties[0]>:GetSelectedIndex())
+    End Method
+
+    Method Focus(properties[])
+    Begin
+        FocusTransitionUtilityCommon:SetFocus(properties[0])
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+        focusHandler
+        parameter[1]
+    Begin
+        If isFocused Then
+            focusHandler = ComboBox<properties[0]>:onFocusIn
+        Else
+            focusHandler = ComboBox<properties[0]>:onFocusOut
+        End If
+        If Not focusHandler is nil Then
+            EventUtility:Exec(focusHandler, properties[0], parameter)
+        End If
+    End Method
+
+    Method GetCollationInputControl(properties[], index)
+    Begin
+        Return (GetName(properties))
+    End Method
+
+    Method ComparisonValueCountUpdated(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CollationCountInitialized(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method DataInput(properties[], result)
+        parameter[1]
+    Begin
+        parameter[0] = true
+        Return (EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method FocusTransitionRequested(properties[])
+        parameter[1]
+    Begin
+        Return (EventUtility:Exec(GetFocusTransitionRequestedHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method TransitFocus(properties[])
+        parameter[1]
+    Begin
+        If Not (ExecuteIrregularFocusTransition(properties)) Then
+            SetFocus(
+                ComboBox<properties[0]>:GetFocus(),
+                EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+        End If
+    End Method
+
+    Method SetFocus(focusControlId, controlId)
+    Begin
+        If focusControlId.isString And controlId.isString Then
+            If focusControlId ne controlId Then
+                FocusTransitionUtilityCommon:SetFocus(controlId)
+            End If
+        End If
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        ComboBox<properties[0]>:visible = false
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        ComboBox<properties[0]>:Delete()
+    End Method
+
+    Method GotFocus(properties[], onKeyDownHandler, onFocusInHandler)
+        orgDisableMessage
+    Begin
+        Key:onPress = onKeyDownHandler
+
+        properties[23] = false
+        If properties[22] Then
+            Return()
+        End If
+        If FocusTransitionUtilityCommon:ForceLostFocus(properties[0]) Then
+            Key:onPress = onKeyDownHandler
+        End If
+        properties[22] = true
+
+        ComboBox<GetName(properties)>:onFocusIn = nil
+
+        orgDisableMessage  = MessageUtility:GetDisableMessage()
+        MessageUtility:SetDisableMessage(true)
+
+        ChangeMode(properties, 0)
+
+        MessageUtility:SetDisableMessage(orgDisableMessage)
+
+        ComboBox<GetName(properties)>:foreColor = GetFocusedForeColor(properties)
+        ComboBox<GetName(properties)>:backColor = GetFocusedBackColor(properties)
+
+        ComboBox<GetName(properties)>:onFocusIn = onFocusInHandler
+    End Method
+
+    Method LostFocus(properties[], onFormKeyDownHandler, onFocusOutHandler)
+    Begin
+        Key:onPress = onFormKeyDownHandler
+
+        properties[22] = false
+        If properties[23] Then
+            Return()
+        End If
+        properties[23] = true
+
+        ComboBox<GetName(properties)>:onFocusOut = nil
+
+        ComboBox<GetName(properties)>:foreColor = GetForeColor(properties)
+        ComboBox<GetName(properties)>:backColor = GetBackColor(properties)
+
+        ComboBox<GetName(properties)>:onFocusOut = onFocusOutHandler
+    End Method
+
+    Method KeyDown(properties[], sender)
+        parameter[1]
+    Begin
+        Select Case sender
+            Case 0x00800000
+                If (GetKeyOperationType(properties) <> 1) Then
+                    ChangeMode(properties, 1)
+                End If
+            Case 0x00010000, 0x00040000
+                If (GetKeyOperationType(properties) == 1) Then
+                    Return (nil)
+                End If
+                SetFocus(
+                    ComboBox<properties[0]>:GetFocus(),
+                    EventUtility:Exec(GetMovePreviousControlHandler(properties), GetName(properties), parameter))
+            Case 0x00020000, 0x00080000
+                If (GetKeyOperationType(properties) == 1) Then
+                    Return (nil)
+                End If
+                SetFocus(
+                    ComboBox<properties[0]>:GetFocus(),
+                    EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+        End Select
+    End Method
+
+    Method EditStart(properties[], onEditStartHandler)
+    Begin
+        ComboBox<GetName(properties)>:onEditStart = nil
+        SetKeyOperationType(properties, 1)
+        ComboBox<GetName(properties)>:onEditStart = onEditStartHandler
+    End Method
+
+    Method EditEnd(properties[], onEditEndHandler)
+    Begin
+        ComboBox<GetName(properties)>:onEditEnd = nil
+        EditEndCore(properties)
+        ComboBox<GetName(properties)>:onEditEnd = onEditEndHandler
+    End Method
+
+    Method EditEndCore(properties[])
+    Begin
+        If (Not EnterData(properties)) Then
+            Return (nil)
+        End If
+
+        ChangeMode(properties, 0)
+
+        TransitFocus(properties)
+    End Method
+
+    Method StoreTemporaryText(properties[])
+    Begin
+    End Method
+
+    Method ResetTemporaryText(properties[])
+    Begin
+    End Method
+
+End Package
+

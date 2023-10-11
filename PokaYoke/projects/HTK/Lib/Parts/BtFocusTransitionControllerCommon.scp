@@ -1,0 +1,40 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtFocusTransitionControllerConstants"
+
+Package BtFocusTransitionControllerCommon
+
+    Method GetTransitionCount(properties[])
+    Begin
+        Return (properties[DEF_TRANSITION_COUNT_PROPERTY])
+    End Method
+    Method SetTransitionCount(properties[], value)
+    Begin
+        properties[DEF_TRANSITION_COUNT_PROPERTY] = value
+    End Method
+
+    Method GetResetCount(properties[])
+    Begin
+        Return (properties[DEF_RESET_COUNT_PROPERTY])
+    End Method
+    Method SetResetCount(properties[], value)
+    Begin
+        properties[DEF_RESET_COUNT_PROPERTY] = value
+    End Method
+
+
+    Method Initialize(properties[]) 
+    Begin
+        SetTransitionCount(properties, 0)
+        SetResetCount(properties, 10)
+        ResetCount(properties)
+    End Method
+
+    Method ResetCount(properties[])
+    Begin
+        SetResetCount(properties, GetTransitionCount(properties) - 1)
+    End Method
+
+End Package 
+
+#popdefine

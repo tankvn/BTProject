@@ -1,0 +1,30 @@
+    #define FORMAT_NUM  10
+
+    #define FORMAT_TYPE_NUM 5
+
+    #define DEF_PATTERN_INDEX 0
+    #define DEF_YEAR_DIGIT_INDEX 1
+    #define DEF_MONTH_DIGIT_INDEX 2
+    #define DEF_DAY_DIGIT_INDEX 3
+    #define DEF_DATE_FORMAT_INDEX 4
+
+    #define DEF_DATE_FORMAT_YYYYMMDD 0
+    #define DEF_DATE_FORMAT_MMDDYYYY 1
+    #define DEF_DATE_FORMAT_DDMMYYYY 2
+
+    #define YEAR_MIN 1980
+    #define YEAR_MAX 2079
+    #define TWO_DIGIT_YEAR_MAX 80
+    #define MONTH_MIN 1
+    #define MONTH_MAX 12
+    #define DAY_MIN 1
+    #define DAY_MAX 31
+    #define HOUR_MIN 0
+    #define HOUR_MAX 23
+    #define MINUTE_MIN 0
+    #define MINUTE_MAX 59
+
+    #define DEF_PROCESS_TYPE_SUBTRACT_DAY 1
+    #define DEF_PROCESS_TYPE_ADD_DAY 2
+    #define DEF_PROCESS_TYPE_SUBTRACT_MONTH 3
+    #define DEF_PROCESS_TYPE_ADD_MONTH 4

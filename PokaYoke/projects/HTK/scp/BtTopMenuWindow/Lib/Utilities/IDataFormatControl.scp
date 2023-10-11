@@ -1,0 +1,129 @@
+
+Package IDataFormatControl
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+        Names[0] = "BtJob_PokaYoke_PokaYokeData"
+        ICommons[0] = BtJob_PokaYoke_PokaYokeData:IDataFormatControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetOutputDestination(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetOutputDestination", args, ICommons))
+    End Method
+
+    Method GetPathDriveLogDataBase(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetPathDriveLogDataBase", args, ICommons))
+    End Method
+
+    Method GetTableName(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetTableName", args, ICommons))
+    End Method
+
+    Method GetDataBaseName(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetDataBaseName", args, ICommons))
+    End Method
+
+    Method GetOutputTargetName(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetOutputTargetName", args, ICommons))
+    End Method
+
+    Method GetAddDateForFileName(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetAddDateForFileName", args, ICommons))
+    End Method
+
+    Method GetUpdateDateLimitTimeHour(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetUpdateDateLimitTimeHour", args, ICommons))
+    End Method
+
+    Method GetUpdateDateLimitTimeMinute(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetUpdateDateLimitTimeMinute", args, ICommons))
+    End Method
+
+    Method GetRecordType(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetRecordType", args, ICommons))
+    End Method
+
+    Method GetSeparatorType(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSeparatorType", args, ICommons))
+    End Method
+
+    Method GetNotOutputFields(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetNotOutputFields", args, ICommons))
+    End Method
+
+    Method GetCount(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetCount", args, ICommons))
+    End Method
+
+    Method GetLogItem(controlName, targetIndex)
+        args[1]
+    Begin
+        args[0] = targetIndex
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogItem", args, ICommons))
+    End Method
+
+    Method GetSavedTableName(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSavedTableName", args, ICommons))
+    End Method
+
+    Method GetPathWindowsLogDataBase(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetPathWindowsLogDataBase", args, ICommons))
+    End Method
+
+    Method BackupLogData(controlName)
+        args[1]
+    Begin
+        InterfaceCommon:Call(controlName, Names, "BackupLogData", args, ICommons)
+    End Method
+
+    Method PrepareForSendLog(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "PrepareForSendLog", args, ICommons))
+    End Method
+
+    Method GetFormattedLogDataCsv(controlName, logFormatIndex, value)
+        args[2]
+    Begin
+        args[0] = logFormatIndex
+        args[1] = value
+        Return(InterfaceCommon:Call(controlName, Names, "GetFormattedLogDataCsv", args, ICommons))
+    End Method
+
+End Package
+

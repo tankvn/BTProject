@@ -1,0 +1,1981 @@
+#pushdefine
+
+#insert "\Lib\Utilities\BtMasterCheckUtilityConstants"
+#insert "\Lib\Parts\BtMasterCheckControlConstants"
+
+Package BtMasterCheckControlCommon
+
+    Const PROGRESS_LABEL_FORMAT = "{0}/{1}"
+
+    Const INPUT_ITEM_RESULT_SUCCESS = 0
+    Const INPUT_ITEM_RESULT_NOT_EXIST = 1
+    Const INPUT_ITEM_RESULT_IVALID_SEQUENCE = 2
+
+    Method GetParent(_properties[]) Begin Return(_properties[DEF_PARENT_NAME_PROPERTY]) End Method
+    Method SetParent(_properties[], value) Begin _properties[DEF_PARENT_NAME_PROPERTY] = value End Method
+
+    Method GetDataInfo(_properties[]) Begin Return (_properties[DEF_DATAINFO_PROPERTY]) End Method
+    Method SetDataInfo(_properties[], value) Begin _properties[DEF_DATAINFO_PROPERTY] = value End Method
+
+    Method GetDataInfoVoucherFieldName(_properties[]) Begin Return (_properties[DEF_DATAINFO_VOUCHER_FIELD_NAME_PROPERTY]) End Method
+    Method SetDataInfoVoucherFieldName(_properties[], value) Begin _properties[DEF_DATAINFO_VOUCHER_FIELD_NAME_PROPERTY] = value End Method
+
+    Method GetDataInfoItemKeysFieldName(_properties[], index) Begin Return (_properties[DEF_DATAINFO_ITEM_KEYS_FIELD_NAME_1_PROPERTY + index]) End Method
+    Method SetDataInfoItemKeysFieldName(_properties[], index, value) Begin _properties[DEF_DATAINFO_ITEM_KEYS_FIELD_NAME_1_PROPERTY + index] = value End Method
+
+    Method GetDataInfoQuantityFieldName(_properties[]) Begin Return (_properties[DEF_DATAINFO_QUANTITY_FIELD_NAME_PROPERTY]) End Method
+    Method SetDataInfoQuantityFieldName(_properties[], value) Begin _properties[DEF_DATAINFO_QUANTITY_FIELD_NAME_PROPERTY] = value End Method
+
+    Method GetMasterInfo(_properties[]) Begin Return (_properties[DEF_MASTERINFO_PROPERTY]) End Method
+    Method SetMasterInfo(_properties[], value) Begin _properties[DEF_MASTERINFO_PROPERTY] = value End Method
+
+    Method GetMasterInfoVoucherFieldName(_properties[]) Begin Return (_properties[DEF_MASTERINFO_VOUCHER_FIELD_NAME_PROPERTY]) End Method
+    Method SetMasterInfoVoucherFieldName(_properties[], value) Begin _properties[DEF_MASTERINFO_VOUCHER_FIELD_NAME_PROPERTY] = value End Method
+
+    Method GetMasterInfoItemKeysFieldName(_properties[], index) Begin Return (_properties[DEF_MASTERINFO_ITEM_KEYS_FIELD_NAME_1_PROPERTY + index]) End Method
+    Method SetMasterInfoItemKeysFieldName(_properties[], index, value) Begin _properties[DEF_MASTERINFO_ITEM_KEYS_FIELD_NAME_1_PROPERTY + index] = value End Method
+
+    Method GetMasterInfoOrderNumFieldName(_properties[]) Begin Return (_properties[DEF_MASTERINFO_ORDER_NUM_FIELD_NAME_PROPERTY]) End Method
+    Method SetMasterInfoOrderNumFieldName(_properties[], value) Begin _properties[DEF_MASTERINFO_ORDER_NUM_FIELD_NAME_PROPERTY] = value End Method
+
+    Method GetMasterInfoCompleteNumFieldName(_properties[]) Begin Return (_properties[DEF_MASTERINFO_COMPLETE_NUM_FIELD_NAME_PROPERTY]) End Method
+    Method SetMasterInfoCompleteNumFieldName(_properties[], value) Begin _properties[DEF_MASTERINFO_COMPLETE_NUM_FIELD_NAME_PROPERTY] = value End Method
+
+    Method GetMasterInfoSentNumFieldName(_properties[]) Begin Return (_properties[DEF_MASTERINFO_SENT_NUM_FIELD_NAME_PROPERTY]) End Method
+    Method SetMasterInfoSentNumFieldName(_properties[], value) Begin _properties[DEF_MASTERINFO_SENT_NUM_FIELD_NAME_PROPERTY] = value End Method
+
+    Method GetBtDataFormatControl(_properties[]) Begin Return (_properties[DEF_BT_DATA_FORMAT_CONTROL_PROPERTY]) End Method
+    Method SetBtDataFormatControl(_properties[], value) Begin _properties[DEF_BT_DATA_FORMAT_CONTROL_PROPERTY] = value End Method
+
+    Method GetCurrentVoucher(_properties[]) Begin Return (_properties[DEF_CURRENT_VOUCHER_PROPERTY]) End Method
+    Method SetCurrentVoucher(_properties[], value) Begin _properties[DEF_CURRENT_VOUCHER_PROPERTY] = value End Method
+
+    Method GetIncompleteItemsCount(_properties[]) Begin Return (_properties[DEF_INCOMPLETE_ITEMS_COUNT_PROPERTY]) End Method
+    Method SetIncompleteItemsCount(_properties[], value) Begin _properties[DEF_INCOMPLETE_ITEMS_COUNT_PROPERTY] = value End Method
+
+    Method GetCurrentItemKeys(_properties[], index) Begin Return (_properties[DE_CURRENT_ITEM_KEYS_1_PROPERTY + index]) End Method
+    Method SetCurrentItemKeys(_properties[], index, value) Begin _properties[DE_CURRENT_ITEM_KEYS_1_PROPERTY + index] = value End Method
+
+    Method GetRemainingOfItems(_properties[]) Begin Return (_properties[DEF_REMAINING_OF_ITEMS_PROPERTY]) End Method
+    Method SetRemainingOfItems(_properties[], value) Begin _properties[DEF_REMAINING_OF_ITEMS_PROPERTY] = value End Method
+
+    Method GetCurrentItemRemaining(_properties[]) Begin Return (_properties[DEF_CURRENT_ITEM_REMAINING_PROPERTY]) End Method
+    Method SetCurrentItemRemaining(_properties[], value) Begin _properties[DEF_CURRENT_ITEM_REMAINING_PROPERTY] = value End Method
+
+    Method GetIsVoucherResetting(_properties[]) Begin Return (_properties[DEF_IS_VOUCHER_RESETTING_PROPERTY]) End Method
+    Method SetIsVoucherResetting(_properties[], value) Begin _properties[DEF_IS_VOUCHER_RESETTING_PROPERTY] = value End Method
+
+    Method GetName(_properties[]) Begin Return (_properties[DEF_NAME_PROPERTY]) End Method
+    Method SetName(_properties[], value) Begin _properties[DEF_NAME_PROPERTY] = value End Method
+
+    Method GetMasterFileName(_properties[]) Begin Return (_properties[DEF_MASTER_FILE_NAME_PROPERTY]) End Method
+    Method SetMasterFileName(_properties[], value) Begin _properties[DEF_MASTER_FILE_NAME_PROPERTY] = value End Method
+
+    Method GetStorageDestination(_properties[]) Begin Return (_properties[DEF_STORAGE_DESTINATION_PROPERTY]) End Method
+    Method SetStorageDestination(_properties[], value) Begin _properties[DEF_STORAGE_DESTINATION_PROPERTY] = value End Method
+
+    Method GetItemKeysCount(_properties[]) Begin Return (_properties[DEF_ITEM_KEYS_COUNT_PROPERTY]) End Method
+    Method SetItemKeysCount(_properties[], value) Begin _properties[DEF_ITEM_KEYS_COUNT_PROPERTY] = value End Method
+
+    Method GetInputVoucher(_properties[]) Begin Return (_properties[DEF_INPUT_VOUCHER_PROPERTY]) End Method
+    Method SetInputVoucher(_properties[], value) Begin _properties[DEF_INPUT_VOUCHER_PROPERTY] = value End Method
+
+    Method GetInputItemKeys(_properties[], index) Begin Return (_properties[DEF_INPUT_ITEM_KEYS_1_PROPERTY + index]) End Method
+    Method SetInputItemKeys(_properties[], index, value) Begin _properties[DEF_INPUT_ITEM_KEYS_1_PROPERTY + index] = value End Method
+
+    Method GetInputQuantityTool(_properties[]) Begin Return (_properties[DEF_INPUT_QUANTITY_TOOL_PROPERTY]) End Method
+    Method SetInputQuantityTool(_properties[], value) Begin _properties[DEF_INPUT_QUANTITY_TOOL_PROPERTY] = value End Method
+
+    Method GetRemainingLabelSettings(_properties[]) Begin Return (_properties[DEF_REMAINING_LABEL_SETTINGS_PROPERTY]) End Method
+    Method SetRemainingLabelSettings(_properties[], value)
+    Begin
+        If _properties[DEF_REMAINING_LABEL_SETTINGS_PROPERTY] ne "" Then
+            IBtInputControl:SetIsPartOfControl(_properties[DEF_REMAINING_LABEL_SETTINGS_PROPERTY], false)
+        End If
+        _properties[DEF_REMAINING_LABEL_SETTINGS_PROPERTY] = value
+        If _properties[DEF_REMAINING_LABEL_SETTINGS_PROPERTY] ne "" Then
+            IBtInputControl:SetIsPartOfControl(_properties[DEF_REMAINING_LABEL_SETTINGS_PROPERTY], true)
+        End If
+    End Method
+
+    Method GetProcessedItemLabelSettings(_properties[]) Begin Return (_properties[DEF_PROCESSED_ITEM_LABEL_SETTINGS_PROPERTY]) End Method
+    Method SetProcessedItemLabelSettings(_properties[], value)
+    Begin
+        If _properties[DEF_PROCESSED_ITEM_LABEL_SETTINGS_PROPERTY] ne "" Then
+            IBtInputControl:SetIsPartOfControl(_properties[DEF_PROCESSED_ITEM_LABEL_SETTINGS_PROPERTY], false)
+        End If
+        _properties[DEF_PROCESSED_ITEM_LABEL_SETTINGS_PROPERTY] = value
+        If _properties[DEF_PROCESSED_ITEM_LABEL_SETTINGS_PROPERTY] ne "" Then
+            IBtInputControl:SetIsPartOfControl(_properties[DEF_PROCESSED_ITEM_LABEL_SETTINGS_PROPERTY], true)
+        End If
+    End Method
+
+    Method GetIsSequence(_properties[]) Begin Return (_properties[DEF_IS_SEQUENCE_PROPERTY]) End Method
+    Method SetIsSequence(_properties[], value) Begin _properties[DEF_IS_SEQUENCE_PROPERTY] = value End Method
+
+    Method GetIsEnableReconciliation(_properties[]) Begin Return (_properties[DEF_IS_ENABLE_RECONCILIATION_PROPERTY]) End Method
+    Method SetIsEnableReconciliation(_properties[], value) Begin _properties[DEF_IS_ENABLE_RECONCILIATION_PROPERTY] = value End Method
+
+    Method GetIsClearCompleteState(_properties[]) Begin Return (_properties[DEF_IS_CLEAR_COMPLETE_STATE_PROPERTY]) End Method
+    Method SetIsClearCompleteState(_properties[], value) Begin _properties[DEF_IS_CLEAR_COMPLETE_STATE_PROPERTY] = value End Method
+
+    Method GetLogVoucherColumnNumber(_properties[]) Begin Return (_properties[DEF_LOG_VOUCHER_COLUMN_NUMBER_PROPERTY]) End Method
+    Method SetLogVoucherColumnNumber(_properties[], value) Begin _properties[DEF_LOG_VOUCHER_COLUMN_NUMBER_PROPERTY] = value End Method
+
+    Method GetLogItemKeysColumnNumbers(_properties[], index) Begin Return (_properties[DEF_LOG_ITEM_KEYS_COLUMN_NUMBERS_1_PROPERTY + index]) End Method
+    Method SetLogItemKeysColumnNumbers(_properties[], index, value) Begin _properties[DEF_LOG_ITEM_KEYS_COLUMN_NUMBERS_1_PROPERTY + index] = value End Method
+
+    Method GetLogQuantityColumnNumber(_properties[]) Begin Return (_properties[DEF_LOG_QUANTITY_COLUMN_NUMBER_PROPERTY]) End Method
+    Method SetLogQuantityColumnNumber(_properties[], value) Begin _properties[DEF_LOG_QUANTITY_COLUMN_NUMBER_PROPERTY] = value End Method
+
+    Method GetRestartMode(_properties[]) Begin Return (_properties[DEF_RESTART_MODE_PROPERTY]) End Method
+    Method SetRestartMode(_properties[], value) Begin _properties[DEF_RESTART_MODE_PROPERTY] = value End Method
+
+    Method GetRestartOperationsMessage(_properties[]) Begin Return (_properties[DEF_RESTART_OPERATIONS_MESSAGE_PROPERTY]) End Method
+    Method SetRestartOperationsMessage(_properties[], value) Begin _properties[DEF_RESTART_OPERATIONS_MESSAGE_PROPERTY] = value End Method
+
+    Method GetVoucherExtraction(_properties[]) Begin Return (_properties[DEF_VOUCHER_EXTRACTION_PROPERTY]) End Method
+    Method SetVoucherExtraction(_properties[], value) Begin _properties[DEF_VOUCHER_EXTRACTION_PROPERTY] = value End Method
+
+    Method GetItemKeysExtraction(_properties[], index) Begin Return (_properties[DEF_ITEM_KEYS_EXTRACTION_1_PROPERTY + index]) End Method
+    Method SetItemKeysExtraction(_properties[], index, value) Begin _properties[DEF_ITEM_KEYS_EXTRACTION_1_PROPERTY + index] = value End Method
+
+    Method GetIsItemSearched(_properties[]) Begin Return (_properties[DEF_IS_ITEM_SEARCHED_PROPERTY]) End Method
+    Method SetIsItemSearched(_properties[], value) Begin _properties[DEF_IS_ITEM_SEARCHED_PROPERTY] = value End Method
+
+    Method GetReferenceSource(_properties[]) Begin Return (_properties[DEF_REFERENCE_SOURCE_PROPERTY]) End Method
+    Method SetReferenceSource(_properties[], value) Begin _properties[DEF_REFERENCE_SOURCE_PROPERTY] = value End Method
+
+    Method GetUserMasterDataInfo(_properties[]) Begin Return (_properties[DEF_USER_MASTER_DATA_INFO_PROPERTY]) End Method
+    Method SetUserMasterDataInfo(_properties[], value) Begin _properties[DEF_USER_MASTER_DATA_INFO_PROPERTY] = value End Method
+
+    Method GetCommunicationErrorDisplayMode(_properties[]) Begin Return (_properties[DEF_COMMUNICATION_ERROR_DISPLAY_MODE_PROPERTY]) End Method
+    Method SetCommunicationErrorDisplayMode(_properties[], value) Begin _properties[DEF_COMMUNICATION_ERROR_DISPLAY_MODE_PROPERTY] = value End Method
+
+#insert "\Lib\Utilities\IMasterCheckDataOwnerControlInvokeCommon"
+#insert "\Lib\Utilities\IBtMasterCheckControlInvokeCommon"
+
+    Method New(_properties[], parentName)
+        i
+    Begin
+
+        _properties[DEF_PARENT_NAME_PROPERTY] = parentName
+        _properties[DEF_REFERENCE_SOURCE_PROPERTY] = DATA_LOCATION_LOCAL
+        _properties[DEF_USER_MASTER_DATA_INFO_PROPERTY] = INVALID_LIST_TABLE_ID
+        _properties[DEF_COMMUNICATION_ERROR_DISPLAY_MODE_PROPERTY] = COMMUNICATION_ERROR_DISPLAY_MODE_TERMINAL_SETTING
+
+        _properties[DEF_DATAINFO_PROPERTY] = false
+        _properties[DEF_DATAINFO_VOUCHER_FIELD_NAME_PROPERTY] = ""
+        For i = 0 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+            _properties[DEF_DATAINFO_ITEM_KEYS_FIELD_NAME_1_PROPERTY + i] = ""
+        Next
+        _properties[DEF_DATAINFO_QUANTITY_FIELD_NAME_PROPERTY] = ""
+
+        _properties[DEF_MASTERINFO_PROPERTY] = false
+        _properties[DEF_MASTERINFO_VOUCHER_FIELD_NAME_PROPERTY] = ""
+        For i = 0 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+            _properties[DEF_MASTERINFO_ITEM_KEYS_FIELD_NAME_1_PROPERTY + i] = ""
+        Next
+        _properties[DEF_MASTERINFO_ORDER_NUM_FIELD_NAME_PROPERTY] = ""
+        _properties[DEF_MASTERINFO_COMPLETE_NUM_FIELD_NAME_PROPERTY] = ""
+        _properties[DEF_MASTERINFO_SENT_NUM_FIELD_NAME_PROPERTY] = ""
+
+        _properties[DEF_CURRENT_VOUCHER_PROPERTY] = ""
+        _properties[DEF_INCOMPLETE_ITEMS_COUNT_PROPERTY] = 0
+        _properties[DEF_MASTER_FILE_NAME_PROPERTY] = ""
+        _properties[DEF_STORAGE_DESTINATION_PROPERTY] = STORAGE_DESTINATION_DRIVE1
+        _properties[DEF_ITEM_KEYS_COUNT_PROPERTY] = 1
+        _properties[DEF_INPUT_VOUCHER_PROPERTY] = ""
+        _properties[DEF_CURRENT_ITEM_REMAINING_PROPERTY] = 0
+        _properties[DEF_IS_VOUCHER_RESETTING_PROPERTY] = false
+
+        For i = 0 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+            _properties[DE_CURRENT_ITEM_KEYS_1_PROPERTY + i] = ""
+            _properties[DEF_INPUT_ITEM_KEYS_1_PROPERTY + i] = ""
+            _properties[DEF_LOG_ITEM_KEYS_COLUMN_NUMBERS_1_PROPERTY + i] = -1
+            _properties[DEF_ITEM_KEYS_EXTRACTION_1_PROPERTY + i] = ""
+        Next
+
+        _properties[DEF_INPUT_QUANTITY_TOOL_PROPERTY] = ""
+        _properties[DEF_REMAINING_LABEL_SETTINGS_PROPERTY] = ""
+        _properties[DEF_PROCESSED_ITEM_LABEL_SETTINGS_PROPERTY] = ""
+        _properties[DEF_IS_SEQUENCE_PROPERTY] = false
+        _properties[DEF_IS_ENABLE_RECONCILIATION_PROPERTY] = false
+        _properties[DEF_IS_CLEAR_COMPLETE_STATE_PROPERTY] = false
+        _properties[DEF_LOG_VOUCHER_COLUMN_NUMBER_PROPERTY] = -2147483647
+        _properties[DEF_LOG_QUANTITY_COLUMN_NUMBER_PROPERTY] = -2147483647
+        _properties[DEF_RESTART_MODE_PROPERTY] = RESTART_MODE_CONTINUE_INPUT
+        _properties[DEF_RESTART_OPERATIONS_MESSAGE_PROPERTY] = ""
+        _properties[DEF_VOUCHER_EXTRACTION_PROPERTY] = ""
+        _properties[DEF_IS_ITEM_SEARCHED_PROPERTY] = false
+        _properties[DEF_REMAINING_OF_ITEMS_PROPERTY] = ListTable:CreateList()
+    End Method
+
+
+    Method OnFormShown(_properties[])
+    Begin
+        If GetInputVoucher(_properties) ne "" Then
+            IBtInputControl:Reset(GetInputVoucher(_properties))
+        Else
+            ResetVoucherInfo(_properties)
+            UpdateCurrentVoucherInfo(_properties, GetCurrentVoucher(_properties))
+        End If
+
+        If Not CheckFlawedSettings(_properties) Then
+            Return()
+        End If
+    End Method
+
+    Method ConfirmRestart(_properties[])
+    Begin
+        If (GetRestartMode(_properties) <> RESTART_MODE_CONTINUE_INPUT) Then
+
+            If Not OpenDatabase(_properties) Then
+                Return (true)
+            End If
+
+            If (GetRestartMode(_properties) == RESTART_MODE_CLEAR_ALL) Or ((GetRestartMode(_properties) == RESTART_MODE_CLEAR_VOUCHER) And GetInputVoucher(_properties) eq "") Then
+                If Not ExistRelationData(_properties, "") Then
+                    Return (true)
+                End If
+                If Not ExistIncompleteData(_properties) Then
+                    Return (true)
+                End If
+            ElseIf (GetRestartMode(_properties) == RESTART_MODE_CLEAR_VOUCHER) Then
+                If Not ExistHalfwayVouchers(_properties) Then
+                    Return (true)
+                End If
+            ElseIf (GetRestartMode(_properties) == RESTART_MODE_CLEAR_ITEM) Then
+                If Not ExistHalfwayItem(_properties) Then
+                    Return (true)
+                End If
+            End If
+
+            If (MessageUtility:ShowMessage(GetRestartOperationsMessage(_properties), "", MESSAGE_BOX_BUTTONS_YES_NO, "question", MESSAGE_BOX_DEFAULT_BUTTON_BUTTON1) == DIALOG_RESULT_YES) Then
+                Return (true)
+            End If
+
+            If (GetRestartMode(_properties) == RESTART_MODE_CLEAR_ALL) Or ((GetRestartMode(_properties) == RESTART_MODE_CLEAR_VOUCHER) And GetInputVoucher(_properties) eq "") Then
+                ClearAllData(_properties)
+            ElseIf (GetRestartMode(_properties) == RESTART_MODE_CLEAR_VOUCHER) Then
+                ClearIncompleteVoucherData(_properties)
+            ElseIf (GetRestartMode(_properties) == RESTART_MODE_CLEAR_ITEM) Then
+                ClearHalfwayItemData(_properties)
+            End If
+
+            Return (false)
+
+        End If
+
+        Return (true)
+    End Method
+
+    Method ExistRelationData(_properties[], voucher)
+        fieldTypePairs
+        existRelationDataSql
+        logFilePath
+        existRelationDataTable
+        errorMessage
+    Begin
+        fieldTypePairs = ListTable:CreateList()
+        ListTable:Add(fieldTypePairs, "field1", DbAccess:SQLITE_DATA_TYPE_TEXT)
+
+        existRelationDataSql = CreateExistRelationDataSql(_properties, voucher)
+        If existRelationDataSql eq "" Then
+            ListTable:DeleteList(fieldTypePairs)
+            Return (false)
+        End If
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        existRelationDataTable = DbAccess:ExecuteQueryTypeSql(logFilePath, existRelationDataSql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            If (existRelationDataTable <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(existRelationDataTable)
+            End If
+            Return (false)
+        End If
+        If (existRelationDataTable == INVALID_LIST_TABLE_ID) Then Return(false) End If
+
+        If ListTable:Count(existRelationDataTable) == 0 Then
+            ListTable:DeleteList(existRelationDataTable)
+            Return (false)
+        End If
+        ListTable:DeleteList(existRelationDataTable)
+
+        Return (true)
+    End Method
+
+    Method CreateExistRelationDataSql(_properties[], voucher)
+        useVoucher
+        sql
+        i
+        listId_TableFieldTypePairs
+    Begin
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+
+            If GetDataInfo(_properties) is false Then
+                Return ("")
+            End If
+        End If
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        sql = ""
+        sql = sql & "SELECT MASTERTABLE.field1"
+        sql = sql & " FROM " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " AS MASTERTABLE"
+        sql = sql & " , " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties))) & " AS LOGTABLE"
+        sql = sql & " WHERE "
+        If useVoucher Then
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+            If voucher ne "" Then
+                sql = sql & " AND MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+                sql = sql & " = " & DbAccess:EncloseDoubleQuotations(voucher)
+            End If
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " AND "
+            End If
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+
+        sql = sql & " LIMIT 1"
+
+        Return (sql)
+    End Method
+
+    Method ExistIncompleteData(_properties[])
+        fieldTypePairs
+        existIncompleteDataSql
+        logFilePath
+        existIncompleteDataTable
+        errorMessage
+    Begin
+        fieldTypePairs = ListTable:CreateList()
+        ListTable:Add(fieldTypePairs, "field1", DbAccess:SQLITE_DATA_TYPE_TEXT)
+
+        existIncompleteDataSql = CreateExistIncompleteDataSql(_properties)
+        If existIncompleteDataSql eq "" Then
+            ListTable:DeleteList(fieldTypePairs)
+            Return (false)
+        End If
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        existIncompleteDataTable = DbAccess:ExecuteQueryTypeSql(logFilePath, existIncompleteDataSql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            If (existIncompleteDataTable <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(existIncompleteDataTable)
+            End If
+            Return (false)
+        End If
+        If (existIncompleteDataTable == INVALID_LIST_TABLE_ID) Then Return(false) End If
+
+        If ListTable:Count(existIncompleteDataTable) == 0 Then
+            ListTable:DeleteList(existIncompleteDataTable)
+            Return (false)
+        End If
+        ListTable:DeleteList(existIncompleteDataTable)
+
+        Return (true)
+    End Method
+
+    Method CreateExistIncompleteDataSql(_properties[])
+        sqlCondition
+        sql
+    Begin
+        sqlCondition = CreateExistIncompleteDataSqlCondition(_properties)
+        If sqlCondition eq "" Then
+            Return ("")
+        End If
+
+        sql = ""
+        sql = sql & "SELECT MASTERTABLE.field1"
+        sql = sql & sqlCondition
+        sql = sql & " LIMIT 1"
+
+        Return (sql)
+    End Method
+
+    Method ExistHalfwayVouchers(_properties[])
+        listId_TableFieldTypePairs
+        fieldTypePairs
+        incompleteVouchersSql
+        logFilePath
+        incompleteVouchers
+        errorMessage
+        voucher
+        id
+        i
+    Begin
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        fieldTypePairs = ListTable:CreateList()
+        ListTable:Add(fieldTypePairs, ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"), DbAccess:SQLITE_DATA_TYPE_TEXT)
+
+        incompleteVouchersSql = CreateSelectIncompleteVouchersSql(_properties)
+        If incompleteVouchersSql eq "" Then
+            ListTable:DeleteList(fieldTypePairs)
+            Return (false)
+        End If
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        incompleteVouchers = DbAccess:ExecuteQueryTypeSql(logFilePath, incompleteVouchersSql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            If (incompleteVouchers <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(incompleteVouchers)
+            End If
+            Return (false)
+        End If
+        If (incompleteVouchers == INVALID_LIST_TABLE_ID) Then Return(false) End If
+
+        For i = 0 to ListTable:Count(incompleteVouchers) - 1
+            id = ListTable:Get(incompleteVouchers, i, "val")
+            voucher = ListTable:Get(id, 0, "val")
+            If ExistRelationData(_properties, voucher) Then
+                ListTable:DeleteList(incompleteVouchers)
+                Return (true)
+            End If
+        Next
+
+        ListTable:DeleteList(incompleteVouchers)
+        Return (false)
+    End Method
+
+    Method CreateSelectIncompleteVouchersSql(_properties[])
+        listId_TableFieldTypePairs
+        sqlCondition
+        sql
+    Begin
+        sqlCondition = CreateExistIncompleteDataSqlCondition(_properties)
+        If sqlCondition eq "" Then
+            Return ("")
+        End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        sql = ""
+        sql = sql & "SELECT DISTINCT"
+        sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+        sql = sql & sqlCondition
+
+        Return (sql)
+    End Method
+
+    Method CreateExistIncompleteDataSqlCondition(_properties[])
+        useVoucher
+        listId_TableFieldTypePairs
+        logFilePath
+        existLog
+        sql
+        i
+    Begin
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+        End If
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        existLog = DbAccess:HasTable(logFilePath, IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties)))
+        If existLog And GetDataInfo(_properties) is false Then
+            Return ("")
+        End If
+
+        sql = ""
+        sql = sql & " FROM " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " AS MASTERTABLE"
+
+        If existLog Then
+            sql = sql & " LEFT OUTER JOIN "
+            sql = sql & "(SELECT "
+            If useVoucher Then
+                sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+            End If
+            For i = 0 to GetItemKeysCount(_properties) - 1
+                If useVoucher Or (i <> 0) Then
+                    sql = sql & " ,"
+                End If
+
+                sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+            Next
+            sql = sql & " ,SUM(" & DbAccess:EncloseDoubleQuotations(GetDataInfoQuantityFieldName(_properties)) & ") AS Quantity"
+            sql = sql & " FROM " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties)))
+            sql = sql & " GROUP BY "
+            If useVoucher Then
+                sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+            End If
+            For i = 0 to GetItemKeysCount(_properties) - 1
+                If useVoucher Or (i <> 0) Then
+                    sql = sql & " ,"
+                End If
+
+                sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+            Next
+            sql = sql & ") AS LOGTABLE"
+            sql = sql & " ON"
+            If useVoucher Then
+                sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+                sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+            End If
+
+            For i = 0 to GetItemKeysCount(_properties) - 1
+                If useVoucher Or (i <> 0) Then
+                    sql = sql & " AND"
+                End If
+
+                sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+                sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+            Next
+        End If
+
+        sql = sql & " WHERE 0 < (MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_ORDERCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_PROCESSEDCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-IFNULL(LOGTABLE.Quantity, 0)"
+        sql = sql & ")"
+
+        Return (sql)
+    End Method
+
+    Method ExistHalfwayItem(_properties[])
+        fieldTypePairs
+        existHalfwayItemSql
+        logFilePath
+        existHalfwayItemTable
+        errorMessage
+    Begin
+        fieldTypePairs = ListTable:CreateList()
+        ListTable:Add(fieldTypePairs, "field1", DbAccess:SQLITE_DATA_TYPE_TEXT)
+
+        existHalfwayItemSql = CreateExistHalfwayItemSql(_properties)
+        If existHalfwayItemSql eq "" Then
+            ListTable:DeleteList(fieldTypePairs)
+            Return (false)
+        End If
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        existHalfwayItemTable = DbAccess:ExecuteQueryTypeSql(logFilePath, existHalfwayItemSql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            If (existHalfwayItemTable <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(existHalfwayItemTable)
+            End If
+            Return (false)
+        End If
+        If (existHalfwayItemTable == INVALID_LIST_TABLE_ID) Then Return(false) End If
+
+        If ListTable:Count(existHalfwayItemTable) == 0 Then
+            ListTable:DeleteList(existHalfwayItemTable)
+            Return (false)
+        End If
+
+        ListTable:DeleteList(existHalfwayItemTable)
+        Return (true)
+    End Method
+
+    Method CreateExistHalfwayItemSql(_properties[])
+        sqlCondition
+        sql
+    Begin
+        sqlCondition = CreateSelectHalfwayItemSqlCondition(_properties)
+        If sqlCondition eq "" Then
+            Return ("")
+        End If
+
+        sql = ""
+        sql = sql & "SELECT MASTERTABLE.field1"
+        sql = sql & sqlCondition
+        sql = sql & " LIMIT 1"
+
+        Return (sql)
+    End Method
+
+    Method CreateSelectHalfwayItemSqlCondition(_properties[])
+        useVoucher
+        listId_TableFieldTypePairs
+        sql
+        i
+    Begin
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+
+            If GetDataInfo(_properties) is false Then
+                Return ("")
+            End If
+        End If
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        sql = ""
+        sql = sql & " FROM " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " AS MASTERTABLE"
+        sql = sql & " ,(SELECT "
+        If useVoucher Then
+            sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " ,"
+            End If
+
+            sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+        sql = sql & " ,SUM(" & DbAccess:EncloseDoubleQuotations(GetDataInfoQuantityFieldName(_properties)) & ") AS Quantity"
+        sql = sql & " FROM " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties)))
+        sql = sql & " GROUP BY "
+        If useVoucher Then
+            sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " ,"
+            End If
+
+            sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+        sql = sql & ") AS LOGTABLE"
+
+        sql = sql & " WHERE "
+        If useVoucher Then
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " AND"
+            End If
+
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+
+        sql = sql & " AND 0 < (MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_ORDERCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_PROCESSEDCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-IFNULL(LOGTABLE.Quantity, 0)"
+        sql = sql & ")"
+
+        Return (sql)
+    End Method
+
+    Method CreateDeleteHalfwayItemsSql(_properties[])
+        useVoucher
+        listId_TableFieldTypePairs
+        sql
+        i
+    Begin
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+
+            If GetDataInfo(_properties) is false Then
+                Return ("")
+            End If
+        End If
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        sql = ""
+        sql = sql & "DELETE FROM " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties)))
+        sql = sql & " WHERE \"id\" IN"
+        sql = sql & " (SELECT LOGTABLE.id"
+        sql = sql & " FROM " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties))) & " AS LOGTABLE"
+
+        sql = sql & " ,(SELECT "
+        If useVoucher Then
+            sql = sql & "SUMDATA." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " ,"
+            End If
+            sql = sql & "SUMDATA." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+        sql = sql & " FROM " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " AS MASTERTABLE"
+
+        sql = sql & " ,(SELECT "
+        If useVoucher Then
+            sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " ,"
+            End If
+            sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+        sql = sql & " ,SUM(" & DbAccess:EncloseDoubleQuotations(GetDataInfoQuantityFieldName(_properties)) & ") AS Quantity"
+        sql = sql & " FROM " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties)))
+        sql = sql & " GROUP BY "
+        If useVoucher Then
+            sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " ,"
+            End If
+
+            sql = sql & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+        sql = sql & ") AS SUMDATA"
+        sql = sql & " WHERE"
+
+        If useVoucher Then
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = SUMDATA." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " AND"
+            End If
+
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            sql = sql & " = SUMDATA." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+
+        sql = sql & " AND 0 < (MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_ORDERCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_PROCESSEDCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-IFNULL(SUMDATA.Quantity, 0)"
+        sql = sql & ")) AS TARGET"
+        sql = sql & " WHERE"
+
+        If useVoucher Then
+            sql = sql & " LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+            sql = sql & " = TARGET." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " AND"
+            End If
+
+            sql = sql & " LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+            sql = sql & " = TARGET." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+        sql = sql & ")"
+
+        Return (sql)
+    End Method
+
+    Method ClearAllData(_properties[])
+        deleteJobDataSql
+        logFilePath
+        errorMessage
+    Begin
+        If Not OpenDatabase(_properties) Then
+            Return()
+        End If
+
+        deleteJobDataSql = CreateDeleteJobDataSql(_properties, "")
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        DbAccess:ExecuteUpdateTypeSql(logFilePath, deleteJobDataSql)
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+
+        UpdateCurrentVoucherInfo(_properties, "")
+    End Method
+
+    Method ClearIncompleteVoucherData(_properties[])
+        listId_TableFieldTypePairs
+        fieldTypePairs
+        incompleteVouchersSql
+        logFilePath
+        incompleteVouchers
+        errorMessage
+        voucher
+        deleteJobDataSql
+        id
+        i
+    Begin
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        fieldTypePairs = ListTable:CreateList()
+        ListTable:Add(fieldTypePairs, ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"), DbAccess:SQLITE_DATA_TYPE_TEXT)
+
+        incompleteVouchersSql = CreateSelectIncompleteVouchersSql(_properties)
+        If incompleteVouchersSql eq "" Then
+            ListTable:DeleteList(fieldTypePairs)
+            Return()
+        End If
+
+        If Not OpenDatabase(_properties) Then
+            ListTable:DeleteList(fieldTypePairs)
+            Return()
+        End If
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        incompleteVouchers = DbAccess:ExecuteQueryTypeSql(logFilePath, incompleteVouchersSql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            If (incompleteVouchers <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(incompleteVouchers)
+            End If
+            Return()
+        End If
+        If (incompleteVouchers == INVALID_LIST_TABLE_ID) Then Return() End If
+
+        For i = 0 to ListTable:Count(incompleteVouchers) - 1
+            id = ListTable:Get(incompleteVouchers, i, "val")
+            voucher = ListTable:Get(id, 0, "val")
+
+            deleteJobDataSql = CreateDeleteJobDataSql(_properties, voucher)
+
+            DbAccess:ExecuteUpdateTypeSql(logFilePath, deleteJobDataSql)
+            errorMessage = ErrorManager:GetError()
+            If errorMessage ne MESSAGE_ERROR_NONE Then
+                MessageUtility:ShowMessageOk(errorMessage)
+                ListTable:DeleteList(incompleteVouchers)
+                Return()
+            End If
+        Next
+
+        ListTable:DeleteList(incompleteVouchers)
+        UpdateCurrentVoucherInfo(_properties, "")
+    End Method
+
+    Method ClearHalfwayItemData(_properties[])
+        deleteHalfwayItemsSql
+        logFilePath
+        errorMessage
+    Begin
+        deleteHalfwayItemsSql = CreateDeleteHalfwayItemsSql(_properties)
+        If deleteHalfwayItemsSql eq "" Then
+            Return()
+        End If
+
+        If Not OpenDatabase(_properties) Then
+            Return()
+        End If
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        DbAccess:ExecuteUpdateTypeSql(logFilePath, deleteHalfwayItemsSql)
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+
+        UpdateCurrentVoucherInfo(_properties, "")
+    End Method
+
+    Method SetLogFormat(_properties[], btDataFormatControl)
+    Begin
+        SetBtDataFormatControl(_properties, btDataFormatControl)
+    End Method
+
+    Method CloseMasterCheckData(_properties[])
+        masterFilePath
+    Begin
+        masterFilePath = GetMasterFilePath(_properties)
+        If masterFilePath eq "" Then
+            Return()
+        End If
+        DbAccess:Close(masterFilePath)
+    End Method
+
+    Method UpdateLogData(_properties[])
+    Begin
+        UpdateCurrentVoucherInfo(_properties, GetCurrentVoucher(_properties))
+        SetCurrentItemRemaining(_properties, GetRemaining(_properties))
+        UpdateRemainingLabel(_properties)
+    End Method
+
+    Method RefrectSentNum(_properties[])
+    Begin
+        RefrectSentNumWithMaxRowId(_properties, -1)
+    End Method
+
+    Method RefrectSentNumWithMaxRowId(_properties[], logDataMaxRowId)
+        fieldTypePairs
+        useVoucher
+        listId_TableFieldTypePairs
+        existLogVouchersSql
+        logFilePath
+        exitLogItems
+        errorMessage
+        colIndex
+        voucher
+        itemKeys[BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM]
+        updateSentNumSql
+        i
+        id
+        itemIndex
+    Begin
+        fieldTypePairs = ListTable:CreateList()
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        If useVoucher Then
+            ListTable:Add(fieldTypePairs, ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"), DbAccess:SQLITE_DATA_TYPE_TEXT)
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            ListTable:Add(fieldTypePairs, ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"), DbAccess:SQLITE_DATA_TYPE_TEXT)
+        Next
+
+        existLogVouchersSql = CreateSelectExistLogItemssSql(_properties)
+        If existLogVouchersSql eq "" Then
+            ListTable:DeleteList(fieldTypePairs)
+            Return()
+        End If
+
+        If Not OpenDatabase(_properties) Then
+            ListTable:DeleteList(fieldTypePairs)
+            Return()
+        End If
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        exitLogItems = DbAccess:ExecuteQueryTypeSql(logFilePath, existLogVouchersSql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            If (exitLogItems <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(exitLogItems)
+            End If
+            Return()
+        End If
+        If (exitLogItems == INVALID_LIST_TABLE_ID) Then Return() End If
+
+        For i = 0 to ListTable:Count(exitLogItems) - 1
+            id = ListTable:Get(exitLogItems, i, "val")
+
+            colIndex = 0
+            voucher = ""
+            If useVoucher Then
+                voucher = ListTable:Get(id, colIndex, "val")
+                colIndex = colIndex + 1
+            End If
+
+            For itemIndex = 0 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+                itemKeys[itemIndex] = ""
+            Next
+            For itemIndex = 0 to GetItemKeysCount(_properties) - 1
+                itemKeys[itemIndex] = ListTable:Get(id, colIndex, "val")
+                colIndex = colIndex + 1
+            Next
+            updateSentNumSql = CreateUpdateSentNumSql(_properties, voucher, itemKeys, logDataMaxRowId)
+
+            DbAccess:ExecuteUpdateTypeSql(logFilePath, updateSentNumSql)
+            errorMessage = ErrorManager:GetError()
+            If errorMessage ne MESSAGE_ERROR_NONE Then
+                MessageUtility:ShowMessageOk(errorMessage)
+                ListTable:DeleteList(exitLogItems)
+                Return()
+            End If
+        Next
+        ListTable:DeleteList(exitLogItems)
+    End Method
+
+    Method RefrectSentNumByRealTime(_properties[])
+        listId_FieldTypePairs
+        useVoucher
+        listId_TableFieldTypePairs
+        existLogVouchersSql
+        quantity
+        errorMessage
+        logFilePath
+        updateSentNumSql
+        i
+    Begin
+        If IDataFormatControl:GetOutputDestination(GetBtDataFormatControl(_properties)) <> DATA_LOCATION_REMOTE Then
+            Return (nil)
+        End If
+
+        listId_FieldTypePairs = ListTable:CreateList()
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        If useVoucher Then
+            ListTable:Add(listId_FieldTypePairs, ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"), DB_ACCESS_SQLITE_DATA_TYPE_TEXT)
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            ListTable:Add(listId_FieldTypePairs, ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"), DB_ACCESS_SQLITE_DATA_TYPE_TEXT)
+        Next
+        ListTable:DeleteList(listId_FieldTypePairs)
+
+        existLogVouchersSql = CreateSelectExistLogItemssSql(_properties)
+        If existLogVouchersSql eq "" Then
+            Return (nil)
+        End If
+
+        If Not OpenDatabase(_properties) Then
+            Return (nil)
+        End If
+
+        quantity = GetInputQuantity(_properties)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return (nil)
+        End If
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        updateSentNumSql = CreateAddSentNumSql(_properties, quantity)
+
+        DbAccess:ExecuteUpdateTypeSql(logFilePath, updateSentNumSql)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return (nil)
+        End If
+
+        UpdateCurrentVoucherInfo(_properties, GetCurrentVoucher(_properties))
+
+    End Method
+
+    Method ResetCurrentVoucherData(_properties[])
+        logFilePath
+        saveJobDataSql
+        errorMessage
+        deleteJobDataSql
+        clearSentNumSql
+    Begin
+        If Not OpenDatabase(_properties) Then
+            Return()
+        End If
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+
+        saveJobDataSql = CreateSaveJobDataSql(_properties, GetCurrentVoucher(_properties))
+
+        DbAccess:ExecuteUpdateTypeSql(logFilePath, saveJobDataSql)
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+
+        deleteJobDataSql = CreateDeleteJobDataSql(_properties, GetCurrentVoucher(_properties))
+
+        DbAccess:ExecuteUpdateTypeSql(logFilePath, deleteJobDataSql)
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+
+        clearSentNumSql = CreateClearSentNumSql(_properties, GetCurrentVoucher(_properties))
+
+        DbAccess:ExecuteUpdateTypeSql(logFilePath, clearSentNumSql)
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+
+        UpdateCurrentVoucherInfo(_properties, GetCurrentVoucher(_properties))
+    End Method
+
+    Method CreateSelectRemainingOfItemsSql(_properties[], voucher)
+        useVoucher
+        listId_TableFieldTypePairs
+        logFilePath
+        existLog
+        sql
+        isFirstGroup
+        i
+    Begin
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+        End If
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        existLog = DbAccess:HasTable(logFilePath, IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties)))
+        If existLog And GetDataInfo(_properties) is false Then
+            Return ("")
+        End If
+
+        sql = ""
+        sql = sql & "SELECT"
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If i <> 0 Then
+                sql = sql & ","
+            End If
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+        Next
+        sql = sql & ", (MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_ORDERCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_PROCESSEDCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & "-MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key"))
+        If existLog Then
+            sql = sql & "-SUM(IFNULL(LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoQuantityFieldName(_properties)) & ",0))"
+        End If
+        sql = sql & ") AS REMAINING"
+
+        sql = sql & " FROM " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " AS MASTERTABLE"
+
+        If existLog Then
+            sql = sql & " LEFT OUTER JOIN " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties))) & " AS LOGTABLE"
+            sql = sql & " ON"
+            If useVoucher Then
+                sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+                sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+            End If
+
+            For i = 0 to GetItemKeysCount(_properties) - 1
+                If useVoucher Or (i <> 0) Then
+                    sql = sql & " AND"
+                End If
+
+                sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+                sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+            Next
+        End If
+        If voucher ne "" Then
+            sql = sql & " WHERE MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(voucher)
+        End If
+        sql = sql & " GROUP BY "
+        isFirstGroup = true
+        If useVoucher Then
+            sql = sql & "MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            isFirstGroup = false
+        End If
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If Not isFirstGroup Then
+                sql = sql & ", "
+            End If
+            sql = sql & "MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            isFirstGroup = false
+        Next
+        sql = sql & " ORDER BY MASTERTABLE.ROWID"
+
+        Return (sql)
+    End Method
+
+    Method CreateUpdateSentNumSql(_properties[], voucher, itemKeys[], logDataMaxRowId)
+        useVoucher
+        listId_TableFieldTypePairs
+        sql
+        isFirstGroup
+        i
+    Begin
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+
+            If GetDataInfo(_properties) is false Then
+                Return ("")
+            End If
+        End If
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        sql = ""
+        sql = sql & "UPDATE " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME)
+        sql = sql & " SET " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key")) & "= "
+        sql = sql & " ("
+        sql = sql & "SELECT"
+        sql = sql & " (MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key"))
+        sql = sql & " +SUM(IFNULL(LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoQuantityFieldName(_properties)) & ",0))) AS NEWSENTNUM"
+        sql = sql & " FROM " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " AS MASTERTABLE"
+        sql = sql & " , " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties))) & " AS LOGTABLE"
+        sql = sql & " WHERE "
+        If useVoucher Then
+            sql = sql & "MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(voucher)
+            sql = sql & " AND MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " AND "
+            End If
+
+            sql = sql & "MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(itemKeys[i])
+            sql = sql & " AND MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+        If 0 <= logDataMaxRowId Then
+            sql = sql & " AND "
+            sql = sql & "LOGTABLE.ROWID <= " & logDataMaxRowId
+        End If
+
+        sql = sql & " GROUP BY "
+        isFirstGroup = true
+        If useVoucher Then
+            sql = sql & "MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            isFirstGroup = false
+        End If
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If Not isFirstGroup Then
+                sql = sql & ", "
+            End If
+            sql = sql & "MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            isFirstGroup = false
+        Next
+        sql = sql & ")"
+
+        sql = sql & " WHERE "
+        If useVoucher Then
+            sql = sql & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(voucher)
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " AND "
+            End If
+
+            sql = sql & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(itemKeys[i])
+        Next
+
+        Return (sql)
+    End Method
+
+    Method CreateAddSentNumSql(_properties[], quantity) /*As String*/
+        i
+        useVoucher
+        listId_TableFieldTypePairs
+        sql = ""
+    Begin
+
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+
+            If GetDataInfo(_properties) is false Then
+                Return ("")
+            End If
+        End If
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        sql = sql & "UPDATE " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME)
+        sql = sql & " SET " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key")) & "= "
+        sql = sql & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key")) & "+" & quantity
+
+        sql = sql & " WHERE "
+        If useVoucher Then
+            sql = sql & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(GetCurrentVoucher(_properties))
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " AND "
+            End If
+
+            sql = sql & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(GetCurrentItemKeys(_properties, i))
+        Next
+
+        Return (sql)
+
+    End Method
+
+    Method CreateSelectExistLogItemssSql(_properties[])
+        useVoucher
+        listId_TableFieldTypePairs
+        sql
+        i
+    Begin
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+
+            If GetDataInfo(_properties) is false Then
+                Return ("")
+            End If
+        End If
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        sql = ""
+        sql = sql & "SELECT DISTINCT"
+        If useVoucher Then
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+        End If
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " ,"
+            End If
+
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+        Next
+
+        sql = sql & " FROM " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " AS MASTERTABLE"
+        sql = sql & " , " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties))) & " AS LOGTABLE"
+        sql = sql & " WHERE "
+        If useVoucher Then
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+
+            If useVoucher Or (i <> 0) Then
+                sql = sql & " AND"
+            End If
+
+            sql = sql & " MASTERTABLE." & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BtMasterCheckUtility:ITEMKEYS_COLUMN_NUMBER[i], "key"))
+            sql = sql & " = LOGTABLE." & DbAccess:EncloseDoubleQuotations(GetDataInfoItemKeysFieldName(_properties, i))
+        Next
+
+        Return (sql)
+    End Method
+
+    Method ResetVoucherInfo(_properties[])
+        i
+    Begin
+        SetIsVoucherResetting(_properties, true)
+
+        For i = 0 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM
+            If GetInputItemKeys(_properties, i) ne "" Then
+                IBtInputControl:Reset(GetInputItemKeys(_properties, i))
+            End If
+        Next
+
+        SetCurrentVoucher(_properties, "")
+        ListTable:DeleteList(GetRemainingOfItems(_properties))
+        SetRemainingOfItems(_properties, -99)
+        VoucherManager:SetVoucher(GetCurrentVoucher(_properties))
+
+        SetIncompleteItemsCount(_properties, 0)
+
+        UpdateProgressOfItemsLabel(_properties)
+
+        SetIsVoucherResetting(_properties, false)
+
+        ResetItemInfo(_properties)
+    Catch
+        SetIsVoucherResetting(_properties, false)
+    End Method
+
+    Method ResetItemInfo(_properties[])
+        i
+    Begin
+        If GetIsVoucherResetting(_properties) Then
+            Return()
+        End If
+
+        If GetInputQuantityTool(_properties) ne "" Then
+            IBtInputControl:Reset(GetInputQuantityTool(_properties))
+        End If
+
+        For i = 0 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+            SetCurrentItemKeys(_properties, i, "")
+        Next
+        SetIsItemSearched(_properties, false)
+
+        SetCurrentItemRemaining(_properties, 0)
+
+        UpdateRemainingLabel(_properties)
+    End Method
+
+    Method UpdateCurrentVoucherInfo(_properties[], newCurrentVoucher)
+    Begin
+        If newCurrentVoucher ne "" Or GetInputVoucher(_properties) eq "" Then
+            If Not UpdateTotalRemainingOfItems(_properties, newCurrentVoucher) Then
+                Return (false)
+            End If
+        Else
+            Return (false)
+        End If
+
+        UpdateProgressOfItemsLabel(_properties)
+
+        Return (true)
+    End Method
+
+    Method UpdateCurrentItemInfo(_properties[], newItemKeys[])
+        existsValidItem
+        existItem
+        i
+        val = -1
+        id
+    Begin
+        existsValidItem = false
+
+        existItem = false
+        For i = 0 To ListTable:Count(GetRemainingOfItems(_properties)) - 1
+            id = ListTable:Get(GetRemainingOfItems(_properties), i, "val")
+            val = ListTable:Get(GetRemainingOfItems(_properties), i, "key")
+            If IsEqualStringArray(_properties, id, newItemKeys) Then
+                If GetIsEnableReconciliation(_properties) Then
+                    If val <= 0 Then
+                        Return (INPUT_ITEM_RESULT_NOT_EXIST)
+                    End If
+                End If
+                If GetIsSequence(_properties) Then
+                    If existsValidItem Or (val <= 0) Then
+                        Return (INPUT_ITEM_RESULT_IVALID_SEQUENCE)
+                    End If
+                End If
+
+                existItem = true
+                Fbreak
+            ElseIf GetIsSequence(_properties) Then
+                If 0 < val Then
+                    existsValidItem = true
+                End If
+            End If
+        Next
+
+        SetCurrentItemRemaining(_properties, 0)
+        If existItem Then
+            For i = 0 To newItemKeys.size - 1
+                SetCurrentItemKeys(_properties, i, newItemKeys[i])
+            Next
+            SetIsItemSearched(_properties, true)
+
+            SetCurrentItemRemaining(_properties, GetRemaining(_properties))
+        Else
+            Return (INPUT_ITEM_RESULT_NOT_EXIST)
+        End If
+
+        UpdateRemainingLabel(_properties)
+
+        Return (INPUT_ITEM_RESULT_SUCCESS)
+    End Method
+
+    Method GetRemaining(_properties[])
+        ckeys[BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM]
+        i
+        id
+    Begin
+        For i = 0 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+            ckeys[i] = GetCurrentItemKeys(_properties, i)
+        Next
+
+        For i = 0 To ListTable:Count(GetRemainingOfItems(_properties)) - 1
+            id = ListTable:Get(GetRemainingOfItems(_properties), i, "val")
+            If IsEqualStringArray(_properties, id, ckeys) Then
+                Return (ListTable:Get(GetRemainingOfItems(_properties), i, "key"))
+            End If
+        Next
+        Return (0)
+    End Method
+
+    Method GetItemCountInVoucher(_properties[], newCurrentVoucher)
+        countSql
+        fieldTypePairs = INVALID_LIST_TABLE_ID
+        logFilePath
+        id_remainingOfItems = INVALID_LIST_TABLE_ID
+        errorMessage
+        i
+        count
+        countError = DEF_MAX_LISTTABLE_DATA + 1
+    Begin
+        countSql = CreateSelectRemainingOfItemsSql(_properties, newCurrentVoucher)
+        If countSql eq "" Then
+            Return (countError)
+        End If
+        countSql = "SELECT COUNT(*) FROM ( " & countSql & " )"
+
+        If Not OpenDatabase(_properties) Then
+            Return (countError)
+        End If
+
+        fieldTypePairs = ListTable:CreateList()
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            ListTable:Add(fieldTypePairs, "Item" & i, DbAccess:SQLITE_DATA_TYPE_TEXT)
+        Next
+        ListTable:Add(fieldTypePairs, "Remaining", DbAccess:SQLITE_DATA_TYPE_INTEGER)
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        id_remainingOfItems = DbAccess:ExecuteQueryTypeSql(logFilePath, countSql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            If (id_remainingOfItems <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(id_remainingOfItems)
+            End If
+            Return (countError)
+        End If
+        If (id_remainingOfItems == INVALID_LIST_TABLE_ID) Then Return(false) End If
+
+        count = ListTable:Get(ListTable:Get(id_remainingOfItems, 0, "val"), 0, "val")
+        ListTable:DeleteList(id_remainingOfItems)
+        Return (count)
+    Catch
+        If (fieldTypePairs <> INVALID_LIST_TABLE_ID) Then
+            ListTable:DeleteList(fieldTypePairs)
+        End If
+        If (id_remainingOfItems <> INVALID_LIST_TABLE_ID) Then
+            ListTable:DeleteList(id_remainingOfItems)
+        End If
+        Return (countError)
+    End Method
+
+    Method UpdateTotalRemainingOfItems(_properties[], newCurrentVoucher)
+        selectRemainingSql
+        fieldTypePairs
+        logFilePath
+        id_remainingOfItems
+        errorMessage
+        data
+        remaining
+        id
+        id2
+        i
+        row
+    Begin
+        ListTable:DeleteList(GetRemainingOfItems(_properties))
+        SetRemainingOfItems(_properties, ListTable:CreateList())
+
+        selectRemainingSql = CreateSelectRemainingOfItemsSql(_properties, newCurrentVoucher)
+        If selectRemainingSql eq "" Then
+            Return (false)
+        End If
+
+        If Not OpenDatabase(_properties) Then
+            Return (false)
+        End If
+
+        fieldTypePairs = ListTable:CreateList()
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            ListTable:Add(fieldTypePairs, "Item" & i, DbAccess:SQLITE_DATA_TYPE_TEXT)
+        Next
+        ListTable:Add(fieldTypePairs, "Remaining", DbAccess:SQLITE_DATA_TYPE_INTEGER)
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        id_remainingOfItems = DbAccess:ExecuteQueryTypeSql(logFilePath, selectRemainingSql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            If (id_remainingOfItems <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(id_remainingOfItems)
+            End If
+            Return (false)
+        End If
+        If (id_remainingOfItems == INVALID_LIST_TABLE_ID) Then Return(false) End If
+
+        If ListTable:Count(id_remainingOfItems) == 0 Then
+            ListTable:DeleteList(id_remainingOfItems)
+            Return (false)
+        End If
+
+        SetIncompleteItemsCount(_properties, 0)
+
+        For row = 0 To ListTable:Count(id_remainingOfItems) - 1
+            id = ListTable:Get(id_remainingOfItems, row, "val")
+
+
+            id2 = ListTable:CreateList()
+            For i = 0 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+                If (i < GetItemKeysCount(_properties)) Then
+                    data = ListTable:Get(id, i, "val")
+                Else
+                    data = ""
+                End If
+                ListTable:Add(id2, i, data)
+            Next
+            remaining = ListTable:Get(id, GetItemKeysCount(_properties), "val")
+            If (remaining.isInt is false) Then
+                remaining = 0
+            End If
+            ListTable:DeleteList(id)
+            ListTable:AddList(GetRemainingOfItems(_properties), remaining, id2)
+            If 0 < remaining Then
+                SetIncompleteItemsCount(_properties, GetIncompleteItemsCount(_properties) + 1)
+            End If
+        Next
+        ListTable:Remove(id_remainingOfItems, -1)
+        ListTable:DeleteList(id_remainingOfItems)
+
+        SetCurrentVoucher(_properties, newCurrentVoucher)
+        VoucherManager:SetVoucher(GetCurrentVoucher(_properties))
+        Return (true)
+    End Method
+
+    Method CreateSaveJobDataSql(_properties[], voucher)
+        sql
+    Begin
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+
+            If GetDataInfo(_properties) is false Then
+                Return ("")
+            End If
+        End If
+
+        sql = ""
+        sql = sql & "INSERT INTO " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetSavedTableName(GetBtDataFormatControl(_properties)))
+        sql = sql & " SELECT * FROM " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties)))
+        If voucher ne "" Then
+            sql = sql & " WHERE " & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(voucher)
+        End If
+
+        Return (sql)
+    End Method
+
+    Method CreateDeleteJobDataSql(_properties[], voucher)
+        sql
+    Begin
+        If GetDataInfo(_properties) is false Then
+            UpdateDataTableFieldNameInfo(_properties)
+
+            If GetDataInfo(_properties) is false Then
+                Return ("")
+            End If
+        End If
+
+        sql = ""
+        sql = sql & "DELETE FROM " & DbAccess:EncloseDoubleQuotations(IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties)))
+        If voucher ne "" Then
+            sql = sql & " WHERE " & DbAccess:EncloseDoubleQuotations(GetDataInfoVoucherFieldName(_properties))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(voucher)
+        End If
+
+        Return (sql)
+    End Method
+
+    Method CreateClearSentNumSql(_properties[], voucher)
+        listId_TableFieldTypePairs
+        sql
+    Begin
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        sql = ""
+        sql = sql & "UPDATE " & BT_MASTER_CHECK_UTILITY_SUB_DATABASE_ALIAS & "." & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME)
+        sql = sql & " SET " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key")) & "= 0"
+        If voucher ne "" Then
+            sql = sql & " WHERE " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+            sql = sql & " = " & DbAccess:EncloseDoubleQuotations(voucher)
+        End If
+
+        Return (sql)
+    End Method
+
+    Method UpdateRemainingLabel(_properties[])
+    Begin
+        If GetRemainingLabelSettings(_properties) ne "" Then
+            IControl:SetText(GetRemainingLabelSettings(_properties), GetCurrentItemRemaining(_properties))
+        End If
+    End Method
+
+    Method UpdateProgressOfItemsLabel(_properties[])
+        completedItemsCount
+    Begin
+        If GetProcessedItemLabelSettings(_properties) ne "" Then
+            completedItemsCount = ListTable:Count(GetRemainingOfItems(_properties)) - GetIncompleteItemsCount(_properties)
+            IControl:SetText(GetProcessedItemLabelSettings(_properties), completedItemsCount & "/" & ListTable:Count(GetRemainingOfItems(_properties)))
+        End If
+    End Method
+
+    Method CheckInputAllKeys(_properties[])
+        i
+        errorControlName
+    Begin
+        If (Not GetIsItemSearched(_properties)) Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_NOT_EXIST_IN_MASTER)
+            Return (false)
+        End If
+
+        If GetInputVoucher(_properties) ne "" Then
+            If GetCurrentVoucher(_properties) ne IControl:GetText(GetInputVoucher(_properties)) Then
+                MessageUtility:ShowMessageOk(MESSAGE_ERROR_NOT_EXIST_IN_MASTER)
+                Return (false)
+            End If
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If GetInputItemKeys(_properties, i) ne "" Then
+                If Not GetCurrentItemKeys(_properties, i) eq IControl:GetText(GetInputItemKeys(_properties, i)) Then
+                    MessageUtility:ShowMessageOk(MESSAGE_ERROR_NOT_EXIST_IN_MASTER)
+                    Return (false)
+                End If
+            End If
+        Next
+
+        If Not CheckInputQuantity(_properties) Then
+            If (0 <= GetLogQuantityColumnNumber(_properties)) Then
+                errorControlName = ILogItem:GetDisplayName(IDataFormatControl:GetLogItem(GetBtDataFormatControl(_properties), GetLogQuantityColumnNumber(_properties)))
+                MessageUtility:ShowMessageOk(MESSAGE_ERROR_INVALID_INPUT_TARGET_HEADER & errorControlName & MESSAGE_ERROR_INVALID_INPUT_TARGET_FOOTER)
+            End If
+            Return (false)
+        End If
+        Return (true)
+    End Method
+
+    Method OpenDatabase(_properties[])
+        masterFilePath
+        logFilePath
+    Begin
+        masterFilePath = GetMasterFilePath(_properties)
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+
+        Return (BtMasterCheckUtility:OpenDatabase(logFilePath, masterFilePath))
+    End Method
+
+    Method GetMasterFilePath(_properties[])
+    Begin
+        If GetUserMasterDataInfo(_properties) == INVALID_LIST_TABLE_ID Then
+            If GetMasterFileName(_properties) eq "" Then
+                Return ("")
+            End If
+            Return (PathUtility:Combine(PathUtility:StorageTypeToPath(GetStorageDestination(_properties)), GetMasterFileName(_properties)))
+        Else
+            Return (BtMasterCheckUtility:GetRealTimeMasterFilePath())
+        End If
+    End Method
+
+
+    Method UpdateDataTableFieldNameInfo(_properties[])
+        useVoucher = false
+        logFilePath
+        i
+    Begin
+        SetDataInfo(_properties, false)
+
+        If Not OpenDatabase(_properties) Then
+            Return()
+        End If
+
+        If GetInputVoucher(_properties) eq "" Then useVoucher = false
+        Else useVoucher = true End If
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(_properties)))
+        If Not DbAccess:HasTable(logFilePath, IDataFormatControl:GetTableName(GetBtDataFormatControl(_properties))) Then
+            Return()
+        End If
+
+        If useVoucher Then
+            If GetLogVoucherColumnNumber(_properties) < 0 Then
+                Return()
+            End If
+            SetDataInfoVoucherFieldName(_properties, ILogItem:GetTableItemName(IDataFormatControl:GetLogItem(GetBtDataFormatControl(_properties), GetLogVoucherColumnNumber(_properties))))
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If GetLogItemKeysColumnNumbers(_properties, i) < 0 Then
+                Return()
+            End If
+            SetDataInfoItemKeysFieldName(_properties, i, ILogItem:GetTableItemName(IDataFormatControl:GetLogItem(GetBtDataFormatControl(_properties), GetLogItemKeysColumnNumbers(_properties, i))))
+        Next
+
+        If GetLogQuantityColumnNumber(_properties) < 0 Then
+            Return()
+        End If
+        SetDataInfoQuantityFieldName(_properties, ILogItem:GetTableItemName(IDataFormatControl:GetLogItem(GetBtDataFormatControl(_properties), GetLogQuantityColumnNumber(_properties))))
+
+        SetDataInfo(_properties, true)
+    End Method
+
+    Method CheckFlawedSettings(_properties[])
+        useVoucher
+        i
+    Begin
+        If Not OpenDatabase(_properties) Then
+            Return (false)
+        End If
+
+        If GetInputVoucher(_properties) ne "" Then useVoucher = true
+        Else useVoucher = false End If
+
+        If useVoucher Then
+            If GetLogVoucherColumnNumber(_properties) < 0 Then
+                MessageUtility:ShowMessageOk(MESSAGE_LABEL_VOUCHER_NO & MESSAGE_ERROR_NOFIELD_IN_DATAFORMAT)
+                Return (false)
+            End If
+        End If
+
+        For i = 0 to GetItemKeysCount(_properties) - 1
+            If GetLogItemKeysColumnNumbers(_properties, i) < 0 Then
+                If i == 0 Then
+                    MessageUtility:ShowMessageOk(MESSAGE_LABEL_ITEM_NO & MESSAGE_ERROR_NOFIELD_IN_DATAFORMAT)
+                Else
+                    MessageUtility:ShowMessageOk(MESSAGE_LABEL_SUBITEM_NO & i & MESSAGE_ERROR_NOFIELD_IN_DATAFORMAT)
+                End If
+                Return (false)
+            End If
+        Next
+
+        If GetLogQuantityColumnNumber(_properties) < 0 Then
+            MessageUtility:ShowMessageOk(MESSAGE_LABEL_QUANTITY & MESSAGE_ERROR_NOFIELD_IN_DATAFORMAT)
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method CheckInputQuantity(_properties[])
+        quantity
+        errorMessage
+    Begin
+
+        quantity = GetInputQuantity(_properties)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method GetInputQuantity(_properties[])
+        quantityString
+        quantity
+        quantityTextBox
+        quantityLabel
+        errorMessage
+        type
+    Begin
+        If GetInputQuantityTool(_properties) ne "" Then
+            quantityString = nil
+            type = IControl:GetType(GetInputQuantityTool(_properties))
+            If type eq "BtTextBox" Then
+                quantityTextBox = GetInputQuantityTool(_properties)
+                If quantityTextBox ne "" Then
+                    quantityString = ILogItemControl:GetLogData(quantityTextBox, 0)
+                End If
+            End If
+
+            If type eq "BtLabel" Then
+                quantityLabel = GetInputQuantityTool(_properties)
+                If quantityLabel ne "" Then
+                    quantityString = ILogItemControl:GetLogData(quantityLabel, 0)
+                End If
+            End If
+
+            If Not quantityString is nil Then
+                quantity = MathUtility:ParseToInteger(quantityString)
+                errorMessage = ErrorManager:GetError()
+                If errorMessage ne MESSAGE_ERROR_NONE Then
+                    ErrorManager:SetError(errorMessage)
+                    Return (-2147483647)
+                End If
+                Return (quantity)
+            End If
+        End If
+
+        Return (0)
+    End Method
+
+    Method GetFirstInputWithoutVoucher(_properties[])
+        firstInput
+        type
+        i
+    Begin
+        firstInput = GetInputItemKeys(_properties, 0)
+        For i = 1 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+            If GetInputItemKeys(_properties, i) eq "" Then Fcontinue End If
+            If IBtInputControl:GetVisible(firstInput) is false Then Fcontinue End If
+
+            If firstInput eq "" Then
+                firstInput = GetInputItemKeys(_properties, i)
+            Else
+                If IBtInputControl:GetTabIndex(GetInputItemKeys(_properties, i)) < IBtInputControl:GetTabIndex(firstInput) Then
+                    firstInput = GetInputItemKeys(_properties, i)
+                End If
+            End If
+        Next
+
+        type = IControl:GetType(GetInputQuantityTool(_properties))
+        If (GetInputQuantityTool(_properties) ne "")
+            And (type eq "TextBox")
+            And (IBtInputControl:GetVisible(GetInputQuantityTool(_properties)) is true) Then
+            If firstInput eq "" Then
+                firstInput = GetInputQuantityTool(_properties)
+            Else
+                If IBtInputControl:GetTabIndex(GetInputQuantityTool(_properties)) < IBtInputControl:GetTabIndex(firstInput) Then
+                    firstInput = GetInputQuantityTool(_properties)
+                End If
+            End If
+        End If
+
+        Return (firstInput)
+    End Method
+
+    Method GetLastItemKeyInput(_properties[])
+        lastItemKeyInput
+        i
+    Begin
+        lastItemKeyInput = GetInputItemKeys(_properties, 0)
+        For i = 1 to BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+            If GetInputItemKeys(_properties, i) ne "" Then
+                If lastItemKeyInput eq "" Then
+                    lastItemKeyInput = GetInputItemKeys(_properties, i)
+                Else
+                    If IBtInputControl:GetTabIndex(lastItemKeyInput) < IBtInputControl:GetTabIndex(GetInputItemKeys(_properties, i)) Then
+                        lastItemKeyInput = GetInputQuantityTool(_properties)
+                    End If
+                End If
+            End If
+        Next
+
+        Return (lastItemKeyInput)
+    End Method
+
+    Method IsEqualStringArray(_properties[], id, dat[])
+        cnt
+        i
+    Begin
+        cnt = ListTable:Count(id)
+        If cnt <> dat.size Then Return(false) End If
+
+        For i = 0 to cnt - 1
+            If ListTable:Get(id, i, "val") ne dat[i] Then
+                Return (false)
+            End If
+        Next
+        Return (true)
+    End Method
+
+End Package
+
+#popdefine

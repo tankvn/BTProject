@@ -1,0 +1,309 @@
+
+#insert "\Lib\Utilities\LogItemConstants"
+
+
+
+    Method GetTableItemName(properties[]) /*As String*/
+    Begin
+            Return (FIELD_NAME_PREFIX & properties[DEF_LOG_ITEM_ID_PROPERTY])
+    End Method
+
+    Method GetDisplayName(properties[]) /*As String*/
+    Begin
+            Return (properties[DEF_DISPLAY_NAME_PROPERTY])
+    End Method
+
+    Method GetLogItemId(properties[]) /*As Integer*/
+    Begin
+            Return (properties[DEF_LOG_ITEM_ID_PROPERTY])
+    End Method
+
+    Method GetLogItemType(properties[]) /*As String*/
+    Begin
+            Return (properties[DEF_LOG_ITEM_TYPE_PROPERTY])
+    End Method
+
+    Method SetLogItemId(properties[], value) /*As Integer*/
+    Begin
+            properties[DEF_LOG_ITEM_ID_PROPERTY] = value
+    End Method
+
+    Method GetExclusionCharacters(properties[]) /*As ExclusionCharacters*/
+    Begin
+            Return (properties[DEF_EXCLUSION_CHARACTERS_PROPERTY])
+    End Method
+
+    Method SetExclusionCharacters(properties[], value) /*As ExclusionCharacters*/
+    Begin
+            properties[DEF_EXCLUSION_CHARACTERS_PROPERTY] = value
+    End Method
+
+    Method GetOutputDoubleQuotation(properties[]) /*As Boolean*/
+    Begin
+            Return (properties[DEF_OUTPUT_DOUBLE_QUOTATION_PROPERTY])
+    End Method
+
+    Method SetOutputDoubleQuotation(properties[], value) /*As Boolean*/
+    Begin
+            properties[DEF_OUTPUT_DOUBLE_QUOTATION_PROPERTY] = value
+    End Method
+
+    Method GetPaddingType(properties[]) /*As LogPaddingType*/
+    Begin
+            Return (properties[DEF_PADDING_TYPE_PROPERTY])
+    End Method
+
+    Method SetPaddingType(properties[], value) /*As LogPaddingType*/
+    Begin
+            properties[DEF_PADDING_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetDataAlignType(properties[]) /*As DataAlign*/
+    Begin
+            Return (properties[DEF_DATA_ALIGN_TYPE_PROPERTY])
+    End Method
+
+    Method SetDataAlignType(properties[], value) /*As DataAlign*/
+    Begin
+            properties[DEF_DATA_ALIGN_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetDateFormatType(properties[]) /*As DatePattern*/
+    Begin
+            Return (properties[DEF_DATE_FORMAT_TYPE_PROPERTY])
+    End Method
+
+    Method SetDateFormatType(properties[], value) /*As DatePattern*/
+    Begin
+            properties[DEF_DATE_FORMAT_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetDateSeparatorType(properties[]) /*As DateSeparator*/
+    Begin
+            Return (properties[DEF_DATE_SEPARATOR_TYPE_PROPERTY])
+    End Method
+
+    Method SetDateSeparatorType(properties[], value) /*As DateSeparator*/
+    Begin
+            properties[DEF_DATE_SEPARATOR_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetTimeFormatType(properties[]) /*As TimeFormat*/
+    Begin
+            Return (properties[DEF_TIME_FORMAT_TYPE_PROPERTY])
+    End Method
+
+    Method SetTimeFormatType(properties[], value) /*As TimeFormat*/
+    Begin
+            properties[DEF_TIME_FORMAT_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetCalculationType(properties[]) /*As OperationKind*/
+    Begin
+            Return (properties[DEF_CALCULATION_TYPE_PROPERTY])
+    End Method
+
+    Method SetCalculationType(properties[], value) /*As OperationKind*/
+    Begin
+            properties[DEF_CALCULATION_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetCalculationParameter(properties[]) /*As Decimal*/
+    Begin
+            Return (properties[DEF_CALCULATION_PARAMETER_PROPERTY])
+    End Method
+
+    Method SetCalculationParameter(properties[], value) /*As Decimal*/
+    Begin
+            properties[DEF_CALCULATION_PARAMETER_PROPERTY] = value
+    End Method
+
+    Method GetDateCalculationUnitType(properties[]) /*As OperationUnit*/
+    Begin
+            Return (properties[DEF_DATE_CALCULATION_UNIT_TYPE_PROPERTY])
+    End Method
+
+    Method SetDateCalculationUnitType(properties[], value) /*As OperationUnit*/
+    Begin
+            properties[DEF_DATE_CALCULATION_UNIT_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetOutputRangeType(properties[]) /*As OutputRangeType*/
+    Begin
+            Return (properties[DEF_OUTPUT_RANGE_TYPE_PROPERTY])
+    End Method
+
+    Method SetOutputRangeType(properties[], value) /*As OutputRangeType*/
+    Begin
+            properties[DEF_OUTPUT_RANGE_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetOutputRangeStart(properties[]) /*As Integer*/
+    Begin
+            Return (properties[DEF_OUTPUT_RANGE_START_PROPERTY])
+    End Method
+
+    Method SetOutputRangeStart(properties[], value) /*As Integer*/
+    Begin
+            properties[DEF_OUTPUT_RANGE_START_PROPERTY] = value
+    End Method
+
+    Method GetOutputRangeEnd(properties[]) /*As Integer*/
+    Begin
+            Return (properties[DEF_OUTPUT_RANGE_END_PROPERTY])
+    End Method
+
+    Method SetOutputRangeEnd(properties[], value) /*As Integer*/
+    Begin
+            properties[DEF_OUTPUT_RANGE_END_PROPERTY] = value
+    End Method
+
+    Method GetOutputDigit(properties[]) /*As Integer*/
+    Begin
+            Return (properties[DEF_OUTPUT_DIGIT_PROPERTY])
+    End Method
+
+    Method SetOutputDigit(properties[], value) /*As Integer*/
+    Begin
+            properties[DEF_OUTPUT_DIGIT_PROPERTY] = value
+    End Method
+
+    Method GetIsIndexColumn(properties[]) /*As Boolean*/
+    Begin
+            Return (properties[DEF_IS_INDEX_COLUMN_PROPERTY])
+    End Method
+
+    Method SetIsIndexColumn(properties[], value) /*As Boolean*/
+    Begin
+            properties[DEF_IS_INDEX_COLUMN_PROPERTY] = value
+    End Method
+
+
+
+    Method NewBase(properties[], name, displayName, logItemType)
+    Begin
+        properties[DEF_NAME_PROPERTY] = name
+        properties[DEF_DISPLAY_NAME_PROPERTY] = displayName
+        properties[DEF_LOG_ITEM_TYPE_PROPERTY] = logItemType
+        properties[DEF_EXCLUSION_CHARACTERS_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_EXCLUSION_CHARACTERS
+        properties[DEF_OUTPUT_DOUBLE_QUOTATION_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_OUTPUT_DOUBLE_QUOTATION
+        properties[DEF_PADDING_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_PADDING_TYPE
+        properties[DEF_DATA_ALIGN_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_DATA_ALIGN_TYPE
+        properties[DEF_DATE_FORMAT_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_DATE_FORMAT_TYPE
+        properties[DEF_DATE_SEPARATOR_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_DATE_SEPARATOR_TYPE
+        properties[DEF_TIME_FORMAT_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_TIME_FORMAT_TYPE
+        properties[DEF_CALCULATION_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_CALCULATION_TYPE
+        properties[DEF_CALCULATION_PARAMETER_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_CALCULATION_PARAMETER
+        properties[DEF_DATE_CALCULATION_UNIT_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_DATE_CALCULATION_UNIT_TYPE
+        properties[DEF_OUTPUT_RANGE_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_OUTPUT_RANGE_TYPE
+        properties[DEF_OUTPUT_RANGE_START_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_OUTPUT_RANGE_START
+        properties[DEF_OUTPUT_RANGE_END_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_OUTPUT_RANGE_END
+        properties[DEF_OUTPUT_DIGIT_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_OUTPUT_DIGIT
+        properties[DEF_IS_INDEX_COLUMN_PROPERTY] = false
+
+    End Method
+
+    Method GetLogItemInfoTableFieldValuePairs(properties[], tableItemTypes, index) /*As List(Of FieldValuePair)*/
+        listId_TableItemValuePairs
+        booleanValue
+    Begin
+        listId_TableItemValuePairs = ListTable:CreateList()
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_LOG_INDEX_FIELD, index.toInt)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_FIELD_NAME_FIELD, GetTableItemName(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_SQL_FIELD_TYPE_FIELD, tableItemTypes)
+
+        If (GetIsDate(properties) is true) Then
+            booleanValue = 1
+        Else
+            booleanValue = 0
+        End If
+        ListTable:Add(listId_TableItemValuePairs, NAME_IS_DATE_FIELD, booleanValue)
+
+        If (GetIsTime(properties) is true) Then
+            booleanValue = 1
+        Else
+            booleanValue = 0
+        End If
+        ListTable:Add(listId_TableItemValuePairs, NAME_IS_TIME_FIELD, booleanValue)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_EXCLUSION_CHARACTERS_FIELD, GetExclusionCharacters(properties))
+
+        If (GetOutputDoubleQuotation(properties) is true) Then
+            booleanValue = 1
+        Else
+            booleanValue = 0
+        End If
+        ListTable:Add(listId_TableItemValuePairs, NAME_OUTPUT_DOUBLE_QUOTATION_FIELD, booleanValue)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_PADDING_TYPE_FIELD, GetPaddingType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_DATA_ALIGN_TYPE_FIELD, GetDataAlignType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_DATE_FORMAT_TYPE_FIELD, GetDateFormatType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_DATE_SEPARATOR_TYPE_FIELD, GetDateSeparatorType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_TIME_FORMAT_TYPE_FIELD, GetTimeFormatType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_CALCULATION_TYPE_FIELD, GetCalculationType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_CALCULATION_PARAMETER_FIELD, GetCalculationParameter(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_DATE_CALCULATION_UNIT_TYPE_FIELD, GetDateCalculationUnitType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_OUTPUT_RANGE_TYPE_FIELD, GetOutputRangeType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_OUTPUT_RANGE_START_FIELD, GetOutputRangeStart(properties).toInt)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_OUTPUT_RANGE_END_FIELD, GetOutputRangeEnd(properties).toInt)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_OUTPUT_DIGIT_FIELD, GetOutputDigit(properties).toInt)
+
+        Return (listId_TableItemValuePairs)
+    End Method
+
+    Method IsFormatChangedBase(properties[], tableItemTypes, databaseName, index) /*As Boolean*/
+        listId_TableItemValuePairs
+        dataCount
+    Begin
+        listId_TableItemValuePairs = GetLogItemInfoTableFieldValuePairs(properties, tableItemTypes, index)
+
+        dataCount = DbAccess:SelectCount(databaseName, TABLE_NAME_LOG_ITEM_INFO, listId_TableItemValuePairs, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        ListTable:DeleteList(listId_TableItemValuePairs)    
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (true)
+        End If
+        If dataCount <= 0 Then
+            Return (true)
+        End If
+
+        Return (false)
+    End Method
+
+    Method AddLogItemInfoBase(properties[], tableItemTypes, databaseName, index) /*As Boolean*/
+        listId_TableFieldValuePairs
+    Begin
+
+        listId_TableFieldValuePairs = GetLogItemInfoTableFieldValuePairs(properties, tableItemTypes, index)
+        DbAccess:InsertRecord(databaseName, TABLE_NAME_LOG_ITEM_INFO, listId_TableFieldValuePairs)
+        ListTable:DeleteList(listId_TableFieldValuePairs)    
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method GetFormattedLogDataCsv(properties[], dataLength, value)
+    Begin
+        Return (OutputDataUtility:GetFormattedData(value, dataLength, GetIsDate(properties), GetIsTime(properties), GetOutputDoubleQuotation(properties), GetOutputDigit(properties), GetDataAlignType(properties), GetPaddingType(properties)))
+    End Method
+
+    Method GetFormattedLogDataDbBase(properties[], tableItemTypes, decimalPlaces, dataLength, value)
+    Begin
+        Return (OutputDataUtility:GetOutputData(value, dataLength, tableItemTypes, GetIsDate(properties), GetIsTime(properties), GetExclusionCharacters(properties), GetOutputRangeType(properties), GetOutputRangeStart(properties), GetOutputRangeEnd(properties), GetCalculationType(properties), GetCalculationParameter(properties), GetDateCalculationUnitType(properties), decimalPlaces, GetDateFormatType(properties), GetDateSeparatorType(properties), GetTimeFormatType(properties)))
+    End Method
+

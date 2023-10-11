@@ -1,0 +1,41 @@
+    Method IDataFormatControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetOutputDestination"
+                InterfaceCommon:Result = GetOutputDestination(properties)
+            Case "GetPathDriveLogDataBase"
+                InterfaceCommon:Result = GetPathDriveLogDataBase(properties)
+            Case "GetTableName"
+                InterfaceCommon:Result = GetTableName(properties)
+            Case "GetDataBaseName"
+                InterfaceCommon:Result = GetDataBaseName(properties)
+            Case "GetOutputTargetName"
+                InterfaceCommon:Result = GetOutputTargetName(properties)
+            Case "GetAddDateForFileName"
+                InterfaceCommon:Result = GetAddDateForFileName(properties)
+            Case "GetUpdateDateLimitTimeHour"
+                InterfaceCommon:Result = GetUpdateDateLimitTimeHour(properties)
+            Case "GetUpdateDateLimitTimeMinute"
+                InterfaceCommon:Result = GetUpdateDateLimitTimeMinute(properties)
+            Case "GetRecordType"
+                InterfaceCommon:Result = GetRecordType(properties)
+            Case "GetSeparatorType"
+                InterfaceCommon:Result = GetSeparatorType(properties)
+            Case "GetNotOutputFields"
+                InterfaceCommon:Result = GetNotOutputFields(properties)
+            Case "BackupLogData"
+                InterfaceCommon:Result = BackupLogData(properties)
+            Case "PrepareForSendLog"
+                InterfaceCommon:Result = PrepareForSendLog(properties)
+            Case "GetFormattedLogDataCsv"
+                InterfaceCommon:Result = GetFormattedLogDataCsv(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetCount"
+                InterfaceCommon:Result = GetCount(properties)
+            Case "GetLogItem"
+                InterfaceCommon:Result = GetLogItem(properties, UserObj<this>:Get(2))
+            Case "GetSavedTableName"
+                InterfaceCommon:Result = GetSavedTableName(properties)
+            Case "GetPathWindowsLogDataBase"
+                InterfaceCommon:Result = GetPathWindowsLogDataBase(properties)
+        End Select
+    End Method

@@ -1,0 +1,70 @@
+Package IRangeSettings
+    Names[2]
+    ICommons[2]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_PokaYoke_BtTextBox_Input_BtVerifyControl_1_RangeSettings_0"
+        ICommons[0] = BtWindow_PokaYoke_BtTextBox_Input_BtVerifyControl_1_RangeSettings_0:IRangeSettingsInvoke
+        Names[1] = "BtWindow_PokaYoke_BtTextBox_Compare_BtVerifyControl_1_RangeSettings_0"
+        ICommons[1] = BtWindow_PokaYoke_BtTextBox_Compare_BtVerifyControl_1_RangeSettings_0:IRangeSettingsInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetRangeType(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetRangeType", args, ICommons))
+    End Method
+
+    Method SetRangeType(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetRangeType", args, ICommons))
+    End Method
+
+    Method GetRangeStart(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetRangeStart", args, ICommons))
+    End Method
+
+    Method SetRangeStart(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetRangeStart", args, ICommons))
+    End Method
+
+    Method GetRangeEnd(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetRangeEnd", args, ICommons))
+    End Method
+
+    Method SetRangeEnd(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetRangeEnd", args, ICommons))
+    End Method
+
+    Method GetAiType(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetAiType", args, ICommons))
+    End Method
+
+    Method SetAiType(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetAiType", args, ICommons))
+    End Method
+
+End Package

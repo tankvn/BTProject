@@ -1,0 +1,43 @@
+    Method ICollationComparisonItemInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetComparisonTarget"
+                InterfaceCommon:Result = GetComparisonTarget(properties)
+            Case "SetComparisonTarget"
+                InterfaceCommon:Result = SetComparisonTarget(properties, UserObj<this>:Get(2))
+            Case "GetColumnNumber"
+                InterfaceCommon:Result = GetColumnNumber(properties)
+            Case "SetColumnNumber"
+                InterfaceCommon:Result = SetColumnNumber(properties, UserObj<this>:Get(2))
+            Case "GetInputTarget"
+                InterfaceCommon:Result = GetInputTarget(properties)
+            Case "SetInputTarget"
+                InterfaceCommon:Result = SetInputTarget(properties, UserObj<this>:Get(2))
+            Case "GetConditionSetting"
+                InterfaceCommon:Result = GetConditionSetting(properties)
+            Case "SetConditionSetting"
+                InterfaceCommon:Result = SetConditionSetting(properties, UserObj<this>:Get(2))
+            Case "GetComparisonRangeSettings"
+                InterfaceCommon:Result = GetComparisonRangeSettings(properties)
+            Case "SetComparisonRangeSettings"
+                InterfaceCommon:Result = SetComparisonRangeSettings(properties, UserObj<this>:Get(2))
+            Case "GetInputRangeSettings"
+                InterfaceCommon:Result = GetInputRangeSettings(properties)
+            Case "SetInputRangeSettings"
+                InterfaceCommon:Result = SetInputRangeSettings(properties, UserObj<this>:Get(2))
+            Case "GetInputExclusionCharacters"
+                InterfaceCommon:Result = GetInputExclusionCharacters(properties)
+            Case "SetInputExclusionCharacters"
+                InterfaceCommon:Result = SetInputExclusionCharacters(properties, UserObj<this>:Get(2))
+            Case "GetComparisonExclusionCharacters"
+                InterfaceCommon:Result = GetComparisonExclusionCharacters(properties)
+            Case "SetComparisonExclusionCharacters"
+                InterfaceCommon:Result = SetComparisonExclusionCharacters(properties, UserObj<this>:Get(2))
+            Case "GetInputRangedValue"
+                InterfaceCommon:Result = GetInputRangedValue(properties)
+            Case "GetComparisonRangedDispValue"
+                InterfaceCommon:Result = GetComparisonRangedDispValue(properties)
+            Case "GetComparisonRangedInternalValue"
+                InterfaceCommon:Result = GetComparisonRangedInternalValue(properties, UserObj<this>:Get(2))
+        End Select
+    End Method

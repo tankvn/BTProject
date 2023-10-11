@@ -1,0 +1,58 @@
+
+Package IBtCombinationComponent
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_PokaYoke_BtVerifyControl_1"
+        ICommons[0] = BtWindow_PokaYoke_BtVerifyControl_1:IBtCombinationComponentInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetMinTabIndex(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetMinTabIndex", args, ICommons))
+    End Method
+    Method SetMinTabIndex(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetMinTabIndex", args, ICommons))
+    End Method
+
+    Method GetMaxTabIndex(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetMaxTabIndex", args, ICommons))
+    End Method
+    Method SetMaxTabIndex(controlName, value)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "SetMaxTabIndex", args, ICommons))
+    End Method
+
+    Method GetVisible(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetVisible", args, ICommons))
+    End Method
+    Method SetVisible(controlName, value)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "SetVisible", args, ICommons))
+    End Method
+
+    Method Reset(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "Reset", args, ICommons))
+    End Method
+
+End Package
+

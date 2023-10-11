@@ -1,0 +1,13 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtMasterCheckItemListViewConstants"
+
+    /*Implements IMasterCheckDataOwnerControl*/
+
+#define DEF_INHERITS_BT_SCREEN
+#insert "\Lib\Parts\BtScreen"
+
+    Properties[DEF_PROPERTY_NUM]
+
+
+#popdefine

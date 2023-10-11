@@ -1,0 +1,1525 @@
+
+Package BtInputDateBoxCommon
+
+    Method GetTabStop(properties[])
+    Begin
+        Return (properties[2])
+    End Method
+    Method SetTabStop(properties[], value)
+    Begin
+        properties[2] = value
+    End Method
+
+    Method GetTabIndex(properties[])
+    Begin
+        Return (properties[3])
+    End Method
+    Method SetTabIndex(properties[], value)
+    Begin
+        properties[3] = value
+    End Method
+
+    Method GetVisible(properties[])
+    Begin
+        Return (TextField<properties[0]>:visible)
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        properties[4] = value
+    End Method
+
+    Method UpdateVisible(properties[])
+    Begin
+        TextField<properties[0]>:visible = properties[4]
+    End Method
+
+    Method GetEnabled(properties[])
+    Begin
+        Return (TextField<properties[0]>:enable)
+    End Method
+    Method SetEnabled(properties[], value)
+    Begin
+        TextField<properties[0]>:enable = value
+    End Method
+
+    Method GetIsPartOfControl(properties[])
+    Begin
+        Return (properties[5])
+    End Method
+    Method SetIsPartOfControl(properties[], value)
+    Begin
+        properties[5] = value
+    End Method
+
+    Method DisplayDate(properties[])
+    Begin
+        Return (GetText(properties))
+    End Method
+
+    _collationValues[100]
+
+    Method GetText(properties[])
+    Begin
+        If Not properties[36] is nil Then
+            Return (properties[36])
+        End If
+        Return (TextField<properties[0]>:text)
+    End Method
+    Method SetText(properties[], value)
+    Begin
+        If value is nil Then value = "" End If
+
+        If Not properties[36] is nil Then
+            properties[36] = value
+        End If
+        TextField<properties[0]>:text = value
+    End Method
+
+    Method GetFixedDate(properties[])
+    Begin
+        Return (properties[20])
+    End Method
+    Method SetFixedDate(properties[], value)
+        newDate
+    Begin
+        newDate = StringToDate(properties, value)
+        If newDate ne "" And ErrorManager:GetError() eq "" Then
+            properties[20] = DateUtility:RoundDate(newDate, "1980/01/01", "2079/12/31")
+        End If
+        SetDateText(properties)
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+        Return (properties[31])
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+        TextField<properties[0]>:outFocusTextColor = value
+        TextField<properties[0]>:foreColor = value
+        properties[31] = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (properties[32])
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        TextField<properties[0]>:outFocusBackColor = value
+        TextField<properties[0]>:backColor = value
+        properties[32] = value
+    End Method
+
+    Method GetFocusedForeColor(properties[])
+    Begin
+        Return (TextField<properties[0]>:inFocusTextColor)
+    End Method
+    Method SetFocusedForeColor(properties[], value)
+    Begin
+        TextField<properties[0]>:inFocusTextColor = value
+    End Method
+
+    Method GetFocusedBackColor(properties[])
+    Begin
+        Return (TextField<properties[0]>:inFocusBackColor)
+    End Method
+    Method SetFocusedBackColor(properties[], value)
+    Begin
+        TextField<properties[0]>:inFocusBackColor = value
+    End Method
+
+    Method GetFocusColor(properties[])
+    Begin
+        Return (TextField<properties[0]>:focusColor)
+    End Method
+    Method SetFocusColor(properties[], value)
+    Begin
+        TextField<properties[0]>:focusColor = value
+    End Method
+
+    Method GetAlignment(properties[])
+    Begin
+        Return (TextField<properties[0]>:textAlign)
+    End Method
+    Method SetAlignment(properties[], value)
+    Begin
+        TextField<properties[0]>:textAlign = value
+    End Method
+
+    Method GetBorderStyle(properties[])
+    Begin
+        Return (TextField<properties[0]>:frame)
+    End Method
+    Method SetBorderStyle(properties[], value)
+    Begin
+        TextField<properties[0]>:frame = value
+    End Method
+
+    Method GetFontSize(properties[])
+    Begin
+        Return (TextField<properties[0]>:fontSize)
+    End Method
+    Method SetFontSize(properties[], value)
+    Begin
+        TextField<properties[0]>:fontSize = value
+    End Method
+
+    Method GetFontName(properties[])
+    Begin
+        Return (TextField<properties[0]>:fontName)
+    End Method
+    Method SetFontName(properties[], value)
+    Begin
+        TextField<properties[0]>:fontName = value
+    End Method
+
+    Method GetBold(properties[])
+    Begin
+        Return (TextField<properties[0]>:fontBold)
+    End Method
+    Method SetBold(properties[], value)
+    Begin
+        TextField<properties[0]>:fontBold = value
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return (TextField<properties[0]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        TextField<properties[0]>:width = value
+    End Method
+    Method GetHeight(properties[])
+    Begin
+        Return (TextField<properties[0]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        TextField<properties[0]>:height = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return (TextField<properties[0]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        TextField<properties[0]>:left = value
+    End Method
+    Method GetTop(properties[])
+    Begin
+        Return (TextField<properties[0]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        TextField<properties[0]>:top = value
+    End Method
+
+    Method GetIsShared(properties[])
+    Begin
+        Return (properties[7])
+    End Method
+    Method SetIsShared(properties[], value)
+    Begin
+        properties[7] = value
+    End Method
+
+    Method GetSharedParameterKey(properties[])
+    Begin
+        Return (properties[8])
+    End Method
+    Method SetSharedParameterKey(properties[], value)
+    Begin
+        properties[8] = value
+    End Method
+
+    Method GetOutputPattern(properties[])
+    Begin
+        Return (properties[9])
+    End Method
+    Method SetOutputPattern(properties[], value)
+    Begin
+        properties[9] = value
+        SetDateText(properties)
+    End Method
+
+    Method GetOutputSeparator(properties[])
+    Begin
+        Return (properties[10])
+    End Method
+    Method SetOutputSeparator(properties[], value)
+    Begin
+        properties[10] = value
+        SetDateText(properties)
+    End Method
+
+    Method GetDateInputType(properties[])
+    Begin
+        Return (properties[11])
+    End Method
+    Method SetDateInputType(properties[], value)
+    Begin
+        properties[11] = value
+
+        If IsInputArrowKey(properties) Then
+            TextField<properties[0]>:inputOption = 1
+        Else
+            TextField<properties[0]>:inputOption = 8
+        End If
+        If IsEnableReader(properties) Then
+            TextField<properties[0]>:enableBCR = 1
+        Else
+            TextField<properties[0]>:enableBCR = nil
+        End If
+    End Method
+
+    Method GetIsEditOnF2(properties[])
+    Begin
+        Return (properties[12])
+    End Method
+    Method SetIsEditOnF2(properties[], value)
+    Begin
+        properties[12] = value
+    End Method
+
+    Method GetAnnoDominiDigit(properties[])
+    Begin
+        Return (properties[13])
+    End Method
+    Method SetAnnoDominiDigit(properties[], value)
+    Begin
+        properties[13] = value
+    End Method
+
+    Method GetDateNotation(properties[])
+    Begin
+        Return (properties[14])
+    End Method
+    Method SetDateNotation(properties[], value)
+    Begin
+        properties[14] = value
+    End Method
+
+    Method GetIsScanSingleDigitMonthAndDay(properties[])
+    Begin
+        Return (properties[15])
+    End Method
+    Method SetIsScanSingleDigitMonthAndDay(properties[], value)
+    Begin
+        properties[15] = value
+    End Method
+
+    Method GetKeyOperationType(properties[])
+    Begin
+        Return (properties[21])
+    End Method
+    Method SetKeyOperationType(properties[], value)
+    Begin
+        properties[21] = value
+    End Method
+
+    Method GetWarningDisplay(properties[])
+    Begin
+        Return (properties[22])
+    End Method
+    Method SetWarningDisplay(properties[], value)
+    Begin
+        properties[22] = value
+    End Method
+
+    Method GetLogEditType(properties[], index)
+    Begin
+        Return (5)
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index)
+    Begin
+        Return (0)
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index)
+    Begin
+        Return (false)
+    End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl)
+    Begin
+        Return (properties[0] eq targetLogItemControl)
+    End Method
+
+     _warningDisplay  = false
+
+     _currentImeSetting
+
+    Method GetType(properties[])
+    Begin
+        Return (properties[1])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[1] = value
+    End Method
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[0])
+    End Method
+    Method SetName(properties[], value)
+    Begin
+        properties[0] = value
+    End Method
+
+    Method GetSharedParameterClearTiming(properties[])
+    Begin
+        Return (properties[24])
+    End Method
+    Method SetSharedParameterClearTiming(properties[], value)
+    Begin
+        properties[24] = value
+    End Method
+
+    Method GetFocusTransitionRequestedHandler(properties[])
+    Begin
+        Return (properties[25])
+    End Method
+    Method SetFocusTransitionRequestedHandler(properties[], handle)
+    Begin
+        properties[25] = handle
+    End Method
+
+    Method GetDataInputHandler(properties[])
+    Begin
+        Return (properties[26])
+    End Method
+    Method SetDataInputHandler(properties[], handle)
+    Begin
+        properties[26] = handle
+    End Method
+
+    Method GetCollationCountUpdatedHandler(properties[])
+    Begin
+        Return (properties[27])
+    End Method
+    Method SetCollationCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[27] = handle
+    End Method
+
+    Method GetComparisonValueCountUpdatedHandler(properties[])
+    Begin
+        Return (properties[28])
+    End Method
+    Method SetComparisonValueCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[28] = handle
+    End Method
+
+    Method GetMoveNextControlHandler(properties[])
+    Begin
+        Return (properties[29])
+    End Method
+    Method SetMoveNextControlHandler(properties[], handle)
+    Begin
+        properties[29] = handle
+    End Method
+
+    Method GetMovePreviousControlHandler(properties[])
+    Begin
+        Return (properties[30])
+    End Method
+    Method SetMovePreviousControlHandler(properties[], handle)
+    Begin
+        properties[30] = handle
+    End Method
+
+    Method GetEditFocus(properties[])
+    Begin
+        Return(properties[33])
+    End Method
+    Method SetEditFocus(properties[], value)
+    Begin
+        properties[33] = value
+    End Method
+
+    Method IControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+            Case "GetName"
+                InterfaceCommon:Result = GetName(properties)
+            Case "GetText"
+                InterfaceCommon:Result = GetText(properties)
+            Case "SetText"
+                SetText(properties, UserObj<this>:Get(2))
+            Case "Focus"
+                Focus(properties)
+            Case "InvokeFocusHandler"
+                InvokeFocusHandler(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetEnabled"
+                InterfaceCommon:Result = GetEnabled(properties)
+            Case "SetEnabled"
+                SetEnabled(properties, UserObj<this>:Get(2))
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "TemporaryHide"
+                InterfaceCommon:Result = TemporaryHide(properties)
+            Case "UpdateVisible"
+                InterfaceCommon:Result = UpdateVisible(properties)
+            Case "Dispose"
+                InterfaceCommon:Result = Dispose(properties)
+        End Select
+    End Method
+    Method IBtInputControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "SetTabIndex"
+                InterfaceCommon:Result = SetTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                InterfaceCommon:Result = SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetIsPartOfControl"
+                InterfaceCommon:Result = GetIsPartOfControl(properties)
+            Case "SetIsPartOfControl"
+                InterfaceCommon:Result = SetIsPartOfControl(properties, UserObj<this>:Get(2))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+            Case "StoreTemporaryText"
+                InterfaceCommon:Result = StoreTemporaryText(properties)
+            Case "ResetTemporaryText"
+                InterfaceCommon:Result = ResetTemporaryText(properties)
+        End Select
+    End Method
+    Method ILogItemControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetLogEditType"
+                InterfaceCommon:Result = GetLogEditType(properties, UserObj<this>:Get(2))
+            Case "GetDecimalPlaces"
+                InterfaceCommon:Result = GetDecimalPlacesIndex(properties, UserObj<this>:Get(2))
+            Case "GetCheckDuplicateReading"
+                InterfaceCommon:Result = GetCheckDuplicateReading(properties, UserObj<this>:Get(2))
+            Case "GetIsSameLogItem"
+                InterfaceCommon:Result = GetIsSameLogItem(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetControlName"
+                InterfaceCommon:Result = GetControlName(properties, UserObj<this>:Get(2))
+            Case "GetLogTableFieldType"
+                InterfaceCommon:Result = GetLogTableFieldType(properties, UserObj<this>:Get(2))
+            Case "GetLogData"
+                InterfaceCommon:Result = GetLogData(properties, UserObj<this>:Get(2))
+            Case "CheckValidInput"
+                InterfaceCommon:Result = CheckValidInput(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+        End Select
+    End Method
+    Method ICollationTargetInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabStop"
+                InterfaceCommon:Result = GetTabStop(properties)
+            Case "SetTabStop"
+                InterfaceCommon:Result = SetTabStop(properties, UserObj<this>:Get(2))
+            Case "DataInput"
+                InterfaceCommon:Result = DataInput(properties, UserObj<this>:Get(2))
+            Case "FocusTransitionRequested"
+                InterfaceCommon:Result = FocusTransitionRequested(properties)
+            Case "ComparisonValueCountUpdated"
+                InterfaceCommon:Result = ComparisonValueCountUpdated(properties)
+            Case "CollationCountInitialized"
+                InterfaceCommon:Result = CollationCountInitialized(properties)
+            Case "GetCollationValue"
+                InterfaceCommon:Result = GetCollationValue(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetAllCollationValues"
+                InterfaceCommon:Result = GetAllCollationValues(properties, UserObj<this>:Get(2))
+            Case "AddCollationValue"
+                InterfaceCommon:Result = AddCollationValue(properties)
+            Case "RemoveCollationValue"
+                InterfaceCommon:Result = RemoveCollationValue(properties, UserObj<this>:Get(2))
+            Case "ClearCollationValue"
+                InterfaceCommon:Result = ClearCollationValue(properties)
+            Case "GetCollationInputControl"
+                InterfaceCommon:Result = GetCollationInputControl(properties, UserObj<this>:Get(2))
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+        End Select
+    End Method
+    Method ISearchViewDisplayControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "SetSearchResult"
+                InterfaceCommon:Result = SetSearchResult(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+        End Select
+    End Method
+    Method ISharedParameterInputToolInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetIsShared"
+                InterfaceCommon:Result = GetIsShared(properties)
+            Case "SetIsShared"
+                InterfaceCommon:Result = SetIsShared(properties, UserObj<this>:Get(2))
+            Case "GetSharedParameterKey"
+                InterfaceCommon:Result = GetSharedParameterKey(properties)
+            Case "SetSharedParameterKey"
+                InterfaceCommon:Result = SetSharedParameterKey(properties, UserObj<this>:Get(2))
+            Case "GetSharedParameterClearTiming"
+                InterfaceCommon:Result = GetSharedParameterClearTiming(properties)
+            Case "SetSharedParameterClearTiming"
+                InterfaceCommon:Result = SetSharedParameterClearTiming(properties, UserObj<this>:Get(2))
+            Case "RegisterSharedParameter"
+                InterfaceCommon:Result = RegisterSharedParameter(properties)
+            Case "RestoreSharedParameter"
+                InterfaceCommon:Result = RestoreSharedParameter(properties)
+        End Select
+    End Method
+    Method IBtInputDateControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetOutputPattern"
+                InterfaceCommon:Result = GetOutputPattern(properties)
+            Case "GetOutputSeparator"
+                InterfaceCommon:Result = GetOutputSeparator(properties)
+            Case "DisplayDate"
+                InterfaceCommon:Result = DisplayDate(properties)
+        End Select
+    End Method
+
+    Method New(properties[])
+    Begin
+        SetForeColor(properties, "0|0|0")
+        SetBackColor(properties, "255|255|255")
+        SetFontSize(properties, "large")
+        If "BTW" eq "BTW" Then
+            SetFontName(properties, "TT Hira UD Sans Rd Mono StdN W4")
+            SetBold(properties, false)
+        End If
+        SetFocusedForeColor(properties, "0|0|0")
+        SetFocusedBackColor(properties, "162|255|255")
+        properties[9] = 1
+        properties[10] = 1
+        SetIsShared(properties, false)
+        SetSharedParameterKey(properties, "")
+        SetSharedParameterClearTiming(properties, 0x0)
+
+        SetDateInputType(properties, 0)
+        SetIsEditOnF2(properties, false)
+        SetAnnoDominiDigit(properties, 3)
+        SetDateNotation(properties, 3)
+        SetIsScanSingleDigitMonthAndDay(properties, true)
+
+        SetFocusColor(properties, "0|0|255")
+        SetKeyOperationType(properties, 0)
+        SetTabStop(properties, true)
+        SetTabIndex(properties, 0)
+        SetIsPartOfControl(properties, false)
+        TextField<properties[0]>:textVAlign = "center"
+
+        properties[33] = true
+        properties[22] = false
+        properties[36] = nil
+        properties[23] = false
+
+        SetFixedDate(properties, Handy:date)
+    End Method
+
+    Method Create(properties[], parentName)
+    Begin
+        SetType(properties, "BtInputDateBox")
+
+        properties[34] = false
+        properties[35] = false
+        With TextField<properties[0]>
+            :Create(parentName)
+            :enable = true
+        End With
+    End Method
+
+    Method SetHandler(properties[], comparisonValueCountUpdatedHandler, collationCountUpdatedHandler, dataInputHandler, focusTransitionRequestedHandler, moveNextControlHandler, movePreviousControlHandler)
+    Begin
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountUpdatedHandler(properties, collationCountUpdatedHandler)
+        SetDataInputHandler(properties, dataInputHandler)
+        SetFocusTransitionRequestedHandler(properties, focusTransitionRequestedHandler)
+        SetMoveNextControlHandler(properties, moveNextControlHandler)
+        SetMovePreviousControlHandler(properties, movePreviousControlHandler)
+    End Method
+
+    Method SetEventHandler(properties[], onFocusIn, onFocusOut, onEditStart, onEditEnd, onEditCancel, onScanComplete, onTouchOut)
+    Begin
+        With TextField<properties[0]>
+            :onFocusIn = onFocusIn
+            :onFocusOut = onFocusOut
+            :onEditStart = onEditStart
+            :onEditEnd = onEditEnd
+            :onEditCancel = onEditCancel
+            :onScanComplete = onScanComplete
+            :onTouchOut = onTouchOut
+        End With
+    End Method
+
+    Method Reset(properties[])
+    Begin
+        ChangeMode(properties, 0, false)
+
+        If Not GetIsShared(properties) Then
+            SetFixedDate(properties, DateUtility:FormatDate(GetToday(properties), GetOutputPattern(properties), GetOutputSeparator(properties)))
+            Return()
+        End If
+        RestoreSharedParameter(properties)
+        ComparisonValueCountUpdated(properties)
+        CollationCountInitialized(properties)
+    End Method
+
+    Method RestoreSharedParameter(properties[])
+        displayValue
+        initialDateString
+        errorMessage
+    Begin
+        If (Not SharedParameterUtility:IsExistKey(GetSharedParameterKey(properties))) Then
+            SetFixedDate(properties, DateUtility:FormatDate(GetToday(properties), GetOutputPattern(properties), GetOutputSeparator(properties)))
+            Return()
+        End If
+
+        displayValue = SharedParameterUtility:GetSharedParameter(GetSharedParameterKey(properties))
+        initialDateString = DateUtility:ToDate(displayValue, GetOutputPattern(properties), GetOutputSeparator(properties))
+        errorMessage = ErrorManager:GetError()
+
+        If (initialDateString eq "" Or
+            errorMessage ne "" Or
+            Not IsInRange(DateUtility:ToDate(initialDateString, GetOutputPattern(properties), GetOutputSeparator(properties)))) Then
+            SetFixedDate(properties, DateUtility:FormatDate(GetToday(properties), GetOutputPattern(properties), GetOutputSeparator(properties)))
+            Return()
+        End If
+
+        SetFixedDate(properties, initialDateString)
+    End Method
+
+    Method GetControlName(properties[], index)
+    Begin
+        Return (properties[0])
+    End Method
+
+    Method GetLogTableFieldType(properties[], index)
+    Begin
+        Return (2)
+    End Method
+
+    Method GetLogData(properties[], index)
+    Begin
+        Return (DateUtility:ChangeFormat2Default(StringToDate(properties, GetText(properties)), 0, 0))
+    End Method
+
+    Method CheckAndFixDisplayText(properties[])
+        val
+    Begin
+        val = GetText(properties)
+        If (Not CheckValidInput(properties, val, 0)) Then
+            Return (false)
+        End If
+
+        SetText(properties, DateUtility:FormatDate(StringToDate(properties, val),
+                                                   GetOutputPattern(properties),
+                                                   GetOutputSeparator(properties)))
+        properties[23] = true
+        Return (true)
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget, index)
+        dateData
+    Begin
+
+        dateData = StringToDate(properties, GetText(properties))
+        If (dateData eq "" Or ErrorManager:GetError() ne "") Then
+            Return (false)
+        End If
+
+        If Not IsInRange(dateData) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method IsInRange(dateData)
+    Begin
+        If dateData eq "" Then Return (false) End If
+        If ((DateUtility:Compare(dateData, "1980/01/01", true) < 0) Or
+            (DateUtility:Compare("2079/12/31", dateData, true) < 0)) Then
+            Return (false)
+        End If
+        Return (true)
+    End Method
+
+    Method SetDateText(properties[])
+        newDateString
+    Begin
+        newDateString = DateUtility:FormatDate(GetFixedDate(properties),
+                                               GetOutputPattern(properties),
+                                               GetOutputSeparator(properties))
+        If (newDateString ne GetText(properties)) And
+           (ErrorManager:GetError() eq "") Then
+            SetText(properties, newDateString)
+        End If
+    End Method
+
+    Method OccuredError(properties[])
+        errorMessage
+    Begin
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage eq "") Then
+            Return (false)
+        End If
+
+        ShowMessageBox(properties, errorMessage)
+        Return (true)
+    End Method
+
+    Method SetOcrSettings(properties[])
+    Begin
+        OcrSettings:SetOcrPattern(2)
+        If (OccuredError(properties)) Then
+            Return()
+        End If
+
+        OcrSettings:SetOcrDigitAdType(GetAnnoDominiDigit(properties))
+        If (OccuredError(properties)) Then
+            Return()
+        End If
+
+        OcrSettings:SetOcrDayExistType(GetDateNotation(properties))
+        If (OccuredError(properties)) Then
+            Return()
+        End If
+
+        OcrSettings:SetOcrReadOneDegitMonthAndDay(GetIsScanSingleDigitMonthAndDay(properties))
+        If (OccuredError(properties)) Then
+            Return()
+        End If
+
+        OcrSettings:SetOcrOutputDatePattern(1)
+        If (OccuredError(properties)) Then
+            Return()
+        End If
+
+        OcrSettings:SetOcrOutputDateSeparator(0)
+        If (OccuredError(properties)) Then
+            Return()
+        End If
+
+        OcrSettings:SetOcrEnable(2)
+        If (OccuredError(properties)) Then
+            Return()
+        End If
+    End Method
+
+    Method ResetOcrSettings(properties[])
+    Begin
+        If (FileSystem:FindFirst("1:DefaultOCRSetting.ini") is false) Then
+            Return()
+        End If
+
+        OcrSettings:LoadConfigFile("1:DefaultOCRSetting.ini")
+        If (OccuredError(properties)) Then
+            Return()
+        End If
+    End Method
+
+    Method ChangeMode(properties[], keyOperationType, updateState)
+    Begin
+        If (keyOperationType == 1) Then
+            If (updateState) Then
+                TextField<properties[0]>:SetEditMode("on")
+            End If
+            If (IsInputArrowKey(properties)) Then
+                SetFixedDate(properties, StringToDate(properties, GetText(properties)))
+                ErrorManager:GetError()
+            End If
+        Else
+            If (updateState) Then
+                TextField<properties[0]>:SetEditMode("off")
+            End If
+        End If
+        SetKeyOperationType(properties, keyOperationType)
+
+        DrawFocusFrame()
+    End Method
+
+    Method ConvertEditFormat(properties[])
+        dateData
+    Begin
+        If (IsInputArrowKey(properties)) Then
+            Return()
+        End If
+
+        dateData = StringToDate(properties, GetText(properties))
+        ErrorManager:GetError()
+        SetText(properties, DateUtility:FormatDate(dateData, GetOutputPattern(properties), 0))
+    End Method
+
+    Method StringToDate(properties[], dateText)
+        outputFormat
+        inputFormat
+    Begin
+        outputFormat = DateUtility:ToDate(dateText,
+                                          GetOutputPattern(properties),
+                                          GetOutputSeparator(properties))
+        If outputFormat ne "" And (ErrorManager:GetError() eq "") Then
+            Return (outputFormat)
+        End If
+
+        inputFormat = DateUtility:ToDate(dateText,
+                                         GetOutputPattern(properties),
+                                         0)
+        If inputFormat ne "" And (ErrorManager:GetError() eq "") Then
+            Return (inputFormat)
+        End If
+
+        ErrorManager:SetError("The conversion to a date failed.")
+        Return (Handy:date)
+    End Method
+
+    Method RegisterSharedParameter(properties[])
+    Begin
+        If (Not GetIsShared(properties)) Then
+            Return()
+        End If
+
+        SharedParameterUtility:UpdateSharedParameter(GetSharedParameterKey(properties),
+                                                     GetText(properties),
+                                                     GetText(properties))
+
+        If (ErrorManager:GetError() ne "") Then
+            ShowMessageBox(properties, "The operation to update the shared parameters failed.")
+        End If
+    End Method
+
+    Method ShowMessageBox(properties[], message)
+    Begin
+        MessageUtility:ShowMessageOk(message)
+    End Method
+
+    Method ResetInvalidInput(properties[])
+        orgDisableMessage
+    Begin
+        orgDisableMessage = MessageUtility:GetDisableMessage()
+        MessageUtility:SetDisableMessage(true)
+
+        If Not CheckAndFixDisplayText(properties) Then
+            SetText(properties, DateUtility:FormatDate(GetFixedDate(properties), GetOutputPattern(properties), GetOutputSeparator(properties)))
+        End If
+
+        MessageUtility:SetDisableMessage(orgDisableMessage)
+    End Method
+
+    Method GetCollationValue(properties[], dataIndex, index)
+        value
+    Begin
+        If dataIndex is nil Then Return (GetLogData(properties, dataIndex)) End If
+
+        value = DB_DAT:Get_Offset(GetName(properties), "Collation", dataIndex)
+        If value is nil Then
+            If dataIndex == 0 Then Return (GetLogData(properties, dataIndex)) End If
+            Return("")
+        End If
+        Return(value)
+    End Method
+
+    Method GetAllCollationValues(properties[], index)
+    Begin
+        Return (DB_DAT:Count(GetName(properties), "Collation"))
+    End Method
+
+    Method AddCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Add(GetName(properties), "Collation", GetCollationValue(properties, nil, 0))
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method RemoveCollationValue(properties[], rowIndex)
+        parameter[1]
+    Begin
+        DB_DAT:Delete_Offset(GetName(properties), "Collation", rowIndex)
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method ClearCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Delete_All(GetName(properties), "Collation")
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method GetCollationInputControl(properties[], index)
+    Begin
+        Return (GetName(properties))
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex)
+        resultString
+        resultDate
+        errorMessage
+    Begin
+        If (ListTable:Get(listId_SearchResult, columnIndex, "val") Is nil) Then
+            Return()
+        End If
+
+        resultString = ListTable:Get(listId_SearchResult, columnIndex, "val")
+        resultDate = GetSearchResultDate(properties, resultString)
+        errorMessage = ErrorManager:GetError()
+        If (resultDate eq "" Or errorMessage ne "") Then
+            SetText(properties, DateUtility:FormatDate(Handy:date,
+                                                       GetOutputPattern(properties),
+                                                       GetOutputSeparator(properties)))
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+
+        SetText(properties, DateUtility:FormatDate(resultDate,
+                                                   GetOutputPattern(properties),
+                                                   GetOutputSeparator(properties)))
+        If ICollationTarget:IsImplemented(GetName(properties)) Then
+            AddCollationValue(properties)
+        EndIf
+    End Method
+
+    Method GetSearchResultDate(properties[], resultString)
+        resultDate
+    Begin
+
+        resultDate = DateUtility:ToDate(resultString, 1, 1)
+
+        If (resultDate eq "" Or ErrorManager:GetError() ne "") Then
+            resultDate = StringToDate(properties, resultString)
+            If (resultDate eq "" Or ErrorManager:GetError() ne "") Then
+                ErrorManager:SetError("The conversion to a date failed.")
+                Return ("")
+            End If
+        End If
+
+        If Not IsInRange(resultDate) Then
+            ErrorManager:SetError("The conversion to a date failed.")
+            Return ("")
+        End If
+
+        Return (resultDate)
+    End Method
+
+    Method SetKeyCharacter(mode)
+    Begin
+        Return (0)
+    End Method
+
+    Method DrawFocusFrame()
+    Begin
+    End Method
+
+    Method GetToday(properties[])
+        today
+        todayString
+    Begin
+        today = DateUtility:RoundDate(Handy:date, "1980/01/01", "2079/12/31")
+        todayString = DateUtility:FormatDate(today,
+                                             GetOutputPattern(properties),
+                                             GetOutputSeparator(properties))
+        Return (StringToDate(properties, todayString))
+    End Method
+
+    Method IsInputNumericKey(properties[])
+    Begin
+        Return (((GetDateInputType(properties) == 0) Or
+                 (GetDateInputType(properties) == 1)))
+    End Method
+
+    Method IsInputArrowKey(properties[])
+    Begin
+        Return (((GetDateInputType(properties) == 2) Or
+                 (GetDateInputType(properties) == 3)))
+    End Method
+
+    Method IsEnableReader(properties[])
+    Begin
+        Return (((GetDateInputType(properties) == 3) Or
+                 (GetDateInputType(properties) == 1)))
+    End Method
+
+    Method MakeReEnterState(properties[])
+    Begin
+        SetText(properties, DateUtility:FormatDate(GetToday(properties), GetOutputPattern(properties), 0))
+        ChangeMode(properties, 1, true)
+    End Method
+
+    Method Focus(properties[])
+    Begin
+        FocusTransitionUtilityCommon:SetFocus(properties[0])
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+        focusHandler
+        parameter[1]
+    Begin
+        If isFocused Then
+            focusHandler = TextField<properties[0]>:onFocusIn
+        Else
+            focusHandler = TextField<properties[0]>:onFocusOut
+        End If
+        If Not focusHandler is nil Then
+            EventUtility:Exec(focusHandler, properties[0], parameter)
+        End If
+    End Method
+
+    Method EnterData(properties[])
+    Begin
+        RegisterSharedParameter(properties)
+        Return (DataInput(properties, true))
+    End Method
+
+    Method ExecuteIrregularFocusTransition(properties[])
+    Begin
+        Return (FocusTransitionRequested(properties))
+    End Method
+
+    Method ValidateScanning(properties[], readData)
+    Begin
+        If readData eq "" Then
+            Return (false)
+        End If
+        Return (true)
+    End Method
+
+    Method OnPressArrowKeyMode(properties[], sender)
+        proc = 0
+        tdate
+    Begin
+        Select Case sender
+            Case 0x00800000
+                If (GetKeyOperationType(properties) == 0) Then
+                    ChangeMode(properties, 1, false)
+                End If
+                Return(true)
+
+            Case 0x00010000, 0x00040000
+                If (GetKeyOperationType(properties) == 0) Then
+                    MovePreviousControl(properties)
+                    Return()
+                End If
+
+            Case 0x00020000, 0x00080000
+                If (GetKeyOperationType(properties) == 0) Then
+                    MoveNextControl(properties)
+                    Return (true)
+                End If
+        End Select
+
+        If (GetKeyOperationType(properties) == 1) Then
+            If sender == 0x00010000 Then        proc = 1
+            ElseIf sender == 0x00020000 Then  proc = 2
+            ElseIf sender == 0x00040000 Then  proc = 3
+            ElseIf sender == 0x00080000 Then proc = 4
+            End If
+            If proc <> 0 Then
+                If GetFixedDate(properties) eq "" Then
+                    tdate = DateUtility:ChangeDefault2Format(Handy:date, GetOutputPattern(properties), GetOutputSeparator(properties))
+                Else
+                    tdate = DateUtility:ChangeDate(GetFixedDate(properties), proc, GetOutputPattern(properties), GetOutputSeparator(properties))
+                End If
+                SetFixedDate(properties, tdate)
+                SetText(properties, tdate)
+            End If
+            Return(true)
+        End If
+    End Method
+
+    Method OnPressNumericKeyMode(properties[], sender)
+    Begin
+        Select Case sender
+            Case 0x00800000
+                If (GetKeyOperationType(properties) == 0) Then
+                    SetKeyOperationType(properties, 1)
+                    Return (nil)
+                End If
+
+            Case 0x00010000
+                ResetInvalidInput(properties)
+                MovePreviousControl(properties)
+
+            Case 0x00020000
+                ResetInvalidInput(properties)
+                MoveNextControl(properties)
+
+            Case 0x00040000
+                If (GetKeyOperationType(properties) == 1) Then
+                    Return (nil)
+                End If
+
+                ResetInvalidInput(properties)
+                MovePreviousControl(properties)
+
+            Case 0x00080000
+                If (GetKeyOperationType(properties) == 1) Then
+                    Return (nil)
+                End If
+
+                ResetInvalidInput(properties)
+                MoveNextControl(properties)
+
+            Case 0x00008000
+                If (GetKeyOperationType(properties) == 0) Then
+                    SetText(properties, "")
+                    ChangeMode(properties, 1, true)
+                End If
+
+            Case 0x00000002
+                If Not (GetIsEditOnF2(properties)) Then
+                    If (GetKeyOperationType(properties) == 0) Then
+                        SetKeyOperationType(properties, 2)
+                    End If
+                    Return (nil)
+                End If
+                If (GetKeyOperationType(properties) == 0) Then
+                    ChangeMode(properties, 1, true)
+                    SetText(properties, DateUtility:ChangeDefault2Format(GetText(properties), GetOutputPattern(properties), ""))
+                Else
+                    ChangeMode(properties, 0, true)
+                End If
+
+            Case 0x00000004
+                TextField<properties[0]>:inputOption = 8
+        End Select
+    End Method
+
+    Method ComparisonValueCountUpdated(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CollationCountInitialized(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method DataInput(properties[], result)
+        parameter[1]
+        ret
+    Begin
+        StoreTemporaryText(properties)
+        parameter[0] = result
+        ret = EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), parameter)
+        ResetTemporaryText(properties)
+        Return (ret)
+    End Method
+
+    Method FocusTransitionRequested(properties[])
+        parameter[1]
+    Begin
+        Return (EventUtility:Exec(GetFocusTransitionRequestedHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method MoveNextControl(properties[])
+        parameter[1]
+    Begin
+        SetFocus(
+            TextField<properties[0]>:GetFocus(),
+            EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method MovePreviousControl(properties[])
+        parameter[1]
+    Begin
+        SetFocus(
+            TextField<properties[0]>:GetFocus(),
+            EventUtility:Exec(GetMovePreviousControlHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method TransitFocus(properties[])
+    Begin
+        If Not (ExecuteIrregularFocusTransition(properties)) Then
+            MoveNextControl(properties)
+        End If
+    End Method
+
+    Method SetFocus(focusControlId, controlId)
+    Begin
+        If focusControlId.isString And controlId.isString Then
+            If focusControlId ne controlId Then
+                FocusTransitionUtilityCommon:SetFocus(controlId)
+            End If
+        End If
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        TextField<properties[0]>:visible = false
+    End Method
+
+    Method RestoreDisplayFormat(properties[])
+        data
+    Begin
+        If IsInputNumericKey(properties) Then
+            If properties[23] is false Then
+                data = DateUtility:ChangeFormat(GetText(properties), GetOutputPattern(properties), "", GetOutputPattern(properties), GetOutputSeparator(properties))
+                If data ne "" Then
+                    SetText(properties, data)
+                Else
+                    SetText(properties, DateUtility:ChangeFormat(GetFixedDate(properties), "YYYYMMDD", "/", GetOutputPattern(properties), GetOutputSeparator(properties)))
+                End If
+            End If
+            If GetText(properties) eq "" Then
+                SetText(properties, GetFixedDate(properties))
+            End If
+        End If
+        SetKeyOperationType(properties, 0)
+        properties[23] = false
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        TextField<properties[0]>:Delete()
+    End Method
+
+    Method OnPress(properties[], sender)
+    Begin
+        If IsInputArrowKey(properties) Then
+            OnPressArrowKeyMode(properties, sender)
+        Else
+            OnPressNumericKeyMode(properties, sender)
+       End If
+    End Method
+
+    Method OnEditStart(properties[], onEditStartHandler)
+    Begin
+        TextField<GetName(properties)>:onEditStart = nil
+        OnEditStartCore(properties)
+        TextField<GetName(properties)>:onEditStart = onEditStartHandler
+    End Method
+
+    Method OnEditStartCore(properties[])
+        tdate
+        nowData
+    Begin
+        If (GetKeyOperationType(properties) == 2) Then
+            TextField<GetName(properties)>:SetEditMode("off")
+            Return (nil)
+        End If
+
+        properties[23] = false
+        SetKeyOperationType(properties, 1)
+        nowData = GetText(properties)
+        If Not IsInputArrowKey(properties) Then
+            tdate = DateUtility:ChangeFormat(nowData, GetOutputPattern(properties), GetOutputSeparator(properties), GetOutputPattern(properties), "")
+            If tdate eq "" Then
+                tdate = DateUtility:ChangeFormat(nowData, GetOutputPattern(properties), "", GetOutputPattern(properties), "")
+            End If
+            If tdate ne "" Then
+                SetText(properties, tdate)
+            End If
+        End If
+    End Method
+
+    Method OnEditEnd(properties[], onEditEndHandler)
+    Begin
+        TextField<GetName(properties)>:onEditEnd = nil
+        OnEditEndCore(properties)
+        TextField<GetName(properties)>:onEditEnd = onEditEndHandler
+    End Method
+
+    Method OnEditEndCore(properties[])
+    Begin
+        If (GetKeyOperationType(properties) == 0) Then
+            Return (nil)
+        End If
+
+        If Not GetEditFocus(properties) Then
+            SetEditFocus(properties, true)
+            Return (nil)
+        End If
+
+        If IsInputArrowKey(properties) Then
+            If Not (CheckAndFixDisplayText(properties)) Then
+                MakeReEnterState(properties)
+                SetFixedDate(properties, GetToday(properties))
+                Return (nil)
+            End If
+
+            ChangeMode(properties, 0, false)
+
+            SetText(properties,
+            DateUtility:ChangeFormat2Default(StringToDate(properties, GetText(properties)),
+                                             GetOutputPattern(properties), GetOutputSeparator(properties)))
+            SetFixedDate(properties, StringToDate(properties, GetText(properties)))
+        Else
+            If (Not CheckAndFixDisplayText(properties)) Then
+                MakeReEnterState(properties)
+                Return (nil)
+            End If
+
+            SetFixedDate(properties, GetText(properties))
+            ChangeMode(properties, 0, false)
+        End If
+
+        If Not (EnterData(properties)) Then
+            Return (nil)
+        End If
+
+        RestoreDisplayFormat(properties)
+
+        TransitFocus(properties)
+
+        Return(false)
+    End Method
+
+    Method OnEditCancel(properties[], onEditCancelHandler)
+    Begin
+        TextField<GetName(properties)>:onEditCancel =  nil
+        SetText(properties, GetFixedDate(properties))
+        TextField<GetName(properties)>:onEditCancel =  onEditCancelHandler
+    End Method
+
+    Method GotFocus(properties[], onPressHandler, onFocusInHandler)
+        orgDisableMessage
+    Begin
+        Key:onPress = onPressHandler
+
+        properties[35] = false
+        If properties[34] Then
+            Return()
+        End If
+        If FocusTransitionUtilityCommon:ForceLostFocus(properties[0]) Then
+            Key:onPress = onPressHandler
+        End If
+        properties[34] = true
+
+        TextField<GetName(properties)>:onFocusIn = nil
+
+        orgDisableMessage = MessageUtility:GetDisableMessage()
+
+        SetWarningDisplay(properties, false)
+        SetEditFocus(properties, true)
+        SetKeyOperationType(properties, 0)
+
+        MessageUtility:SetDisableMessage(true)
+
+        If (IsEnableReader(properties)) Then
+            SetOcrSettings(properties)
+        End If
+
+        If TextField<GetName(properties)>:GetFocus() eq GetName(properties) Then
+            TextField<GetName(properties)>:foreColor = GetFocusedForeColor(properties)
+            TextField<GetName(properties)>:backColor = GetFocusedBackColor(properties)
+        End If
+
+        MessageUtility:SetDisableMessage(orgDisableMessage)
+
+        TextField<GetName(properties)>:onFocusIn = onFocusInHandler
+    End Method
+
+    Method LostFocus(properties[], onFormKeyDownHandler, onFocusOutHandler)
+        orgDisableMessage
+    Begin
+        Key:onPress = onFormKeyDownHandler
+
+        properties[34] = false
+        If properties[35] Then
+            Return()
+        End If
+        properties[35] = true
+
+        TextField<GetName(properties)>:onFocusOut = nil
+
+        If (GetKeyOperationType(properties) == 1) Then
+            RestoreDisplayFormat(properties)
+        End If
+
+        orgDisableMessage = MessageUtility:GetDisableMessage()
+
+        If (GetWarningDisplay(properties)) Then
+            Return()
+        End If
+
+        MessageUtility:SetDisableMessage(true)
+
+        If (IsEnableReader(properties)) Then
+            ResetOcrSettings(properties)
+        End If
+
+        If TextField<GetName(properties)>:GetFocus() ne GetName(properties) Then
+            TextField<GetName(properties)>:foreColor = GetForeColor(properties)
+            TextField<GetName(properties)>:backColor = GetBackColor(properties)
+        End If
+
+        MessageUtility:SetDisableMessage(orgDisableMessage)
+
+        TextField<GetName(properties)>:onFocusOut = onFocusOutHandler
+    End Method
+
+    Method OnScanned(properties[], onScanCompleteHandler)
+    Begin
+        TextField<GetName(properties)>:onScanComplete = nil
+        OnScannedCore(properties)
+        TextField<GetName(properties)>:onScanComplete = onScanCompleteHandler
+    End Method
+
+    Method OnScannedCore(properties[])
+        readString
+        readDate
+    Begin
+        If (Not IsEnableReader(properties)) Then
+            SetEditFocus(properties, false)
+            Return()
+        End If
+
+        BCR:GetData(0)
+        readString = ReadableCodeSettings:ReadScanData(BCR:data)
+        If (Not ValidateScanning(properties, readString)) Then
+            MakeReEnterState(properties)
+            SetEditFocus(properties, false)
+            Return()
+        End If
+
+        If readString.length < 2 Then Return() End If
+        If readString.Right(2) eq "00" Then
+            readString = readString.Left(readString.length - 2) & "01"
+        End If
+
+        readDate = DateUtility:ToDate(readString, 1, 0)
+        If (readDate eq "" Or ErrorManager:GetError() ne "") Then
+            MakeReEnterState(properties)
+            SetEditFocus(properties, false)
+            Return()
+        End If
+
+        SetText(properties, DateUtility:FormatDate(readDate,
+                                                   GetOutputPattern(properties),
+                                                   GetOutputSeparator(properties)))
+    End Method
+
+    Method TouchOut(properties[], onTouchOutHandler)
+    Begin
+        TextField<GetName(properties)>:onTouchOut = nil
+        ResetInvalidInput(properties)
+        TextField<GetName(properties)>:onTouchOut = onTouchOutHandler
+    End Method
+
+    Method StoreTemporaryText(properties[])
+    Begin
+        properties[36] = TextField<properties[0]>:text
+    End Method
+
+    Method ResetTemporaryText(properties[])
+    Begin
+        properties[36] = nil
+    End Method
+
+End Package
+

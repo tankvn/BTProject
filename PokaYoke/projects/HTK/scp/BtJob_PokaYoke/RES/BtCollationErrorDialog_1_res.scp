@@ -1,0 +1,365 @@
+Include "BtJob_PokaYoke\Lib\Parts\BtCollationErrorDialog_1_BtButton_Exit"
+Include "BtJob_PokaYoke\Lib\Parts\BtCollationErrorDialog_1_BtLabel_Message2"
+Include "BtJob_PokaYoke\Lib\Parts\BtCollationErrorDialog_1_BtLabel_Message1"
+Include "BtJob_PokaYoke\Lib\Parts\BtCollationErrorDialog_1_BtLabel_Title"
+Include "BtJob_PokaYoke\Lib\Utilities\BtCollationErrorDialog_1_FocusTransitionUtility"
+
+Package BtCollationErrorDialog_1_res
+
+Properties[11]
+
+_ctrl[4]
+_components[1]
+
+    Method New()
+    Begin
+        _ctrl[0] = "BtCollationErrorDialog_1_BtLabel_Title"
+        _ctrl[1] = "BtCollationErrorDialog_1_BtLabel_Message1"
+        _ctrl[2] = "BtCollationErrorDialog_1_BtLabel_Message2"
+        _ctrl[3] = "BtCollationErrorDialog_1_BtButton_Exit"
+
+        Properties[0] = "BtCollationErrorDialog_1"
+        BtFormCommon:New(Properties)
+    End Method
+
+    Method InitializeChildren()
+    Begin
+        UpdateChildren(False)
+    End Method
+
+    Method UpdateChildren(updateScreen)
+    Begin
+        BtFormCommon:UpdateChildren(_ctrl, _components)
+
+        If updateScreen Then
+        End If
+    End Method
+
+    Method UpdateLogData(updateScreen)
+    Begin
+        If updateScreen Then
+        End If
+    End Method
+
+    Method UpdateMasterData(updateScreen)
+    Begin
+    End Method
+
+    Method ReflectMasterCheckSentNum(logDataMaxRowId)
+    Begin
+    End Method
+
+    Method ReflectMasterCheckSentNumByRealTime()
+    Begin
+    End Method
+
+    Method RegisterSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:RegisterSharedParameter(_ctrl)
+
+        If updateScreen Then
+        End If
+    End Method
+
+    Method UpdateSharedParameterInputTool(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameterInputTool(_ctrl, _components)
+
+        If updateScreen Then
+        End If
+    End Method
+
+    Method UpdateSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameter(_ctrl)
+
+        If updateScreen Then
+        End If
+
+        UpdateSharedParameterInputTool(updateScreen)
+    End Method
+
+    Method ClearSharedParameterWhenWroteLog()
+    Begin
+
+        RegisterSharedParameter(true)
+        UpdateSharedParameter(true)
+    End Method
+
+    Method ClearSharedParameterWhenJobClose()
+    Begin
+
+        RegisterSharedParameter(true)
+    End Method
+
+    Method CloseDatabase()
+    Begin
+        BtFormCommon:CloseDatabase(_ctrl, _components)
+    End Method
+
+    Method KeyAssignedAction(sender)
+    Begin
+        Select Case sender
+            Case 0x00000001
+            Case 0x00000002
+            Case 0x00000004
+            Case 0x02000000
+            Case 0x00200000
+            Case 0x00400000
+        End Select
+    End Method
+
+    Method GetActiveControl(checkControl)
+    Begin
+        Return (Window<Properties[0]>:GetFocus())
+    End Method
+
+    Method ResetInvalidInput()
+    Begin
+    End Method
+
+    Method OnShown(e)
+    Begin
+    End Method
+
+    Method Close()
+    Begin
+        BtFormCommon:Close(Properties)
+    End Method
+
+    Method Dispose()
+    Begin
+        BtFormCommon:Dispose(_ctrl)
+    End Method
+
+    Method Show(value)
+    Begin
+        BtFormCommon:ShowDisplay(Properties, _ctrl, value)
+    End Method
+
+    Method EventWait()
+    Begin
+        BtFormCommon:EventWait(Properties)
+    End Method
+
+    Method KeyAssignedActionForBtScreen(controlId, sender)
+    Begin
+    End Method
+
+    _inputKeysList[4]
+    Method AddInputKeysList(value)
+    Begin
+        BtFormCommon:AddInputKeysList(_inputKeysList, value)
+    End Method
+    Method CheckFullInputKeysList()
+    Begin
+        Return(_inputKeysList[3] is nil)
+    End Method
+    Method CheckJudgeInputKeyList()
+    Begin
+        Return(BtFormCommon:CheckJudgeInputKeyList(_inputKeysList))
+    End Method
+
+    Method Focus()
+    Begin
+        Window<Properties[0]>:SetFocus()
+    End Method
+    Method SetEnable(value)
+    Begin
+        Window<Properties[0]>:enable = value
+    End Method
+
+    Method InitializeTimer()
+    Begin
+        UserObj<"__SMALL_OBJ__" & StringUtility:GetHandleTagNameEraseSymbol(BtCollationErrorDialog_1_res:InvertControlColor)>:Open()
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtCollationErrorDialog_1_res:InvertControlColor)>:Set(0, BtCollationErrorDialog_1_res:InvertControlColor)
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtCollationErrorDialog_1_res:InvertControlColor)>:Set(1, false)
+        BtFormCommon:StartTimer(Properties, OnTimeUp)
+    End Method
+
+    Method TerminateTimer()
+    Begin
+        BtFormCommon:StopTimer(Properties)
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtCollationErrorDialog_1_res:InvertControlColor)>:Close()
+    End Method
+
+    Method OnTimeUp(sender)
+        currentTime
+    Begin
+        currentTime = Handy:GetTickCount1()
+
+        If currentTime < BtFormCommon:GetLastTime(Properties) Then
+            BtFormCommon:SetLastTime(Properties, -1 * 50)
+        End If
+
+        If currentTime < (BtFormCommon:GetLastTime(Properties) + 50) Then Return() End If
+        If UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtCollationErrorDialog_1_res:InvertControlColor)>:Get(1) Then
+            UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtCollationErrorDialog_1_res:InvertControlColor)>:Exec(0)
+        End If
+        BtFormCommon:SetLastTime(Properties, Handy:GetTickCount1())
+    End Method
+
+    Method InvertControlColor(sender)
+    Begin
+        If Not Window<Properties[0]>:visible Then
+            Return()
+        End If
+
+        Window<"__UPDATE_OFF__">:Update()
+        BtLabelCommon:SetBackColor(BtCollationErrorDialog_1_BtLabel_Title:Properties,
+                                   IndicatorUtility:InvertColor(BtLabelCommon:GetBackColor(BtCollationErrorDialog_1_BtLabel_Title:Properties)))
+        BtLabelCommon:SetForeColor(BtCollationErrorDialog_1_BtLabel_Title:Properties,
+                                   IndicatorUtility:InvertColor(BtLabelCommon:GetForeColor(BtCollationErrorDialog_1_BtLabel_Title:Properties)))
+        BtLabelCommon:SetBackColor(BtCollationErrorDialog_1_BtLabel_Message1:Properties,
+                                   IndicatorUtility:InvertColor(BtLabelCommon:GetBackColor(BtCollationErrorDialog_1_BtLabel_Message1:Properties)))
+        BtLabelCommon:SetForeColor(BtCollationErrorDialog_1_BtLabel_Message1:Properties,
+                                   IndicatorUtility:InvertColor(BtLabelCommon:GetForeColor(BtCollationErrorDialog_1_BtLabel_Message1:Properties)))
+        BtLabelCommon:SetBackColor(BtCollationErrorDialog_1_BtLabel_Message2:Properties,
+                                   IndicatorUtility:InvertColor(BtLabelCommon:GetBackColor(BtCollationErrorDialog_1_BtLabel_Message2:Properties)))
+        BtLabelCommon:SetForeColor(BtCollationErrorDialog_1_BtLabel_Message2:Properties,
+                                   IndicatorUtility:InvertColor(BtLabelCommon:GetForeColor(BtCollationErrorDialog_1_BtLabel_Message2:Properties)))
+
+        BtButtonCommon:SetFocusColor(BtCollationErrorDialog_1_BtButton_Exit:Properties,
+                                                       IndicatorUtility:InvertColor(BtButtonCommon:GetFocusColor(BtCollationErrorDialog_1_BtButton_Exit:Properties)))
+        BtButtonCommon:SetFocusColor(BtCollationErrorDialog_1_BtButton_Exit:Properties,
+                                                       IndicatorUtility:InvertColor(BtButtonCommon:GetFocusColor(BtCollationErrorDialog_1_BtButton_Exit:Properties)))
+        BtButtonCommon:SetFocusColor(BtCollationErrorDialog_1_BtButton_Exit:Properties,
+                                                       IndicatorUtility:InvertColor(BtButtonCommon:GetFocusColor(BtCollationErrorDialog_1_BtButton_Exit:Properties)))
+
+        If "BTW" eq "BT" Or BtLabelCommon:GetImaging(BtCollationErrorDialog_1_BtLabel_Title:Properties) Then
+            BtLabelCommon:DrawCanvas(BtCollationErrorDialog_1_BtLabel_Title:Properties)
+        End If
+        If "BTW" eq "BT" Or BtLabelCommon:GetImaging(BtCollationErrorDialog_1_BtLabel_Message1:Properties) Then
+            BtLabelCommon:DrawCanvas(BtCollationErrorDialog_1_BtLabel_Message1:Properties)
+        End If
+        If "BTW" eq "BT" Or BtLabelCommon:GetImaging(BtCollationErrorDialog_1_BtLabel_Message2:Properties) Then
+            BtLabelCommon:DrawCanvas(BtCollationErrorDialog_1_BtLabel_Message2:Properties)
+        End If
+
+        BtFormCommon:SetBackColor(Properties, IndicatorUtility:InvertColor(BtFormCommon:GetBackColor(Properties)))
+
+        If "BTW" eq "BT" Or BtLabelCommon:GetImaging(BtCollationErrorDialog_1_BtLabel_Title:Properties) Then
+            BtLabelCommon:DrawString(BtCollationErrorDialog_1_BtLabel_Title:Properties)
+        Else
+            BtLabelCommon:DrawLabel(BtCollationErrorDialog_1_BtLabel_Title:Properties)
+        End If
+        If "BTW" eq "BT" Or BtLabelCommon:GetImaging(BtCollationErrorDialog_1_BtLabel_Message1:Properties) Then
+            BtLabelCommon:DrawString(BtCollationErrorDialog_1_BtLabel_Message1:Properties)
+        Else
+            BtLabelCommon:DrawLabel(BtCollationErrorDialog_1_BtLabel_Message1:Properties)
+        End If
+        If "BTW" eq "BT" Or BtLabelCommon:GetImaging(BtCollationErrorDialog_1_BtLabel_Message2:Properties) Then
+            BtLabelCommon:DrawString(BtCollationErrorDialog_1_BtLabel_Message2:Properties)
+        Else
+            BtLabelCommon:DrawLabel(BtCollationErrorDialog_1_BtLabel_Message2:Properties)
+        End If
+        Window<"ROOT_WINDOW">:Update()
+    End Method
+
+    Method InitializeComponent()
+    Begin
+        New()
+        BtFormCommon:SetTimerId(BtCollationErrorDialog_1_res:Properties, 2)
+        InitializeTimer()
+        With BtCollationErrorDialog_1_res
+            BtCollationErrorDialog_1_BtLabel_Title:Create(BtFormCommon:GetName(:Properties))
+            BtCollationErrorDialog_1_BtLabel_Message1:Create(BtFormCommon:GetName(:Properties))
+            BtCollationErrorDialog_1_BtLabel_Message2:Create(BtFormCommon:GetName(:Properties))
+            BtCollationErrorDialog_1_BtButton_Exit:Create(BtFormCommon:GetName(:Properties))
+        End With
+
+        With BtCollationErrorDialog_1_BtLabel_Title
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, 0x0)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 0)
+            BtLabelCommon:SetInitialText(:Properties, "DataMatch result")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 0)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtCollationErrorDialog_1_BtLabel_Message1
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, 0x0)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "255|0|0")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 125)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 35)
+            BtLabelCommon:SetInitialText(:Properties, "Chk")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 120)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 1)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtCollationErrorDialog_1_BtLabel_Message2
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, 0x0)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "255|0|0")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 125)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 160)
+            BtLabelCommon:SetInitialText(:Properties, "NG")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 120)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 2)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtCollationErrorDialog_1_BtButton_Exit
+            BtButtonCommon:SetText(:Properties, "OK")
+            BtButtonCommon:SetWidth(:Properties, 90)
+            BtButtonCommon:SetHeight(:Properties, 35)
+            BtButtonCommon:SetLeft(:Properties, 75)
+            BtButtonCommon:SetTop(:Properties, 285)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetFontSize(:Properties, 30)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 3)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtCollationErrorDialog_1_res
+            BtFormCommon:SetBackColor(:Properties, "255|0|0")
+            BtFormCommon:SetWidth(:Properties, 240)
+            BtFormCommon:SetHeight(:Properties, 320)
+            BtFormCommon:SetLeft(:Properties, 0)
+            BtFormCommon:SetTop(:Properties, 0)
+            BtFormCommon:SetFormBorderStyle(:Properties, "none")
+        End With
+
+    End Method
+End Package

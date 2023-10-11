@@ -1,0 +1,69 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtSearchViewMasterControlConstants"
+
+Package BtSearchViewMasterControlCommon
+
+
+    Method GetSearchSource(properties[]) Begin Return (properties[DEF_SEARCH_SOURCE_PROPERTY]) End Method
+    Method SetSearchSource(properties[], value) Begin properties[DEF_SEARCH_SOURCE_PROPERTY] = value End Method
+
+    Method GetSaveDestination(properties[]) Begin Return (properties[DEF_SAVEDESTINATION_PROPERTY]) End Method
+    Method SetSaveDestination(properties[], value) Begin properties[DEF_SAVEDESTINATION_PROPERTY] = value End Method
+
+    Method GetMasterDataName(properties[]) Begin Return (properties[DEF_MASTERDATANAME_PROPERTY]) End Method
+    Method SetMasterDataName(properties[], value) Begin properties[DEF_MASTERDATANAME_PROPERTY] = value End Method
+
+    Method GetMaxDataCount(properties[]) Begin Return (properties[DEF_MAXDATACOUNT_PROPERTY]) End Method
+    Method SetMaxDataCount(properties[], value) Begin properties[DEF_MAXDATACOUNT_PROPERTY] = value End Method
+
+    Method GetUserMasterTableName(properties[]) Begin Return (properties[DEF_USER_MASTER_TABLE_NAME_PROPERTY]) End Method
+    Method SetUserMasterTableName(properties[], value) Begin properties[DEF_USER_MASTER_TABLE_NAME_PROPERTY] = value End Method
+
+    Method GetCommunicationErrorDisplayMode(properties[]) Begin Return (properties[DEF_COMMUNICATION_ERROR_DISPLAY_MODE_PROPERTY]) End Method
+    Method SetCommunicationErrorDisplayMode(properties[], value) Begin properties[DEF_COMMUNICATION_ERROR_DISPLAY_MODE_PROPERTY] = value End Method
+
+
+
+#insert "\Lib\Utilities\IMasterDataOwnerControlInvokeCommon"
+
+    Method New(properties[], name)
+    Begin
+        properties[DEF_NAME_PROPERTY] = name
+        properties[DEF_CONDITIONITEMS_PROPERTY] = 0
+        properties[DEF_DISPLAYITEMS_PROPERTY] = 0
+        properties[DEF_SEARCH_SOURCE_PROPERTY] = DATA_LOCATION_LOCAL
+        properties[DEF_SAVEDESTINATION_PROPERTY] = STORAGE_DESTINATION_DRIVE1
+        properties[DEF_MASTERDATANAME_PROPERTY] = ""
+        properties[DEF_SHOWNOTFOUNDMASTERDATAERROR_PROPERTY] = true
+        properties[DEF_MAXDATACOUNT_PROPERTY] = 100
+        properties[DEF_USER_MASTER_TABLE_NAME_PROPERTY] = ""
+        properties[DEF_COMMUNICATION_ERROR_DISPLAY_MODE_PROPERTY] = COMMUNICATION_ERROR_DISPLAY_MODE_TERMINAL_SETTING
+    End Method
+
+    Method UpdateMasterData(properties[])
+    Begin
+    End Method
+
+    Method CloseMasterData(properties[])
+        storagePath
+    Begin
+        storagePath = PathUtility:StorageTypeToPath(properties[DEF_SAVEDESTINATION_PROPERTY])
+        DbAccess:Close(PathUtility:Combine(storagePath, properties[DEF_MASTERDATANAME_PROPERTY]))
+    End Method
+
+    Method GetMaxDataCountForDbAccess(properties[])
+        maxDataCount
+    Begin
+        maxDataCount = GetMaxDataCount(properties)
+        If DB_ACCESS_MAX_DATA_COUNT <= maxDataCount Then
+            Return (DB_ACCESS_MAX_DATA_COUNT)
+        Else
+            Return (maxDataCount)
+        End If
+    End Method
+
+
+End Package
+
+#popdefine

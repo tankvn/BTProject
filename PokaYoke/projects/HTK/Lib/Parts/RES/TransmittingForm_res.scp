@@ -1,0 +1,157 @@
+
+/*<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>*/ 
+Package TransmittingForm_res
+
+
+    #define DEF_WINDOW_NAME "TRANSMITTING_WINDOW"
+    #define DEF_TITLE_LABEL_NAME "Label_Title"
+    #define DEF_STATUS_LABEL_NAME "Label_Status"
+    #define DEF_CANCEL_LABEL_NAME "Label_Cancel"
+
+
+
+    Method GetTitleLabelText() /*As String*/
+    Begin
+        Return (Label<DEF_TITLE_LABEL_NAME>:text)
+    End Method
+
+    Method SetTitleLabelText(value) /*As String*/
+    Begin
+        Label<DEF_TITLE_LABEL_NAME>:text = value
+    End Method
+
+    Method GetStatusLabelText() /*As String*/
+    Begin
+        Return (Label<DEF_STATUS_LABEL_NAME>:text)
+    End Method
+
+    Method SetStatusLabelText(value) /*As String*/
+    Begin
+        Label<DEF_STATUS_LABEL_NAME>:text = value
+    End Method
+
+    Method GetEnableCancel() /*As Boolean*/
+    Begin
+        Return (Label<DEF_CANCEL_LABEL_NAME>:visible)
+    End Method
+
+    Method SetEnableCancel(value) /*As Boolean*/
+    Begin
+        Label<DEF_CANCEL_LABEL_NAME>:visible = value
+    End Method
+
+
+
+    /*<System.Diagnostics.DebuggerStepThrough()>*/ 
+    Method InitializeComponent()
+    Begin
+        With Window<DEF_WINDOW_NAME>
+            :Create("ROOT_WINDOW")
+            :left = 30
+            :top  = 100
+            :width = 236
+            :height = 115
+            :backColor = "193|190|193"
+            :frame = "thin"
+        End With
+
+        With Label<DEF_TITLE_LABEL_NAME>
+            :Create(DEF_WINDOW_NAME)
+            :foreColor = "255|255|255"
+            :backColor = "0|0|128"
+            :left = 0
+            :top = 0
+            :width = 236
+            :height = 30
+            :text = ""
+            :textAlign = "center"
+            :fontSize  = 18
+            If TERMINAL_SETTING_TERMINAL_KIND eq "BTW" Then
+                :fontName  = TERMINAL_SETTING_DEFAULT_FONT_NAME
+            End If
+            :frame = "none"
+            :visible = True
+            :enable = True
+            :textVAlign = "center"
+        End With
+
+        With Label<DEF_STATUS_LABEL_NAME>
+            :Create(DEF_WINDOW_NAME)
+            :foreColor = "0|0|0"
+            :backColor = "193|190|193"
+            :left = 0
+            :top = 40
+            :width = 236
+            :height = 30
+            :text   = ""
+            :textAlign = "center"
+            :fontSize  = 24
+            If TERMINAL_SETTING_TERMINAL_KIND eq "BTW" Then
+                :fontName  = TERMINAL_SETTING_DEFAULT_FONT_NAME
+            End If
+            :frame = "none"
+            :visible = True
+            :enable = True
+            :textVAlign = "center"
+        End With
+
+        With Label<DEF_CANCEL_LABEL_NAME>
+            :Create(DEF_WINDOW_NAME)
+            :foreColor = "0|0|0"
+            :backColor = "193|190|193"
+            :left = 0
+            :top = 80
+            :width = 236
+            :height = 30
+            :text   = "C: Cancel"
+            :textAlign = "center"
+            :fontSize  = 24
+            If TERMINAL_SETTING_TERMINAL_KIND eq "BTW" Then
+                :fontName  = TERMINAL_SETTING_DEFAULT_FONT_NAME
+            End If
+            :frame = "none"
+            :visible = True
+            :enable = True
+            :textVAlign = "center"
+        End With
+
+    End Method
+
+    Method LayoutSetting()
+        displaySize[2]
+        outSize[2]
+    Begin
+        displaySize[0] = Window<DEF_WINDOW_NAME>:width
+        displaySize[1] = Window<DEF_WINDOW_NAME>:height
+        LayoutUtility:CalculateDisplayLocation(displaySize, outSize)
+        Window<DEF_WINDOW_NAME>:left = outSize[0]
+        Window<DEF_WINDOW_NAME>:top = outSize[1]
+    End Method
+
+    Method Show()
+    Begin
+        With Window<DEF_WINDOW_NAME>
+            :visible = True
+            :enable = True
+            :Update()
+            :SetFocus()
+        End With
+    End Method
+
+    Method Close()
+    Begin
+        Window<DEF_WINDOW_NAME>:Delete()
+        Window<"ROOT_WINDOW">:Update()
+    End Method
+
+    Method Reflesh()
+    Begin
+        With Window<DEF_WINDOW_NAME>
+            :visible = false
+            :visible = true
+            :SetFocus()
+        End With
+    End Method
+
+
+End Package

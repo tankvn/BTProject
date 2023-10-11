@@ -1,0 +1,4 @@
+    Method ILogItemSystemParameterInvoke(this)
+    Begin
+        DEF_COMMON:ILogItemSystemParameterInvokeCommon(this, Properties)
+    End Method

@@ -1,0 +1,7 @@
+    Method IComparisonItemInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "DoJudgement"
+                InterfaceCommon:Result = DoJudgement(properties)
+        End Select
+    End Method

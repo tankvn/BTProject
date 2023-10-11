@@ -1,0 +1,105 @@
+
+Package ICollationTarget
+    Names[2]
+    ICommons[2]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_PokaYoke_BtTextBox_Input"
+        ICommons[0] = BtWindow_PokaYoke_BtTextBox_Input:ICollationTargetInvoke
+        Names[1] = "BtWindow_PokaYoke_BtTextBox_Compare"
+        ICommons[1] = BtWindow_PokaYoke_BtTextBox_Compare:ICollationTargetInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetTabStop(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetTabStop", args, ICommons))
+    End Method
+
+    Method SetTabStop(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        InterfaceCommon:Call(controlName, Names, "SetTabStop", args, ICommons)
+    End Method
+
+    Method DataInput(controlName)
+        args[1]
+    Begin
+        args[0] = true
+        InterfaceCommon:Call(controlName, Names, "DataInput", args, ICommons)
+    End Method
+
+    Method FocusTransitionRequested(controlName)
+        args[1]
+    Begin
+        InterfaceCommon:Call(controlName, Names, "FocusTransitionRequested", args, ICommons)
+    End Method
+
+    Method ComparisonValueCountUpdated(controlName)
+        args[1]
+    Begin
+        InterfaceCommon:Call(controlName, Names, "ComparisonValueCountUpdated", args, ICommons)
+    End Method
+
+    Method CollationCountInitialized(controlName)
+        args[1]
+    Begin
+        InterfaceCommon:Call(controlName, Names, "CollationCountUpdated", args, ICommons)
+    End Method
+
+    Method GetCollationValue(controlName, dataIndex, index)
+        args[2]
+    Begin
+        args[0] = dataIndex
+        args[1] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetCollationValue", args, ICommons))
+    End Method
+
+    Method GetAllCollationValues(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetAllCollationValues", args, ICommons))
+    End Method
+
+    Method AddCollationValue(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "AddCollationValue", args, ICommons))
+    End Method
+
+    Method RemoveCollationValue(controlName, rowIndex)
+        args[1]
+    Begin
+        args[0] = rowIndex
+        Return(InterfaceCommon:Call(controlName, Names, "RemoveCollationValue", args, ICommons))
+    End Method
+
+    Method ClearCollationValue(controlName)
+        args[1]
+    Begin
+        InterfaceCommon:Call(controlName, Names, "ClearCollationValue", args, ICommons)
+    End Method
+
+    Method GetCollationInputControl(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetCollationInputControl", args, ICommons))
+    End Method
+
+    Method GetType(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetType", args, ICommons))
+    End Method
+
+End Package
+

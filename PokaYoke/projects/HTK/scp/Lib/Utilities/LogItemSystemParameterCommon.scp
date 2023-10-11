@@ -1,0 +1,435 @@
+
+ Package LogItemSystemParameterCommon
+
+    Method GetTableItemName(properties[])
+    Begin
+            Return ("field" & properties[2])
+    End Method
+
+    Method GetDisplayName(properties[])
+    Begin
+            Return (properties[1])
+    End Method
+
+    Method GetLogItemId(properties[])
+    Begin
+            Return (properties[2])
+    End Method
+
+    Method GetLogItemType(properties[])
+    Begin
+            Return (properties[3])
+    End Method
+
+    Method SetLogItemId(properties[], value)
+    Begin
+            properties[2] = value
+    End Method
+
+    Method GetExclusionCharacters(properties[])
+    Begin
+            Return (properties[4])
+    End Method
+
+    Method SetExclusionCharacters(properties[], value)
+    Begin
+            properties[4] = value
+    End Method
+
+    Method GetOutputDoubleQuotation(properties[])
+    Begin
+            Return (properties[5])
+    End Method
+
+    Method SetOutputDoubleQuotation(properties[], value)
+    Begin
+            properties[5] = value
+    End Method
+
+    Method GetPaddingType(properties[])
+    Begin
+            Return (properties[6])
+    End Method
+
+    Method SetPaddingType(properties[], value)
+    Begin
+            properties[6] = value
+    End Method
+
+    Method GetDataAlignType(properties[])
+    Begin
+            Return (properties[7])
+    End Method
+
+    Method SetDataAlignType(properties[], value)
+    Begin
+            properties[7] = value
+    End Method
+
+    Method GetDateFormatType(properties[])
+    Begin
+            Return (properties[8])
+    End Method
+
+    Method SetDateFormatType(properties[], value)
+    Begin
+            properties[8] = value
+    End Method
+
+    Method GetDateSeparatorType(properties[])
+    Begin
+            Return (properties[9])
+    End Method
+
+    Method SetDateSeparatorType(properties[], value)
+    Begin
+            properties[9] = value
+    End Method
+
+    Method GetTimeFormatType(properties[])
+    Begin
+            Return (properties[10])
+    End Method
+
+    Method SetTimeFormatType(properties[], value)
+    Begin
+            properties[10] = value
+    End Method
+
+    Method GetCalculationType(properties[])
+    Begin
+            Return (properties[11])
+    End Method
+
+    Method SetCalculationType(properties[], value)
+    Begin
+            properties[11] = value
+    End Method
+
+    Method GetCalculationParameter(properties[])
+    Begin
+            Return (properties[12])
+    End Method
+
+    Method SetCalculationParameter(properties[], value)
+    Begin
+            properties[12] = value
+    End Method
+
+    Method GetDateCalculationUnitType(properties[])
+    Begin
+            Return (properties[13])
+    End Method
+
+    Method SetDateCalculationUnitType(properties[], value)
+    Begin
+            properties[13] = value
+    End Method
+
+    Method GetOutputRangeType(properties[])
+    Begin
+            Return (properties[14])
+    End Method
+
+    Method SetOutputRangeType(properties[], value)
+    Begin
+            properties[14] = value
+    End Method
+
+    Method GetOutputRangeStart(properties[])
+    Begin
+            Return (properties[15])
+    End Method
+
+    Method SetOutputRangeStart(properties[], value)
+    Begin
+            properties[15] = value
+    End Method
+
+    Method GetOutputRangeEnd(properties[])
+    Begin
+            Return (properties[16])
+    End Method
+
+    Method SetOutputRangeEnd(properties[], value)
+    Begin
+            properties[16] = value
+    End Method
+
+    Method GetOutputDigit(properties[])
+    Begin
+            Return (properties[17])
+    End Method
+
+    Method SetOutputDigit(properties[], value)
+    Begin
+            properties[17] = value
+    End Method
+
+    Method GetIsIndexColumn(properties[])
+    Begin
+            Return (properties[18])
+    End Method
+
+    Method SetIsIndexColumn(properties[], value)
+    Begin
+            properties[18] = value
+    End Method
+
+    Method NewBase(properties[], name, displayName, logItemType)
+    Begin
+        properties[0] = name
+        properties[1] = displayName
+        properties[3] = logItemType
+        properties[4] = 0x0
+        properties[5] = false
+        properties[6] = 1
+        properties[7] = 1
+        properties[8] = 1
+        properties[9] = 0
+        properties[10] = 0
+        properties[11] = 0
+        properties[12] = 0
+        properties[13] = 2
+        properties[14] = 0
+        properties[15] = 1
+        properties[16] = 8192
+        properties[17] = 10
+        properties[18] = false
+
+    End Method
+
+    Method GetLogItemInfoTableFieldValuePairs(properties[], tableItemTypes, index)
+        listId_TableItemValuePairs
+        booleanValue
+    Begin
+        listId_TableItemValuePairs = ListTable:CreateList()
+
+        ListTable:Add(listId_TableItemValuePairs, "LogIndex", index.toInt)
+
+        ListTable:Add(listId_TableItemValuePairs, "FieldName", GetTableItemName(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "SqlFieldType", tableItemTypes)
+
+        If (GetIsDate(properties) is true) Then
+            booleanValue = 1
+        Else
+            booleanValue = 0
+        End If
+        ListTable:Add(listId_TableItemValuePairs, "IsDate", booleanValue)
+
+        If (GetIsTime(properties) is true) Then
+            booleanValue = 1
+        Else
+            booleanValue = 0
+        End If
+        ListTable:Add(listId_TableItemValuePairs, "IsTime", booleanValue)
+
+        ListTable:Add(listId_TableItemValuePairs, "ExclusionCharacters", GetExclusionCharacters(properties))
+
+        If (GetOutputDoubleQuotation(properties) is true) Then
+            booleanValue = 1
+        Else
+            booleanValue = 0
+        End If
+        ListTable:Add(listId_TableItemValuePairs, "OutputDoubleQuotation", booleanValue)
+
+        ListTable:Add(listId_TableItemValuePairs, "PaddingType", GetPaddingType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "DataAlignType", GetDataAlignType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "DateFormatType", GetDateFormatType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "DateSeparatorType", GetDateSeparatorType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "TimeFormatType", GetTimeFormatType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "CalculationType", GetCalculationType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "CalculationParameter", GetCalculationParameter(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "DateCalculationUnitType", GetDateCalculationUnitType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "OutputRangeType", GetOutputRangeType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, "OutputRangeStart", GetOutputRangeStart(properties).toInt)
+
+        ListTable:Add(listId_TableItemValuePairs, "OutputRangeEnd", GetOutputRangeEnd(properties).toInt)
+
+        ListTable:Add(listId_TableItemValuePairs, "OutputDigit", GetOutputDigit(properties).toInt)
+
+        Return (listId_TableItemValuePairs)
+    End Method
+
+    Method IsFormatChangedBase(properties[], tableItemTypes, databaseName, index)
+        listId_TableItemValuePairs
+        dataCount
+    Begin
+        listId_TableItemValuePairs = GetLogItemInfoTableFieldValuePairs(properties, tableItemTypes, index)
+
+        dataCount = DbAccess:SelectCount(databaseName, "LogItem", listId_TableItemValuePairs, false, 0)
+        ListTable:DeleteList(listId_TableItemValuePairs)
+        If (ErrorManager:GetError() ne "") Then
+            Return (true)
+        End If
+        If dataCount <= 0 Then
+            Return (true)
+        End If
+
+        Return (false)
+    End Method
+
+    Method AddLogItemInfoBase(properties[], tableItemTypes, databaseName, index)
+        listId_TableFieldValuePairs
+    Begin
+
+        listId_TableFieldValuePairs = GetLogItemInfoTableFieldValuePairs(properties, tableItemTypes, index)
+        DbAccess:InsertRecord(databaseName, "LogItem", listId_TableFieldValuePairs)
+        ListTable:DeleteList(listId_TableFieldValuePairs)
+        If (ErrorManager:GetError() ne "") Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method GetFormattedLogDataCsv(properties[], dataLength, value)
+    Begin
+        Return (OutputDataUtility:GetFormattedData(value, dataLength, GetIsDate(properties), GetIsTime(properties), GetOutputDoubleQuotation(properties), GetOutputDigit(properties), GetDataAlignType(properties), GetPaddingType(properties)))
+    End Method
+
+    Method GetFormattedLogDataDbBase(properties[], tableItemTypes, decimalPlaces, dataLength, value)
+    Begin
+        Return (OutputDataUtility:GetOutputData(value, dataLength, tableItemTypes, GetIsDate(properties), GetIsTime(properties), GetExclusionCharacters(properties), GetOutputRangeType(properties), GetOutputRangeStart(properties), GetOutputRangeEnd(properties), GetCalculationType(properties), GetCalculationParameter(properties), GetDateCalculationUnitType(properties), decimalPlaces, GetDateFormatType(properties), GetDateSeparatorType(properties), GetTimeFormatType(properties)))
+    End Method
+
+    Method GetSystemParameter(properties[])
+    Begin
+        Return (properties[19 + 0])
+    End Method
+
+    Method GetLogData(properties[])
+        systemParameter
+    Begin
+        If (properties[19 + 0] == 6) Then
+            Return (DateUtility:FormatCommonDate(SystemParameterUtility:GetCurrentSystemDate()))
+        ElseIf (properties[19 + 0] == 7) Then
+            Return (TimeUtility:FormatCommonTime(SystemParameterUtility:GetCurrentSystemTime()))
+        Else
+            systemParameter = SystemParameterUtility:GetSystemParameter(properties[19 + 0])
+            ErrorManager:GetError()
+            Return (systemParameter)
+        End If
+    End Method
+
+    Method GetLogDataIndex(properties[])
+    Begin
+            Return (0)
+    End Method
+
+    Method GetLogItemTypeInfo(properties[])
+    Begin
+        Return ("LogItemSystemParameter" & ":(" &  GetSystemParameter(properties) & ")" & "(" & GetLogItemId(properties) & ")")
+    End Method
+
+    Method GetTableItemTypes(properties[])
+    Begin
+        Return ("text")
+    End Method
+
+    Method GetIsDate(properties[])
+    Begin
+        Select Case properties[19 + 0]
+            Case 6
+                Return (true)
+        End Select
+        Return (false)
+    End Method
+
+    Method GetIsTime(properties[])
+    Begin
+        Select Case properties[19 + 0]
+            Case 7
+                Return (true)
+        End Select
+        Return (false)
+    End Method
+
+    Method GetDecimalPlaces(properties[])
+    Begin
+        Return (3)
+    End Method
+
+    Method ILogItemSystemParameterInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetSystemParameter"
+                InterfaceCommon:Result = GetSystemParameter(properties)
+            Case "GetDateFormatType"
+                InterfaceCommon:Result = GetDateFormatType(properties)
+            Case "GetDateSeparatorType"
+                InterfaceCommon:Result = GetDateSeparatorType(properties)
+            Case "GetTimeFormatType"
+                InterfaceCommon:Result = GetTimeFormatType(properties)
+        End Select
+    End Method
+    Method ILogItemInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetLogData"
+                InterfaceCommon:Result = GetLogData(properties)
+            Case "GetLogDataIndex"
+                InterfaceCommon:Result = GetLogDataIndex(properties)
+            Case "GetLogItemTypeInfo"
+                InterfaceCommon:Result = GetLogItemTypeInfo(properties)
+            Case "GetTableItemName"
+                InterfaceCommon:Result = GetTableItemName(properties)
+            Case "GetTableItemTypes"
+                InterfaceCommon:Result = GetTableItemTypes(properties)
+            Case "GetIsDate"
+                InterfaceCommon:Result = GetIsDate(properties)
+            Case "GetIsTime"
+                InterfaceCommon:Result = GetIsTime(properties)
+            Case "GetLogItemType"
+                InterfaceCommon:Result = GetLogItemType(properties)
+            Case "SetLogItemId"
+                InterfaceCommon:Result = SetLogItemId(properties, UserObj<this>:Get(2))
+            Case "GetOutputDigit"
+                InterfaceCommon:Result = GetOutputDigit(properties)
+            Case "GetIsIndexColumn"
+                InterfaceCommon:Result = GetIsIndexColumn(properties)
+            Case "IsFormatChanged"
+                InterfaceCommon:Result = IsFormatChanged(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "AddLogItemInfo"
+                InterfaceCommon:Result = AddLogItemInfo(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetFormattedLogDataCsv"
+                InterfaceCommon:Result = GetFormattedLogDataCsv(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetFormattedLogDataDb"
+                InterfaceCommon:Result = GetFormattedLogDataDb(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetDisplayName"
+                InterfaceCommon:Result = GetDisplayName(properties)
+        End Select
+    End Method
+
+    Method New(properties[], name, displayName, systemParameter)
+    Begin
+        NewBase(properties, name, displayName, 1)
+        properties[19 + 0] = systemParameter
+    End Method
+
+    Method IsFormatChanged(properties[], databaseName, index)
+    Begin
+        Return (IsFormatChangedBase(properties, GetTableItemTypes(properties), databaseName, index))
+    End Method
+
+    Method AddLogItemInfo(properties[], databaseName, index)
+    Begin
+        Return (AddLogItemInfoBase(properties, GetTableItemTypes(properties), databaseName, index))
+    End Method
+
+    Method GetFormattedLogDataDb(properties[], dataLength, value)
+    Begin
+        Return (GetFormattedLogDataDbBase(properties, GetTableItemTypes(properties), GetDecimalPlaces(properties), dataLength, value))
+    End Method
+
+End Package

@@ -1,0 +1,20 @@
+
+Package BtWindow_PokaYoke_CollationConditionSetting_0
+
+    Properties[8]
+
+    Method ICollationConditionSettingInvoke(this)
+    Begin
+        CollationConditionSettingCommon:ICollationConditionSettingInvokeCommon(this, Properties)
+    End Method
+
+    Method New(judgeKind, calculationKind, calculationValue, calculationTarget)
+    Begin
+        Properties[0] = "BtWindow_PokaYoke_CollationConditionSetting_0"
+        CollationConditionSettingCommon:SetJudgeKind(Properties, judgeKind)
+        CollationConditionSettingCommon:SetCalculationKind(Properties, calculationKind)
+        CollationConditionSettingCommon:SetCalculationValue(Properties, calculationValue)
+        CollationConditionSettingCommon:SetCalculationTarget(Properties, calculationTarget)
+    End Method
+
+End Package

@@ -1,0 +1,88 @@
+#pushdefine
+
+Package ILogItemControl
+
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    Names[DEF_IMPLEMENT_NAME_ARRAY@~]
+    ICommons[DEF_IMPLEMENT_NAME_ARRAY@~]
+#else
+    Names[1]
+    ICommons[1]
+#endif
+
+    Method New()
+    Begin
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Names[@^] = "DEF_IMPLEMENT_NAME_ARRAY"
+        ICommons[@^] = DEF_IMPLEMENT_NAME_ARRAY:ILogItemControlInvoke
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetLogEditType(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogEditType", args, ICommons))
+    End Method
+
+    Method GetDecimalPlaces(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetDecimalPlaces", args, ICommons))
+    End Method
+
+    Method GetCheckDuplicateReading(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetCheckDuplicateReading", args, ICommons))
+    End Method
+
+    Method GetIsSameLogItem(controlName, index, logItemControl)
+        args[2]
+    Begin
+        args[0] = index
+        args[1] = logItemControl
+        Return(InterfaceCommon:Call(controlName, Names, "GetIsSameLogItem", args, ICommons))
+    End Method
+
+
+
+    Method GetControlName(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetControlName", args, ICommons))
+    End Method
+
+    Method GetLogTableFieldType(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogTableFieldType", args, ICommons))
+    End Method
+
+    Method GetLogData(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogData", args, ICommons))
+    End Method
+
+    Method CheckValidInput(controlName, checkTarget, index)
+        args[2]
+    Begin
+        args[0] = checkTarget
+        args[1] = index
+        Return(InterfaceCommon:Call(controlName, Names, "CheckValidInput", args, ICommons))
+    End Method
+
+End Package
+
+#popdefine

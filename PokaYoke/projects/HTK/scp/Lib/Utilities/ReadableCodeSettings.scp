@@ -1,0 +1,123 @@
+Package ReadableCodeSettings
+
+    Method SetReadingParameter(codeScanEnableValue)
+        i
+        sw[16]
+    Begin
+        For i = 0 to 15 sw[i] = false Next
+        If ((codeScanEnableValue / 0xBFFF).toInt == 1) Then
+            For i = 0 to 15 sw[i] = true Next
+        Else
+            If ((codeScanEnableValue / 0x8000).toInt == 1) Then
+                sw[14] = true
+                codeScanEnableValue = codeScanEnableValue - 0x8000
+            End If
+            If ((codeScanEnableValue / 0x2000).toInt == 1) Then
+                sw[13] = true
+                codeScanEnableValue = codeScanEnableValue - 0x2000
+            End If
+            If ((codeScanEnableValue / 0x1000).toInt == 1) Then
+                sw[12] = true
+                codeScanEnableValue = codeScanEnableValue - 0x1000
+            End If
+            If ((codeScanEnableValue / 0x800).toInt == 1) Then
+                sw[11] = true
+                codeScanEnableValue = codeScanEnableValue - 0x800
+            End If
+            If ((codeScanEnableValue / 0x400).toInt == 1) Then
+                sw[10] = true
+                codeScanEnableValue = codeScanEnableValue - 0x400
+            End If
+            If ((codeScanEnableValue / 0x200).toInt == 1) Then
+                sw[9] = true
+                codeScanEnableValue = codeScanEnableValue - 0x200
+            End If
+            If ((codeScanEnableValue / 0x100).toInt == 1) Then
+                sw[8] = true
+                codeScanEnableValue = codeScanEnableValue - 0x100
+            End If
+            If ((codeScanEnableValue / 0x80).toInt == 1) Then
+                sw[7] = true
+                codeScanEnableValue = codeScanEnableValue - 0x80
+            End If
+            If ((codeScanEnableValue / 0x40).toInt == 1) Then
+                sw[6] = true
+                codeScanEnableValue = codeScanEnableValue - 0x40
+            End If
+            If ((codeScanEnableValue / 0x20).toInt == 1) Then
+                sw[5] = true
+                codeScanEnableValue = codeScanEnableValue - 0x20
+            End If
+            If ((codeScanEnableValue / 0x10).toInt == 1) Then
+                sw[4] = true
+                codeScanEnableValue = codeScanEnableValue - 0x10
+            End If
+            If ((codeScanEnableValue / 0x8).toInt == 1) Then
+                sw[3] = true
+                codeScanEnableValue = codeScanEnableValue - 0x8
+            End If
+            If ((codeScanEnableValue / 0x4).toInt == 1) Then
+                sw[2] = true
+                codeScanEnableValue = codeScanEnableValue - 0x4
+            End If
+            If ((codeScanEnableValue / 0x2).toInt == 1) Then
+                sw[1] = true
+                codeScanEnableValue = codeScanEnableValue - 0x2
+            End If
+            If ((codeScanEnableValue / 0x1).toInt == 1) Then
+                sw[0] = true
+                codeScanEnableValue = codeScanEnableValue - 0x1
+            End If
+        End If
+
+        JAN:enable = sw[0]
+        CODE39:enable = sw[1]
+        EAN128:enable = sw[2]
+        CODE128:enable = sw[3]
+        ITF:enable = sw[4]
+        NW7:enable = sw[5]
+        CODE93:enable = sw[6]
+        TOF:enable = sw[7]
+        COOP:enable = sw[8]
+        RSS:enable = sw[9]
+        QR:enable = sw[10]
+        PDF417:enable = sw[11]
+        DataMatrix:enable = sw[12]
+        Maxi:enable = sw[13]
+        Composite:enable = sw[14]
+    Catch
+        ErrorManager:SetError("The operation to acquire the reading code classification failed.")
+    End Method
+
+    Method GetReadingParameter()
+        val = 0
+    Begin
+        If JAN:enable is true Then val = val + 0x1 End If
+        If CODE39:enable is true Then val = val + 0x2 End If
+        If EAN128:enable is true Then val = val + 0x4 End If
+        If CODE128:enable is true Then val = val + 0x8 End If
+        If ITF:enable is true Then val = val + 0x10 End If
+        If NW7:enable is true Then val = val + 0x20 End If
+        If CODE93:enable is true Then val = val + 0x40 End If
+        If TOF:enable is true Then val = val + 0x80 End If
+        If COOP:enable is true Then val = val + 0x100 End If
+        If RSS:enable is true Then val = val + 0x200 End If
+        If QR:enable is true Then val = val + 0x400 End If
+        If PDF417:enable is true Then val = val + 0x800 End If
+        If DataMatrix:enable is true Then val = val + 0x1000 End If
+        If Maxi:enable is true Then val = val + 0x2000 End If
+        If Composite:enable is true Then val = val + 0x8000 End If
+        Return(val)
+    Catch
+        ErrorManager:SetError("The operation to set the reading code classification failed.")
+        Return(val)
+    End Method
+
+    Method ReadScanData(data)
+    Begin
+        If (data is nil) Then
+            Return("")
+        End If
+        Return (StringUtility:ConvertControlCharacter(data))
+    End Method
+End Package

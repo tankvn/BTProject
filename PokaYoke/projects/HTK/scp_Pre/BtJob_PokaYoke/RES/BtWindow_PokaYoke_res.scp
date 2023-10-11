@@ -1,0 +1,341 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+#define DEF_FOCUS_TRANSITION_UTILITY BtWindow_PokaYoke_FocusTransitionUtility
+#define DEF_EVENT_FORM_KEY_DOWN ActiveForm:OnKeyDown
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_FocusTransitionUtility
+#include "\Lib\Utilities\FocusTransitionUtility" "..\Lib\Utilities\BtWindow_PokaYoke_FocusTransitionUtility"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtLabel_Comparison
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtWindow_PokaYoke_BtLabel_Comparison"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtLabel_Input
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtWindow_PokaYoke_BtLabel_Input"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtTextBox_Compare
+#defineexpand DEF_FOCUS_TRANSITION_CONTROL BtWindow_PokaYoke_BtVerifyControl_1
+#define DEF_EVENT_COMPARISON_VALUE_COUNT_UPDATED BtWindow_PokaYoke_BtVerifyControl_1:ComparisonValueCountUpdated
+#include "\Lib\Parts\BtTextBox" "..\Lib\Parts\BtWindow_PokaYoke_BtTextBox_Compare"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtTextBox_Input
+#defineexpand DEF_FOCUS_TRANSITION_CONTROL BtWindow_PokaYoke_BtVerifyControl_1|BtWindow_PokaYoke_BtFocusTransitionController1
+#define DEF_EVENT_DATA_INPUT BtWindow_PokaYoke:BtTextBox_Input_DataInput
+#include "\Lib\Parts\BtTextBox" "..\Lib\Parts\BtWindow_PokaYoke_BtTextBox_Input"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtTextBox_Person
+#include "\Lib\Parts\BtTextBox" "..\Lib\Parts\BtWindow_PokaYoke_BtTextBox_Person"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtLabel_Person
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtWindow_PokaYoke_BtLabel_Person"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtLabel_Title
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtWindow_PokaYoke_BtLabel_Title"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtF1Key_Back
+#define DEF_EVENT_DATA_INPUT BtWindow_PokaYoke:BtF1Key_Back_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtWindow_PokaYoke_BtF1Key_Back"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtF2Key_SendDataFile
+#define DEF_EVENT_DATA_INPUT BtWindow_PokaYoke:BtF2Key_SendDataFile_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtWindow_PokaYoke_BtF2Key_SendDataFile"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtF3Key_HistoryDataView
+#define DEF_EVENT_DATA_INPUT BtWindow_PokaYoke:BtF3Key_HistoryDataView_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtWindow_PokaYoke_BtF3Key_HistoryDataView"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtVerifyControl_1
+#define DEF_COMPARISON_ITEMNUM 1
+#define DEF_EVENT_DATA_INPUT BtWindow_PokaYoke:BtTextBox_Input_DataInput
+#define DEF_JUDGE_CONTROL BtWindow_PokaYoke_BtTextBox_Input
+#include "\Lib\Parts\BtCollationControl" "..\Lib\Parts\BtWindow_PokaYoke_BtVerifyControl_1"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtTextBox_Input_BtVerifyControl_1_RangeSettings_0
+#include "\Lib\Utilities\RangeSettings" "..\Lib\Utilities\BtWindow_PokaYoke_BtTextBox_Input_BtVerifyControl_1_RangeSettings_0"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtTextBox_Compare_BtVerifyControl_1_RangeSettings_0
+#include "\Lib\Utilities\RangeSettings" "..\Lib\Utilities\BtWindow_PokaYoke_BtTextBox_Compare_BtVerifyControl_1_RangeSettings_0"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_CollationComparisonItem_0
+#include "\Lib\Utilities\CollationComparisonItem" "..\Lib\Utilities\BtWindow_PokaYoke_CollationComparisonItem_0"
+#popdefine
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_CollationConditionSetting_0
+#include "\Lib\Utilities\CollationConditionSetting" "..\Lib\Utilities\BtWindow_PokaYoke_CollationConditionSetting_0"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_PokaYoke_BtFocusTransitionController1
+#definemulti DEF_TRANSITION_SOURCE_IS_CONTROL BtWindow_PokaYoke_BtTextBox_Input,BtTextBoxCommon
+#defineexpand DEF_VERIFICATION_CONTROL BtWindow_PokaYoke_BtTextBox_Input
+#definemulti DEF_TRANSITION_DESTINATION BtWindow_PokaYoke_BtTextBox_Compare,BtTextBoxCommon
+#defineexpand DEF_RESET_TARGET BtWindow_PokaYoke_BtTextBox_Compare,BtTextBoxCommon|BtWindow_PokaYoke_BtLabel_Input,BtLabelCommon|BtWindow_PokaYoke_BtTextBox_Input,BtTextBoxCommon
+#defineexpand DEF_INPUT_COMPONENT BtWindow_PokaYoke_BtVerifyControl_1,BtCollationControlCommon
+#include "\Lib\Parts\BtFocusTransitionController" "..\Lib\Parts\BtWindow_PokaYoke_BtFocusTransitionController1"
+#popdefine
+
+
+Package BtWindow_PokaYoke_res
+    #define DEF_EVENT_F1_KEY_ACTION BtWindow_PokaYoke:F1KeyAction
+    #define DEF_EVENT_F2_KEY_ACTION BtWindow_PokaYoke:F2KeyAction
+    #define DEF_EVENT_F3_KEY_ACTION BtWindow_PokaYoke:F3KeyAction
+    #define DEF_PACKAGE_NAME BtWindow_PokaYoke
+    #defineexpand DEF_CONTROL BtWindow_PokaYoke_BtLabel_Title,BtLabelCommon|BtWindow_PokaYoke_BtLabel_Person,BtLabelCommon|BtWindow_PokaYoke_BtTextBox_Person,BtTextBoxCommon|BtWindow_PokaYoke_BtLabel_Comparison,BtLabelCommon|BtWindow_PokaYoke_BtTextBox_Compare,BtTextBoxCommon|BtWindow_PokaYoke_BtLabel_Input,BtLabelCommon|BtWindow_PokaYoke_BtTextBox_Input,BtTextBoxCommon|BtWindow_PokaYoke_BtF1Key_Back,BtButtonCommon|BtWindow_PokaYoke_BtF2Key_SendDataFile,BtButtonCommon|BtWindow_PokaYoke_BtF3Key_HistoryDataView,BtButtonCommon
+    #defineexpand DEF_COMPONENTS BtWindow_PokaYoke_BtVerifyControl_1,BtCollationControlCommon|BtWindow_PokaYoke_BtFocusTransitionController1,BtFocusTransitionControllerCommon
+    #defineexpand DEF_INPUT_CONTROL BtWindow_PokaYoke_BtTextBox_Compare|BtWindow_PokaYoke_BtTextBox_Input|BtWindow_PokaYoke_BtTextBox_Person
+    #insert "\Lib\Parts\BtScreen"
+    Method InitializeComponent()
+    Begin
+        New(BtFormCommon:GetName(BtJob_PokaYoke_res:Properties))
+        InitializeTimer()
+        With BtWindow_PokaYoke_res
+            BtWindow_PokaYoke_BtLabel_Title:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtLabel_Person:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtTextBox_Person:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtLabel_Comparison:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtTextBox_Compare:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtLabel_Input:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtTextBox_Input:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtF1Key_Back:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtF2Key_SendDataFile:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtF3Key_HistoryDataView:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_PokaYoke_BtVerifyControl_1:Create(BtScreenCommon:GetName(:Properties))
+        End With
+        
+        With BtWindow_PokaYoke_BtLabel_Comparison
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 60)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 90)
+            BtLabelCommon:SetInitialText(:Properties, "Mst")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 3)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtLabel_Input
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 60)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 135)
+            BtLabelCommon:SetInitialText(:Properties, "Chk")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 5)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtTextBox_Compare
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetWidth(:Properties, 170)
+            BtTextBoxCommon:SetHeight(:Properties, 39)
+            BtTextBoxCommon:SetLeft(:Properties, 65)
+            BtTextBoxCommon:SetTop(:Properties, 90)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "168|255|255")
+            BtTextBoxCommon:SetFontSize(:Properties, 30)
+            BtTextBoxCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtTextBoxCommon:SetBold(:Properties, false)
+            BtTextBoxCommon:SetTabIndex(:Properties, 4)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtTextBox_Input
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetWidth(:Properties, 170)
+            BtTextBoxCommon:SetHeight(:Properties, 39)
+            BtTextBoxCommon:SetLeft(:Properties, 65)
+            BtTextBoxCommon:SetTop(:Properties, 135)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "168|255|255")
+            BtTextBoxCommon:SetFontSize(:Properties, 30)
+            BtTextBoxCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtTextBoxCommon:SetBold(:Properties, false)
+            BtTextBoxCommon:SetTabIndex(:Properties, 6)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtTextBox_Person
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetWidth(:Properties, 170)
+            BtTextBoxCommon:SetHeight(:Properties, 39)
+            BtTextBoxCommon:SetLeft(:Properties, 65)
+            BtTextBoxCommon:SetTop(:Properties, 45)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "168|255|255")
+            BtTextBoxCommon:SetFontSize(:Properties, 30)
+            BtTextBoxCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtTextBoxCommon:SetBold(:Properties, false)
+            BtTextBoxCommon:SetTabIndex(:Properties, 2)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtLabel_Person
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 60)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 45)
+            BtLabelCommon:SetInitialText(:Properties, "PIC")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 1)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtLabel_Title
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 0)
+            BtLabelCommon:SetInitialText(:Properties, "PokaYoke")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 0)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtF1Key_Back
+            BtButtonCommon:SetText(:Properties, "Back")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 0)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "255|0|0")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "255|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 7)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtF2Key_SendDataFile
+            BtButtonCommon:SetText(:Properties, "Send")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 60)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "0|0|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|255")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 8)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtF3Key_HistoryDataView
+            BtButtonCommon:SetText(:Properties, "Hist")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 120)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "34|139|34")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "34|139|34")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 9)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_PokaYoke_BtVerifyControl_1
+            BtCollationControlCommon:SetCollationPattern(:Properties, COLLATION_PATTERN_ONE_TO_ONE)
+            BtCollationControlCommon:SetIsEnableCollationCount(:Properties, false)
+            BtCollationControlCommon:SetCollationCount(:Properties, 10)
+            BtCollationControlCommon:SetIsEnableCollationOrder(:Properties, false)
+            BtCollationControlCommon:SetIsEnableReconciliation(:Properties, false)
+        End With
+        
+        With BtWindow_PokaYoke_res
+            BtScreenCommon:SetBackColor(:Properties, "255|255|255")
+            BtScreenCommon:SetWidth(:Properties, 240)
+            BtScreenCommon:SetHeight(:Properties, 320)
+            BtScreenCommon:SetLeft(:Properties, 0)
+            BtScreenCommon:SetTop(:Properties, 0)
+        End With
+        
+    End Method
+End Package

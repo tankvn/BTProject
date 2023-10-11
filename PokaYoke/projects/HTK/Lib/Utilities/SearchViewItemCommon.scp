@@ -1,0 +1,34 @@
+
+#insert "\Lib\Utilities\SearchViewItemConstants"
+
+Package SearchViewItemCommon
+
+    Method GetTableFieldName(properties[]) Begin Return (properties[DEF_TABLEFIELDNAME_PROPERTY]) End Method
+
+    Method GetOutputRangeType(properties[]) Begin Return (properties[DEF_OUTPUTRANGETYPE_PROPERTY]) End Method
+    Method SetOutputRangeType(properties[], value) Begin properties[DEF_OUTPUTRANGETYPE_PROPERTY] = value End Method
+
+    Method GetOutputRangeStart(properties[]) Begin Return (properties[DEF_OUTPUTRANGESTART_PROPERTY]) End Method
+    Method SetOutputRangeStart(properties[], value) Begin properties[DEF_OUTPUTRANGESTART_PROPERTY] = value End Method
+
+    Method GetOutputRangeEnd(properties[]) Begin Return (properties[DEF_OUTPUTRANGEEND_PROPERTY]) End Method
+    Method SetOutputRangeEnd(properties[], value) Begin properties[DEF_OUTPUTRANGEEND_PROPERTY] = value End Method
+
+    Method GetOutputAiType(properties[]) Begin Return (properties[DEF_OUTPUTAITYPE_PROPERTY]) End Method
+    Method SetOutputAiType(properties[], value) Begin properties[DEF_OUTPUTAITYPE_PROPERTY] = value End Method
+
+    Method GetExclusionCharacters(properties[]) Begin Return (properties[DEF_EXCLUSIONCHARACTERS_PROPERTY]) End Method
+    Method SetExclusionCharacters(properties[], value) Begin properties[DEF_EXCLUSIONCHARACTERS_PROPERTY] = value End Method
+
+
+    Method GetRangeExtractedString(properties[], value)
+    Begin
+        Return(StringUtility:GetRangeExtractedString(
+            value,
+            GetExclusionCharacters(properties),
+            GetOutputRangeType(properties),
+            GetOutputRangeStart(properties),
+            GetOutputRangeEnd(properties),
+            GetOutputAiType(properties)))
+    End Method
+End Package

@@ -1,0 +1,73 @@
+
+Package BtCollationErrorDialog_1_BtLabel_Message1
+
+    Method AfterReset(this)
+    Begin
+    End Method
+
+    Method ComparisonValueCountUpdated(this)
+    Begin
+    End Method
+
+    Method CollationCountUpdated(this)
+    Begin
+    End Method
+
+    Method DataUpdated(this)
+    Begin
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[0] = "BtCollationErrorDialog_1_BtLabel_Message1"
+        BtLabelCommon:Create(Properties, parentName)
+        New()
+    End Method
+
+    Method Invalidate()
+    Begin
+        BtLabelCommon:Invalidate(Properties)
+    End Method
+    Method IControlInvoke(this)
+    Begin
+        BtLabelCommon:IControlInvokeCommon(this, Properties)
+    End Method
+    Method IBtInputControlInvoke(this)
+    Begin
+        BtLabelCommon:IBtInputControlInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemControlInvoke(this)
+    Begin
+        BtLabelCommon:ILogItemControlInvokeCommon(this, Properties)
+    End Method
+    Method ICollationTargetInvoke(this)
+    Begin
+        BtLabelCommon:ICollationTargetInvokeCommon(this, Properties)
+    End Method
+    Method ISearchViewDisplayControlInvoke(this)
+    Begin
+        BtLabelCommon:ISearchViewDisplayControlInvokeCommon(this, Properties)
+    End Method
+    Method IFilterControlInvoke(this)
+    Begin
+        BtLabelCommon:IFilterControlInvokeCommon(this, Properties)
+    End Method
+    Method ILookUpBoxDisplayToolInvoke(this)
+    Begin
+        BtLabelCommon:ILookUpBoxDisplayToolInvokeCommon(this, Properties)
+    End Method
+
+    Properties[33 + 3]
+
+    Method ISharedParameterInputToolInvoke(this)
+    Begin
+        BtLabelCommon:ISharedParameterInputToolInvokeCommon(this, Properties)
+    End Method
+
+    Method New()
+    Begin
+        BtLabelCommon:SetHandler(Properties, AfterReset, ComparisonValueCountUpdated, CollationCountUpdated, DataUpdated)
+    End Method
+
+End Package
+

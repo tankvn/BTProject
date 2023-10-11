@@ -1,0 +1,899 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtHistoryDataViewConstants"
+
+
+#define DEF_BT_HISTORY_DATA_VIEW_SKIP skip
+#define DEF_INHERITS_BT_SCREEN
+#insert "\Lib\Parts\BtScreen"
+
+    Properties[DEF_PROPERTY_NUM]
+
+    Method BeforeShow()
+        recordCount
+        errorMessage
+    Begin
+        If (BtDataFormatControlCommon:GetOutputDestination(DEF_DATA_FORMAT_CONTROL_NAME:Properties) == DATA_LOCATION_REMOTE) Then
+
+            BtHistoryDataViewCommon:SetReferenceSource(Properties, DATA_LOCATION_REMOTE)
+
+            recordCount = DbAccess:SelectCount(BtDataFormatControlCommon:GetPathWindowsLogDataBase(DEF_DATA_FORMAT_CONTROL_NAME:Properties), BtDataFormatControlCommon:GetTableName(DEF_DATA_FORMAT_CONTROL_NAME:Properties), 0, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+            errorMessage = ErrorManager:GetError()
+            If (errorMessage ne MESSAGE_ERROR_NONE) Then
+                MessageUtility:ShowMessageOk(errorMessage)
+            End If
+
+            If 0 < recordCount Then
+                If (MessageUtility:ShowMessage(MESSAGE_QUESTION_DISPLAY_LOCAL_OR_REMOTE, "", MESSAGE_BOX_BUTTONS_YES_NO, MESSAGE_BOX_ICON_NONE, MESSAGE_BOX_DEFAULT_BUTTON_BUTTON1) == DIALOG_RESULT_YES) Then
+                    BtHistoryDataViewCommon:SetReferenceSource(Properties, DATA_LOCATION_LOCAL)
+                End If
+            End If
+        Else
+            BtHistoryDataViewCommon:SetReferenceSource(Properties, DATA_LOCATION_LOCAL)
+        End If
+
+#ifdef DEF_KEY_DELETE
+        If (BtHistoryDataViewCommon:GetDataRemovingEnabled(Properties)) Then
+            BtButtonCommon:SetVisible(DEF_KEY_DELETE:Properties, (BtHistoryDataViewCommon:GetReferenceSource(Properties) == DATA_LOCATION_LOCAL))
+        End If
+#endif
+
+    End Method
+
+    Method SetLogFormat(btDataFormatControl)
+    Begin
+        BtHistoryDataViewCommon:SetRecordNo(Properties, 0)
+        BtHistoryDataViewCommon:SetDataRemovingEnabled(Properties, true)
+        BtHistoryDataViewCommon:SetReferenceSource(Properties, DATA_LOCATION_LOCAL)
+        BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, 0)
+        BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+
+        BtHistoryDataViewCommon:SetLogDbName(Properties, PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, BtDataFormatControlCommon:GetDataBaseName(DEF_DATA_FORMAT_CONTROL_NAME:Properties)))
+        BtHistoryDataViewCommon:SetLogTableName(Properties, BtDataFormatControlCommon:GetTableName(DEF_DATA_FORMAT_CONTROL_NAME:Properties))
+
+        BtTableViewCommon:SetRowNumberVisible(LOG_DISPLAY_TABLE_VIEW:Properties , false)
+        BtTableViewCommon:SetDisplayColumnCount(LOG_DISPLAY_TABLE_VIEW:Properties, 2)
+        BtTableViewCommon:SetColumnWidth(LOG_DISPLAY_TABLE_VIEW:Properties, 0, (BtTableViewCommon:GetTableWidth(LOG_DISPLAY_TABLE_VIEW:Properties) * 50) / 100)
+        BtTableViewCommon:SetColumnName(LOG_DISPLAY_TABLE_VIEW:Properties, 0, MESSAGE_LOG_DISPLAY_GRID_FIELD_COLUMN_NAME)
+        BtTableViewCommon:SetColumnWidth(LOG_DISPLAY_TABLE_VIEW:Properties, 1, (BtTableViewCommon:GetTableWidth(LOG_DISPLAY_TABLE_VIEW:Properties) * 50) / 100)
+        BtTableViewCommon:SetColumnName(LOG_DISPLAY_TABLE_VIEW:Properties, 1, MESSAGE_LOG_DISPLAY_GRID_VALUE_COLUMN_NAME)
+
+        BtFormCommon:EventEffect(OnTimer, true)
+
+        SetEventHandler()
+    End Method
+
+    Method SetCurrentLogData()
+    Begin
+        UpdateAllRecordCount()
+
+        DisplayRecord()
+
+        SetGrayOutInfo()
+    End Method
+
+    Method SetEventHandler()
+    Begin
+        With BtTableViewCommon
+            :SetOnFocusIn(LOG_DISPLAY_TABLE_VIEW:Properties, LogDisplayTableView_GotFocus)
+            :SetOnEditStart(LOG_DISPLAY_TABLE_VIEW:Properties, LogDisplayTableView_OnEditStart)
+            :SetOnEditEnd(LOG_DISPLAY_TABLE_VIEW:Properties, LogDisplayTableView_OnEditEnd)
+            :SetOnFocusOut(LOG_DISPLAY_TABLE_VIEW:Properties, LogDisplayTableView_OnFocusTransition)
+        End With
+    End Method
+
+    Method LogDisplayTableView_OnEditStart(sender)
+    Begin
+        Key:onPress = LogDisplayTableView_KeyDown
+    End Method
+
+    Method LogDisplayTableView_OnEditEnd(sender)
+    Begin
+        Key:onPress = LogDisplayTableView_OnScroll
+    End Method
+
+    Method DisplayRecord()
+        displayData     
+        i
+        listId_SelectFieldIndexes = INVALID_LIST_TABLE_ID
+        listId_Conditions = INVALID_LIST_TABLE_ID
+        listId_ConditionCollection = INVALID_LIST_TABLE_ID
+        serialNumberItemIndex
+        listId_IndexValues = INVALID_LIST_TABLE_ID
+        listId_IndexValuePair = INVALID_LIST_TABLE_ID
+        currentEditMode
+        listId_Data = INVALID_LIST_TABLE_ID
+    Begin
+        If (BtHistoryDataViewCommon:GetAllRecCount(Properties) <= 0) Then
+            UpdateLabel()
+            BtTableViewCommon:SetOriginalDataSource(LOG_DISPLAY_TABLE_VIEW:Properties, nil)
+            LOG_DISPLAY_TABLE_VIEW:UpdateData(true)
+            Return (nil)
+        End If
+
+        BtHistoryDataViewCommon:SetRecordNo(Properties, BtHistoryDataViewCommon:ValidateRecordNo(Properties, BtHistoryDataViewCommon:GetRecordNo(Properties)))
+        UpdateLabel()
+
+        If (BtHistoryDataViewCommon:GetReferenceSource(Properties) == DATA_LOCATION_LOCAL) Then
+            If Not BtHistoryDataViewCommon:GetRecordData(Properties) is nil Then
+                ListTable:DeleteList(BtHistoryDataViewCommon:GetRecordData(Properties))
+            End If
+            BtHistoryDataViewCommon:SetRecordData(Properties, DbAccess:SelectValues(
+                BtHistoryDataViewCommon:GetLogDbName(Properties),
+                BtHistoryDataViewCommon:GetLogTableName(Properties),
+                0,
+                0,
+                false,
+                FILTERING_MATCH_TYPE_EXACT_MATCH,
+                true,
+                0,
+                1,
+                BtHistoryDataViewCommon:GetRecordNo(Properties))
+            )
+            displayData = ConvertDisplayFormat()
+        Else
+            RealTimeConnectionController:New()
+
+            listId_SelectFieldIndexes = ListTable:CreateList()
+            For i = 0 to BtDataFormatControlCommon:GetCount(DEF_DATA_FORMAT_CONTROL_NAME:Properties) - 1
+                ListTable:Add(listId_SelectFieldIndexes, i, "")
+            Next
+
+            listId_Conditions = ListTable:CreateList()
+
+            serialNumberItemIndex = BtDataFormatControlCommon:GetSerialNumberItemIndex(DEF_DATA_FORMAT_CONTROL_NAME:Properties)
+            If 0 <= serialNumberItemIndex Then
+                listId_IndexValuePair = ListTable:CreateList()
+                ListTable:Add(listId_IndexValuePair, "Index", serialNumberItemIndex)
+                ListTable:Add(listId_IndexValuePair, "Value", SystemParameterUtility:GetSystemParameter(SYSTEM_PARAMETER_TYPE_SERIAL_NUMBER))
+                ListTable:Add(listId_IndexValuePair, "MatchType", FILTERING_MATCH_TYPE_EXACT_MATCH)
+                listId_IndexValues = ListTable:CreateList()
+                ListTable:AddList(listId_IndexValues, "0", listId_IndexValuePair)
+                listId_ConditionCollection = ListTable:CreateList()
+                ListTable:Add(listId_ConditionCollection, "IsOrCondition", false)
+                ListTable:AddList(listId_ConditionCollection, "IndexValueList", listId_IndexValues)
+                ListTable:AddList(listId_Conditions, "0", listId_ConditionCollection)
+            End If
+
+            currentEditMode = BtTableViewCommon:GetKeyOperationType(LOG_DISPLAY_TABLE_VIEW:Properties)
+            listId_Data = RealTimeConnectionController:SelectOne(
+                "",
+                BtDataFormatControlCommon:GetOutputTargetName(DEF_DATA_FORMAT_CONTROL_NAME:Properties),
+                listId_SelectFieldIndexes,
+                listId_Conditions,
+                BtHistoryDataViewCommon:GetRealTimeMaxRecordId(Properties),
+                BtHistoryDataViewCommon:GetRecordNo(Properties),
+                Window<Properties[DEF_NAME_PROPERTY]>:parent)
+
+            If Not BtHistoryDataViewCommon:GetRecordData(Properties) is nil Then
+                ListTable:DeleteList(BtHistoryDataViewCommon:GetRecordData(Properties))
+            End If
+            BtHistoryDataViewCommon:SetRecordData(Properties, ListTable:Get(listId_Data, 0, "val"))
+            ListTable:DeleteList(listId_SelectFieldIndexes)
+            ListTable:DeleteList(listId_Conditions)
+            ListTable:Remove(listId_Data, 0)    
+            ListTable:DeleteList(listId_Data)
+
+            If ErrorManager:GetCommunicationError() Then
+#ifdef DEF_EVENT_COMMUNICATION_ERROR_OCCURRED
+                DEF_EVENT_COMMUNICATION_ERROR_OCCURRED()
+#endif
+                BtTableViewCommon:SetOriginalDataSource(LOG_DISPLAY_TABLE_VIEW:Properties, nil)
+                LOG_DISPLAY_TABLE_VIEW:UpdateData(true)
+                Return (nil)
+            End If
+
+            displayData = ConvertDisplayFormat()
+
+            BtTableViewCommon:ChangeMode(LOG_DISPLAY_TABLE_VIEW:Properties, currentEditMode)
+        End If
+
+        If Not BtTableViewCommon:GetOriginalDataSource(LOG_DISPLAY_TABLE_VIEW:Properties) is nil Then
+            ListTable:DeleteList(BtTableViewCommon:GetOriginalDataSource(LOG_DISPLAY_TABLE_VIEW:Properties))
+        End If
+        BtTableViewCommon:SetOriginalDataSource(LOG_DISPLAY_TABLE_VIEW:Properties, displayData)
+        LOG_DISPLAY_TABLE_VIEW:UpdateData(true)
+    End Method
+
+    Method SetGrayOutInfo()
+        logItem         
+        logFormatIndex  
+    Begin
+        For logFormatIndex = 0 to BtDataFormatControlCommon:GetCount(DEF_DATA_FORMAT_CONTROL_NAME:Properties) - 1
+            logItem = BtDataFormatControlCommon:GetLogItem(DEF_DATA_FORMAT_CONTROL_NAME:Properties, logFormatIndex)
+            If ILogItem:GetLogItemType(logItem) == LOG_ITEM_TYPE_SYSTEM_PARAMETER Then
+                BtTableViewCommon:SetGrayoutRowList(LOG_DISPLAY_TABLE_VIEW:Properties, logFormatIndex)
+            End If
+        Next
+    End Method
+
+    Method ConvertDisplayFormat()
+        displayData     
+        rowId
+        logFormatIndex
+        fieldIndex      
+        logItemName
+        displayName
+    Begin
+        displayData = ListTable:CreateList()
+
+        If (ListTable:Count(BtHistoryDataViewCommon:GetRecordData(Properties)) <= 0) Then
+            Return (displayData)
+        End If
+
+        logFormatIndex = 0
+
+        For fieldIndex = 0 to ListTable:Count(BtHistoryDataViewCommon:GetRecordData(Properties)) - 1
+            If (IsHiddenColumn(ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), fieldIndex, "key"))) Then
+                fcontinue
+            End If
+
+            rowId = ListTable:CreateList()
+
+            logItemName = BtDataFormatControlCommon:GetLogItem(DEF_DATA_FORMAT_CONTROL_NAME:Properties, logFormatIndex)
+            displayName = ILogItem:GetDisplayName(logItemName)
+            ListTable:Add(rowId, "DisplayName", displayName)
+            ListTable:Add(rowId, "DisplayItem", ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), fieldIndex, "val"))
+
+            ListTable:AddList(displayData, "rec" & fieldIndex, rowId)
+
+            logFormatIndex = logFormatIndex + 1
+        Next
+
+        Return (displayData)
+    Catch
+        MessageUtility:ShowMessageOk(MESSAGE_ERROR_FAILED_CREATING_DISPLAY_DATA)
+        Return (displayData)
+    End Method
+
+    Method IsHiddenColumn(caption)
+        i
+        listId_NotOutputFields
+        ret = false
+    Begin
+        listId_NotOutputFields = BtDataFormatControlCommon:GetNotOutputFields(DEF_DATA_FORMAT_CONTROL_NAME:Properties)
+        For i = 0 to ListTable:Count(listId_NotOutputFields) - 1
+            If caption eq ListTable:Get(listId_NotOutputFields, i, "key") Then
+                ret = true
+                fbreak
+            End If
+        Next
+
+        ListTable:DeleteList(listId_NotOutputFields)
+        Return(ret)
+    End Method
+
+    Method UpdateAllRecordCount()
+        errorMessage
+
+        listId_Conditions = INVALID_LIST_TABLE_ID
+        listId_ConditionCollection = INVALID_LIST_TABLE_ID
+        serialNumberItemIndex
+        listId_IndexValues = INVALID_LIST_TABLE_ID
+        listId_IndexValuePair = INVALID_LIST_TABLE_ID
+        currentEditMode
+        listId_SelectCountResult
+        allRecordCount
+        realTimeMaxRecordId
+    Begin
+
+        If (BtHistoryDataViewCommon:GetReferenceSource(Properties) == DATA_LOCATION_LOCAL) Then
+            BtHistoryDataViewCommon:SetAllRecCount(Properties, DbAccess:SelectCount(BtHistoryDataViewCommon:GetLogDbName(Properties), BtHistoryDataViewCommon:GetLogTableName(Properties), 0, false, FILTERING_MATCH_TYPE_EXACT_MATCH))
+            errorMessage = ErrorManager:GetError()
+            If (errorMessage ne MESSAGE_ERROR_NONE) Then
+                MessageUtility:ShowMessageOk(MESSAGE_ERROR_FAILED_GET_LOG_COUNT)
+                BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+                Return (nil)
+            End If
+        Else
+            RealTimeConnectionController:New()
+
+            listId_Conditions = ListTable:CreateList()
+
+            serialNumberItemIndex = BtDataFormatControlCommon:GetSerialNumberItemIndex(DEF_DATA_FORMAT_CONTROL_NAME:Properties)
+            If 0 <= serialNumberItemIndex Then
+                listId_IndexValuePair = ListTable:CreateList()
+                ListTable:Add(listId_IndexValuePair, "Index", serialNumberItemIndex)
+                ListTable:Add(listId_IndexValuePair, "Value", SystemParameterUtility:GetSystemParameter(SYSTEM_PARAMETER_TYPE_SERIAL_NUMBER))
+                ListTable:Add(listId_IndexValuePair, "MatchType", FILTERING_MATCH_TYPE_EXACT_MATCH)
+                listId_IndexValues = ListTable:CreateList()
+                ListTable:AddList(listId_IndexValues, "0", listId_IndexValuePair)
+                listId_ConditionCollection = ListTable:CreateList()
+                ListTable:Add(listId_ConditionCollection, "IsOrCondition", false)
+                ListTable:AddList(listId_ConditionCollection, "IndexValueList", listId_IndexValues)
+                ListTable:AddList(listId_Conditions, "0", listId_ConditionCollection)
+            End If
+
+            currentEditMode = BtTableViewCommon:GetKeyOperationType(LOG_DISPLAY_TABLE_VIEW:Properties)
+            listId_SelectCountResult = RealTimeConnectionController:SelectCount(
+                "",
+                BtDataFormatControlCommon:GetOutputTargetName(DEF_DATA_FORMAT_CONTROL_NAME:Properties),
+                INVALID_LIST_TABLE_ID,
+                listId_Conditions,
+                Window<Properties[DEF_NAME_PROPERTY]>:parent)
+
+            ListTable:DeleteList(listId_Conditions)
+
+            BtTableViewCommon:ChangeMode(LOG_DISPLAY_TABLE_VIEW:Properties, currentEditMode)
+
+            If (ErrorManager:GetCommunicationError()) Then
+#ifdef DEF_EVENT_COMMUNICATION_ERROR_OCCURRED
+                DEF_EVENT_COMMUNICATION_ERROR_OCCURRED()
+#endif
+                BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+                BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, 0)
+                If listId_SelectCountResult <> INVALID_LIST_TABLE_ID Then
+                    ListTable:DeleteList(listId_SelectCountResult)
+                End If
+                Return (nil)
+            End If
+
+            If (listId_SelectCountResult == INVALID_LIST_TABLE_ID) Then
+                MessageUtility:ShowMessageOk(MESSAGE_ERROR_FAILED_GET_LOG_COUNT)
+                BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+                BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, 0)
+                Return (nil)
+            End If
+
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                MessageUtility:ShowMessageOk(MESSAGE_ERROR_FAILED_GET_LOG_COUNT)
+                BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+                BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, 0)
+                If listId_SelectCountResult <> INVALID_LIST_TABLE_ID Then
+                    ListTable:DeleteList(listId_SelectCountResult)
+                End If
+                Return (nil)
+            End If
+
+            allRecordCount = ListTable:GetValue(listId_SelectCountResult, "Count")
+            realTimeMaxRecordId = ListTable:GetValue(listId_SelectCountResult, "MaxRecordId")
+            BtHistoryDataViewCommon:SetAllRecCount(Properties, allRecordCount)
+            BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, realTimeMaxRecordId)
+            ListTable:DeleteList(listId_SelectCountResult)
+
+        End If
+
+    End Method
+
+    Method UpdateLabel()
+    Begin
+        If (BtHistoryDataViewCommon:GetAllRecCount(Properties) == 0) Then
+            BtLabelCommon:SetText(RECORD_NO_LABEL:Properties, "(0" & "/" & BtHistoryDataViewCommon:GetAllRecCount(Properties) & ")")
+            Return(0)
+        End If
+
+        BtLabelCommon:SetText(RECORD_NO_LABEL:Properties, "(" & BtHistoryDataViewCommon:GetRecordNo(Properties) + 1 & "/" & BtHistoryDataViewCommon:GetAllRecCount(Properties) & ")")
+    End Method
+
+    Method CreateEditDialog(logItem, displayField, value)
+        screenData  
+    Begin
+        If ILogItem:GetLogItemType(logItem) == LOG_ITEM_TYPE_SCREEN_DATA Then
+            screenData = logItem
+            Return (SetDialogConfigForScreenData(displayField, value, screenData))
+        Else
+            Return (SetDialogConfig(displayField, value))
+        End If
+    End Method
+
+    Method SetDialogConfigForScreenData(field, value, screenData)
+        historyDataEditDialog       
+    Begin
+        DEF_HISTORY_DETA_EDIT_DIALOG:SetFieldNameText(field)
+        DEF_HISTORY_DETA_EDIT_DIALOG:CreateEditArea(value, screenData)
+        Return (historyDataEditDialog)
+    End Method
+
+    Method SetDialogConfig(field, value)
+        historyDataEditDialog   
+    Begin
+        DEF_HISTORY_DETA_EDIT_DIALOG:SetFieldNameText(field)
+        DEF_HISTORY_DETA_EDIT_DIALOG:CreateTextEditArea(value)
+        Return (historyDataEditDialog)
+    End Method
+
+    Method SetNewData(field, value)
+        idColumnNo
+        valueFieldValuePairs
+        errorMessage
+        item                        
+        dateData                    
+        timeData                    
+        conditionFieldValuePairs    
+        tableFieldValuePairs        
+        targetField
+        targetValue
+        index                       
+    Begin
+        idColumnNo = ListTable:Find(BtHistoryDataViewCommon:GetRecordData(Properties), "key", ID_COLUMN)
+
+        valueFieldValuePairs = ListTable:CreateList()
+        ListTable:Add(valueFieldValuePairs, field, value)
+
+        For index = 0 to BtDataFormatControlCommon:GetCount(DEF_DATA_FORMAT_CONTROL_NAME:Properties) - 1
+            item = BtDataFormatControlCommon:GetLogItem(DEF_DATA_FORMAT_CONTROL_NAME:Properties, index)
+
+            If ILogItem:GetLogItemType(item) <> LOG_ITEM_TYPE_SYSTEM_PARAMETER Then
+                Fcontinue
+            End If
+
+            If (ILogItemSystemParameter:GetSystemParameter(item) == SYSTEM_PARAMETER_TYPE_SYSTEM_DATE) Then
+                dateData = DateUtility:ToDateFromCommonFormat(ILogItem:GetLogData(item))
+                ListTable:Add(
+                    valueFieldValuePairs,
+                    ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), index + 1, "key"),
+                    DateUtility:FormatDate(dateData, ILogItemSystemParameter:GetDateFormatType(item), ILogItemSystemParameter:GetDateSeparatorType(item)))
+                errorMessage = ErrorManager:GetError()
+                If (errorMessage ne MESSAGE_ERROR_NONE) Then
+                    MessageUtility:ShowMessageOk(errorMessage)
+                    ListTable:DeleteList(valueFieldValuePairs)
+                    Return(0)
+                End If
+            End If
+
+            If (ILogItemSystemParameter:GetSystemParameter(item) == SYSTEM_PARAMETER_TYPE_SYSTEM_TIME) Then
+
+                timeData = TimeUtility:ToTimeFromCommonFormat(ILogItem:GetLogData(item))
+                ListTable:Add(
+                    valueFieldValuePairs,
+                    ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), index + 1, "key"),
+                    TimeUtility:FormatTime(timeData, ILogItemSystemParameter:GetTimeFormatType(item)))
+                errorMessage = ErrorManager:GetError()
+                If (errorMessage ne MESSAGE_ERROR_NONE) Then
+                    MessageUtility:ShowMessageOk(errorMessage)
+                    ListTable:DeleteList(valueFieldValuePairs)
+                    Return(0)
+                End If
+            End If
+        Next
+
+        conditionFieldValuePairs = ListTable:CreateList()
+        ListTable:Add(conditionFieldValuePairs, ID_COLUMN, ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), idColumnNo, "val"))
+
+        tableFieldValuePairs = ListTable:CreateList()
+
+        For index = 0 to BtDataFormatControlCommon:GetCount(DEF_DATA_FORMAT_CONTROL_NAME:Properties) - 1
+            targetField = ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), index + 1, "key")
+            targetValue = ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), index + 1, "val")
+
+            If (field eq targetField) Then
+                targetValue = value
+            End If
+
+            ListTable:Add(tableFieldValuePairs, targetField, targetValue)
+        Next
+
+        If (BtDataFormatControlCommon:IsRecordDataSizeOver(DEF_DATA_FORMAT_CONTROL_NAME:Properties, tableFieldValuePairs)) Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_WRITE_LOG_SIZEOVER)
+            ListTable:DeleteList(conditionFieldValuePairs)
+            ListTable:DeleteList(valueFieldValuePairs)
+            ListTable:DeleteList(tableFieldValuePairs)
+            Return(0)
+        End If
+
+        ListTable:DeleteList(tableFieldValuePairs)
+
+        DbAccess:UpdateValue(
+            BtHistoryDataViewCommon:GetLogDbName(Properties),
+            BtHistoryDataViewCommon:GetLogTableName(Properties),
+            conditionFieldValuePairs,
+            valueFieldValuePairs)
+
+        ListTable:DeleteList(conditionFieldValuePairs)
+        ListTable:DeleteList(valueFieldValuePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return(0)
+        End If
+        UpdateLogData()
+    End Method
+
+    Method ShowNextRecord()
+    Begin
+        BtHistoryDataViewCommon:SetRecordNo(
+            Properties,
+            BtHistoryDataViewCommon:ValidateRecordNo(Properties, BtHistoryDataViewCommon:GetRecordNo(Properties) + 1))
+        DisplayRecord()
+    End Method
+
+    Method ShowPreviousRecord()
+    Begin
+        BtHistoryDataViewCommon:SetRecordNo(
+            Properties,
+            BtHistoryDataViewCommon:ValidateRecordNo(Properties, BtHistoryDataViewCommon:GetRecordNo(Properties) - 1))
+        DisplayRecord()
+    End Method
+
+    Method StartTimer(keyType)
+    Begin
+        BtHistoryDataViewCommon:SetPressedKey(Properties, keyType)
+    End Method
+
+    Method StopTimer()
+        isPressAndHold
+    Begin
+        If (isPressAndHold) Then
+            DisplayRecord()
+            Return(0)
+        End If
+
+        Select Case BtHistoryDataViewCommon:GetPressedKey(Properties)
+            Case PRESS_KEY_TYPE_RIGHT
+                ShowNextRecord()
+            Case PRESS_KEY_TYPE_LEFT
+                ShowPreviousRecord()
+        End Select
+    End Method
+
+    Method UpdateOwnerLogData()
+    Begin
+        ActiveForm:UpdateLogData()
+    End Method
+
+    Method F2KeyAction(eventArgs)
+    Begin
+        If BtButtonCommon:GetVisible(DEF_KEY_PREVIOUS:Properties) is false Then
+            Return (nil)
+        End If
+        DEF_KEY_PREVIOUS:Focus()
+        DEF_KEY_PREVIOUS:PerformClick()
+    End Method
+
+    Method F3KeyAction(eventArgs)
+    Begin
+        If BtButtonCommon:GetVisible(DEF_KEY_NEXT:Properties) is false Then
+            Return (nil)
+        End If
+        DEF_KEY_NEXT:Focus()
+        DEF_KEY_NEXT:PerformClick()
+    End Method
+
+    Method F4KeyAction(eventArgs)
+    Begin
+#ifdef DEF_KEY_DELETE
+        If BtButtonCommon:GetVisible(DEF_KEY_DELETE:Properties) is false Then
+            Return (nil)
+        End If
+        DEF_KEY_DELETE:Focus()
+        DEF_KEY_DELETE:PerformClick()
+#endif
+    End Method
+
+    Method LKeyAction(eventArgs)
+    Begin
+#ifdef DEF_KEY_DELETE
+        If BtButtonCommon:GetVisible(DEF_KEY_DELETE:Properties) is false Then
+            Return (nil)
+        End If
+        DEF_KEY_DELETE:Focus()
+        DEF_KEY_DELETE:PerformClick()
+#endif
+    End Method
+
+    Method ExecuteTableViewIrregularFocusTransition()
+    Begin
+        If LOG_DISPLAY_TABLE_VIEW:ExecuteIrregularFocusTransition() Then
+            DisplayRecord()
+        End If
+    End Method
+
+    Method LogDisplayGirdBoxInTabTransition_KeyUp(sender)
+    Begin
+        Select Case sender
+            Case KEYS_RIGHT, KEYS_LEFT
+                StopTimer()
+        End Select
+    End Method
+
+    Method LogDisplayGridBoxInTabTransition_KeyDown(sender)
+    Begin
+        Select Case sender
+            Case KEYS_ENTER
+                If (BtHistoryDataViewCommon:GetAllRecCount(Properties) == 0) Then
+                    Return(0)
+                End If
+
+                StopTimer()
+                LOG_DISPLAY_TABLE_VIEW:ChangeMode(KEY_OPERATION_TYPE_EDIT_MODE)
+            Case Else
+                StopTimer()
+        End Select
+    End Method
+
+    Method LogDisplayTableView_OnScroll(sender)
+    Begin
+        Key:onPress = nil
+
+        OnScroll(sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = LogDisplayTableView_OnScroll
+        End If
+    End Method
+
+    Method OnScroll(sender)
+    Begin
+        Select Case sender
+            Case KEYS_RIGHT
+                StartTimer(PRESS_KEY_TYPE_RIGHT)
+
+                LogDisplayGirdBoxInTabTransition_KeyUp(sender)
+
+                BtTableViewCommon:GridFocus(LOG_DISPLAY_TABLE_VIEW:Properties)
+            Case KEYS_LEFT
+                StartTimer(PRESS_KEY_TYPE_LEFT)
+
+                LogDisplayGirdBoxInTabTransition_KeyUp(sender)
+
+                BtTableViewCommon:GridFocus(LOG_DISPLAY_TABLE_VIEW:Properties)
+            Case KEYS_F1
+#ifdef DEF_EVENT_F1_KEY_ACTION
+                DEF_EVENT_F1_KEY_ACTION(sender)
+#endif
+            Case KEYS_F2
+                F2KeyAction(sender)
+            Case KEYS_F3
+                F3KeyAction(sender)
+            Case KEYS_F4
+                F4KeyAction(sender)
+            Case KEYS_R
+#ifdef DEF_EVENT_R_KEY_ACTION
+                DEF_EVENT_R_KEY_ACTION(sender)
+#endif
+            Case KEYS_L
+                LKeyAction(sender)
+            Case KEYS_UP, KEYS_DOWN
+                LogDisplayTableView_OnFocusTransition(sender)
+        End Select
+    End Method
+
+    Method LogDisplayTableView_OnFocusTransition(sender)
+        Handled = false
+    Begin
+        Select Case sender
+            Case KEYS_UP
+                Handled = true
+
+                DEF_FOCUS_TRANSITION_UTILITY:MovePreviousControl(BtTableViewCommon:GetName(LOG_DISPLAY_TABLE_VIEW:Properties))
+            Case KEYS_DOWN
+                Handled = true
+
+                DEF_FOCUS_TRANSITION_UTILITY:MoveNextControl(BtTableViewCommon:GetName(LOG_DISPLAY_TABLE_VIEW:Properties))
+        End Select
+
+#ifdef DEF_EVENT_FORM_KEY_DOWN
+        Key:onPress = DEF_EVENT_FORM_KEY_DOWN
+#else
+        Key:onPress = nil
+#endif
+
+        LOG_DISPLAY_TABLE_VIEW:BaseDataGrid_LostFocus(sender)
+
+        Return(Handled)
+    End Method
+
+    Method GetDisplayField(cellData[])
+        rowIndex
+        displayField
+    Begin
+        rowIndex = BtTableViewCommon:GetCurrentRowIndex(LOG_DISPLAY_TABLE_VIEW:Properties)
+        displayField = BtTableViewCommon:GetCell(LOG_DISPLAY_TABLE_VIEW:Properties, rowIndex, 0)
+        cellData[0] = ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), rowIndex + 1, "key")
+        cellData[1] = ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), rowIndex + 1, "val")
+        Return(displayField)
+    Catch
+        Return(nil)
+    End Method
+
+    Method LogDisplayGridBoxInEditMode_KeyDown(sender)
+        displayField
+        cellData[2]
+        logItem                 
+    Begin
+        Select Case sender
+            Case KEYS_ENTER
+                If BtHistoryDataViewCommon:GetAllRecCount(Properties) == 0 Then
+                    Return(0)
+                End If
+
+                If (BtHistoryDataViewCommon:GetReferenceSource(Properties) == DATA_LOCATION_REMOTE) Then
+                    BtTableViewCommon:ChangeMode(LOG_DISPLAY_TABLE_VIEW:Properties, KEY_OPERATION_TYPE_TAB_TRANSITION)
+                    ExecuteTableViewIrregularFocusTransition()
+                    Return(0)
+                End If
+
+                If (Not BtHistoryDataViewCommon:GetDataEditingEnabled(Properties)) Then
+                    LOG_DISPLAY_TABLE_VIEW:ChangeMode(KEY_OPERATION_TYPE_TAB_TRANSITION)
+                    ExecuteTableViewIrregularFocusTransition()
+                    Return(0)
+                End If
+
+                displayField = GetDisplayField(cellData)
+                If displayField is nil Then
+                    Return(0)
+                End If
+
+                logItem = BtDataFormatControlCommon:GetLogItem(DEF_DATA_FORMAT_CONTROL_NAME:Properties, BtTableViewCommon:GetCurrentRowIndex(LOG_DISPLAY_TABLE_VIEW:Properties))
+                If ILogItem:GetLogItemType(logItem) == LOG_ITEM_TYPE_SYSTEM_PARAMETER Then
+                    LOG_DISPLAY_TABLE_VIEW:ChangeMode(KEY_OPERATION_TYPE_TAB_TRANSITION)
+                    ExecuteTableViewIrregularFocusTransition()
+                    Return(0)
+                End If
+
+                BtFormCommon:SetVisible(DEF_JOB_RES:Properties, false)
+
+                DEF_HISTORY_DETA_EDIT_DIALOG:New()
+
+                CreateEditDialog(logItem, displayField, cellData[1])
+
+                DEF_HISTORY_DETA_EDIT_DIALOG:OnShown(nil)
+                If (DEF_HISTORY_DETA_EDIT_DIALOG:DialogResult == DIALOG_RESULT_OK) Then
+                    SetNewData(cellData[0], DEF_HISTORY_DETA_EDIT_DIALOG:GetNewValue())
+                End If
+
+                BtFormCommon:SetVisible(DEF_JOB_RES:Properties, true)
+                Window<"ROOT_WINDOW">:Update()
+
+                LOG_DISPLAY_TABLE_VIEW:Focus()
+
+                DisplayRecord()
+                UpdateOwnerLogData()
+
+                GridBox<"LOG_DISPLAY_TABLE_VIEW">:SetEditMode("off")
+                ExecuteTableViewIrregularFocusTransition()
+                Return(true)
+            Case KEYS_RIGHT, KEYS_LEFT
+                OnScroll(sender)
+            Case KEYS_F1
+#ifdef DEF_EVENT_F1_KEY_ACTION
+                DEF_EVENT_F1_KEY_ACTION(sender)
+#endif
+            Case KEYS_F2
+                F2KeyAction(sender)
+            Case KEYS_F3
+                F3KeyAction(sender)
+            Case KEYS_F4
+                F4KeyAction(sender)
+            Case KEYS_R
+#ifdef DEF_EVENT_R_KEY_ACTION
+                DEF_EVENT_R_KEY_ACTION(sender)
+#endif
+            Case KEYS_L
+                LKeyAction(sender)
+        End Select
+    End Method
+
+    Method GetSelData()
+    Begin
+
+    End Method
+
+    Method LogDisplayTableView_KeyDown(sender)
+    Begin
+        Key:onPress = nil
+
+        LogDisplayGridBoxInEditMode_KeyDown(sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = LogDisplayTableView_KeyDown
+        End If
+    End Method
+
+    Method PreviousRecordButton_Click(sender, result)
+    Begin
+        ShowPreviousRecord()
+    End Method
+
+    Method NextRecordButton_Click(sender, result)
+    Begin
+        ShowNextRecord()
+    End Method
+
+    Method OnTimer(sender)
+    Begin
+        If Handy:KeySense() == KEYS_ENTER Then
+            Select Case BtScreenCommon:GetFocus(Properties)
+                Case "DEF_KEY_PREVIOUS"
+                    ShowPreviousRecord()
+                Case "DEF_KEY_NEXT"
+                    ShowNextRecord()
+            End Select
+        Else
+        End If
+    End Method
+
+    Method DeleteButton_Click(sender, result)
+        deleteType      
+        dialogResult          
+        errormessage
+        idColumnNo
+        conditionFieldValuePairs    
+    Begin
+        If (BtHistoryDataViewCommon:GetReferenceSource(Properties) == DATA_LOCATION_REMOTE) Then
+            Return(0)
+        End If
+
+        If (Not BtHistoryDataViewCommon:GetDataRemovingEnabled(Properties)) Then
+            Return(0)
+        End If
+
+        BtFormCommon:SetVisible(DEF_JOB_RES:Properties, false)
+
+        DEF_DELETE_CONFIRMATION_DIALOG:New()
+
+        Event:Wait()
+
+        BtFormCommon:SetVisible(DEF_JOB_RES:Properties, true)
+        Window<"ROOT_WINDOW">:Update()
+#ifdef DEF_KEY_DELETE
+        DEF_KEY_DELETE:Focus()
+#endif
+
+        deleteType = DEF_DELETE_CONFIRMATION_DIALOG:GetLogDeleteType()
+
+        If (BtHistoryDataViewCommon:GetAllRecCount(Properties) == 0) Then
+            Return(0)
+        End If
+
+        If (deleteType == LOG_DELETE_TYPE_CANCEL) Then
+            Return(0)
+        End If
+
+        dialogResult = MessageUtility:ShowMessage(
+            MESSAGE_WARNING_DELETE_LOG_DATA,
+            MESSAGE_WARNING,
+            MESSAGE_BOX_BUTTONS_YES_NO,
+            MESSAGE_BOX_ICON_EXCLAMATION,
+            MESSAGE_BOX_DEFAULT_BUTTON_BUTTON2)
+
+        If (dialogResult == DIALOG_RESULT_NO) Then
+            Return(0)
+        End If
+
+        Select Case deleteType
+            Case LOG_DELETE_TYPE_ONE_RECORD
+                idColumnNo = ListTable:Find(BtHistoryDataViewCommon:GetRecordData(Properties), "key", ID_COLUMN)
+
+                conditionFieldValuePairs = ListTable:CreateList()
+                ListTable:Add(conditionFieldValuePairs, ID_COLUMN, ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), idColumnNo, "val"))
+
+                DbAccess:DeleteRecord(
+                    BtHistoryDataViewCommon:GetLogDbName(Properties),
+                    BtHistoryDataViewCommon:GetLogTableName(Properties),
+                    conditionFieldValuePairs)
+                ListTable:DeleteList(conditionFieldValuePairs)
+            Case LOG_DELETE_TYPE_ALL_RECORDS
+                DbAccess:DeleteRecord(
+                    BtHistoryDataViewCommon:GetLogDbName(Properties),
+                    BtHistoryDataViewCommon:GetLogTableName(Properties),
+                    0)
+        End Select
+
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errormessage)
+        End If
+
+        UpdateAllRecordCount()
+        DisplayRecord()
+        UpdateOwnerLogData()
+    End Method
+
+    Method DisplayTableView()
+    Begin
+        MessageUtility:SetDisableMessage(true)
+
+        SetCurrentLogData()
+        Show(true)
+    Catch
+    End Method
+
+    Method LogDisplayTableView_GotFocus(sender)
+    Begin
+        Key:onPress = LogDisplayTableView_OnScroll
+    End Method
+#End Region
+
+#popdefine

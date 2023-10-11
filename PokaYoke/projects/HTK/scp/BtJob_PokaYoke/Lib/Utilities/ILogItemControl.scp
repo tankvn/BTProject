@@ -1,0 +1,103 @@
+
+Package ILogItemControl
+
+    Names[14]
+    ICommons[14]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_PokaYoke_BtLabel_Comparison"
+        ICommons[0] = BtWindow_PokaYoke_BtLabel_Comparison:ILogItemControlInvoke
+        Names[1] = "BtWindow_PokaYoke_BtLabel_Input"
+        ICommons[1] = BtWindow_PokaYoke_BtLabel_Input:ILogItemControlInvoke
+        Names[2] = "BtWindow_PokaYoke_BtTextBox_Compare"
+        ICommons[2] = BtWindow_PokaYoke_BtTextBox_Compare:ILogItemControlInvoke
+        Names[3] = "BtWindow_PokaYoke_BtTextBox_Input"
+        ICommons[3] = BtWindow_PokaYoke_BtTextBox_Input:ILogItemControlInvoke
+        Names[4] = "BtWindow_PokaYoke_BtTextBox_Person"
+        ICommons[4] = BtWindow_PokaYoke_BtTextBox_Person:ILogItemControlInvoke
+        Names[5] = "BtWindow_PokaYoke_BtLabel_Person"
+        ICommons[5] = BtWindow_PokaYoke_BtLabel_Person:ILogItemControlInvoke
+        Names[6] = "BtWindow_PokaYoke_BtLabel_Title"
+        ICommons[6] = BtWindow_PokaYoke_BtLabel_Title:ILogItemControlInvoke
+        Names[7] = "BtWindow_PokaYoke_BtVerifyControl_1"
+        ICommons[7] = BtWindow_PokaYoke_BtVerifyControl_1:ILogItemControlInvoke
+        Names[8] = "BtHistoryDataView_PokaYoke_BtLabel_Title"
+        ICommons[8] = BtHistoryDataView_PokaYoke_BtLabel_Title:ILogItemControlInvoke
+        Names[9] = "BtHistoryDataView_PokaYoke_BtLabel_DataCountDisplay"
+        ICommons[9] = BtHistoryDataView_PokaYoke_BtLabel_DataCountDisplay:ILogItemControlInvoke
+        Names[10] = "BtHistoryDataView_PokaYoke_BtTableView_HistoryData"
+        ICommons[10] = BtHistoryDataView_PokaYoke_BtTableView_HistoryData:ILogItemControlInvoke
+        Names[11] = "BtCollationErrorDialog_1_BtLabel_Title"
+        ICommons[11] = BtCollationErrorDialog_1_BtLabel_Title:ILogItemControlInvoke
+        Names[12] = "BtCollationErrorDialog_1_BtLabel_Message1"
+        ICommons[12] = BtCollationErrorDialog_1_BtLabel_Message1:ILogItemControlInvoke
+        Names[13] = "BtCollationErrorDialog_1_BtLabel_Message2"
+        ICommons[13] = BtCollationErrorDialog_1_BtLabel_Message2:ILogItemControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetLogEditType(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogEditType", args, ICommons))
+    End Method
+
+    Method GetDecimalPlaces(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetDecimalPlaces", args, ICommons))
+    End Method
+
+    Method GetCheckDuplicateReading(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetCheckDuplicateReading", args, ICommons))
+    End Method
+
+    Method GetIsSameLogItem(controlName, index, logItemControl)
+        args[2]
+    Begin
+        args[0] = index
+        args[1] = logItemControl
+        Return(InterfaceCommon:Call(controlName, Names, "GetIsSameLogItem", args, ICommons))
+    End Method
+
+    Method GetControlName(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetControlName", args, ICommons))
+    End Method
+
+    Method GetLogTableFieldType(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogTableFieldType", args, ICommons))
+    End Method
+
+    Method GetLogData(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogData", args, ICommons))
+    End Method
+
+    Method CheckValidInput(controlName, checkTarget, index)
+        args[2]
+    Begin
+        args[0] = checkTarget
+        args[1] = index
+        Return(InterfaceCommon:Call(controlName, Names, "CheckValidInput", args, ICommons))
+    End Method
+
+End Package
+

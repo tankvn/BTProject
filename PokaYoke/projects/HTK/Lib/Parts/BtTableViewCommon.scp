@@ -1,0 +1,1281 @@
+
+#insert "\Lib\Parts\BtTableViewConstants"
+
+Package BtTableViewCommon
+
+
+    Const ESCAPE_TARGETS_COLUMN_NAME[23] = {"\n", "\t", "\r", "~", "(", ")", "\x23", "\\", "/", "=", "<", ">", "+", "-", "*", "%", "&", "|", "^", "'", "\"", "[", "]"}
+
+    Const ESCAPE_TARGETS_WILD_CARD[2] = {"*", "%"}
+
+
+
+    Method GetEnabled(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:enable) End Method
+    Method SetEnabled(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:enable = value End Method
+
+    Method GetTabStop(properties[]) Begin Return (properties[DEF_TAB_STOP_PROPERTY]) End Method
+    Method SetTabStop(properties[], value) Begin properties[DEF_TAB_STOP_PROPERTY] = value End Method
+
+    Method GetTabIndex(properties[]) Begin Return (properties[DEF_TAB_INDEX_PROPERTY]) End Method
+    Method SetTabIndex(properties[], value) Begin properties[DEF_TAB_INDEX_PROPERTY] = value End Method
+
+    Method GetVisible(properties[])
+    Begin
+        Return (GridBox<properties[DEF_NAME_PROPERTY]>:visible)
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        properties[DEF_VISIBLE_PROPERTY] = value
+    End Method
+
+    Method UpdateVisible(properties[]) /* Implements IControl.Visible */ /* Implements IBtInputControl.Visible */
+    Begin
+        CellSelect(properties, 0, 0)
+        GridBox<properties[DEF_NAME_PROPERTY]>:visible = properties[DEF_VISIBLE_PROPERTY]
+    End Method
+
+    Method GetIsPartOfControl(properties[]) Begin Return (properties[DEF_IS_PART_OF_CONTROL_PROPERTY]) End Method
+    Method SetIsPartOfControl(properties[], value) Begin properties[DEF_IS_PART_OF_CONTROL_PROPERTY] = value End Method
+
+    Method GetFontSize(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:fontSize) End Method
+    Method SetFontSize(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:fontSize = value End Method
+
+    Method GetFontName(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:fontName) End Method
+    Method SetFontName(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:fontName = value End Method
+
+    Method GetBold(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:fontBold) End Method
+    Method SetBold(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:fontBold = value End Method
+
+    Method GetWidth(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:width) End Method
+    Method SetWidth(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:width = value End Method
+
+    Method GetHeight(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:height) End Method
+    Method SetHeight(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:height = value End Method
+
+    Method GetRowNumberVisible(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:rHeaderVisible) End Method
+    Method SetRowNumberVisible(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:rHeaderVisible = value End Method
+
+    Method GetColumnNameVisible(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:cHeaderVisible) End Method
+    Method SetColumnNameVisible(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:cHeaderVisible = value End Method
+
+    Method GetDisplayColumnCount(properties[]) Begin Return (properties[DEF_DISPLAY_COLUMN_COUNT_PROPERTY]) End Method
+    Method SetDisplayColumnCount(properties[], value) Begin properties[DEF_DISPLAY_COLUMN_COUNT_PROPERTY] = value End Method
+
+    Method GetColumnCount(properties[])
+    Begin
+        If GetRowNumberVisible(properties) is false Then
+            Return (GridBox<properties[DEF_NAME_PROPERTY]>:GetCount("col"))
+        Else
+            Return (GridBox<properties[DEF_NAME_PROPERTY]>:GetCount("col") + 1)
+        End If
+    End Method
+
+    Method GetRowNumberColumnWidth(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:GetWidth(-1)) End Method
+    Method SetRowNumberColumnWidth(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:SetWidth(-1, value) End Method
+
+    Method GetRowNumberColumnName(properties[]) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:GetText(-1, -1)) End Method
+    Method SetRowNumberColumnName(properties[], value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:SetText(-1, -1, value) End Method
+
+    Method GetColumnWidth(properties[], index) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:GetWidth(index)) End Method
+    Method SetColumnWidth(properties[], index, value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:SetWidth(index, value) End Method
+
+    Method GetColumnName(properties[], index) Begin Return (GridBox<properties[DEF_NAME_PROPERTY]>:GetText(-1, index)) End Method
+    Method SetColumnName(properties[], index, value) Begin GridBox<properties[DEF_NAME_PROPERTY]>:SetText(-1, index, value) End Method
+
+    Method GetCellBackColor(properties[]) Begin Return (properties[DEF_CELL_BACK_COLOR_PROPERTY]) End Method
+    Method SetCellBackColor(properties[], value) Begin properties[DEF_CELL_BACK_COLOR_PROPERTY] = value UpdateTitleColor(properties) End Method
+
+    Method GetTableName(properties[]) Begin Return (properties[DEF_TABLE_NAME_PROPERTY]) End Method
+    Method SetTableName(properties[], value) Begin properties[DEF_TABLE_NAME_PROPERTY] = value End Method
+
+    Method GetDatabaseFileName(properties[]) Begin Return (properties[DEF_DATABASE_FILE_NAME_PROPERTY]) End Method
+    Method SetDatabaseFileName(properties[], value) Begin properties[DEF_DATABASE_FILE_NAME_PROPERTY] = value End Method
+
+    Method GetStorageDestination(properties[]) Begin Return (properties[DEF_STORAGE_DESTINATION_PROPERTY]) End Method
+    Method SetStorageDestination(properties[], value) Begin properties[DEF_STORAGE_DESTINATION_PROPERTY] = value End Method
+
+    Method GetIsDisplayLog(properties[]) Begin Return (properties[DEF_IS_DISPLAY_LOG_PROPERTY]) End Method
+    Method SetIsDisplayLog(properties[], value) Begin properties[DEF_IS_DISPLAY_LOG_PROPERTY] = value End Method
+
+    Method GetOriginalDataSource(properties[]) Begin Return (properties[DEF_ORIGINAL_DATA_SOURCE_PROPERTY]) End Method
+    Method SetOriginalDataSource(properties[], value)
+    Begin
+        If Not properties[DEF_ORIGINAL_DATA_SOURCE_PROPERTY] is nil Then ListTable:DeleteList(properties[DEF_ORIGINAL_DATA_SOURCE_PROPERTY]) End If
+        properties[DEF_ORIGINAL_DATA_SOURCE_PROPERTY] = value
+    End Method
+
+    Method GetIdFilteredData(properties[])
+    Begin
+        Return(properties[DEF_ID_FILTERED_DATA])
+    End Method
+    Method SetIdFilteredData(properties[], value)
+    Begin
+        properties[DEF_ID_FILTERED_DATA] = value
+    End Method
+
+    Method GetGrayoutRowList(properties[]) Begin Return (properties[DEF_GRAYOUT_ROW_LIST_PROPERTY]) End Method
+    Method SetGrayoutRowList(properties[], value)
+    Begin
+        properties[DEF_GRAYOUT_ROW_LIST_PROPERTY] = value
+        GridBox<properties[DEF_NAME_PROPERTY]>:SetParam("row", value, "backColor", "179|179|179")
+    End Method
+
+    Method GetLogEditType(properties[], index) Begin Return (INPUT_CONTROL_STRING_TEXT_BOX) End Method
+
+    Method GetDecimalPlaces(properties[], index) Begin Return (0) End Method
+    Method GetDecimalPlacesIndex(properties[], index) Begin Return (0) End Method
+
+    Method GetCheckDuplicateReading(properties[], index) Begin Return (false) End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl) Begin Return (properties[DEF_NAME_PROPERTY] eq targetLogItemControl) End Method
+
+    Method GetFilterControl1(properties[]) Begin Return (properties[DEF_FILTER_CONTROL1_PROPERTY]) End Method
+    Method SetFilterControl1(properties[], value) Begin properties[DEF_FILTER_CONTROL1_PROPERTY] = value End Method
+
+    Method GetColumnNoFilter1(properties[]) Begin Return (properties[DEF_COLUMN_NO_FILTER1_PROPERTY]) End Method
+    Method SetColumnNoFilter1(properties[], value) Begin properties[DEF_COLUMN_NO_FILTER1_PROPERTY] = value End Method
+
+    Method GetFilterControl2(properties[]) Begin Return (properties[DEF_FILTER_CONTROL2_PROPERTY]) End Method
+    Method SetFilterControl2(properties[], value) Begin properties[DEF_FILTER_CONTROL2_PROPERTY] = value End Method
+
+    Method GetColumnNoFilter2(properties[]) Begin Return (properties[DEF_COLUMN_NO_FILTER2_PROPERTY]) End Method
+    Method SetColumnNoFilter2(properties[], value) Begin properties[DEF_COLUMN_NO_FILTER2_PROPERTY] = value End Method
+
+    Method GetFilterControl3(properties[]) Begin Return (properties[DEF_FILTER_CONTROL3_PROPERTY]) End Method
+    Method SetFilterControl3(properties[], value) Begin properties[DEF_FILTER_CONTROL3_PROPERTY] = value End Method
+
+    Method GetColumnNoFilter3(properties[]) Begin Return (properties[DEF_COLUMN_NO_FILTER3_PROPERTY]) End Method
+    Method SetColumnNoFilter3(properties[], value) Begin properties[DEF_COLUMN_NO_FILTER3_PROPERTY] = value End Method
+
+    Method GetFilteringMatchType(properties[]) Begin Return (properties[DEF_FILTERING_MATCH_TYPE_PROPERTY]) End Method
+    Method SetFilteringMatchType(properties[], value) Begin properties[DEF_FILTERING_MATCH_TYPE_PROPERTY] = value End Method
+
+    Method GetMaxDataCount(properties[]) Begin Return (properties[DEF_MAX_DATA_COUNT_PROPERTY]) End Method
+    Method SetMaxDataCount(properties[], value) Begin properties[DEF_MAX_DATA_COUNT_PROPERTY] = value End Method
+
+    Method GetDeterminationMode(properties[]) Begin Return (properties[DEF_DETERMINATION_MODE_PROPERTY]) End Method
+    Method SetDeterminationMode(properties[], value) Begin properties[DEF_DETERMINATION_MODE_PROPERTY] = value End Method
+
+    Method GetTableWidth(properties[]) Begin Return (GetWidth(properties) - (GetColumnCount(properties) + CONTROL_BORDER_WIDTH)) End Method
+
+    Method GetIsSearchResult(properties[])
+    Begin
+        Return(properties[DEF_IS_SEARCH_RESULT])
+    End Method
+    Method SetIsSearchResult(properties[], value)
+    Begin
+        properties[DEF_IS_SEARCH_RESULT] = value
+    End Method
+
+    Method GetIdCurrentFilterStringList(properties[])
+    Begin
+        Return(properties[DEF_ID_CURRENT_FILTER_STRING_LIST])
+    End Method
+    Method SetIdCurrentFilterStringList(properties[], value)
+    Begin
+        properties[DEF_ID_CURRENT_FILTER_STRING_LIST] = value
+    End Method
+
+    Method GetBtDataFormatControl(properties[]) /*As String*/
+    Begin
+        Return (properties[DEF_BT_DATA_FORMAT_CONTROL_PROPERTY])
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return (GridBox<properties[DEF_NAME_PROPERTY]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        GridBox<properties[DEF_NAME_PROPERTY]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return (GridBox<properties[DEF_NAME_PROPERTY]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        GridBox<properties[DEF_NAME_PROPERTY]>:top = value
+    End Method
+
+    Method GetFocusColor(properties[])
+    Begin
+        Return (GridBox<properties[DEF_NAME_PROPERTY]>:focusColor)
+    End Method
+    Method SetFocusColor(properties[], value)
+    Begin
+        GridBox<properties[DEF_NAME_PROPERTY]>:focusColor = value
+    End Method
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method GetText(properties[])
+    Begin
+    End Method
+    Method SetText(properties[], value)
+    Begin
+    End Method
+
+    Method GetType(properties[])
+    Begin
+        Return(properties[DEF_TYPE_PROPERTY])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetCell(properties[], row, col)
+    Begin
+        Return (GridBox<properties[DEF_NAME_PROPERTY]>:GetText(row, col))
+    End Method
+
+    Method GetMakeFilterStringListHandler(properties[])
+    Begin
+        Return(properties[DEF_MAKE_FILTER_STRING_LIST_HANDLER])
+    End Method
+    Method SetMakeFilterStringListHandler(properties[], value)
+    Begin
+        properties[DEF_MAKE_FILTER_STRING_LIST_HANDLER] = value
+    End Method
+
+    Method GetIdRemoveFieldNameListHandler(properties[])
+    Begin
+        Return(properties[DEF_ID_REMOVE_FIELD_NAME_LIST_HANDLER])
+    End Method
+    Method SetIdRemoveFieldNameListHandler(properties[], value)
+    Begin
+        properties[DEF_ID_REMOVE_FIELD_NAME_LIST_HANDLER] = value
+    End Method
+
+    Method GetFocusTransitionRequestedHandler(properties[])
+    Begin
+        Return (properties[DEF_FOCUS_TRANSITION_REQUESTED_HANDLER])
+    End Method
+    Method SetFocusTransitionRequestedHandler(properties[], handle)
+    Begin
+        properties[DEF_FOCUS_TRANSITION_REQUESTED_HANDLER] = handle
+    End Method
+
+    Method GetMoveNextControlHandler(properties[])
+    Begin
+        Return (properties[DEF_MOVE_NEXT_CONTROL_HANDLER])
+    End Method
+    Method SetMoveNextControlHandler(properties[], handle)
+    Begin
+        properties[DEF_MOVE_NEXT_CONTROL_HANDLER] = handle
+    End Method
+
+    Method GetMovePreviousControlHandler(properties[])
+    Begin
+        Return (properties[DEF_MOVE_PREVIOUS_CONTROL_HANDLER])
+    End Method
+    Method SetMovePreviousControlHandler(properties[], handle)
+    Begin
+        properties[DEF_MOVE_PREVIOUS_CONTROL_HANDLER] = handle
+    End Method
+
+    Method GetComparisonValueCountUpdatedHandler(properties[])
+    Begin
+        Return (properties[DEF_COMPARISON_VALUE_COUNT_UPDATED_HANDLER])
+    End Method
+    Method SetComparisonValueCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[DEF_COMPARISON_VALUE_COUNT_UPDATED_HANDLER] = handle
+    End Method
+
+    Method GetCollationCountInitializedHandler(properties[])
+    Begin
+        Return (properties[DEF_COLLATION_COUNT_INITIALIZED_HANDLER])
+    End Method
+    Method SetCollationCountInitializedHandler(properties[], handle)
+    Begin
+        properties[DEF_COLLATION_COUNT_INITIALIZED_HANDLER] = handle
+    End Method
+
+    Method GetDataInputHandler(properties[])
+    Begin
+        Return (properties[DEF_DATA_INPUT_HANDLER])
+    End Method
+    Method SetDataInputHandler(properties[], handle)
+    Begin
+        properties[DEF_DATA_INPUT_HANDLER] = handle
+    End Method
+
+    Method GetKeyOperationType(properties[])
+    Begin
+        Return (properties[DEF_KEY_OPERATION_TYPE_PROPERTY])
+    End Method
+    Method SetKeyOperationType(properties[], value)
+    Begin
+        properties[DEF_KEY_OPERATION_TYPE_PROPERTY] = value
+    End Method
+
+    Method SetOnEditStart(properties[], handler)
+    Begin
+        GridBox<GetName(properties)>:onEditStart = handler
+    End Method
+
+    Method SetOnEditEnd(properties[], handler)
+    Begin
+        GridBox<GetName(properties)>:onEditEnd = handler
+    End Method
+
+    Method SetOnEditCancel(properties[], handler)
+    Begin
+        GridBox<GetName(properties)>:onEditCancel = handler
+    End Method
+
+    Method SetOnFocusIn(properties[], handler)
+    Begin
+        GridBox<GetName(properties)>:onFocusIn = handler
+    End Method
+
+    Method SetOnFocusOut(properties[], handler)
+    Begin
+        GridBox<GetName(properties)>:onFocusOut = handler
+    End Method
+
+    Method SetOnSelectChange(properties[], handler)
+    Begin
+        GridBox<GetName(properties)>:onSelectChange = handler
+    End Method
+
+    Method SetOnTouchUp(properties[], handler)
+    Begin
+        GridBox<GetName(properties)>:onTouchUp = handler
+    End Method
+
+    Method SetOnTouchOut(properties[], handler)
+    Begin
+        GridBox<GetName(properties)>:onTouchOut = handler
+    End Method
+
+#End Region 'Field/Property
+
+#insert "\Lib\Utilities\IControlInvokeCommon"
+#insert "\Lib\Utilities\IBtInputControlInvokeCommon"
+#insert "\Lib\Utilities\IMasterDataOwnerControlInvokeCommon"
+#insert "\Lib\Utilities\ILogItemControlInvokeCommon"
+#insert "\Lib\Utilities\ICollationTargetInvokeCommon"
+#insert "\Lib\Utilities\ISearchViewDisplayControlInvokeCommon"
+#insert "\Lib\Utilities\ITableViewInvokeCommon"
+
+    Method New(properties[])
+    Begin
+        SetDisplayColumnCount(properties, 3)
+        SetRowNumberVisible(properties, true)
+        SetColumnNameVisible(properties, true)
+        SetFontSize(properties, "middle")
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BTW" Then
+            SetFontName(properties, TERMINAL_SETTING_DEFAULT_FONT_NAME)
+            SetBold(properties, false)
+        End If
+        SetCellBackColor(properties, GRID_BOX_CELL_BACK_COLOR_LIGHT_GRAY)
+
+        SetDatabaseFileName(properties, "")
+        SetStorageDestination(properties, STORAGE_DESTINATION_DRIVE1)
+        SetOriginalDataSource(properties, nil)
+        SetIsDisplayLog(properties, false)
+        SetFilterControl1(properties, nil)
+        SetColumnNoFilter1(properties, 1)
+        SetFilterControl2(properties, nil)
+        SetColumnNoFilter2(properties, 2)
+        SetFilterControl3(properties, nil)
+        SetColumnNoFilter3(properties, 3)
+        SetFilteringMatchType(properties, FILTERING_MATCH_TYPE_EXACT_MATCH)
+
+        SetMaxDataCount(properties, 100)
+        SetDeterminationMode(properties, FILTER_DETERMINATION_MODE_ALL)
+
+        SetTabStop(properties, true)
+        SetTabIndex(properties, 0)
+        SetIsPartOfControl(properties, false)
+        SetTableName(properties, "")
+        SetIdFilteredData(properties, 0)
+        SetIsSearchResult(properties, false)
+
+        SetVisible(properties, true)
+        SetFocusColor(properties, TERMINAL_SETTING_FRAME_COLOR)
+        SetKeyOperationType(properties, KEY_OPERATION_TYPE_TAB_TRANSITION)
+
+        UpdateTitleColor(properties)
+    End Method
+
+    Method Create(properties[], parentName, row_num, col_num)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = "BtTableView"
+
+        properties[DEF_IS_GOT_FOCUSED] = false
+        properties[DEF_IS_LOST_FOCUSED] = false
+        With GridBox<properties[DEF_NAME_PROPERTY]>
+            :CreateGrid(parentName, row_num, col_num)
+            :frame = "none"
+            :simpleWidget = false
+            :enable = True
+            :inFocusBackColor = "255|255|255"
+            :selBackColor = "0|0|255"
+
+        End With
+    End Method
+
+    Method SetHandler(properties[], focusTransitionRequestedHandler, moveNextControlHandler, movePreviousControlHandler, comparisonValueCountUpdatedHandler, collationCountUpdatedHandler, dataInputHandler, makeFilterStringListHandler, idRemoveFieldNameListHandler)
+    Begin
+        SetFocusTransitionRequestedHandler(properties, focusTransitionRequestedHandler)
+        SetMoveNextControlHandler(properties, moveNextControlHandler)
+        SetMovePreviousControlHandler(properties, movePreviousControlHandler)
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountInitializedHandler(properties, collationCountUpdatedHandler)
+        SetDataInputHandler(properties, dataInputHandler)
+        SetMakeFilterStringListHandler(properties, makeFilterStringListHandler)
+        SetIdRemoveFieldNameListHandler(properties, idRemoveFieldNameListHandler)
+    End Method
+
+    Method SetEventHandler(properties[], onEditStart, onEditEnd, onFocusIn, onFocusOut)
+    Begin
+        With GridBox<properties[DEF_NAME_PROPERTY]>
+            :onEditStart = onEditStart
+            :onEditEnd = onEditEnd
+            :onFocusIn = onFocusIn
+            :onFocusOut = onFocusOut
+        End With
+    End Method
+
+    Method SetLogFormat(properties[], btDataFormatControl)
+    Begin
+        properties[DEF_BT_DATA_FORMAT_CONTROL_PROPERTY] = btDataFormatControl
+        properties[DEF_DATABASE_FILE_NAME_PROPERTY] = IDataFormatControl:GetDataBaseName(GetBtDataFormatControl(properties))
+        properties[DEF_TABLE_NAME_PROPERTY] = IDataFormatControl:GetTableName(GetBtDataFormatControl(properties))
+    End Method
+
+    Method ColHeader(properties[], visible, textColor, backColor)
+    Begin
+        GridBox<properties[DEF_NAME_PROPERTY]>:cHeaderVisible = visible
+        GridBox<properties[DEF_NAME_PROPERTY]>:cHeaderTextColor = textColor
+        GridBox<properties[DEF_NAME_PROPERTY]>:cHeaderBackColor = backColor
+    End Method
+
+    Method RowHeader(properties[], visible, textColor, backColor)
+    Begin
+        GridBox<properties[DEF_NAME_PROPERTY]>:rHeaderTextColor = textColor
+        GridBox<properties[DEF_NAME_PROPERTY]>:rHeaderBackColor = backColor
+    End Method
+
+    Method GetCurrentRowIndex(properties[])
+    Begin
+        Return(GridBox<properties[DEF_NAME_PROPERTY]>:GetSelectedItem("row"))
+    End Method
+
+    Method Focus(properties[])
+    Begin
+        FocusTransitionUtilityCommon:SetFocus(properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+        focusHandler
+        parameter[1]
+    Begin
+        If isFocused Then
+            focusHandler = GridBox<properties[DEF_NAME_PROPERTY]>:onFocusIn
+        Else
+            focusHandler = GridBox<properties[DEF_NAME_PROPERTY]>:onFocusOut
+        End If
+        If Not focusHandler is nil Then
+            EventUtility:Exec(focusHandler, properties[DEF_NAME_PROPERTY], parameter)
+        End If
+    End Method
+
+    Method GetMasterFieldList(properties[], dbPath)
+        id_fieldInfo
+    Begin
+        id_fieldInfo = DbAccess:GetFieldInfo(dbPath, GetTableName(properties))
+        Return (id_fieldInfo)
+    End Method
+
+    Method UpdateTitleColor(properties[])
+        titleForeColor  
+        titleBackColor  
+    Begin
+        Select Case GetCellBackColor(properties)
+            Case GRID_BOX_CELL_BACK_COLOR_LIGHT_GRAY
+                titleForeColor = TERMINAL_SETTING_FORE_COLOR_GRID_BOX_TITLE_LIGHT_GRAY
+                titleBackColor = TERMINAL_SETTING_BACK_COLOR_GRID_BOX_TITLE_LIGHT_GRAY
+            Case GRID_BOX_CELL_BACK_COLOR_BLUE
+                titleForeColor = TERMINAL_SETTING_FORE_COLOR_GRID_BOX_TITLE_BLUE
+                titleBackColor = TERMINAL_SETTING_BACK_COLOR_GRID_BOX_TITLE_BLUE
+            Case GRID_BOX_CELL_BACK_COLOR_RED
+                titleForeColor = TERMINAL_SETTING_FORE_COLOR_GRID_BOX_TITLE_RED
+                titleBackColor = TERMINAL_SETTING_BACK_COLOR_GRID_BOX_TITLE_RED
+            Case GRID_BOX_CELL_BACK_COLOR_GREEN
+                titleForeColor = TERMINAL_SETTING_FORE_COLOR_GRID_BOX_TITLE_GREEN
+                titleBackColor = TERMINAL_SETTING_BACK_COLOR_GRID_BOX_TITLE_GREEN
+            Case GRID_BOX_CELL_BACK_COLOR_ORANGE
+                titleForeColor = TERMINAL_SETTING_FORE_COLOR_GRID_BOX_TITLE_ORANGE
+                titleBackColor = TERMINAL_SETTING_BACK_COLOR_GRID_BOX_TITLE_ORANGE
+            Case GRID_BOX_CELL_BACK_COLOR_DARK_GRAY
+                titleForeColor = TERMINAL_SETTING_FORE_COLOR_GRID_BOX_TITLE_DARK_GRAY
+                titleBackColor = TERMINAL_SETTING_BACK_COLOR_GRID_BOX_TITLE_DARK_GRAY
+            Case Else
+                Return(0)
+        End Select
+
+        ColHeader(properties, true, titleForeColor, titleBackColor)
+        RowHeader(properties, false, titleForeColor, titleBackColor)
+
+    End Method
+
+    Method Reset(properties[])
+    Begin
+        Return(Reset2(properties, nil))
+    End Method
+
+    Method Reset2(properties[], exCondition)
+    Begin
+        ChangeMode(properties, KEY_OPERATION_TYPE_TAB_TRANSITION)
+        SetOriginalDataSource(properties, nil)
+        SetIsSearchResult(properties, false)
+        UpdateData(properties, true)
+    End Method
+
+    Method GetData(properties[], exCondition)
+        storagePath                 
+        dbName                      
+        id_fieldList
+        id_columnNoList
+        id_conditionFieldValuePairs
+        isInvalidFilter             
+        columnNo                    
+        isOrCondition
+        val
+        i
+        id_data
+        id_data2
+        errorMessage
+    Begin
+        If Not GetIdCurrentFilterStringList(properties) is nil Then ListTable:DeleteList(GetIdCurrentFilterStringList(properties)) End If
+
+        UserObj<"__SMALL_OBJ__" & StringUtility:GetHandleTagNameEraseSymbol(GetMakeFilterStringListHandler(properties))>:Open()
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetMakeFilterStringListHandler(properties))>:Set(0, GetMakeFilterStringListHandler(properties))
+        SetIdCurrentFilterStringList(properties, UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetMakeFilterStringListHandler(properties))>:Exec(0))
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetMakeFilterStringListHandler(properties))>:Close()
+
+        If (GetDatabaseFileName(properties) ne "") And (Not GetIsSearchResult(properties)) Then
+            If (Not GetOriginalDataSource(properties) is nil) Then
+                SetOriginalDataSource(properties, nil)
+            End If
+            id_conditionFieldValuePairs = ListTable:CreateList()
+
+            storagePath = PathUtility:StorageTypeToPath(GetStorageDestination(properties))
+            dbName = PathUtility:Combine(storagePath, GetDatabaseFileName(properties))
+            If (GetIsDisplayLog(properties)) Then
+                id_fieldList = GetLogDataFieldList(properties, dbName)
+            Else
+                id_fieldList = GetMasterFieldList(properties, dbName)
+            End If
+
+            id_columnNoList = MakeColumnNoList(properties)
+            isInvalidFilter = false
+            For i = 0 To ListTable:Count(GetIdCurrentFilterStringList(properties)) - 1
+                val = ListTable:Get(GetIdCurrentFilterStringList(properties), i, "val")
+                If val eq "" Then
+                    fcontinue
+                End If
+
+                columnNo = ListTable:Get(id_columnNoList, i, "val")
+                If ListTable:Count(id_fieldList) <= columnNo Then
+                    isInvalidFilter = true
+                    Fbreak
+                End If
+                ListTable:Add(id_conditionFieldValuePairs, ListTable:Get(id_fieldList, columnNo, "key"), ListTable:Get(GetIdCurrentFilterStringList(properties), i, "val"))
+            Next
+
+            If Not isInvalidFilter Then
+                If GetDeterminationMode(properties) == FILTER_DETERMINATION_MODE_EITHER Then isOrCondition = true
+                Else isOrCondition = false End If
+
+                If (GetIsDisplayLog(properties)) Then
+                    id_data = DbAccess:SelectValues2(dbName, GetTableName(properties), id_fieldList, id_conditionFieldValuePairs, isOrCondition, GetFilteringMatchType(properties), true, INVALID_LIST_TABLE_ID, GetMaxDataCountForDbAccess(properties), 0, exCondition)
+                Else
+                    id_data = DbAccess:SelectValues2(dbName, GetTableName(properties), INVALID_LIST_TABLE_ID, id_conditionFieldValuePairs, isOrCondition, GetFilteringMatchType(properties), false, INVALID_LIST_TABLE_ID, GetMaxDataCountForDbAccess(properties), 0, exCondition)
+                End If
+                errorMessage = ErrorManager:GetError()
+                If (errorMessage ne MESSAGE_ERROR_NONE) Then
+                    MessageUtility:ShowMessageOk(errorMessage)
+                End If
+
+                If GetMaxDataCount(properties) == 1 Then
+                    id_data2 = ListTable:CreateList()
+                    ListTable:AddList(id_data2, 0, id_data)
+                Else
+                    id_data2 = id_data
+                End If
+                SetOriginalDataSource(properties, id_data2)
+            End If
+
+            ListTable:DeleteList(id_conditionFieldValuePairs)
+            ListTable:DeleteList(id_fieldList)
+            ListTable:DeleteList(id_columnNoList)
+        End If
+
+    End Method
+
+    Method GetMaxDataCountForDbAccess(properties[])
+        maxDataCount
+    Begin
+        maxDataCount = GetMaxDataCount(properties)
+        If DB_ACCESS_MAX_DATA_COUNT <= maxDataCount Then
+            Return (DB_ACCESS_MAX_DATA_COUNT)
+        Else
+            Return (maxDataCount)
+        End If
+    End Method
+
+    Method GetLogDataFieldList(properties[], dbPath)
+        id_targetFieldList = INVALID_LIST_TABLE_ID
+        id_fieldInfo
+        id_removeFieldNameList
+        i, j
+        val1
+        fflg
+    Begin
+        id_fieldInfo = DbAccess:GetFieldInfo(dbPath, GetTableName(properties))
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            If (id_fieldInfo <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(id_fieldInfo)
+            End If
+            Return (id_targetFieldList)
+        End If
+        UserObj<"__SMALL_OBJ__" & StringUtility:GetHandleTagNameEraseSymbol(GetIdRemoveFieldNameListHandler(properties))>:Open()
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetIdRemoveFieldNameListHandler(properties))>:Set(0, GetIdRemoveFieldNameListHandler(properties))
+        id_removeFieldNameList = UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetIdRemoveFieldNameListHandler(properties))>:Exec(0)
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetIdRemoveFieldNameListHandler(properties))>:Close()
+
+        id_targetFieldList = ListTable:CreateList()
+        For i = 0 To ListTable:Count(id_fieldInfo)-1
+            val1 = ListTable:Get(id_fieldInfo, i, "key")
+            fflg = false
+            For j = 0 To ListTable:Count(id_removeFieldNameList)-1
+                If val1 eq ListTable:Get(id_removeFieldNameList, j, "key") Then
+                    fflg = true
+                    Fbreak
+                End If
+            Next
+            If fflg is false Then
+                ListTable:Add(id_targetFieldList, val1, ListTable:Get(id_fieldInfo, i, "val"))
+            End If
+        Next
+        ListTable:DeleteList(id_fieldInfo)
+        ListTable:DeleteList(id_removeFieldNameList)
+        Return (id_targetFieldList)
+    End Method
+    Method GetFilteredDataForSearchResult(properties[]) 
+        condition           
+        isInvalidFilter     
+        id_columnNoList        
+        conditionJudgeValue 
+        columnIndex
+        targetColumnName    
+        searchText          
+        index
+        val
+        id
+    Begin
+        condition = ""
+        isInvalidFilter = false
+
+        If GetIsSearchResult(properties) Then
+            id_columnNoList = MakeColumnNoList(properties)
+            conditionJudgeValue = GetJudgeValue(properties)
+
+            For index = 0 To ListTable:Count(GetIdCurrentFilterStringList(properties)) - 1
+                val = ListTable:Get(GetIdCurrentFilterStringList(properties), index, "val")
+                If val is nil Then
+                    Fcontinue
+                End If
+                columnIndex = ListTable:Get(id_columnNoList, index, "val")
+
+                If (GetOriginalDataSource(properties) Is nil) Then
+                    isInvalidFilter = true
+                    Fbreak
+                End If
+                id = ListTable:Get(GetOriginalDataSource(properties), 0, "val")
+                If (ListTable:Count(id) <= columnIndex) Then
+                    isInvalidFilter = true
+                    Fbreak
+                End If
+
+                targetColumnName = GetEscapedColumnName(ListTable:Get(id, columnIndex, "key"))
+                searchText = ReplaceWildCardString(properties, val)
+                condition = AddCondition(condition, conditionJudgeValue, targetColumnName, searchText)
+            Next
+            ListTable:DeleteList(id_columnNoList)
+        End If
+
+        If GetOriginalDataSource(properties) is nil Or isInvalidFilter Then
+            Return(0)
+        Else
+            GetData(properties, condition)
+            Return(GetOriginalDataSource(properties))
+        End If
+    End Method
+
+    Method UpdateData(properties[], needUpdateFilterdData)
+    Begin
+        UpdateDataCore(properties, needUpdateFilterdData, false)
+        ComparisonValueCountUpdated(properties)
+    End Method
+
+    Method UpdateDataCore(properties[], needUpdateFilterdData, notDataUpdate)
+        dataColumnNum   
+        displayString   
+        cnt
+        i, j
+        rowcnt, colcnt
+        id
+    Begin
+
+        If notDataUpdate is false Then
+            GetData(properties, nil)
+        End If
+        If GetOriginalDataSource(properties) is nil Then
+            SetIdFilteredData(properties, 0)
+        ElseIf (needUpdateFilterdData) Then
+            If GetIsSearchResult(properties) Then
+                SetIdFilteredData(properties, GetFilteredDataForSearchResult(properties))
+            Else
+                SetIdFilteredData(properties, GetOriginalDataSource(properties))
+            End If
+        End If
+
+        rowcnt = ListTable:Count(GetIdFilteredData(properties))
+
+        If rowcnt > GetMaxDataCount(properties) Then
+            rowcnt = GetMaxDataCount(properties)
+        End If
+
+        If rowcnt > 0 Then
+            id = ListTable:Get(GetIdFilteredData(properties), 0, "val")
+            colcnt = ListTable:Count(id)
+
+            dataColumnNum = GetDisplayColumnCount(properties)
+            If colcnt < dataColumnNum Then
+                dataColumnNum = colcnt
+            End If
+
+            cnt = GridBox<properties[DEF_NAME_PROPERTY]>:GetCount("row")
+            If rowcnt > cnt Then
+                For i = cnt To rowcnt-1
+                    GridBox<properties[DEF_NAME_PROPERTY]>:Add("row")
+                Next
+            ElseIf rowcnt < cnt Then
+                For i = 1 To cnt-rowcnt
+                    GridBox<properties[DEF_NAME_PROPERTY]>:Remove("row", 0)
+                Next
+            End If
+
+            For i = 0 To rowcnt-1
+                id = ListTable:Get(GetIdFilteredData(properties), i, "val")
+                For j = 0 To dataColumnNum-1
+                    displayString = ListTable:Get(id, j, "val")
+                    If displayString is false Then displayString = "" End If
+                    If displayString eq "" And GetIsDisplayLog(properties) is true Then
+                        GridBox<properties[DEF_NAME_PROPERTY]>:SetText(i, j, MESSAGE_MESSAGE_NOT_FOUND_SHARED_PARAMETER)
+                    Else
+                        GridBox<properties[DEF_NAME_PROPERTY]>:SetText(i, j, displayString)
+                    End If
+                Next
+                GridBox<properties[DEF_NAME_PROPERTY]>:SetText(i, -1, i+1)
+            Next
+        Else
+            cnt = GridBox<properties[DEF_NAME_PROPERTY]>:GetCount("row")
+            For i = 0 To cnt-1
+                GridBox<properties[DEF_NAME_PROPERTY]>:Remove("row", 0)
+            Next
+            cnt = GridBox<properties[DEF_NAME_PROPERTY]>:GetCount("col")
+            For i = 0 To cnt-1
+                GridBox<properties[DEF_NAME_PROPERTY]>:SetText(0, i, "")
+            Next
+            GridBox<properties[DEF_NAME_PROPERTY]>:SetText(0, -1, "")
+        End If
+        GridBox<properties[DEF_NAME_PROPERTY]>:Update()
+    Catch
+
+    End Method
+
+    Method MakeFilterStringList(properties[])
+        id_filterList
+    Begin
+        id_filterList = ListTable:CreateList()
+
+        If (Not GetFilterControl1(properties) is nil) Then
+            ListTable:Add(id_filterList, GetFilterControl1(properties), IFilterControl:GetInputValue(GetFilterControl1(properties)))
+        End If
+        If (Not GetFilterControl2(properties) is nil) Then
+            ListTable:Add(id_filterList, GetFilterControl2(properties), IFilterControl:GetInputValue(GetFilterControl2(properties)))
+        End If
+        If (Not GetFilterControl3(properties) is nil) Then
+            ListTable:Add(id_filterList, GetFilterControl3(properties), IFilterControl:GetInputValue(GetFilterControl3(properties)))
+        End If
+        Return (id_filterList)
+    End Method
+
+    Method MakeColumnNoList(properties[])
+        id_columnNoList
+    Begin
+        id_columnNoList = ListTable:CreateList()
+        If (Not GetFilterControl1(properties) is nil) Then
+            ListTable:Add(id_columnNoList, GetFilterControl1(properties), GetColumnNoFilter1(properties)-1)
+        End If
+        If (Not GetFilterControl2(properties) is nil) Then
+            ListTable:Add(id_columnNoList, GetFilterControl2(properties), GetColumnNoFilter2(properties)-1)
+        End If
+        If (Not GetFilterControl3(properties) is nil) Then
+            ListTable:Add(id_columnNoList, GetFilterControl3(properties), GetColumnNoFilter3(properties)-1)
+        End If
+        Return (id_columnNoList)
+    End Method
+
+    Method GetJudgeValue(properties[]) 
+    Begin
+        If (GetDeterminationMode(properties) == FILTER_DETERMINATION_MODE_ALL) Then
+            Return (" and ")
+        End If
+        Return (" or ")
+    End Method
+
+    Method AddCondition(currentCondition, conditionJudgeValue, targetColumnName, searchText)
+        newCondition    
+    Begin
+        newCondition = targetColumnName & " LIKE '" & searchText & "'"
+        If (currentCondition eq "") Then
+            Return (newCondition)
+        End If
+        Return (currentCondition & conditionJudgeValue & newCondition)
+    End Method
+
+    Method ReplaceWildCardString(properties[], inputText)
+        isContainEscapeTarget = false
+        filterFormat = ""
+        i
+    Begin
+        For i = 0 to ESCAPE_TARGETS_WILD_CARD.size-1
+            If inputText.Find(ESCAPE_TARGETS_WILD_CARD[i], 0) is nil Then isContainEscapeTarget = True Fbreak End If
+        Next
+
+        If (Not isContainEscapeTarget) Then
+            If GetFilteringMatchType(properties) == FILTERING_MATCH_TYPE_FORWARD_MATCH Then
+                filterFormat = "" & inputText & "%"
+            ElseIf GetFilteringMatchType(properties) == FILTERING_MATCH_TYPE_BACKWARD_MATCH Then
+                filterFormat = "%" & inputText & ""
+            ElseIf GetFilteringMatchType(properties) == FILTERING_MATCH_TYPE_PARTIAL_MATCH Then
+                filterFormat = "%" & inputText & "%"
+            End If
+        Else
+            If GetFilteringMatchType(properties) == FILTERING_MATCH_TYPE_FORWARD_MATCH Then
+                filterFormat = "" & inputText & "%"
+            ElseIf GetFilteringMatchType(properties) == FILTERING_MATCH_TYPE_BACKWARD_MATCH Then
+                filterFormat = "%" & inputText & ""
+            ElseIf GetFilteringMatchType(properties) == FILTERING_MATCH_TYPE_PARTIAL_MATCH Then
+                filterFormat = "%" & inputText & "%"
+            End If
+        End If
+        If filterFormat eq "" Then filterFormat = inputText End If
+        Return(filterFormat)
+    End Method
+
+    Method GetEscapedColumnName(sourceColumnName)
+        isContainEscapeTarget = false
+        i
+    Begin
+        For i = 0 To ESCAPE_TARGETS_COLUMN_NAME.size-1
+            If sourceColumnName.Find(ESCAPE_TARGETS_COLUMN_NAME[i], 0) is nil Then isContainEscapeTarget = True Fbreak End If
+        Next
+
+        If (Not isContainEscapeTarget) Then
+            Return(sourceColumnName)
+        End If
+        sourceColumnName = StringUtility:Replace(sourceColumnName, "]", "\]")
+        Return(sourceColumnName)
+    End Method
+
+    Method GetCurrentCellData(properties[])
+    Begin
+        Return (GetCellData(properties, GridBox<properties[DEF_NAME_PROPERTY]>:GetSelectedItem("col"), GridBox<properties[DEF_NAME_PROPERTY]>:GetSelectedItem("row")))
+    End Method
+
+    Method GetCellData(properties[], colIndex, rowIndex)
+        targetRowIndex  
+        id
+        val
+    Begin
+        If GetIdFilteredData(properties) == 0 Then
+            Return ("")
+        End If
+
+        targetRowIndex = rowIndex
+        If (rowIndex < 0) Then
+            targetRowIndex = 0
+        End If
+
+        If (colIndex < 0) Then
+            Return ("")
+        End If
+
+        If (ListTable:Count(GetIdFilteredData(properties)) <= targetRowIndex) Then
+            Return ("")
+        End If
+
+        id = ListTable:Get(GetIdFilteredData(properties), targetRowIndex, "val")
+        If (ListTable:Count(id) <= colIndex) Then
+            Return ("")
+        End If
+
+        val = ListTable:Get(id, colIndex, "val")
+        If val is false Then
+            Return ("")
+        End If
+        Return(val)
+    End Method
+
+    Method GetControlName(properties[], index)
+    Begin
+        Return (properties[DEF_NAME_PROPERTY] & "_" & index)
+    End Method
+
+    Method GetLogTableFieldType(properties[], index)
+        columnType      
+        id
+        cnt
+    Begin
+        If GetIdFilteredData(properties) == 0 Then
+            Return (SQ_LITE_FIELD_TYPE_TEXT)
+        End If
+
+        id = ListTable:Get(GetIdFilteredData(properties), 0, "val")
+        cnt = ListTable:Count(id)
+        If cnt == 0 Or cnt <= index Then
+            Return (SQ_LITE_FIELD_TYPE_TEXT)
+        End If
+        columnType = ListTable:Get(id, index, "val2")
+        If columnType is false Then
+            Return (SQ_LITE_FIELD_TYPE_TEXT)
+        End If
+        Return (columnType)
+    End Method
+
+    Method GetLogData(properties[], index)
+    Begin
+        Return (GetCellLogData(properties, index, GetCurrentRowIndex(properties)))
+    End Method
+
+    Method GetCellLogData(properties[], columnIndex, rowIndex)
+    Begin
+        Return(GetCellData(properties, columnIndex, rowIndex))
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget, index)
+    Begin
+        Return (true)
+    End Method
+
+    Method EnterData(properties[]) 
+    Begin
+        Return(DataInput(properties, true))
+    End Method
+
+    Method GetCollationValue(properties[], dataIndex, index)
+        rowIndex
+        id
+        cnt
+    Begin
+        rowIndex = GridBox<properties[DEF_NAME_PROPERTY]>:GetSelectedItem("row")
+
+        If (GetIdFilteredData(properties) == 0) Or (ListTable:Count(GetIdFilteredData(properties)) == 0) Or (index < 0) Or (rowIndex < 0) Or (ListTable:Count(GetIdFilteredData(properties)) <= rowIndex) Then
+            Return (nil)
+        End If
+        id = ListTable:Get(GetIdFilteredData(properties), rowIndex, "val")
+        If id is false Then
+            Return (nil)
+        End If
+        cnt = ListTable:Count(id)
+        If cnt == 0 Or cnt <= index Then
+            Return (nil)
+        End If
+
+        If dataIndex is nil Then
+            Return (GetLogData(properties, index))
+        Else
+            Return (GetCellLogData(properties, index, dataIndex))
+        End If
+    End Method
+
+    Method GetAllCollationValues(properties[], index)
+        cnt
+    Begin
+        If GetIdFilteredData(properties) == 0 Then
+            Return (0)
+        End If
+        cnt = ListTable:Count(GetIdFilteredData(properties))
+        Return(cnt)    
+    End Method
+
+    Method AddCollationValue(properties[]) 
+    Begin
+    End Method
+
+    Method RemoveCollationValue(properties[], rowIndex)
+    Begin
+        If GetIdFilteredData(properties) == 0 Then
+            Return(0)
+        End If
+        If ListTable:Count(GetIdFilteredData(properties)) <= rowIndex Then
+            Return(0)
+        End If
+        ListTable:Remove(GetIdFilteredData(properties), rowIndex)
+        UpdateDataCore(properties, false, true)
+        ComparisonValueCountUpdated(properties)
+    End Method
+
+    Method ClearCollationValue(properties[]) 
+    Begin
+    End Method
+
+    Method GetCollationInputControl(properties[], index)
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex)
+        i, j
+        cnt
+        id
+    Begin
+        If GetOriginalDataSource(properties) is nil Then
+            SetOriginalDataSource(properties, ListTable:CreateList())
+        End If
+
+        If Not ((listId_SearchResult == INVALID_LIST_TABLE_ID) Or (ListTable:Count(listId_SearchResult) == 0)) Then
+            i = 0
+            While(Not ListTable:Get(listId_SearchResult, i, "val") Is nil)
+                id = ListTable:Get(GetOriginalDataSource(properties), i, "val")
+                If id is false Then
+                    id = ListTable:CreateList()
+                    ListTable:AddList(GetOriginalDataSource(properties), "", id)
+                End If
+                cnt = ListTable:Count(id)
+                For j = cnt To columnIndex
+                    ListTable:Add(id, "", "")
+                Next
+                ListTable:Set(id, columnIndex, "val", ListTable:Get(listId_SearchResult, i, "val"))
+                i = i + 1
+                If i >= ListTable:Count(listId_SearchResult) Then Wbreak End If
+            Wend
+        Else
+            SetOriginalDataSource(properties, nil)
+        End If
+
+        SetIsSearchResult(properties, true)
+        UpdateData(properties, true)
+    Catch
+        MessageUtility:ShowMessageOk(MESSAGE_ERROR_SELECT_VALUES)
+        ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+    End Method
+
+    Method UpdateLogData(properties[])
+    Begin
+        If (Not GetIsSearchResult(properties)) And GetIsDisplayLog(properties) And (Not GetIsPartOfControl(properties)) Then
+            Reset(properties)
+        End If
+    End Method
+
+    Method CloseMasterData(properties[])
+        storagePath     
+    Begin
+        storagePath = PathUtility:StorageTypeToPath(GetStorageDestination(properties))
+        DbAccess:Close(PathUtility:Combine(storagePath, GetDatabaseFileName(properties)))
+    End Method
+
+    Method ChangeMode(properties[], nextMode)
+    Begin
+        SetKeyOperationType(properties, nextMode)
+        DrawFocusFrame()
+    End Method
+
+    Method TabtransitionModeKeyAction(properties[], sender)
+    Begin
+        Select Case sender
+            Case KEYS_ENTER
+                ChangeMode(properties, KEY_OPERATION_TYPE_EDIT_MODE)
+        End Select
+    End Method
+
+    Method EditModeKeyAction(properties[], sender)
+    Begin
+        Select Case sender
+            Case KEYS_ENTER
+                ChangeMode(properties, KEY_OPERATION_TYPE_TAB_TRANSITION)
+        End Select
+    End Method
+
+    Method VScrollPage(direction)
+    Begin
+    End Method
+
+    Method HScrollPosition(direction)
+    Begin
+    End Method
+
+    Method DrawFocusFrame()
+    Begin
+    End Method
+
+    Method OnKeyDown(properties[], sender)
+    Begin
+        If GetKeyOperationType(properties) == KEY_OPERATION_TYPE_TAB_TRANSITION Then
+            TransitFocus(properties, sender)
+            TabtransitionModeKeyAction(properties, sender)
+        Else
+            EditModeKeyAction(properties, sender)
+        End If
+    End Method
+
+    Method TransitFocus(properties[], sender)
+        parameter[1]
+    Begin
+        Select Case sender
+            Case KEYS_UP, KEYS_LEFT
+                SetFocus(
+                    GridBox<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMovePreviousControlHandler(properties), GetName(properties), parameter))
+            Case KEYS_DOWN, KEYS_RIGHT
+                SetFocus(
+                    GridBox<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+        End Select
+    End Method
+
+    Method GotFocus(properties[], onKeyDownHandler, onFocusInHandler)
+    Begin
+        Key:onPress = onKeyDownHandler
+
+        properties[DEF_IS_LOST_FOCUSED] = false
+        If properties[DEF_IS_GOT_FOCUSED] Then
+            Return()
+        End If
+        If FocusTransitionUtilityCommon:ForceLostFocus(properties[DEF_NAME_PROPERTY]) Then
+            Key:onPress = onKeyDownHandler
+        End If
+        properties[DEF_IS_GOT_FOCUSED] = true
+
+        SetOnFocusIn(properties, nil)
+        SetKeyOperationType(properties, KEY_OPERATION_TYPE_TAB_TRANSITION)
+        SetOnFocusIn(properties, onFocusInHandler)
+    End Method
+
+    Method LostFocus(properties[], onFormKeyDownHandler, onFocusOutHandler)
+    Begin
+        Key:onPress = onFormKeyDownHandler
+
+        properties[DEF_IS_GOT_FOCUSED] = false
+        If properties[DEF_IS_LOST_FOCUSED] Then
+            Return()
+        End If
+        properties[DEF_IS_LOST_FOCUSED] = true
+
+        SetOnFocusOut(properties, nil)
+        SetKeyOperationType(properties, KEY_OPERATION_TYPE_TAB_TRANSITION)
+        SetOnFocusOut(properties, onFocusOutHandler)
+    End Method
+
+    Method EditStart(properties[], onEditStartHandler)
+    Begin
+        SetOnEditStart(properties, nil)
+        SetKeyOperationType(properties, KEY_OPERATION_TYPE_EDIT_MODE)
+        SetOnEditStart(properties, onEditStartHandler)
+    End Method
+
+    Method EditEnd(properties[], onKeyDownHandler, onEditEndHandler)
+    Begin
+        SetOnEditEnd(properties, nil)
+        If EnterData(properties) Then
+            FocusTransitionRequested(properties)
+        End If
+
+        Key:onPress = onKeyDownHandler
+        SetOnEditEnd(properties, onEditEndHandler)
+    End Method
+
+    Method ComparisonValueCountUpdated(properties[])    
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CollationCountInitialized(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountInitializedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method DataInput(properties[], result)  
+        parameter[1]
+    Begin
+        parameter[0] = result
+        Return(EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method FocusTransitionRequested(properties[])   
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetFocusTransitionRequestedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method UpdateMasterData(properties[])
+    Begin
+        If (Not GetIsSearchResult(properties)) And (Not GetIsDisplayLog(properties)) Then
+            Reset(properties)
+        End If
+    End Method
+
+    Method CellSelect(properties[], row, col)
+    Begin
+        GridBox<properties[DEF_NAME_PROPERTY]>:Select(row, col)
+    End Method
+
+    Method SetFocus(focusControlId, controlId)
+    Begin
+        If focusControlId.isString And controlId.isString Then
+            If focusControlId ne controlId Then
+                FocusTransitionUtilityCommon:SetFocus(controlId)
+            End If
+        End If
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        GridBox<properties[DEF_NAME_PROPERTY]>:visible = false
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        GridBox<properties[DEF_NAME_PROPERTY]>:Delete()
+    End Method
+
+    Method GridFocus(properties[])
+    Begin
+        GridBox<properties[DEF_NAME_PROPERTY]>:SetFocus()
+    End Method
+
+    Method StoreTemporaryText(properties[])
+    Begin
+    End Method
+
+    Method ResetTemporaryText(properties[])
+    Begin
+    End Method
+
+End Package

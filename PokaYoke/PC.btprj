@@ -1,0 +1,2161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PermanencyDocument version="0.2.0.0">
+  <ServerProjectSettings version="0.2.0.0">
+    <_appFormSettings>
+      <AppFormToolSettings version="0.2.0.0">
+        <_size>1024, 550</_size>
+        <_windows>
+          <WindowPanelToolSettings version="0.2.0.0">
+            <_splitterDistance>0</_splitterDistance>
+            <_group1>
+              <GroupPanelToolSettings version="0.2.0.0">
+                <_sheets>
+                  <SheetPanelToolSettings version="0.2.0.0">
+                    <_size>1000, 427</_size>
+                    <_headerHeight>40</_headerHeight>
+                    <_footerHeight>40</_footerHeight>
+                    <_searchTree>
+                      <SearchTreeToolSettings version="0.2.0.0">
+                        <_conditions />
+                        <_comboBox>
+                          <InternalComboBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>a494fa42-eaca-4a73-9d4b-22ab7aa09573</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtSearchDropDownBox_1</Name>
+                            <Location>3, 3</Location>
+                            <Size>104, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                            <Role>None</Role>
+                            <SearchTarget>All</SearchTarget>
+                            <SearchConditionType>Match</SearchConditionType>
+                            <DropDownStyle>DropDownList</DropDownStyle>
+                          </InternalComboBoxToolSettings>
+                        </_comboBox>
+                        <_button>
+                          <InternalServerButtonToolSettings version="0.2.0.0">
+                            <_instanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>d4799c59-d44d-4770-ae20-99875560a930</_guid>
+                              </ToolInstanceKey>
+                            </_instanceKey>
+                            <IsShowConfirmMessage>True</IsShowConfirmMessage>
+                            <ConfirmMessage>
+                            </ConfirmMessage>
+                            <Name>BtSearchTreeButton_1</Name>
+                            <Location>121, 3</Location>
+                            <Size>50, 30</Size>
+                            <Text>Edit</Text>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Control</BackColor>
+                            <TextAlign>MiddleCenter</TextAlign>
+                          </InternalServerButtonToolSettings>
+                        </_button>
+                        <_treeView>
+                          <InternalTreeViewToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>88973be4-24a5-49d4-838c-400896c25d4a</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtSerchTreeView_1</Name>
+                            <Location>3, 36</Location>
+                            <Size>168, 308</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                          </InternalTreeViewToolSettings>
+                        </_treeView>
+                        <_size>174, 347</_size>
+                        <InstanceKey>
+                          <ToolInstanceKey version="0.2.0.0">
+                            <_guid>fd005be7-cc17-4e8f-be47-8bf468b108a5</_guid>
+                          </ToolInstanceKey>
+                        </InstanceKey>
+                        <Name>BtSearchTree</Name>
+                        <Location>0, 40</Location>
+                        <SettingSearchConditions>False</SettingSearchConditions>
+                        <ShowSearchConditionSettingButton>True</ShowSearchConditionSettingButton>
+                        <BackColor>Control</BackColor>
+                      </SearchTreeToolSettings>
+                    </_searchTree>
+                    <_gridView>
+                      <GridViewToolSettings version="0.2.0.0">
+                        <_databaseColumns>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>Date</_name>
+                            <_width>140</_width>
+                            <_visible>True</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>Time</_name>
+                            <_width>140</_width>
+                            <_visible>True</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>Serial number</_name>
+                            <_width>140</_width>
+                            <_visible>True</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>Person</_name>
+                            <_width>140</_width>
+                            <_visible>True</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>Comparison</_name>
+                            <_width>140</_width>
+                            <_visible>True</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>Input</_name>
+                            <_width>140</_width>
+                            <_visible>True</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>Result</_name>
+                            <_width>134</_width>
+                            <_visible>True</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                          <ColumnSettings version="0.2.0.0">
+                            <_name>
+                            </_name>
+                            <_width>100</_width>
+                            <_visible>False</_visible>
+                            <_conditionExpressionSettings>
+                              <ConditionExpressionSettings version="0.2.0.0">
+                                <_fontSettings>
+                                  <ServerFontSettings version="0.2.0.0">
+                                    <_name>Segoe UI</_name>
+                                    <_size>9.75</_size>
+                                    <_style>Regular</_style>
+                                  </ServerFontSettings>
+                                </_fontSettings>
+                                <_fontColor>ControlText</_fontColor>
+                                <_backColor>Control</_backColor>
+                                <_searchSettings>
+                                  <SearchSettings version="0.2.0.0">
+                                    <_conditionsEvaluation>All</_conditionsEvaluation>
+                                    <_searchConditions />
+                                  </SearchSettings>
+                                </_searchSettings>
+                              </ConditionExpressionSettings>
+                            </_conditionExpressionSettings>
+                            <_calculationFormulaSettings>
+                              <CalculationFormulaSettings version="0.2.0.0">
+                                <_firstValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_firstValue>
+                                <_operation>None</_operation>
+                                <_secondValue>
+                                  <CalculationTargetValue version="0.2.0.0">
+                                    <_targetColumn>DB1</_targetColumn>
+                                    <_isConstantValue>True</_isConstantValue>
+                                    <_constantValue>0</_constantValue>
+                                  </CalculationTargetValue>
+                                </_secondValue>
+                                <_showParcent>False</_showParcent>
+                                <_showDecimalPoint>False</_showDecimalPoint>
+                                <_decimalPoint>0</_decimalPoint>
+                              </CalculationFormulaSettings>
+                            </_calculationFormulaSettings>
+                          </ColumnSettings>
+                        </_databaseColumns>
+                        <_calculationColumns />
+                        <InstanceKey>
+                          <ToolInstanceKey version="0.2.0.0">
+                            <_guid>2ec69b0d-11df-4d0a-bca4-01d4918d20e4</_guid>
+                          </ToolInstanceKey>
+                        </InstanceKey>
+                        <Name>BtTableGrid</Name>
+                        <Location>3, 40</Location>
+                        <Size>994, 347</Size>
+                        <FontSettings>
+                          <ServerFontSettings version="0.2.0.0">
+                            <_name>Segoe UI</_name>
+                            <_size>9.75</_size>
+                            <_style>Regular</_style>
+                          </ServerFontSettings>
+                        </FontSettings>
+                        <ForeColor>ControlText</ForeColor>
+                        <GridViewCellBackColor>Blue</GridViewCellBackColor>
+                        <Stripe>True</Stripe>
+                        <ShowColumnName>True</ShowColumnName>
+                        <ShowRowNumber>False</ShowRowNumber>
+                        <ColumnHeaderFontSettings>
+                          <ServerFontSettings version="0.2.0.0">
+                            <_name>Segoe UI</_name>
+                            <_size>9.75</_size>
+                            <_style>Regular</_style>
+                          </ServerFontSettings>
+                        </ColumnHeaderFontSettings>
+                        <ColumnHeaderAlignment>Center</ColumnHeaderAlignment>
+                        <ColumnHeaderForeColor>White</ColumnHeaderForeColor>
+                        <RowHeaderFontSettings>
+                          <ServerFontSettings version="0.2.0.0">
+                            <_name>Segoe UI</_name>
+                            <_size>9.75</_size>
+                            <_style>Regular</_style>
+                          </ServerFontSettings>
+                        </RowHeaderFontSettings>
+                        <RowHeaderForeColor>ControlText</RowHeaderForeColor>
+                        <SearchSettings>
+                          <SearchSettings version="0.2.0.0">
+                            <_conditionsEvaluation>All</_conditionsEvaluation>
+                            <_searchConditions />
+                          </SearchSettings>
+                        </SearchSettings>
+                      </GridViewToolSettings>
+                    </_gridView>
+                    <_dateTimeLabel>
+                      <ServerDateTimeLabelToolSettings version="0.2.0.0">
+                        <_instanceKey>
+                          <ToolInstanceKey version="0.2.0.0">
+                            <_guid>9482583b-02ec-4b12-ad48-36096028f169</_guid>
+                          </ToolInstanceKey>
+                        </_instanceKey>
+                        <DateTimeFormatPattern>YYYYMMDD_HHMM</DateTimeFormatPattern>
+                        <Name>BtDateTimeLabel_1</Name>
+                        <Location>840, 396</Location>
+                        <Size>133, 24</Size>
+                        <BorderStyle>None</BorderStyle>
+                        <FontSettings>
+                          <ServerFontSettings version="0.2.0.0">
+                            <_name>Segoe UI</_name>
+                            <_size>9.75</_size>
+                            <_style>Regular</_style>
+                          </ServerFontSettings>
+                        </FontSettings>
+                        <ForeColor>ControlText</ForeColor>
+                        <BackColor>Control</BackColor>
+                        <TextAlign>MiddleCenter</TextAlign>
+                      </ServerDateTimeLabelToolSettings>
+                    </_dateTimeLabel>
+                    <_headerLayoutTools>
+                      <ServerFilterBoxToolSettings version="0.2.0.0">
+                        <_columnComboBoxSettings>
+                          <InternalComboBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>f2f31f4b-ea72-4bd0-bcf4-470578af8798</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtTargetDropDownBox_1</Name>
+                            <Location>3, 2</Location>
+                            <Size>120, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                            <Role>Column</Role>
+                            <SearchTarget>All</SearchTarget>
+                            <SearchConditionType>Match</SearchConditionType>
+                            <DropDownStyle>DropDownList</DropDownStyle>
+                          </InternalComboBoxToolSettings>
+                        </_columnComboBoxSettings>
+                        <_conditionComboBoxSettings>
+                          <InternalComboBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>6007d7e6-bda7-453a-bb9d-f61187854f45</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtConditionDropDownBox_1</Name>
+                            <Location>127, 2</Location>
+                            <Size>125, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                            <Role>Condition</Role>
+                            <SearchTarget>All</SearchTarget>
+                            <SearchConditionType>Include</SearchConditionType>
+                            <DropDownStyle>DropDownList</DropDownStyle>
+                          </InternalComboBoxToolSettings>
+                        </_conditionComboBoxSettings>
+                        <_textComboBoxSettings>
+                          <InternalComboBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>5632f28e-7d55-4081-b8fe-62168f45f7c7</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtContentDropDownBox_1</Name>
+                            <Location>256, 2</Location>
+                            <Size>130, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                            <Role>None</Role>
+                            <SearchTarget>All</SearchTarget>
+                            <SearchConditionType>Match</SearchConditionType>
+                            <DropDownStyle>DropDown</DropDownStyle>
+                          </InternalComboBoxToolSettings>
+                        </_textComboBoxSettings>
+                        <_spinSettings>
+                          <InternalSpinToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>123ee21c-c13b-4548-a84c-73b14387d24a</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtNumericUpDown_1</Name>
+                            <Location>390, 2</Location>
+                            <Size>130, 30</Size>
+                            <TextAlign>Right</TextAlign>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                            <DecimalPlaces>0</DecimalPlaces>
+                          </InternalSpinToolSettings>
+                        </_spinSettings>
+                        <_dateFromDateBoxSettings>
+                          <InternalDateBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>03b98ae3-9047-4149-b8bb-0299e43b0871</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtFromDateBox_1</Name>
+                            <Location>260, 2</Location>
+                            <Size>120, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                          </InternalDateBoxToolSettings>
+                        </_dateFromDateBoxSettings>
+                        <_dateToDateBoxSettingsSettings>
+                          <InternalDateBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>aa406dc8-2c97-493e-899c-a3b348b74c10</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtToDateBox_1</Name>
+                            <Location>400, 2</Location>
+                            <Size>120, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                          </InternalDateBoxToolSettings>
+                        </_dateToDateBoxSettingsSettings>
+                        <_waveLineLabelSettingsSettings>
+                          <ServerLabelToolSettings version="0.2.0.0">
+                            <_instanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>6ebe12e6-1352-463e-bf79-b519a63dcde3</_guid>
+                              </ToolInstanceKey>
+                            </_instanceKey>
+                            <Text>-</Text>
+                            <Name>BtBetweenLabel_1</Name>
+                            <Location>381, 2</Location>
+                            <Size>18, 30</Size>
+                            <BorderStyle>None</BorderStyle>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Control</BackColor>
+                            <TextAlign>MiddleCenter</TextAlign>
+                          </ServerLabelToolSettings>
+                        </_waveLineLabelSettingsSettings>
+                        <_filterButtonSettings>
+                          <InternalFilterButtonToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>149d115b-a849-4189-8a3a-e5d53b524df0</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtSearchBoxButton_1</Name>
+                            <Location>398, 2</Location>
+                            <Size>30, 30</Size>
+                          </InternalFilterButtonToolSettings>
+                        </_filterButtonSettings>
+                        <InstanceKey>
+                          <ToolInstanceKey version="0.2.0.0">
+                            <_guid>72fe4e2b-3e1c-4b6e-8054-9083fbfe2a2b</_guid>
+                          </ToolInstanceKey>
+                        </InstanceKey>
+                        <Name>BtFilterBox_1</Name>
+                        <Location>0, 3</Location>
+                        <Size>430, 34</Size>
+                        <BorderStyle>FixedSingle</BorderStyle>
+                        <BackColor>240, 240, 240</BackColor>
+                        <OutputFormat>
+                          <DateFormat version="0.2.0.0">
+                            <Pattern>YYYYMMDD</Pattern>
+                            <Separator>Slash</Separator>
+                          </DateFormat>
+                        </OutputFormat>
+                        <FilteringType>Text</FilteringType>
+                        <ShowFilterColumnDropDown>True</ShowFilterColumnDropDown>
+                        <ShowFilterConditionDropDown>True</ShowFilterConditionDropDown>
+                      </ServerFilterBoxToolSettings>
+                      <ServerFilterBoxToolSettings version="0.2.0.0">
+                        <_columnComboBoxSettings>
+                          <InternalComboBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>c4545e6f-0567-47d5-976a-c7885561fb01</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtTargetDropDownBox_2</Name>
+                            <Location>3, 2</Location>
+                            <Size>120, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                            <Role>Column</Role>
+                            <SearchTarget>All</SearchTarget>
+                            <SearchConditionType>Match</SearchConditionType>
+                            <DropDownStyle>DropDownList</DropDownStyle>
+                          </InternalComboBoxToolSettings>
+                        </_columnComboBoxSettings>
+                        <_conditionComboBoxSettings>
+                          <InternalComboBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>79bdd079-82aa-4b01-8b7e-81d2ebfad87e</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtConditionDropDownBox_2</Name>
+                            <Location>127, 2</Location>
+                            <Size>100, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                            <Role>Condition</Role>
+                            <SearchTarget>All</SearchTarget>
+                            <SearchConditionType>FromTo</SearchConditionType>
+                            <DropDownStyle>DropDownList</DropDownStyle>
+                          </InternalComboBoxToolSettings>
+                        </_conditionComboBoxSettings>
+                        <_textComboBoxSettings>
+                          <InternalComboBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>88dcc8d4-4411-4ec3-a9f4-f247c3dd8a8d</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtContentDropDownBox_2</Name>
+                            <Location>390, 2</Location>
+                            <Size>130, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                            <Role>None</Role>
+                            <SearchTarget>All</SearchTarget>
+                            <SearchConditionType>Match</SearchConditionType>
+                            <DropDownStyle>DropDown</DropDownStyle>
+                          </InternalComboBoxToolSettings>
+                        </_textComboBoxSettings>
+                        <_spinSettings>
+                          <InternalSpinToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>37696856-b2d5-46c7-873e-cdb384539397</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtNumericUpDown_2</Name>
+                            <Location>390, 2</Location>
+                            <Size>130, 30</Size>
+                            <TextAlign>Right</TextAlign>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>Window</BackColor>
+                            <DecimalPlaces>0</DecimalPlaces>
+                          </InternalSpinToolSettings>
+                        </_spinSettings>
+                        <_dateFromDateBoxSettings>
+                          <InternalDateBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>ef1682ff-f03b-4af9-afd7-50856e87db34</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtFromDateBox_2</Name>
+                            <Location>230, 2</Location>
+                            <Size>120, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                          </InternalDateBoxToolSettings>
+                        </_dateFromDateBoxSettings>
+                        <_dateToDateBoxSettingsSettings>
+                          <InternalDateBoxToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>9004e8d9-dedd-4ac5-b3e8-2c8088464867</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtToDateBox_2</Name>
+                            <Location>368, 2</Location>
+                            <Size>120, 30</Size>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                          </InternalDateBoxToolSettings>
+                        </_dateToDateBoxSettingsSettings>
+                        <_waveLineLabelSettingsSettings>
+                          <ServerLabelToolSettings version="0.2.0.0">
+                            <_instanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>79ed66a2-6eb7-493f-9860-8031aa8d06bb</_guid>
+                              </ToolInstanceKey>
+                            </_instanceKey>
+                            <Text>-</Text>
+                            <Name>BtBetweenLabel_2</Name>
+                            <Location>350, 2</Location>
+                            <Size>18, 30</Size>
+                            <BorderStyle>None</BorderStyle>
+                            <FontSettings>
+                              <ServerFontSettings version="0.2.0.0">
+                                <_name>Segoe UI</_name>
+                                <_size>9.75</_size>
+                                <_style>Regular</_style>
+                              </ServerFontSettings>
+                            </FontSettings>
+                            <ForeColor>ControlText</ForeColor>
+                            <BackColor>240, 240, 240</BackColor>
+                            <TextAlign>MiddleCenter</TextAlign>
+                          </ServerLabelToolSettings>
+                        </_waveLineLabelSettingsSettings>
+                        <_filterButtonSettings>
+                          <InternalFilterButtonToolSettings version="0.2.0.0">
+                            <InstanceKey>
+                              <ToolInstanceKey version="0.2.0.0">
+                                <_guid>812409b5-0f6b-4516-9bca-48876eac8cde</_guid>
+                              </ToolInstanceKey>
+                            </InstanceKey>
+                            <Name>BtSearchBoxButton_2</Name>
+                            <Location>504, 2</Location>
+                            <Size>30, 30</Size>
+                          </InternalFilterButtonToolSettings>
+                        </_filterButtonSettings>
+                        <InstanceKey>
+                          <ToolInstanceKey version="0.2.0.0">
+                            <_guid>e120aab1-474f-4142-8339-fdb6fd2e2289</_guid>
+                          </ToolInstanceKey>
+                        </InstanceKey>
+                        <Name>BtFilterBox_2</Name>
+                        <Location>433, 3</Location>
+                        <Size>536, 34</Size>
+                        <BorderStyle>FixedSingle</BorderStyle>
+                        <BackColor>240, 240, 240</BackColor>
+                        <OutputFormat>
+                          <DateFormat version="0.2.0.0">
+                            <Pattern>MMDDYYYY</Pattern>
+                            <Separator>Slash</Separator>
+                          </DateFormat>
+                        </OutputFormat>
+                        <FilteringType>Date</FilteringType>
+                        <ShowFilterColumnDropDown>True</ShowFilterColumnDropDown>
+                        <ShowFilterConditionDropDown>True</ShowFilterConditionDropDown>
+                      </ServerFilterBoxToolSettings>
+                    </_headerLayoutTools>
+                    <_footerLayoutTools>
+                      <ServerLabelToolSettings version="0.2.0.0">
+                        <_instanceKey>
+                          <ToolInstanceKey version="0.2.0.0">
+                            <_guid>172cf764-5c19-4fa4-81ce-a5ca5ff8014b</_guid>
+                          </ToolInstanceKey>
+                        </_instanceKey>
+                        <Text>Last refresh time:</Text>
+                        <Name>BtLabel_1</Name>
+                        <Location>735, 396</Location>
+                        <Size>110, 24</Size>
+                        <BorderStyle>None</BorderStyle>
+                        <FontSettings>
+                          <ServerFontSettings version="0.2.0.0">
+                            <_name>Segoe UI</_name>
+                            <_size>9.75</_size>
+                            <_style>Regular</_style>
+                          </ServerFontSettings>
+                        </FontSettings>
+                        <ForeColor>ControlText</ForeColor>
+                        <BackColor>Control</BackColor>
+                        <TextAlign>MiddleRight</TextAlign>
+                      </ServerLabelToolSettings>
+                    </_footerLayoutTools>
+                    <_showFilterTree>False</_showFilterTree>
+                    <InstanceKey>
+                      <ToolInstanceKey version="0.2.0.0">
+                        <_guid>6d87c6fc-29f2-4906-9904-575862026895</_guid>
+                      </ToolInstanceKey>
+                    </InstanceKey>
+                    <Name>BtSheet_PokaYokeLog</Name>
+                    <Title>PokaYoke</Title>
+                    <BackColor>Control</BackColor>
+                    <HeaderAnchor>Left</HeaderAnchor>
+                    <FooterAnchor>Right</FooterAnchor>
+                    <ShowUpdateDateTime>True</ShowUpdateDateTime>
+                    <TargetJobKey>
+                      <JobKey version="0.2.0.0">
+                        <_toolInstanceKey>
+                          <ToolInstanceKey version="0.2.0.0">
+                            <_guid>2d9ce5b5-157e-4447-8ff4-6535073ae6ac</_guid>
+                          </ToolInstanceKey>
+                        </_toolInstanceKey>
+                      </JobKey>
+                    </TargetJobKey>
+                    <TargetDatabaseType>Log</TargetDatabaseType>
+                  </SheetPanelToolSettings>
+                </_sheets>
+                <_sheetSize>1000, 427</_sheetSize>
+                <InstanceKey>
+                  <ToolInstanceKey version="0.2.0.0">
+                    <_guid>af2d8e9a-c006-4542-8b42-9358cf358758</_guid>
+                  </ToolInstanceKey>
+                </InstanceKey>
+                <Name>BtGroup_1</Name>
+              </GroupPanelToolSettings>
+            </_group1>
+            <_group2>
+              <GroupPanelToolSettings version="0.2.0.0">
+                <_sheets />
+                <_sheetSize>-8, -30</_sheetSize>
+                <InstanceKey>
+                  <ToolInstanceKey version="0.2.0.0">
+                    <_guid>2e9c688a-229c-44a3-98e1-d3266942b3ec</_guid>
+                  </ToolInstanceKey>
+                </InstanceKey>
+                <Name>BtGroup_2</Name>
+              </GroupPanelToolSettings>
+            </_group2>
+            <_size>1008, 457</_size>
+            <InstanceKey>
+              <ToolInstanceKey version="0.2.0.0">
+                <_guid>d91a0818-1bb7-4987-8b25-015ff22cd4c6</_guid>
+              </ToolInstanceKey>
+            </InstanceKey>
+            <Name>BtWindow_PokaYoke</Name>
+            <Title>PokaYoke</Title>
+            <TableRefresh>True</TableRefresh>
+            <SplitterStyle>None</SplitterStyle>
+          </WindowPanelToolSettings>
+        </_windows>
+        <Name>PCApplicationForm</Name>
+        <Title>PC Application</Title>
+        <BackColor>Control</BackColor>
+        <ShowCommunicationSettingsButton>True</ShowCommunicationSettingsButton>
+        <ShowRefreshButton>True</ShowRefreshButton>
+        <ShowMasterFileCreationButton>True</ShowMasterFileCreationButton>
+      </AppFormToolSettings>
+    </_appFormSettings>
+    <ApplicationSettings>
+      <ServerApplicationSettings version="0.2.0.0">
+        <_fileName>PCApplication</_fileName>
+        <_version>1.0.0.0</_version>
+        <_isCustomMode>False</_isCustomMode>
+      </ServerApplicationSettings>
+    </ApplicationSettings>
+  </ServerProjectSettings>
+</PermanencyDocument>

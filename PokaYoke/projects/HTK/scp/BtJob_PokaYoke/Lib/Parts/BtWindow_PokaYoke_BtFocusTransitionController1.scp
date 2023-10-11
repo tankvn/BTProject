@@ -1,0 +1,39 @@
+
+Package BtWindow_PokaYoke_BtFocusTransitionController1
+
+Properties[2]
+
+    Method Initialize()
+    Begin
+        BtFocusTransitionControllerCommon:Initialize(Properties)
+    End Method
+
+    Method FocusTransitionRequested(sender)
+        listId_Controls = 0
+        listId_Components = 0
+    Begin
+        If (0 < BtFocusTransitionControllerCommon:GetTransitionCount(Properties))
+        And (BtFocusTransitionControllerCommon:GetResetCount(Properties) <= 0) Then
+            BtFocusTransitionControllerCommon:ResetCount(Properties)
+            Return(false)
+        End If
+
+        listId_Controls = ListTable:CreateList()
+        ListTable:Add(listId_Controls, "BtWindow_PokaYoke_BtTextBox_Compare", "")
+        ListTable:Add(listId_Controls, "BtWindow_PokaYoke_BtLabel_Input", "")
+        ListTable:Add(listId_Controls, "BtWindow_PokaYoke_BtTextBox_Input", "")
+        listId_Components = ListTable:CreateList()
+        ListTable:Add(listId_Components, "BtWindow_PokaYoke_BtVerifyControl_1", "")
+
+        BtWindow_PokaYoke_FocusTransitionUtility:ResetTargetControls("BtWindow_PokaYoke_BtTextBox_Input", "BtWindow_PokaYoke_BtTextBox_Compare", listId_Controls, listId_Components)
+
+        ListTable:DeleteList(listId_Controls)
+        ListTable:DeleteList(listId_Components)
+        IControl:Focus("BtWindow_PokaYoke_BtTextBox_Compare")
+        BtFocusTransitionControllerCommon:SetResetCount(Properties, BtFocusTransitionControllerCommon:GetResetCount(Properties) - 1)
+
+        Return (true)
+    End Method
+
+End Package
+

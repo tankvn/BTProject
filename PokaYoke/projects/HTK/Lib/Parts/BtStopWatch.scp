@@ -1,0 +1,90 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtStopWatchConstants"
+
+Package DEF_PACKAGE_NAME
+    /*Inherits Component*/
+    /*Implements ILogItemControl*/
+
+    Properties[DEF_PROPERTY_NUM]
+
+
+    Const _timerUpdateElapsedTime /*As Timer*/ = nil
+
+#insert "\Lib\Utilities\ILogItemControlInvoke"
+#insert "\Lib\Utilities\IBtStopWatchInvoke"
+
+    Method New()
+    Begin
+#ifdef DEF_BT_STOPWATCH_LABEL_START_TIME_TITLE
+        BtLabelCommon:SetIsPartOfControl(DEF_BT_STOPWATCH_LABEL_START_TIME_TITLE:Properties, true)
+#endif
+#ifdef DEF_BT_STOPWATCH_LABEL_START_TIME
+        BtLabelCommon:SetIsPartOfControl(DEF_BT_STOPWATCH_LABEL_START_TIME:Properties, true)
+        BtStopWatchCommon:SetStartTimeLabelName(Properties, "DEF_BT_STOPWATCH_LABEL_START_TIME")
+        BtStopWatchCommon:SetIsExistStartTimeLabel(Properties, true)
+#else
+        BtStopWatchCommon:SetIsExistStartTimeLabel(Properties, false)
+#endif
+#ifdef DEF_BT_STOPWATCH_LABEL_STOP_TIME_TITLE
+        BtLabelCommon:SetIsPartOfControl(DEF_BT_STOPWATCH_LABEL_STOP_TIME_TITLE:Properties, true)
+#endif
+#ifdef DEF_BT_STOPWATCH_LABEL_STOP_TIME
+        BtLabelCommon:SetIsPartOfControl(DEF_BT_STOPWATCH_LABEL_STOP_TIME:Properties, true)
+        BtStopWatchCommon:SetStopTimeLabelName(Properties, "DEF_BT_STOPWATCH_LABEL_STOP_TIME")
+        BtStopWatchCommon:SetIsExistStopTimeLabel(Properties, true)
+#else
+        BtStopWatchCommon:SetIsExistStopTimeLabel(Properties, false)
+#endif
+#ifdef DEF_BT_STOPWATCH_LABEL_ELAPSED_TIME_TITLE
+        BtLabelCommon:SetIsPartOfControl(DEF_BT_STOPWATCH_LABEL_ELAPSED_TIME_TITLE:Properties, true)
+#endif
+#ifdef DEF_BT_STOPWATCH_LABEL_ELAPSED_TIME
+        BtLabelCommon:SetIsPartOfControl(DEF_BT_STOPWATCH_LABEL_ELAPSED_TIME:Properties, true)
+        BtStopWatchCommon:SetElapsedTimeLabelName(Properties, "DEF_BT_STOPWATCH_LABEL_ELAPSED_TIME")
+        BtStopWatchCommon:SetIsExistElapsedTimeLabel(Properties, true)
+#else
+        BtStopWatchCommon:SetIsExistElapsedTimeLabel(Properties, false)
+#endif
+#ifdef DEF_BT_STOPWATCH_BUTTON_STARTSTOP
+        BtStopWatchCommon:SetStartStopButtonName(Properties, "DEF_BT_STOPWATCH_BUTTON_STARTSTOP")
+#endif
+#ifdef DEF_BT_STOPWATCH_BUTTON_CLEAR
+        BtStopWatchCommon:SetClearButtonName(Properties, "DEF_BT_STOPWATCH_BUTTON_CLEAR")
+        BtStopWatchCommon:SetIsExistClearButton(Properties, true)
+#else
+        BtStopWatchCommon:SetIsExistClearButton(Properties, false)
+#endif
+
+        BtStopWatchCommon:New(Properties, "DEF_PACKAGE_NAME")
+
+        BtStopWatchCommon:ClearMeasurement(Properties)
+    End Method
+
+    Method Create(parentName)
+    Begin
+        New()
+    End Method
+
+    Method Start(sender, result)
+    Begin
+        BtStopWatchCommon:Start(Properties, OnTimer)
+    End Method
+
+    Method Clear(sender, result)
+    Begin
+        BtStopWatchCommon:Clear(Properties)
+    End Method
+
+
+
+    Method OnTimer(sender)
+    Begin
+        BtStopWatchCommon:OnTimer(Properties)
+    End Method
+
+
+End Package 
+
+#popdefine

@@ -1,0 +1,16 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtSearchViewExtractControlConstants"
+
+Package BtSearchViewExtractControlCommon
+
+
+    Method New(properties[], name)
+    Begin
+        properties[DEF_NAME_PROPERTY] = name
+    End Method
+
+
+End Package 
+
+#popdefine

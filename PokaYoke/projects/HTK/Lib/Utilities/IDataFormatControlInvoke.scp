@@ -1,0 +1,4 @@
+    Method IDataFormatControlInvoke(this)
+    Begin
+        DEF_COMMON:IDataFormatControlInvokeCommon(this, Properties)
+    End Method

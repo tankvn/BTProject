@@ -1,0 +1,87 @@
+
+#pushdefine
+#include "\Lib\Parts\RES\TransmittingForm_res" "Lib\Parts\RES\TransmittingForm_res"
+#popdefine
+
+/*Public*/ Package TransmittingForm
+
+    #define DEF_ERROR_MESSAGE_PROPERTY 0
+    #define DEF_COMMUNICATION_ERROR_PROPERTY 1
+    #define DEF_IS_ACTIVE_PROPERTY 2
+    #define DEF_PROPERTY_NUM 3
+    _properties[DEF_PROPERTY_NUM + 1]
+
+
+    Method GetInfomationLabelText() /*As String*/
+    Begin
+        Return (TransmittingForm_res:GetStatusLabelText())
+    End Method
+
+    Method SetInfomationLabelText(value) /*As String*/
+    Begin
+        TransmittingForm_res:SetStatusLabelText(value)
+    End Method
+
+    Method GetEnableCancel() /*As Boolean*/
+    Begin
+        Return (TransmittingForm_res:GetEnableCancel())
+    End Method
+
+    Method SetEnableCancel(value) /*As Boolean*/
+    Begin
+        TransmittingForm_res:SetEnableCancel(value)
+    End Method
+
+    Method GetErrorMessage() /*As String*/
+    Begin
+        Return (_properties[DEF_ERROR_MESSAGE_PROPERTY])
+    End Method
+
+    Method GetCommunicationError() /*As Boolean*/
+    Begin
+            Return (_properties[DEF_COMMUNICATION_ERROR_PROPERTY])
+    End Method
+
+    Method GetIsActive() /*As Boolean*/
+    Begin
+            Return (_properties[DEF_IS_ACTIVE_PROPERTY])
+    End Method
+
+
+
+    Method New(title, status)
+    Begin
+        TransmittingForm_res:InitializeComponent()
+
+        TransmittingForm_res:SetTitleLabelText(title)
+        TransmittingForm_res:SetStatusLabelText(status)
+        _properties[DEF_COMMUNICATION_ERROR_PROPERTY] = false
+        _properties[DEF_ERROR_MESSAGE_PROPERTY] = MESSAGE_ERROR_NONE
+
+        TransmittingForm_res:LayoutSetting()
+    End Method
+
+    Method Show()
+    Begin
+        _properties[DEF_IS_ACTIVE_PROPERTY] = true
+
+        TransmittingForm_res:Show()
+    End Method
+
+    Method Close()
+    Begin
+        _properties[DEF_COMMUNICATION_ERROR_PROPERTY] = ErrorManager:GetCommunicationError()
+        _properties[DEF_ERROR_MESSAGE_PROPERTY] = ErrorManager:GetError()
+        _properties[DEF_IS_ACTIVE_PROPERTY] = false
+
+        TransmittingForm_res:Close()
+        
+        Event:Clear()
+    End Method
+
+    Method Reflesh()
+    Begin
+        TransmittingForm_res:Reflesh()
+    End Method
+
+End Package 

@@ -1,0 +1,207 @@
+
+Package IndicatorUtility
+
+    Properties[30]
+
+    Method StartBVLAction(soundInterval, soundCount, buzzerVolume, musicalScale, vibratorEnable, indicatorColor)
+    Begin
+        Sound(soundInterval, soundInterval, soundCount, buzzerVolume, musicalScale)
+        Vibrate(soundInterval, soundInterval, soundCount)
+        Light(soundInterval, soundInterval, soundCount, indicatorColor)
+        If (buzzerVolume <> 0) Then
+            Buzzer:Exec()
+        End If
+        If (vibratorEnable is true) Then
+            Vibration:Exec()
+        End If
+        If (indicatorColor <> 0) Then
+            Led:Exec()
+        End If
+    End Method
+
+    Method StopBVLAction()
+    Begin
+        Buzzer:Stop()
+        Vibration:Stop()
+        Led:Stop()
+    End Method
+
+    Method LoadSettings()
+    Begin
+        Properties[0] = SystemSettingFileUtility:GetBuzzerOnTime(false)
+        Properties[1] = SystemSettingFileUtility:GetBuzzerOffTime(false)
+        Properties[2] = SystemSettingFileUtility:GetBuzzerLoopCount(false)
+        Properties[3] = SystemSettingFileUtility:GetBuzzerPitch(false)
+        Properties[4] = SystemSettingFileUtility:GetBuzzerVolume(false)
+        Properties[5] = SystemSettingFileUtility:GetBuzzerEnable(false)
+        Properties[6] = SystemSettingFileUtility:GetBuzzerOnTime(true)
+        Properties[7] = SystemSettingFileUtility:GetBuzzerOffTime(true)
+        Properties[8] = SystemSettingFileUtility:GetBuzzerLoopCount(true)
+        Properties[9] = SystemSettingFileUtility:GetBuzzerPitch(true)
+        Properties[10] = SystemSettingFileUtility:GetBuzzerVolume(true)
+        Properties[11] = SystemSettingFileUtility:GetBuzzerEnable(true)
+        Properties[12] = SystemSettingFileUtility:GetVibratorOnTime(false)
+        Properties[13] = SystemSettingFileUtility:GetVibratorOffTime(false)
+        Properties[14] = SystemSettingFileUtility:GetVibratorLoopCount(false)
+        Properties[15] = SystemSettingFileUtility:GetVibratorEnable(false)
+        Properties[16] = SystemSettingFileUtility:GetVibratorOnTime(true)
+        Properties[17] = SystemSettingFileUtility:GetVibratorOffTime(true)
+        Properties[18] = SystemSettingFileUtility:GetVibratorLoopCount(true)
+        Properties[19] = SystemSettingFileUtility:GetVibratorEnable(true)
+        Properties[20] = SystemSettingFileUtility:GetLedOnTime(false)
+        Properties[21] = SystemSettingFileUtility:GetLedOffTime(false)
+        Properties[22] = SystemSettingFileUtility:GetLedLoopCount(false)
+        Properties[23] = SystemSettingFileUtility:GetLedColor(false)
+        Properties[24] = SystemSettingFileUtility:GetLedEnable(false)
+        Properties[25] = SystemSettingFileUtility:GetLedOnTime(true)
+        Properties[26] = SystemSettingFileUtility:GetLedOffTime(true)
+        Properties[27] = SystemSettingFileUtility:GetLedLoopCount(true)
+        Properties[28] = SystemSettingFileUtility:GetLedColor(true)
+        Properties[29] = SystemSettingFileUtility:GetLedEnable(true)
+    End Method
+
+    Method ReadSuccessBVLAction()
+    Begin
+        BCR:GetData(0)
+        If (BCR:count == 0) Then
+            Return ()
+        End If
+
+        ReadBVLAction(false)
+    End Method
+
+    Method ReadErrorBVLAction()
+    Begin
+        ReadBVLAction(true)
+    End Method
+
+    Method ReadBVLAction(isError)
+        onTime
+        offTime
+        loopCount
+        pitch
+        volume
+        color
+        buzzerEnable
+        vibratorEnable
+        ledEnable
+    Begin
+        StopBVLAction()
+
+        If isError Then
+            onTime = Properties[6]
+            offTime = Properties[7]
+            loopCount = Properties[8]
+            pitch = Properties[9]
+            volume = Properties[10]
+            buzzerEnable = Properties[11]
+        Else
+            onTime = Properties[0]
+            offTime = Properties[1]
+            loopCount = Properties[2]
+            pitch = Properties[3]
+            volume = Properties[4]
+            buzzerEnable = Properties[5]
+        End If
+        Sound(onTime, offTime, loopCount, volume, pitch)
+
+        If isError Then
+            onTime = Properties[16]
+            offTime = Properties[17]
+            loopCount = Properties[18]
+            vibratorEnable = Properties[19]
+        Else
+            onTime = Properties[12]
+            offTime = Properties[13]
+            loopCount = Properties[14]
+            vibratorEnable = Properties[15]
+        End If
+        Vibrate(onTime, offTime, loopCount)
+
+        If isError Then
+            onTime = Properties[25]
+            offTime = Properties[26]
+            loopCount = Properties[27]
+            color = Properties[28]
+            ledEnable = Properties[29]
+        Else
+            onTime = Properties[20]
+            offTime = Properties[21]
+            loopCount = Properties[22]
+            color = Properties[23]
+            ledEnable = Properties[24]
+        End If
+        Light(onTime, offTime, loopCount, color)
+
+        If (buzzerEnable is true) Then
+            Buzzer:Exec()
+        End If
+        If (vibratorEnable is true) Then
+            Vibration:Exec()
+        End If
+        If (ledEnable is true) Then
+            Led:Exec()
+        End If
+    End Method
+
+    Method Sound(onTime, offTime, soundCount, buzzerVolume, musicalScale)
+    Begin
+        Buzzer:onTime = onTime
+        Buzzer:offTime = offTime
+        Buzzer:loopCount = soundCount
+        If buzzerVolume == 0 Then Buzzer:volume = nil
+        Else Buzzer:volume = buzzerVolume End If
+        Buzzer:pitch = musicalScale
+        Buzzer:synchronization = false
+    End Method
+
+    Method Vibrate(onTime, offTime, soundCount)
+    Begin
+        Vibration:onTime = onTime
+        Vibration:offTime = offTime
+        Vibration:loopCount = soundCount
+        Vibration:synchronization = false
+    End Method
+
+    Method Light(onTime, offTime, soundCount, indicatorColor)
+    Begin
+        Led:onTime = onTime
+        Led:offTime = offTime
+        Led:loopCount = soundCount
+        If (indicatorColor == 0) Then Led:color = nil
+        ElseIf indicatorColor == 1 Then Led:color = "red"
+        ElseIf indicatorColor == 2 Then Led:color = "green"
+        ElseIf indicatorColor == 1 + 2 Then Led:color = "orange" End If
+        Led:synchronization = false
+    End Method
+
+    Method InvertControlColor(controls[])
+        i
+    Begin
+        For i = 0 to controls.size - 1
+            InvertControlColorCore(controls[i])
+        Next
+    End Method
+
+    Method InvertControlColorCore(control_)
+        color
+    Begin
+        If control_ is nil Then Return() End If
+        color = InvertColor(TextField<control_>:foreColor)
+        TextField<control_>:foreColor = color
+        color = InvertColor(TextField<control_>:backColor)
+        TextField<control_>:backColor = color
+    End Method
+
+    Method InvertColor(source)
+        ary[16]
+    Begin
+        If source is nil Then Return() End If
+
+        ary = source.split("|")
+        ary[0] = 256-1-ary[0]
+        ary[1] = 256-1-ary[1]
+        ary[2] = 256-1-ary[2]
+        Return(ary[0] & "|" & ary[1] & "|" & ary[2])
+    End Method
+End Package

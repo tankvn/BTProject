@@ -1,0 +1,173 @@
+
+Package IControl
+    Names[35]
+    ICommons[35]
+
+    Method New()
+    Begin
+        Names[0] = "BtTopMenuWindow_BtLabel_Version"
+        ICommons[0] = BtTopMenuWindow_BtLabel_Version:IControlInvoke
+        Names[1] = "BtTopMenuWindow_BtSystemParameter_Version"
+        ICommons[1] = BtTopMenuWindow_BtSystemParameter_Version:IControlInvoke
+        Names[2] = "BtTopMenuWindow_BtLabel_Title"
+        ICommons[2] = BtTopMenuWindow_BtLabel_Title:IControlInvoke
+        Names[3] = "BtTopMenuWindow_BtMenuItem_PokaYoke"
+        ICommons[3] = BtTopMenuWindow_BtMenuItem_PokaYoke:IControlInvoke
+        Names[4] = "BtTopMenuWindow_BtMenuItem_Configuration"
+        ICommons[4] = BtTopMenuWindow_BtMenuItem_Configuration:IControlInvoke
+        Names[5] = "BtTopMenuWindow_BtButton_Exit"
+        ICommons[5] = BtTopMenuWindow_BtButton_Exit:IControlInvoke
+        Names[6] = "BtCommunicationErrorDialog_1_BtLabel_Title"
+        ICommons[6] = BtCommunicationErrorDialog_1_BtLabel_Title:IControlInvoke
+        Names[7] = "BtCommunicationErrorDialog_1_BtLabel_Message1"
+        ICommons[7] = BtCommunicationErrorDialog_1_BtLabel_Message1:IControlInvoke
+        Names[8] = "BtCommunicationErrorDialog_1_BtLabel_Message2"
+        ICommons[8] = BtCommunicationErrorDialog_1_BtLabel_Message2:IControlInvoke
+        Names[9] = "BtCommunicationErrorDialog_1_BtButton_Exit"
+        ICommons[9] = BtCommunicationErrorDialog_1_BtButton_Exit:IControlInvoke
+        Names[10] = "BtEnvironmentSettingsForm_BtLabelTitle"
+        ICommons[10] = BtEnvironmentSettingsForm_BtLabelTitle:IControlInvoke
+        Names[11] = "BtEnvironmentSettingsForm_BtLabelBacklight"
+        ICommons[11] = BtEnvironmentSettingsForm_BtLabelBacklight:IControlInvoke
+        Names[12] = "BtEnvironmentSettingsForm_BtDropDownBoxBacklight"
+        ICommons[12] = BtEnvironmentSettingsForm_BtDropDownBoxBacklight:IControlInvoke
+        Names[13] = "BtEnvironmentSettingsForm_BtTextBoxBackLighttime"
+        ICommons[13] = BtEnvironmentSettingsForm_BtTextBoxBackLighttime:IControlInvoke
+        Names[14] = "BtEnvironmentSettingsForm_BtLabelBackLighttimeUnit"
+        ICommons[14] = BtEnvironmentSettingsForm_BtLabelBackLighttimeUnit:IControlInvoke
+        Names[15] = "BtEnvironmentSettingsForm_BtLabelAutoPowerOffTime"
+        ICommons[15] = BtEnvironmentSettingsForm_BtLabelAutoPowerOffTime:IControlInvoke
+        Names[16] = "BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime"
+        ICommons[16] = BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime:IControlInvoke
+        Names[17] = "BtEnvironmentSettingsForm_BtLabelAutoPowerOffTimeUnit"
+        ICommons[17] = BtEnvironmentSettingsForm_BtLabelAutoPowerOffTimeUnit:IControlInvoke
+        Names[18] = "BtEnvironmentSettingsForm_BtLabelScanningSound"
+        ICommons[18] = BtEnvironmentSettingsForm_BtLabelScanningSound:IControlInvoke
+        Names[19] = "BtEnvironmentSettingsForm_BtDropDownBoxScanningSound"
+        ICommons[19] = BtEnvironmentSettingsForm_BtDropDownBoxScanningSound:IControlInvoke
+        Names[20] = "BtEnvironmentSettingsForm_BtLabelKeyTouchSound"
+        ICommons[20] = BtEnvironmentSettingsForm_BtLabelKeyTouchSound:IControlInvoke
+        Names[21] = "BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound"
+        ICommons[21] = BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound:IControlInvoke
+        Names[22] = "BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound"
+        ICommons[22] = BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound:IControlInvoke
+        Names[23] = "BtEnvironmentSettingsForm_BtButtonDateTimeSetting"
+        ICommons[23] = BtEnvironmentSettingsForm_BtButtonDateTimeSetting:IControlInvoke
+        Names[24] = "BtEnvironmentSettingsForm_BtButtonCancel"
+        ICommons[24] = BtEnvironmentSettingsForm_BtButtonCancel:IControlInvoke
+        Names[25] = "BtEnvironmentSettingsForm_BtButtonOK"
+        ICommons[25] = BtEnvironmentSettingsForm_BtButtonOK:IControlInvoke
+        Names[26] = "DateAndTimeSettingDialog_labelTitle"
+        ICommons[26] = DateAndTimeSettingDialog_labelTitle:IControlInvoke
+        Names[27] = "DateAndTimeSettingDialog_DateLabel"
+        ICommons[27] = DateAndTimeSettingDialog_DateLabel:IControlInvoke
+        Names[28] = "DateAndTimeSettingDialog_InputDateBox"
+        ICommons[28] = DateAndTimeSettingDialog_InputDateBox:IControlInvoke
+        Names[29] = "DateAndTimeSettingDialog_TimeLabel"
+        ICommons[29] = DateAndTimeSettingDialog_TimeLabel:IControlInvoke
+        Names[30] = "DateAndTimeSettingDialog_HourTextBox"
+        ICommons[30] = DateAndTimeSettingDialog_HourTextBox:IControlInvoke
+        Names[31] = "DateAndTimeSettingDialog_TimeSeparatorLabel"
+        ICommons[31] = DateAndTimeSettingDialog_TimeSeparatorLabel:IControlInvoke
+        Names[32] = "DateAndTimeSettingDialog_MinuteTextBox"
+        ICommons[32] = DateAndTimeSettingDialog_MinuteTextBox:IControlInvoke
+        Names[33] = "DateAndTimeSettingDialog_okButton"
+        ICommons[33] = DateAndTimeSettingDialog_okButton:IControlInvoke
+        Names[34] = "DateAndTimeSettingDialog_cancelButton"
+        ICommons[34] = DateAndTimeSettingDialog_cancelButton:IControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetType(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetType", args, ICommons))
+    End Method
+
+    Method GetName(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetName", args, ICommons))
+    End Method
+
+    Method GetText(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetText", args, ICommons))
+    End Method
+
+    Method SetText(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetText", args, ICommons))
+    End Method
+
+    Method Focus(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "Focus", args, ICommons))
+    End Method
+
+    Method InvokeFocusHandler(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "InvokeFocusHandler", args, ICommons))
+    End Method
+
+    Method GetVisible(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetVisible", args, ICommons))
+    End Method
+
+    Method SetVisible(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetVisible", args, ICommons))
+    End Method
+
+    Method GetEnabled(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetEnabled", args, ICommons))
+    End Method
+
+    Method SetEnabled(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetEnabled", args, ICommons))
+    End Method
+
+    Method GetTabIndex(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetTabIndex", args, ICommons))
+    End Method
+
+    Method TemporaryHide(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "TemporaryHide", args, ICommons))
+    End Method
+
+    Method UpdateVisible(controlName)
+        args[1]
+    Begin
+        InterfaceCommon:Call(controlName, Names, "UpdateVisible", args, ICommons)
+    End Method
+
+    Method Dispose(controlName)
+        args[1]
+    Begin
+        InterfaceCommon:Call(controlName, Names, "Dispose", args, ICommons)
+    End Method
+End Package
+

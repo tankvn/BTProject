@@ -1,0 +1,83 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtSearchViewExtractControlConstants"
+
+Package DEF_PACKAGE_NAME
+    Properties[DEF_PROPERTY_NUM]
+
+    _conditionItems[1]
+
+    _displayItems[DEF_DISPLAY_ITEM_NUM]
+
+    Method New()
+    Begin
+        BtSearchViewExtractControlCommon:New(Properties, "DEF_PACKAGE_NAME")
+    End Method
+
+    Method Initialize(conditionItem, displayItems[])
+        i
+    Begin
+        Properties[DEF_CONDITIONITEM_PROPERTY] = 1
+        _conditionItems[0] = conditionItem
+
+        Properties[DEF_DISPLAYITEMS_PROPERTY] = 0
+        For i = 0 to displayItems.size-1
+            _displayItems[i] = displayItems[i]
+            If Not _displayItems[i] is nil Then Properties[DEF_DISPLAYITEMS_PROPERTY] = Properties[DEF_DISPLAYITEMS_PROPERTY] + 1 End If
+        Next
+    End Method
+
+    Method Execute(parentWindow)
+    Begin
+        If ISearchViewConditionItem:GetInputValue(_conditionItems[0]) eq "" Then
+            ResetDisplayControls()
+            ErrorManager:SetError(MESSAGE_ERROR_NOT_INPUT_SEARCH_KEY)
+            Return()
+        End If
+
+        If Not ExtractFromInputControl() Then
+            ResetDisplayControls()
+            ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+        End If
+    End Method
+
+    Method ResetDisplayControls()
+        i
+    Begin
+        For i = 0 To Properties[DEF_DISPLAYITEMS_PROPERTY] - 1
+            ISearchViewDisplayItem:Reset(_displayItems[i])
+        Next
+    End Method
+
+    Method ExtractFromInputControl()
+        displayValue
+        i
+        listId_Result
+    Begin
+        For i = 0 To Properties[DEF_DISPLAYITEMS_PROPERTY] - 1
+            ISearchViewDisplayItem:SetSearchResult(_displayItems[i], INVALID_LIST_TABLE_ID)
+        Next
+
+        For i = 0 To Properties[DEF_DISPLAYITEMS_PROPERTY] - 1
+            displayValue = ISearchViewDisplayItem:GetRangeExtractedString(_displayItems[i], ISearchViewConditionItem:GetInputValue(_conditionItems[0]))
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                ResetDisplayControls()
+                ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+                Return (false)
+            End If
+
+            listId_Result = ListTable:CreateList()
+            ListTable:Add(listId_Result, 0, displayValue)
+            ISearchViewDisplayItem:SetSearchResult(_displayItems[i], listId_Result)
+            ListTable:DeleteList(listId_Result)
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                ResetDisplayControls()
+                ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+                Return (false)
+            End If
+        Next
+        Return (true)
+    End Method
+End Package
+
+#popdefine

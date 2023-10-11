@@ -1,0 +1,4 @@
+    Method ILookUpBoxInputToolInvoke(this)
+    Begin
+        DEF_COMMON:ILookUpBoxInputToolInvokeCommon(this, Properties)
+    End Method

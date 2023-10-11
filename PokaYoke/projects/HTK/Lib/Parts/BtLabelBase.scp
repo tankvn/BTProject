@@ -1,0 +1,55 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtLabelBaseConstants"
+
+
+    Method AfterReset(this)
+    Begin
+#ifdef DEF_EVENT_AFTER_RESET
+        DEF_EVENT_AFTER_RESET(Properties[DEF_NAME_PROPERTY])
+#endif
+    End Method
+
+    Method ComparisonValueCountUpdated(this)
+    Begin
+#ifdef DEF_EVENT_COMPARISON_VALUE_COUNT_UPDATED
+        DEF_EVENT_COMPARISON_VALUE_COUNT_UPDATED(Properties[DEF_NAME_PROPERTY])
+#endif
+    End Method
+
+    Method CollationCountUpdated(this)
+    Begin
+#ifdef DEF_EVENT_COLLATION_COUNT_UPDATED
+        DEF_EVENT_COLLATION_COUNT_UPDATED(Properties[DEF_NAME_PROPERTY])
+#endif
+    End Method
+
+    Method DataUpdated(this)
+    Begin
+#ifdef DEF_EVENT_DATA_UPDATED
+        DEF_EVENT_DATA_UPDATED(Properties[DEF_NAME_PROPERTY])
+#endif
+    End Method
+#End Region "Event"
+
+
+    Method Create(parentName)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        BtLabelCommon:Create(Properties, parentName)
+        New()
+    End Method
+
+    Method Invalidate()
+    Begin
+        BtLabelCommon:Invalidate(Properties)
+    End Method
+#insert "\Lib\Utilities\IControlInvoke"
+#insert "\Lib\Utilities\IBtInputControlInvoke"
+#insert "\Lib\Utilities\ILogItemControlInvoke"
+#insert "\Lib\Utilities\ICollationTargetInvoke"
+#insert "\Lib\Utilities\ISearchViewDisplayControlInvoke"
+#insert "\Lib\Utilities\IFilterControlInvoke"
+#insert "\Lib\Utilities\ILookUpBoxDisplayToolInvoke"
+
+#popdefine

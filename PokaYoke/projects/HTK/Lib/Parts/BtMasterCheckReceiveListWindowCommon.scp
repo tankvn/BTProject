@@ -1,0 +1,433 @@
+#pushdefine
+
+#insert "\Lib\Utilities\BtMasterCheckUtilityConstants"
+#insert "\Lib\Parts\BtMasterCheckReceiveListWindowConstants"
+
+Package BtMasterCheckReceiveListWindowCommon
+
+#define DEF_INHERITS_BT_SCREEN
+#insert "\Lib\Parts\BtScreenCommon"
+
+    Method GetVoucherListTableView(properties[]) Begin Return (properties[DEF_VOUCHER_LIST_TABLE_VIEW_PROPERTY]) End Method
+    Method SetVoucherListTableView(properties[], value) Begin properties[DEF_VOUCHER_LIST_TABLE_VIEW_PROPERTY] = value End Method
+
+    Method GetDisableVoucherNo(properties[]) Begin Return (properties[DEF_DISABLE_VOUCHER_NO_PROPERTY]) End Method
+    Method SetDisableVoucherNo(properties[], value) Begin properties[DEF_DISABLE_VOUCHER_NO_PROPERTY] = value End Method
+
+    Method GetInputVoucherTextBox(properties[]) Begin Return (properties[DEF_INPUT_VOUCHER_TEXT_BOX_PROPERTY]) End Method
+    Method SetInputVoucherTextBox(properties[], value) Begin properties[DEF_INPUT_VOUCHER_TEXT_BOX_PROPERTY] = value End Method
+
+    Method GetClearButton(properties[]) Begin Return (properties[DEF_CLEAR_BUTTON_PROPERTY]) End Method
+    Method SetClearButton(properties[], value) Begin properties[DEF_CLEAR_BUTTON_PROPERTY] = value End Method
+
+    Method GetIsReceiveUniqueList(properties[]) Begin Return (properties[DEF_IS_RECEIVE_UNIQUE_LIST_PROPERTY]) End Method
+    Method SetIsReceiveUniqueList(properties[], value) Begin properties[DEF_IS_RECEIVE_UNIQUE_LIST_PROPERTY] = value End Method
+
+    Method GetMasterFileName(properties[]) Begin Return (properties[DEF_MASTER_FILE_NAME_PROPERTY]) End Method
+    Method SetMasterFileName(properties[], value) Begin properties[DEF_MASTER_FILE_NAME_PROPERTY] = value End Method
+
+    Method GetRemoteMasterFileName(properties[])
+        prefix
+    Begin
+        properties[DEF_REMOTE_MASTER_FILE_NAME_PROPERTY] = GetMasterFileName(properties)
+        If GetIsReceiveUniqueList(properties) Then
+            prefix = "00000" & SystemParameterUtility:GetSystemParameter(SYSTEM_PARAMETER_TYPE_TERMINAL_ID)
+            prefix = prefix.Right(MAX_DIGIT_TERMINAL_ID)
+            properties[DEF_REMOTE_MASTER_FILE_NAME_PROPERTY] = prefix & properties[DEF_REMOTE_MASTER_FILE_NAME_PROPERTY]
+        End If
+        Return (properties[DEF_REMOTE_MASTER_FILE_NAME_PROPERTY])
+    End Method
+
+    Method GetStorageDestination(properties[]) Begin Return (properties[DEF_STORAGE_DESTINATION_PROPERTY]) End Method
+    Method SetStorageDestination(properties[], value) Begin properties[DEF_STORAGE_DESTINATION_PROPERTY] = value End Method
+
+    Method GetPathDataFile(properties[]) Begin Return (properties[DEF_PATH_DATA_FILE_PROPERTY]) End Method
+    Method SetPathDataFile(properties[], value) Begin properties[DEF_PATH_DATA_FILE_PROPERTY] = value End Method
+
+    Method GetDataTableName(properties[]) Begin Return (properties[DEF_DATA_TABLE_NAME_PROPERTY]) End Method
+    Method SetDataTableName(properties[], value) Begin properties[DEF_DATA_TABLE_NAME_PROPERTY] = value End Method
+
+    Method GetLogVoucherColumnNumber(properties[]) Begin Return (properties[DEF_LOG_VOUCHER_COLUMN_NUMBER_PROPERTY]) End Method
+    Method SetLogVoucherColumnNumber(properties[], value) Begin properties[DEF_LOG_VOUCHER_COLUMN_NUMBER_PROPERTY] = value End Method
+
+    Method GetUserMasterDataInfo(_properties[]) Begin Return (_properties[DEF_USER_MASTER_DATA_INFO_PROPERTY]) End Method
+    Method SetUserMasterDataInfo(_properties[], value) Begin _properties[DEF_USER_MASTER_DATA_INFO_PROPERTY] = value End Method
+
+    Method GetReceiveVouchers(properties[]) Begin Return (properties[DEF_RECEIVE_VOUCHERS_PROPERTY]) End Method
+    Method SetReceiveVouchers(properties[], value) Begin properties[DEF_RECEIVE_VOUCHERS_PROPERTY] = value End Method
+
+    Method GetLogVoucherFieldName(properties[]) Begin Return (properties[DEF_LOG_VOUCHER_FIELD_NAME_PROPERTY]) End Method
+    Method SetLogVoucherFieldName(properties[], value) Begin properties[DEF_LOG_VOUCHER_FIELD_NAME_PROPERTY] = value End Method
+
+    Method GetLogVoucherFieldType(properties[]) Begin Return (properties[DEF_LOG_VOUCHER_FIELD_TYPE_PROPERTY]) End Method
+    Method SetLogVoucherFieldType(properties[], value) Begin properties[DEF_LOG_VOUCHER_FIELD_TYPE_PROPERTY] = value End Method
+
+
+
+    Method Initialize(properties[])
+    Begin
+        properties[DEF_VOUCHER_LIST_TABLE_VIEW_PROPERTY] = nil
+        properties[DEF_DISABLE_VOUCHER_NO_PROPERTY] = false
+        properties[DEF_INPUT_VOUCHER_TEXT_BOX_PROPERTY] = nil
+        properties[DEF_CLEAR_BUTTON_PROPERTY] = nil
+        properties[DEF_IS_RECEIVE_UNIQUE_LIST_PROPERTY] = false
+        properties[DEF_MASTER_FILE_NAME_PROPERTY] = ""
+        properties[DEF_MASTER_TABLE_NAME_PROPERTY] = ""
+        properties[DEF_STORAGE_DESTINATION_PROPERTY] = STORAGE_DESTINATION_DRIVE1
+        properties[DEF_PATH_DATA_FILE_PROPERTY] = ""
+        properties[DEF_DATA_TABLE_NAME_PROPERTY] = ""
+        properties[DEF_LOG_VOUCHER_COLUMN_NUMBER_PROPERTY] = -2147483647
+
+        If Not properties[DEF_RECEIVE_VOUCHERS_PROPERTY] is nil Then
+            If properties[DEF_RECEIVE_VOUCHERS_PROPERTY] > 0 Then ListTable:DeleteList(properties[DEF_RECEIVE_VOUCHERS_PROPERTY]) End If
+        End If
+        properties[DEF_USER_MASTER_DATA_INFO_PROPERTY] = INVALID_LIST_TABLE_ID
+        properties[DEF_RECEIVE_VOUCHERS_PROPERTY] = ListTable:CreateList()
+        properties[DEF_LOG_VOUCHER_FIELD_NAME_PROPERTY] = ""
+        properties[DEF_LOG_VOUCHER_FIELD_TYPE_PROPERTY] = ""
+        properties[DEF_MASTER_VOUCHER_FIELD_NAME_PROPERTY] = ""
+        properties[DEF_MASTER_VOUCHER_FIELD_TYPE_PROPERTY] = ""
+        properties[DEF_MASTER_ORDER_NUM_FIELD_NAME_PROPERTY] = ""
+        properties[DEF_MASTER_COMPLETE_NUM_FIELD_NAME_PROPERTY] = ""
+        properties[DEF_MASTER_SENT_NUM_FIELD_NAME_PROPERTY] = ""
+    End Method
+
+
+    Method SetLogFormat(properties[], dataFormatControl)
+    Begin
+        SetDataTableInfo(properties, dataFormatControl)
+    End Method
+
+    Method CloseMasterCheckData(properties[])
+    Begin
+        DbAccess:Close(GetMasterFilePath(properties))
+    End Method
+
+    Method ReceiveCheck(properties[])
+        hasUnsent
+        hasUnfinished
+    Begin
+        If (IsInvalidParameter(properties)) Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_INVALID_PARAMETER)
+            Return (false)
+        End If
+
+        hasUnsent = BtMasterCheckUtility:HasUnsentData(GetPathDataFile(properties), GetDataTableName(properties), GetLogVoucherFieldName(properties), GetMasterFilePath(properties), Not GetDisableVoucherNo(properties))
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_UNSENTDATA_CHECK)
+            Return (false)
+        End If
+        If hasUnsent Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_EXIST_UNSENTDATA)
+            Return (false)
+        End If
+
+        hasUnfinished = HasUnfinishedData(properties)
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_UNFINISHEDDATA_CHECK)
+            Return (false)
+        End If
+        If (hasUnfinished) Then
+            If (MessageUtility:ShowMessage(MESSAGE_WARNING_EXIST_UNFINISHEDDATA_CHECK, MESSAGE_WARNING, MESSAGE_BOX_BUTTONS_YES_NO, MESSAGE_BOX_ICON_EXCLAMATION, MESSAGE_BOX_DEFAULT_BUTTON_BUTTON2) == DIALOG_RESULT_NO) Then
+                Return (false)
+            End If
+        End If
+
+        Return (true)
+    End Method
+
+    Method ReceiveListByRealTime(properties[])
+        listId_Vouchers
+        listId_ReceiveVouchers
+        errorMessage
+        i
+    Begin
+
+        listId_Vouchers = ListTable:CreateList()
+        If (Not GetDisableVoucherNo(properties)) Then
+            listId_ReceiveVouchers = GetReceiveVouchers(properties)
+            For i = 0 To ListTable:Count(listId_ReceiveVouchers) - 1
+                ListTable:Add(listId_Vouchers, ListTable:Get(listId_ReceiveVouchers, i, "val"), "")
+            Next
+        End If
+
+        BtMasterCheckUtility:UpdateMasterFileByRealTime(COMMUNICATION_ERROR_DISPLAY_MODE_ALWAYS, listId_Vouchers, GetUserMasterDataInfo(properties), GetPathDataFile(properties), true, Window<properties[DEF_NAME_PROPERTY]>:parent)
+        ListTable:DeleteList(listId_Vouchers)
+
+        errorMessage = ErrorManager:GetError()
+        If (ErrorManager:GetCommunicationError()) Then
+            ErrorManager:SetCommunicationError()
+            Return (nil)
+        ElseIf (errorMessage ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(errorMessage)
+            Return (nil)
+        End If
+
+        CheckReceivedList(properties)
+
+    End Method
+
+    Method HasValidDataFile(properties[])
+    Begin
+        Return (DbAccess:HasTable(GetPathDataFile(properties), GetDataTableName(properties)))
+    End Method
+
+    Method HasValidMasterCheckFile(properties[])
+    Begin
+        Return (DbAccess:HasTable(GetMasterFilePath(properties), TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME))
+    End Method
+
+    Method IsInvalidParameter(properties[])
+    Begin
+        If GetPathDataFile(properties) eq "" Then
+            Return (true)
+        End If
+
+        If GetDataTableName(properties) eq "" Then
+            Return (true)
+        End If
+
+        If (Not GetDisableVoucherNo(properties)) And (HasValidDataFile(properties)) Then
+            If (GetLogVoucherFieldName(properties) eq "") Or (GetLogVoucherFieldType(properties) eq "") Then
+                Return (true)
+            End If
+        End If
+
+        If (GetMasterFileName(properties) eq "") And (GetUserMasterDataInfo(properties) == INVALID_LIST_TABLE_ID) Then
+            Return (true)
+        End If
+
+        Return (false)
+    End Method
+
+    Method GetTargetVouchersCondition(voucherFieldType, targetVouchers)
+        CONDITION_SEPARATOR
+        isFirstItem
+        conditionVouchers
+        i
+    Begin
+        CONDITION_SEPARATOR = ", "
+        isFirstItem = true
+        conditionVouchers = ""
+
+        For i = 0 to ListTable:Count(targetVouchers) -1
+            If (Not isFirstItem) Then
+                conditionVouchers = conditionVouchers & CONDITION_SEPARATOR
+            Else
+                isFirstItem = false
+            End If
+            conditionVouchers = conditionVouchers & DbAccess:FormatSqlValue(voucherFieldType, ListTable:Get(targetVouchers, i, "val"))
+        Next
+        Return (conditionVouchers)
+    End Method
+
+    Method CheckReceivedList(properties[])
+        listId_TableFieldTypePairs
+        index
+        sql
+        fieldTypePairs
+        dataTable
+        masterVouchers
+        errorMessage
+        id
+    Begin
+        If ((GetDisableVoucherNo(properties)) Or (ListTable:Count(GetReceiveVouchers(properties)) <= 0)) Then
+            Return()
+        End If
+
+        If (Not HasValidMasterCheckFile(properties)) Then
+            Return()
+        End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        sql = "SELECT " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key")) & " FROM " & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " GROUP BY " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"))
+
+        fieldTypePairs = ListTable:CreateList()
+        ListTable:Add(fieldTypePairs, ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key"), ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "val"))
+        dataTable = DbAccess:ExecuteQueryTypeSql(GetMasterFilePath(properties), sql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(errorMessage)
+            If (dataTable <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(dataTable)
+            End If
+            Return()
+        End If
+
+        masterVouchers = ListTable:CreateList()
+        If (dataTable <> INVALID_LIST_TABLE_ID) Then
+            For index = 0 to ListTable:Count(dataTable) - 1
+                id = ListTable:Get(dataTable, index, "val")
+                ListTable:Add(masterVouchers, index, ListTable:Get(id, 0, "val"))
+            Next
+            ListTable:DeleteList(dataTable)
+        End If
+
+        For index = 0 to ListTable:Count(GetReceiveVouchers(properties)) - 1
+            If ListTable:Find(masterVouchers, "val", ListTable:Get(GetReceiveVouchers(properties), index, "val")) is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_NOVOUCHERDATA_IN_MASTER)
+                ListTable:DeleteList(masterVouchers)
+                Return()
+            End If
+        Next
+        ListTable:DeleteList(masterVouchers)
+    End Method
+
+    Method DeleteUnnecessaryVoucher(properties[])
+        listId_TableFieldTypePairs
+        condition
+        targetVouchers
+        sql
+        errorMessage
+    Begin
+        If GetDisableVoucherNo(properties) Or ListTable:Count(GetReceiveVouchers(properties)) <= 0 Then
+            Return()
+        End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        condition = ""
+        If 0 <> ListTable:Count(GetReceiveVouchers(properties)) Then
+            targetVouchers = GetTargetVouchersCondition(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "val"), GetReceiveVouchers(properties))
+            condition = condition & "WHERE " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_VOUCHER_COLUMN_NUMBER, "key")) & " NOT IN (" & targetVouchers & ")"
+        End If
+
+        sql = "DELETE FROM " & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " " & condition
+        DbAccess:ExecuteUpdateTypeSql(GetMasterFilePath(properties), sql)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+
+        CheckReceivedList(properties)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+    End Method
+
+
+    Method HasUnfinishedData(properties[])
+        listId_TableFieldTypePairs
+        sql
+        fieldTypePairs
+        condition
+        dataTable
+        recordCount
+        errorMessage
+    Begin
+        If (Not HasValidMasterCheckFile(properties)) Then
+            Return (false)
+        End If
+
+        listId_TableFieldTypePairs = BtMasterCheckUtility:GetMasterFileFieldsInformation()
+
+        condition = "WHERE 0 < (" & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_ORDERCOUNT_COLUMN_NUMBER, "key")) & " - " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_PROCESSEDCOUNT_COLUMN_NUMBER, "key")) & " - " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldTypePairs, BT_MASTER_CHECK_UTILITY_SENTCOUNT_COLUMN_NUMBER, "key")) & ")"
+        sql = "SELECT COUNT(*) FROM " & DbAccess:EncloseDoubleQuotations(TERMINAL_SETTING_MASTER_CHECK_TABLE_NAME) & " " & condition
+        fieldTypePairs = ListTable:CreateList()
+        ListTable:Add(fieldTypePairs, COUNT_FIELD_NAME, DbAccess:SQLITE_DATA_TYPE_INTEGER)
+        dataTable = DbAccess:ExecuteQueryTypeSql(GetMasterFilePath(properties), sql, fieldTypePairs)
+        ListTable:DeleteList(fieldTypePairs)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(errorMessage)
+            If (dataTable <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(dataTable)
+            End If
+            Return (false)
+        End If
+        If (dataTable == INVALID_LIST_TABLE_ID) Then Return(false) End If
+
+        recordCount = ListTable:Get(ListTable:Get(dataTable, 0, "val"), 0, "val")
+        ListTable:DeleteList(dataTable)
+        Return ((0 < recordCount))
+    End Method
+
+    Method GetMasterFilePath(properties[])
+    Begin
+        If GetUserMasterDataInfo(properties) == INVALID_LIST_TABLE_ID Then
+        If GetMasterFileName(properties) eq "" Then
+            Return ("")
+        End If
+        Return (PathUtility:Combine(PathUtility:StorageTypeToPath(GetStorageDestination(properties)), GetMasterFileName(properties)))
+        Else
+            Return (BtMasterCheckUtility:GetRealTimeMasterFilePath())
+        End If
+    End Method
+
+    Method SetDataTableInfo(properties[], dataFormatControl)
+    Begin
+        If dataFormatControl eq "" Then
+            Return()
+        End If
+
+        SetPathDataFile(properties, IDataFormatControl:GetPathWindowsLogDataBase(dataFormatControl))
+
+        SetDataTableName(properties, IDataFormatControl:GetTableName(dataFormatControl))
+
+        If (0 <= GetLogVoucherColumnNumber(properties)) And (GetLogVoucherColumnNumber(properties) < IDataFormatControl:GetCount(dataFormatControl)) Then
+            SetLogVoucherFieldName(properties, ILogItem:GetTableItemName(IDataFormatControl:GetLogItem(dataFormatControl, GetLogVoucherColumnNumber(properties))))
+            SetLogVoucherFieldType(properties, ILogItem:GetTableItemTypes(IDataFormatControl:GetLogItem(dataFormatControl, GetLogVoucherColumnNumber(properties))))
+        Else
+            SetLogVoucherFieldName(properties, "")
+            SetLogVoucherFieldType(properties, "")
+        End If
+    End Method
+
+    Method AddVoucher(properties[], voucherNo)
+        errorMessage
+    Begin
+        If (GetDisableVoucherNo(properties)) Then
+            Return()
+        End If
+        If ListTable:Find(GetReceiveVouchers(properties), "val", voucherNo) Then
+            Return()
+        End If
+        If (MAX_VOUCHERS_COUNT <= ListTable:Count(GetReceiveVouchers(properties))) Then
+            errorMessage = MESSAGE_ERROR_MAX_VOUCHERS_COUNT_HEADER & MAX_VOUCHERS_COUNT & MESSAGE_ERROR_MAX_VOUCHERS_COUNT_FOOTER
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+        ListTable:Add(GetReceiveVouchers(properties), 0, voucherNo)
+        UpdateVoucherListTableView(properties)
+    End Method
+
+    Method ClearVoucher(properties[])
+    Begin
+        ListTable:DeleteList(GetReceiveVouchers(properties))
+        SetReceiveVouchers(properties, ListTable:CreateList())
+        UpdateVoucherListTableView(properties)
+    End Method
+
+    Method UpdateVoucherListTableView(properties[])
+        displayData
+        id
+        index
+        cnt
+    Begin
+        If GetVoucherListTableView(properties) eq "" Then
+            Return()
+        End If
+
+        displayData = ListTable:CreateList()
+
+        cnt = ListTable:Count(GetReceiveVouchers(properties))
+        For index = 0 to cnt - 1
+            id  = ListTable:CreateList()
+            ListTable:Add(id, 0, ListTable:Get(GetReceiveVouchers(properties), cnt-1-index, "val"))
+            ListTable:AddList(displayData, index, id)
+        Next
+
+        ITableView:SetOriginalDataSource(GetVoucherListTableView(properties), displayData)
+        ITableView:UpdateData(GetVoucherListTableView(properties), true)
+    End Method
+
+
+End Package
+
+#popdefine

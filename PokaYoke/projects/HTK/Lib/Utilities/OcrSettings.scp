@@ -1,0 +1,183 @@
+Package OcrSettings
+
+    #define DISABLE_READ_ONE_DEGIT_MONTH_AND_DAY 0 
+
+    #define ENABLE_READ_ONE_DEGIT_MONTH_AND_DAY 1 
+
+    Method SetOcrEnable(enableType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        OCR:enableType = enableType
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_OCR_ENABLE)
+    End Method
+
+    Method SetOcrPattern(patternType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        If patternType.isInt is true Then
+            If patternType == OCR_PATTERN_TYPE_FREE_MODE Then patternType = "string"
+            ElseIf patternType == OCR_PATTERN_TYPE_DATE_MODE Then patternType = "date"
+            End If
+        End If
+        OCR:pattern = patternType
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_OCR_PATTERN)
+    End Method
+
+    Method SetOcrOutDispCheck(outDispCheckType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        If outDispCheckType.isInt is true Then
+            If outDispCheckType == OCR_OUT_DISP_CHECK_TYPE_NONE Then outDispCheckType = false
+            ElseIf outDispCheckType == OCR_OUT_DISP_CHECK_TYPE_EVERY_TIME Then outDispCheckType = true
+            ElseIf outDispCheckType == OCR_OUT_DISP_CHECK_TYPE_ON_ALERT Then outDispCheckType = true
+            End If
+        End If
+        OCR:enableDispOnAlert = outDispCheckType
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_OCR_OUT_DISP_CHECK)
+    End Method
+
+    Method SetOcrDigitAdType(digitAdType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        If digitAdType.isInt is true Then
+            If digitAdType == OCR_DATE_SCAN_ANNO_DOMINI_DIGIT_TWO_DIGITS_ONLY Then digitAdType = "2digit"
+            ElseIf digitAdType == OCR_DATE_SCAN_ANNO_DOMINI_DIGIT_FOUR_DIGITS_ONLY Then digitAdType = "4digit"
+            ElseIf digitAdType == OCR_DATE_SCAN_ANNO_DOMINI_DIGIT_DOUBLE_OR_FOUR_DIGITS Then digitAdType = "both"
+            End If
+        End If
+        OCR:adDigit = digitAdType
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_OCR_DIGIT_AD_TYPE)
+    End Method
+
+    Method SetOcrDayExistType(dayExistType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        If dayExistType.isInt is true Then
+            If dayExistType == OCR_DATE_SCAN_NOTATION_DATE_EXIST_ONLY Then dayExistType = "exist"
+            ElseIf dayExistType == OCR_DATE_SCAN_NOTATION_DATE_NOT_EXIST_ONLY Then dayExistType = "notExist"
+            ElseIf dayExistType == OCR_DATE_SCAN_NOTATION_DATE_EXIST_OR_NOT_EXIST Then dayExistType = "both"
+            End If
+        End If
+        OCR:dayExist = dayExistType
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_OCR_DAY_EXIST_TYPE)
+    End Method
+
+    Method SetOcrReadOneDegitMonthAndDay(readOneDegitMonthAndDay)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        OCR:oneDigitMD = readOneDegitMonthAndDay
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_OCR_READ_ONE_DEGIT_MONTH_AND_DAY)
+    End Method
+
+    Method SetOcrOutputDatePattern(pattern)
+        dat[2]
+        patternString
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        dat = OCR:outDateFormat.split(",")
+        patternString = ConvertPatternString(pattern)
+        If (dat[1] is nil) Then
+            OCR:outDateFormat = patternString & ","
+        Else
+            OCR:outDateFormat = patternString & "," & dat[1]
+        End If
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_OCR_OUTPUT_DATE_PATTERN)
+    End Method
+
+    Method SetOcrOutputDateSeparator(separator)
+        dat[2]
+        separatorString
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        dat = OCR:outDateFormat.split(",")
+        separatorString = ConvertSeparatorString(separator)
+        OCR:outDateFormat = dat[0] & "," & separatorString
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_OCR_OUTPUT_DATE_SEPARATOR)
+    End Method
+
+    Method LoadConfigFile(filename)
+        result
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        result = OCR:LoadConfig(filename)
+        If result is false Then
+            ErrorManager:SetError(MESSAGE_ERROR_LOAD_OCR_CONFIG_FILE)
+        End If
+        Return(result)
+    End Method
+
+    Method SaveConfigFile(filename)
+        result
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        result = OCR:SaveConfig(filename, true)
+        If result is false Then
+            ErrorManager:SetError(MESSAGE_ERROR_SAVE_OCR_CONFIG_FILE)
+        End If
+        Return(result)
+    End Method
+
+    Method SetOcrEnableFormat(enableOcrFormat[])
+        i,j
+        fmtstr
+        dat[3]
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        For i = 1 to 50
+            fmtstr = OCR:GetFormatInfo(i)
+            dat = fmtstr.split("|")
+            OCR:SetFormatInfo(i, enableOcrFormat[i-1], dat[1], dat[2])
+        Next
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_OCR_ENABLE_FORMAT)
+    End Method
+
+    Method ConvertPatternString(pattern)
+    Begin
+        Select Case pattern
+            Case OCR_DATE_OUTPUT_PATTERN_YYYYMMDD
+                Return ("YYYYMMDD")
+            Case OCR_DATE_OUTPUT_PATTERN_YYYYMM
+                Return ("YYYYMM")
+            Case OCR_DATE_OUTPUT_PATTERN_YYMMDD
+                Return ("YYMMDD")
+            Case OCR_DATE_OUTPUT_PATTERN_YYMM
+                Return ("YYMM")
+        End Select
+    End Method
+
+    Method ConvertSeparatorString(separator)
+    Begin
+        Select Case separator
+            Case DATE_SEPARATOR_NONE
+                Return ("")
+            Case DATE_SEPARATOR_SLASH
+                Return ("/")
+            Case DATE_SEPARATOR_PERIOD
+                Return (".")
+            Case DATE_SEPARATOR_HYPHEN
+                Return ("-")
+            Case DATE_SEPARATOR_SPACE
+                Return (" ")
+        End Select
+    End Method
+
+    Method IsOcrTerminal()
+    Begin
+        If (Handy:model.Find("BT-W", 0)) Then
+            If OCR:isOCRAvailable is true Then Return (true) End If
+            Return (false)
+        Else
+            Return (false)
+        End If
+    End Method
+
+End Package

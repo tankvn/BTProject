@@ -1,0 +1,453 @@
+
+Package BtMasterCheckUtility
+
+    Const ITEMKEYS_COLUMN_NUMBER[4] = {1, 2, 3, 4}
+
+    _listId_MasterFileFieldsInformation = 0
+
+    Method OpenDatabase(logFilePath, masterFilePath)
+        errorMessage
+    Begin
+
+        DbAccess:Open(logFilePath, masterFilePath, "SUBDB")
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne "") Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return (false)
+        End If
+
+        If Not CreateMasterFileWhenNotExistFile(logFilePath, masterFilePath) Then
+            MessageUtility:ShowMessageOk("The operation to create the database failed.")
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method GetRealTimeMasterFilePath()
+    Begin
+        Return (PathUtility:Combine(PathUtility:StorageTypeToPath(2), "__RealTimeMasterFile.pkdat"))
+    End Method
+
+    Method GetMasterFileFieldsInformation()
+        i
+        itemFieldName
+    Begin
+        If _listId_MasterFileFieldsInformation == 0 Then
+            _listId_MasterFileFieldsInformation = ListTable:CreateList()
+            itemFieldName = "field" & (0 + 1)
+            ListTable:Add(_listId_MasterFileFieldsInformation, itemFieldName, "text")
+            For i = 0 to ITEMKEYS_COLUMN_NUMBER.size - 1
+                itemFieldName = "field" & (ITEMKEYS_COLUMN_NUMBER[i] + 1)
+                ListTable:Add(_listId_MasterFileFieldsInformation, itemFieldName, "text")
+            Next
+            itemFieldName = "field" & (5 + 1)
+            ListTable:Add(_listId_MasterFileFieldsInformation, itemFieldName, "integer")
+            itemFieldName = "field" & (6 + 1)
+            ListTable:Add(_listId_MasterFileFieldsInformation, itemFieldName, "integer")
+            itemFieldName = "field" & (7 + 1)
+            ListTable:Add(_listId_MasterFileFieldsInformation, itemFieldName, "integer")
+        End If
+        Return (_listId_MasterFileFieldsInformation)
+    End Method
+
+    Method CreateMasterFileWhenNotExistFile(logFilePath, masterFilePath)
+        i
+        listId_TableFieldTypePairs
+        listId_IndexFields
+        indexName
+        listId_Fields
+    Begin
+
+        If PathUtility:IsFileExist(masterFilePath) Then
+            If IsValidMasterFileField(logFilePath, masterFilePath) Then
+                Return (true)
+            End If
+
+            DbAccess:DropTable(masterFilePath, "pkdat")
+            If (ErrorManager:GetError() ne "") Then
+                Return (false)
+            End If
+        End If
+
+        listId_TableFieldTypePairs = GetMasterFileFieldsInformation()
+        listId_IndexFields = ListTable:CreateList()
+        ListTable:Add(listId_IndexFields, "", ListTable:Get(listId_TableFieldTypePairs, 0, "key"))
+        For i = 0 to ITEMKEYS_COLUMN_NUMBER.size - 1
+            ListTable:Add(listId_IndexFields, "", ListTable:Get(listId_TableFieldTypePairs, ITEMKEYS_COLUMN_NUMBER[i], "key"))
+        Next
+
+        DbAccess:CreateTable(masterFilePath, "pkdat", listId_TableFieldTypePairs)
+        If (ErrorManager:GetError() ne "") Then
+            ListTable:DeleteList(listId_IndexFields)
+            Return (false)
+        End If
+
+        For i = 0 to ListTable:Count(listId_IndexFields) - 1
+            indexName = ListTable:Get(listId_IndexFields, i, "val")
+            listId_Fields = ListTable:CreateList()
+            ListTable:Add(listId_Fields, "", indexName)
+            DbAccess:CreateIndex(masterFilePath, "pkdat", indexName, listId_Fields)
+            ListTable:DeleteList(listId_Fields)
+            If (ErrorManager:GetError() ne "") Then
+                ListTable:DeleteList(listId_IndexFields)
+                Return (false)
+            End If
+        Next
+        ListTable:DeleteList(listId_IndexFields)
+        Return (true)
+    End Method
+
+    Method IsValidMasterFileField(logFilePath, masterFilePath)
+        i
+        listId_TableFieldTypePairs
+        listId_FieldInfoList
+        field1
+        field2
+    Begin
+
+        listId_TableFieldTypePairs = GetMasterFileFieldsInformation()
+
+        listId_FieldInfoList = DbAccess:GetFieldInfo(logFilePath, "pkdat")
+
+        If (ListTable:Count(listId_TableFieldTypePairs) <> ListTable:Count(listId_FieldInfoList)) Then
+            ListTable:DeleteList(listId_FieldInfoList)
+            Return (false)
+        End If
+
+        For i = 0 to ListTable:Count(listId_TableFieldTypePairs) - 1
+            If (ListTable:Get(listId_TableFieldTypePairs, i, "key") ne ListTable:Get(listId_FieldInfoList, i, "key")) Then
+                ListTable:DeleteList(listId_FieldInfoList)
+                Return (false)
+            End If
+            field1 = StringUtility:ToUpper(ListTable:Get(listId_TableFieldTypePairs, i, "val"))
+            field2 = StringUtility:ToUpper(ListTable:Get(listId_FieldInfoList, i, "val"))
+            If (field1 ne field2) Then
+                ListTable:DeleteList(listId_FieldInfoList)
+                Return (false)
+            End If
+        Next
+        ListTable:DeleteList(listId_FieldInfoList)
+
+        Return (true)
+    End Method
+
+    Method UpdateMasterFileByRealTime(commErrorDisplayMode, listId_Vouchers, listId_UserMasterDataInfo, logFilePath, clearExistingList, parentWindow)
+        i
+        voucherFieldOfSelected
+        itemKeysFieldOfSelected[4]
+        orderNumFieldOfSelected
+        processedNumFieldOfSelected
+        listId_SelectFieldIndexes
+        listId_ItemKeyFieldIndexes
+        listId_SearchRecords = 0
+        listId_FieldValuePairs
+        masterFilePath
+        deleteErrorMessage
+        insertErrorMessage
+        row
+        listId_Record = 0
+        listId_Col
+        voucherValue
+        itemKeyValue
+        orderCountValue
+        processedCountValue
+    Begin
+
+        voucherFieldOfSelected = -1
+        For i = 0 to 4 - 1
+            itemKeysFieldOfSelected[i] = -1
+        Next
+        orderNumFieldOfSelected = -1
+        processedNumFieldOfSelected = -1
+
+        listId_SelectFieldIndexes = ListTable:CreateList()
+        If 0 <= ListTable:GetValue(listId_UserMasterDataInfo, "VoucherFieldIndex") Then
+            ListTable:Add(listId_SelectFieldIndexes, ListTable:GetValue(listId_UserMasterDataInfo, "VoucherFieldIndex"), "")
+            voucherFieldOfSelected = ListTable:Count(listId_SelectFieldIndexes) - 1
+        End If
+        For i = 0 to 4 - 1
+            listId_ItemKeyFieldIndexes = ListTable:GetValue(listId_UserMasterDataInfo, "ItemKeysFieldIndex")
+            If 0 <= ListTable:Get(listId_ItemKeyFieldIndexes, i, "key") Then
+                ListTable:Add(listId_SelectFieldIndexes, ListTable:Get(listId_ItemKeyFieldIndexes, i, "key"), "")
+                itemKeysFieldOfSelected[i] = ListTable:Count(listId_SelectFieldIndexes) - 1
+            End If
+        Next
+        If 0 <= ListTable:GetValue(listId_UserMasterDataInfo, "OrderNumFieldIndex") Then
+            ListTable:Add(listId_SelectFieldIndexes, ListTable:GetValue(listId_UserMasterDataInfo, "OrderNumFieldIndex"), "")
+            orderNumFieldOfSelected = ListTable:Count(listId_SelectFieldIndexes) - 1
+        End If
+        If 0 <= ListTable:GetValue(listId_UserMasterDataInfo, "ProcessedNumFieldIndex") Then
+            ListTable:Add(listId_SelectFieldIndexes, ListTable:GetValue(listId_UserMasterDataInfo, "ProcessedNumFieldIndex"), "")
+            processedNumFieldOfSelected = ListTable:Count(listId_SelectFieldIndexes) - 1
+        End If
+
+        listId_SearchRecords = GetMasterFileByRealTime(commErrorDisplayMode, listId_Vouchers, ListTable:GetValue(listId_UserMasterDataInfo, "UserMasterTableName"), listId_SelectFieldIndexes, ListTable:GetValue(listId_UserMasterDataInfo, "VoucherFieldIndex"), parentWindow)
+        ListTable:DeleteList(listId_SelectFieldIndexes)
+        If ErrorManager:GetCommunicationError() Then
+            If (listId_SearchRecords <> 0) Then
+                ListTable:DeleteList(listId_SearchRecords)
+            End If
+            ErrorManager:SetCommunicationError()
+            Return (nil)
+        End If
+
+        If (listId_SearchRecords == 0) Then
+            Return (nil)
+        End If
+
+        masterFilePath = GetRealTimeMasterFilePath()
+
+        If (OpenDatabase(logFilePath, masterFilePath) is false) Then
+            MessageUtility:ShowMessageOk("The operation to open the database failed.")
+            ListTable:DeleteList(listId_SearchRecords)
+            Return (nil)
+        End If
+
+        If clearExistingList Then
+            listId_FieldValuePairs = ListTable:CreateList()
+            DbAccess:DeleteRecordWithCacheOption(logFilePath, "pkdat", listId_FieldValuePairs, true)
+            ListTable:DeleteList(listId_FieldValuePairs)
+        Else
+            For i = 0 to ListTable:Count(listId_Vouchers) - 1
+                listId_FieldValuePairs = ListTable:CreateList()
+                ListTable:Add(listId_FieldValuePairs, "field" & (0 + 1), ListTable:Get(listId_Vouchers, i, "key"))
+                DbAccess:DeleteRecordWithCacheOption(logFilePath, "pkdat", listId_FieldValuePairs, true)
+                ListTable:DeleteList(listId_FieldValuePairs)
+            Next
+        End If
+
+        deleteErrorMessage = ErrorManager:GetError()
+        If (deleteErrorMessage ne "") Then
+            MessageUtility:ShowMessageOk(deleteErrorMessage)
+            ListTable:DeleteList(listId_SearchRecords)
+            Return (nil)
+        End If
+
+        For row = 0 to ListTable:Count(listId_SearchRecords) - 1
+
+            listId_Record = ListTable:CreateList()
+
+            listId_Col = ListTable:Get(listId_SearchRecords, row, "val")
+            voucherValue = ""
+            If (listId_Col <> 0) And (0 <= voucherFieldOfSelected) And (voucherFieldOfSelected < ListTable:Count(listId_Col)) Then
+                voucherValue = ListTable:Get(listId_Col, voucherFieldOfSelected, "val")
+            End If
+            ListTable:Add(listId_Record, "field" & (0 + 1), voucherValue)
+
+            For i = 0 to 4 - 1
+                itemKeyValue = ""
+                If (listId_Col <> 0) And (0 <= itemKeysFieldOfSelected[i]) And (itemKeysFieldOfSelected[i] < ListTable:Count(listId_Col)) Then
+                    itemKeyValue = ListTable:Get(listId_Col, itemKeysFieldOfSelected[i], "val")
+                End If
+                ListTable:Add(listId_Record, "field" & (ITEMKEYS_COLUMN_NUMBER[i] + 1), itemKeyValue)
+            Next
+
+            orderCountValue = ""
+            If (listId_Col <> 0) And (0 <= orderNumFieldOfSelected) And (orderNumFieldOfSelected < ListTable:Count(listId_Col)) Then
+                orderCountValue = ListTable:Get(listId_Col, orderNumFieldOfSelected, "val")
+            End If
+            ListTable:Add(listId_Record, "field" & (5 + 1), orderCountValue)
+
+            processedCountValue = ""
+            If (listId_Col <> 0) And (0 <= processedNumFieldOfSelected) And (processedNumFieldOfSelected < ListTable:Count(listId_Col)) Then
+                processedCountValue = ListTable:Get(listId_Col, processedNumFieldOfSelected, "val")
+            End If
+            ListTable:Add(listId_Record, "field" & (6 + 1), processedCountValue)
+
+            ListTable:Add(listId_Record, "field" & (7 + 1), "0")
+
+            DbAccess:InsertRecordWithCacheOption(logFilePath, "pkdat", listId_Record, true)
+            ListTable:DeleteList(listId_Record)
+            insertErrorMessage = ErrorManager:GetError()
+            If (insertErrorMessage ne "") Then
+                MessageUtility:ShowMessageOk(insertErrorMessage)
+                ListTable:DeleteList(listId_SearchRecords)
+                Return (nil)
+            End If
+        Next
+
+        ListTable:DeleteList(listId_SearchRecords)
+    End Method
+
+    Method GetMasterFileByRealTime(commErrorDisplayMode, listId_Vouchers, userMasterTableName, listId_SelectFieldIndexes, voucherFieldIndex, parentWindow)
+        i
+        commErrorDispMode
+        listId_Conditions
+        listId_ConditionCollection = 0
+        listId_IndexValues = 0
+        listId_IndexValuePair = 0
+        listId_SearchRecords = 0
+    Begin
+
+        commErrorDispMode = commErrorDisplayMode
+        If (commErrorDispMode == 0) Then
+            commErrorDispMode = 1
+        End If
+
+        listId_ConditionCollection = ListTable:CreateList()
+        ListTable:Add(listId_ConditionCollection, "IsOrCondition", true)
+
+        If 0 <= voucherFieldIndex Then
+            listId_IndexValues = ListTable:CreateList()
+            For i = 0 to ListTable:Count(listId_Vouchers) - 1
+                listId_IndexValuePair = ListTable:CreateList()
+                ListTable:Add(listId_IndexValuePair, "Index", voucherFieldIndex)
+                ListTable:Add(listId_IndexValuePair, "Value", ListTable:Get(listId_Vouchers, i, "key"))
+                ListTable:Add(listId_IndexValuePair, "MatchType", 0)
+                ListTable:AddList(listId_IndexValues, i, listId_IndexValuePair)
+            Next
+            ListTable:AddList(listId_ConditionCollection, "IndexValueList", listId_IndexValues)
+        End If
+
+        listId_Conditions = ListTable:CreateList()
+        ListTable:AddList(listId_Conditions, "0", listId_ConditionCollection)
+
+        RealTimeConnectionController:New()
+        listId_SearchRecords = RealTimeConnectionController:SelectMultiple("", userMasterTableName, listId_SelectFieldIndexes, listId_Conditions, -1, parentWindow)
+        ListTable:DeleteList(listId_Conditions)
+
+        If ErrorManager:GetCommunicationError() Then
+            If (commErrorDispMode <> 3) Then
+                ErrorManager:SetCommunicationError()
+            End If
+            If (listId_SearchRecords <> 0) Then
+                ListTable:DeleteList(listId_SearchRecords)
+            End If
+            Return (0)
+        End If
+
+        Return (listId_SearchRecords)
+
+    End Method
+
+    Method HasUnsentData(logFilePath, logTableName, logVoucherFieldName, masterFilePath, useVoucher)
+        listId_Vouchers = 0
+        listId_TableFieldTypePairs
+        index
+        condition
+        errorMessage
+    Begin
+
+        If (Not DbAccess:HasTable(logFilePath, logTableName)) Then
+            Return (false)
+        End If
+
+        If (Not OpenDatabase(logFilePath, masterFilePath)) Then
+            Return (false)
+        End If
+
+        If useVoucher Then
+            listId_TableFieldTypePairs = GetMasterFileFieldsInformation()
+
+            listId_Vouchers = GetVouchersInMasterFile(logFilePath, ListTable:Get(listId_TableFieldTypePairs, 0, "key"))
+            errorMessage = ErrorManager:GetError()
+            If (errorMessage ne "") Then
+                ErrorManager:SetError(errorMessage)
+                If (listId_Vouchers <> 0) Then
+                    ListTable:DeleteList(listId_Vouchers)
+                End If
+                Return (false)
+            End If
+            If (listId_Vouchers == 0) Then
+                Return (false)
+            End If
+
+            For index = 0 to ListTable:Count(listId_Vouchers) - 1
+                condition = "WHERE " & DbAccess:EncloseDoubleQuotations(logVoucherFieldName) & " = " & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_Vouchers, index, "key"))
+                If HasJobData(logFilePath, logTableName, condition) Then
+                    ListTable:DeleteList(listId_Vouchers)
+                    Return (true)
+                End If
+            Next
+            ListTable:DeleteList(listId_Vouchers)
+        Else
+            Return (HasJobData(logFilePath, logTableName, ""))
+        End If
+
+    Catch
+        ErrorManager:SetError(System:error)
+        If (listId_Vouchers <> 0) Then
+            ListTable:DeleteList(listId_Vouchers)
+        End If
+        Return (false)
+    End Method
+
+    Method GetVouchersInMasterFile(logFilePath, masterVoucherFieldName)
+        listId_Vouchers = 0
+        listId_FieldTypePairs = 0
+        listId_Data
+        listId_Col
+        index
+        sql
+        errorMessage
+    Begin
+        sql = "SELECT DISTINCT " & DbAccess:EncloseDoubleQuotations(masterVoucherFieldName) & " FROM "
+                                          & "SUBDB" & "." & DbAccess:EncloseDoubleQuotations("pkdat")
+        listId_FieldTypePairs = ListTable:CreateList()
+        ListTable:Add(listId_FieldTypePairs, masterVoucherFieldName, "text")
+
+        listId_Data = DbAccess:ExecuteQueryTypeSql(logFilePath, sql, listId_FieldTypePairs)
+        ListTable:DeleteList(listId_FieldTypePairs)
+        listId_FieldTypePairs = 0
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne "") Then
+            ErrorManager:SetError(errorMessage)
+            If (listId_Data <> 0) Then
+                ListTable:DeleteList(listId_Data)
+            End If
+            Return (0)
+        End If
+        If (listId_Data == 0) Then Return(0) End If
+
+        listId_Vouchers = ListTable:CreateList()
+        For index = 0 to ListTable:Count(listId_Data) - 1
+            listId_Col = ListTable:Get(listId_Data, index, "val")
+            ListTable:Add(listId_Vouchers, ListTable:Get(listId_Col, 0, "val"), "")
+        Next
+        ListTable:DeleteList(listId_Data)
+        Return (listId_Vouchers)
+    Catch
+        ErrorManager:SetError(System:error)
+        If (listId_Vouchers <> 0) Then
+            ListTable:DeleteList(listId_Vouchers)
+        End If
+        If (listId_FieldTypePairs <> 0) Then
+            ListTable:DeleteList(listId_FieldTypePairs)
+        End If
+        If (listId_Data <> 0) Then
+            ListTable:DeleteList(listId_Data)
+        End If
+        Return (0)
+    End Method
+
+    Method HasJobData(logFilePath, logTableName, condition)
+        sql
+        listId_FieldTypePairs
+        listId_Data
+        listId_Col
+        errorMessage
+        recordCount
+    Begin
+        sql = "SELECT COUNT(*) FROM " & DbAccess:EncloseDoubleQuotations(logTableName) &  " " & condition
+        listId_FieldTypePairs = ListTable:CreateList()
+        ListTable:Add(listId_FieldTypePairs, "0", "integer")
+        listId_Data = DbAccess:ExecuteQueryTypeSql(logFilePath, sql, listId_FieldTypePairs)
+        ListTable:DeleteList(listId_FieldTypePairs)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne "") Then
+            ErrorManager:SetError(errorMessage)
+            If (listId_Data <> 0) Then
+                ListTable:DeleteList(listId_Data)
+            End If
+            Return (false)
+        End If
+        If (listId_Data == 0) Then Return(false) End If
+
+        listId_Col = ListTable:Get(listId_Data, 0, "val")
+        recordCount = ListTable:Get(listId_Col, 0, "val")
+        ListTable:DeleteList(listId_Data)
+        Return ((0 < recordCount))
+    End Method
+
+End Package

@@ -1,0 +1,260 @@
+#insert "\Lib\Utilities\ComparisonManagerConstants"
+
+Package ComparisonManagerCommon
+    #define ComparisonNowDate "ComparisonNowDate"
+    #define ComparisonNowTime "ComparisonNowTime"
+
+    Method New(properties[], conditionsEvaluation)
+    Begin
+        properties[DEF_CONDITIONSEVALUATION_PROPERTY] = conditionsEvaluation
+        properties[DEF_COMPARISONITEMS_PROPERTY] = 0
+    End Method
+
+    Method AddCondition(properties[], comparisonItems[], comparisonItem_src[], comparisonItem_dst[], comparisonItem_dstIndex[],
+                        source, destination, destinationIndex, judgeKind, calculationType, calculationTarget, calculationValue)
+        sourceDate
+        destinationDate
+        sourceTime
+        destinationTime
+        sourceString
+        sourcePattern
+        destinationString
+        destinationPattern
+        src_type
+        dst_type
+        name
+        parameter[1]
+    Begin
+
+        If properties[DEF_COMPARISONITEMS_PROPERTY] >= 100 Then Return() End If
+        name = properties[DEF_NAME_PROPERTY] & "_" & properties[DEF_COMPARISONITEMS_PROPERTY]
+
+        src_type = GetType(properties, source)
+        dst_type = GetType(properties, destination)
+        If src_type eq "BtInputDateBox" Or src_type eq "DateTime" Or dst_type eq "BtInputDateBox" Or dst_type eq "DateTime" Then
+            sourceDate = GetDateForComparison(properties, source, 0)
+            destinationDate = GetDateForComparison(properties, destination, destinationIndex)
+
+            If src_type eq "BtInputDateBox" Then
+                parameter[0] = source
+                sourcePattern = ExecUserObj(properties[DEF_GET_OUTPUT_PATTERN_HANDLER], parameter)
+            Else
+                sourcePattern = TERMINAL_SETTING_DEFAULT_DATE_PATTERN
+            End If
+
+            If dst_type eq "BtInputDateBox" Then
+                parameter[0] = destination
+                destinationPattern = ExecUserObj(properties[DEF_GET_OUTPUT_PATTERN_HANDLER], parameter)
+            Else
+                destinationPattern = TERMINAL_SETTING_DEFAULT_DATE_PATTERN
+            End If
+
+            ComparisonDateItem:New(name, judgeKind, sourceDate, sourcePattern, destinationDate, destinationPattern, calculationType, calculationTarget, calculationValue)
+            comparisonItems[properties[DEF_COMPARISONITEMS_PROPERTY]] = name
+            comparisonItem_src[properties[DEF_COMPARISONITEMS_PROPERTY]] = source
+            comparisonItem_dst[properties[DEF_COMPARISONITEMS_PROPERTY]] = destination
+            comparisonItem_dstIndex[properties[DEF_COMPARISONITEMS_PROPERTY]] = destinationIndex
+            properties[DEF_COMPARISONITEMS_PROPERTY] = properties[DEF_COMPARISONITEMS_PROPERTY] + 1
+            Return()
+        End If
+
+        If dst_type eq "TimeSpan" Then
+            destinationTime = GetTimeForComparison(properties, destination, 0)
+            ComparisonTimeItem:New(name, judgeKind, sourceTime, destinationTime, true)
+            comparisonItems[properties[DEF_COMPARISONITEMS_PROPERTY]] = name
+            comparisonItem_src[properties[DEF_COMPARISONITEMS_PROPERTY]] = source
+            comparisonItem_dst[properties[DEF_COMPARISONITEMS_PROPERTY]] = destination
+            comparisonItem_dstIndex[properties[DEF_COMPARISONITEMS_PROPERTY]] = destinationIndex
+            properties[DEF_COMPARISONITEMS_PROPERTY] = properties[DEF_COMPARISONITEMS_PROPERTY] + 1
+            Return()
+        End If
+
+        sourceString = GetStringForComparison(properties, source, 0)
+        destinationString = GetStringForComparison(properties, destination, destinationIndex)
+
+        ComparisonStringItem:New(name, judgeKind, sourceString, destinationString, calculationType, calculationValue)
+        comparisonItems[properties[DEF_COMPARISONITEMS_PROPERTY]] = name
+        comparisonItem_src[properties[DEF_COMPARISONITEMS_PROPERTY]] = source
+        comparisonItem_dst[properties[DEF_COMPARISONITEMS_PROPERTY]] = destination
+        comparisonItem_dstIndex[properties[DEF_COMPARISONITEMS_PROPERTY]] = destinationIndex
+        properties[DEF_COMPARISONITEMS_PROPERTY] = properties[DEF_COMPARISONITEMS_PROPERTY] + 1
+        Return()
+
+    Catch
+        ComparisonInvalidItem:New(name)
+        comparisonItems[properties[DEF_COMPARISONITEMS_PROPERTY]] = name
+        properties[DEF_COMPARISONITEMS_PROPERTY] = properties[DEF_COMPARISONITEMS_PROPERTY] + 1
+        Return()
+    End Method
+
+    Method GetDateForComparison(properties[], target, index)
+        text
+        targetDate
+        type
+        parameter[1]
+        displayDate
+    Begin
+        type = GetType(properties, target)
+        If (type eq "BtInputDateBox") Then
+            parameter[0] = target
+            displayDate = ExecUserObj(properties[DEF_DISPLAY_DATE_HANDLER], parameter)
+            targetDate = DateUtility:ChangeHandyDate(displayDate,
+                ExecUserObj(properties[DEF_GET_OUTPUT_PATTERN_HANDLER], parameter),
+                ExecUserObj(properties[DEF_GET_OUTPUT_SEPARATOR_HANDLER], parameter))
+            Return (targetDate)
+        ElseIf (type eq "DateTime") Then
+            If target eq ComparisonNowDate Then
+                Return(Handy:date)
+            Else
+                Return (target)
+            End If
+        End If
+
+        text = GetStringForComparison(properties, target, index)
+        targetDate = DateUtility:ToDate(text, TERMINAL_SETTING_DEFAULT_DATE_PATTERN, TERMINAL_SETTING_DEFAULT_DATE_SEPARATOR)
+
+        Return (targetDate)
+    End Method
+
+    Method GetTimeForComparison(properties[], target, index)
+        text
+    Begin
+        If target eq ComparisonNowTime Then
+            Return(Handy:time)
+        Else
+            text = GetStringForComparison(properties, target, index)
+            Return(TimeUtility:ToTimeForJudge(text))
+        End If
+
+        Return(TimeUtility:ToTimeForJudge(text))
+    End Method
+
+    Method GetStringForComparison(properties[], target, index)
+        type
+        parameter[2]
+    Begin
+        type = GetType(properties, target)
+
+        If (type eq "BtLabel") Then
+            parameter[0] = target
+            parameter[1] = 0
+            Return(ExecUserObj(properties[DEF_GET_LOG_DATA_HANDLER], parameter))
+        ElseIf (type eq "BtTextBox") Then
+            parameter[0] = target
+            parameter[1] = 0
+            Return(ExecUserObj(properties[DEF_GET_LOG_DATA_HANDLER], parameter))
+        ElseIf (type eq "BtDropDownBox") Then
+            parameter[0] = target
+            parameter[1] = 0
+            Return(ExecUserObj(properties[DEF_GET_LOG_DATA_HANDLER], parameter))
+        ElseIf (type eq "BtCheckBox") Then
+            parameter[0] = target
+            parameter[1] = 0
+            Return(ExecUserObj(properties[DEF_GET_LOG_DATA_HANDLER], parameter))
+        ElseIf (type eq "BtRadioButtonGroup") Then
+            parameter[0] = target
+            parameter[1] = 0
+            Return(ExecUserObj(properties[DEF_GET_LOG_DATA_HANDLER], parameter))
+        ElseIf (type eq "BtLookUpBox") Then
+            parameter[0] = target
+            parameter[1] = index
+            Return(ExecUserObj(properties[DEF_GET_LOG_DATA_HANDLER], parameter))
+        ElseIf (type eq "BtTableView") Then
+            parameter[0] = target
+            parameter[1] = index
+            Return(ExecUserObj(properties[DEF_GET_LOG_DATA_HANDLER], parameter))
+        ElseIf (type eq "String") Then
+            Return (target)
+        ElseIf (type eq "Integer") Then
+            Return (target)
+        ElseIf (type eq "Decimal") Then
+            Return (target)
+        ElseIf (type eq "TimeSpan") Then
+            If target eq ComparisonNowTime Then
+                Return(Handy:time)
+            Else
+                Return(TimeUtility:ToTimeForJudge(target))
+            End If
+
+        ElseIf (type eq "BtInputDateBox") Then
+            parameter[0] = target
+            parameter[1] = 0
+            Return(ExecUserObj(properties[DEF_GET_LOG_DATA_HANDLER], parameter))
+
+        End If
+    End Method
+
+    Method DoJudge(properties[], comparisonItems[],  comparisonItem_src[], comparisonItem_dst[], comparisonItem_dstIndex[])
+        type
+        ret = false
+        i
+    Begin
+        If properties[DEF_COMPARISONITEMS_PROPERTY] == 0 Then
+            Return (false)
+        End If
+
+        For i = 0 To properties[DEF_COMPARISONITEMS_PROPERTY] - 1
+            type = ComparisonDateItem:GetType(comparisonItems[i])
+            If type eq  "ComparisonDateItem" Then
+                ComparisonDateItem:SetSrcData(comparisonItems[i], GetDateForComparison(properties, comparisonItem_src[i], 0))
+                ComparisonDateItem:SetDstData(comparisonItems[i], GetDateForComparison(properties, comparisonItem_dst[i], comparisonItem_dstIndex[i]))
+                ret = ComparisonDateItem:DoJudgement(comparisonItems[i])
+            ElseIf type eq  "ComparisonTimeItem" Then
+                ComparisonStringItem:SetSrcData(comparisonItems[i], GetTimeForComparison(properties, comparisonItem_src[i], 0))
+                ComparisonStringItem:SetDstData(comparisonItems[i], GetTimeForComparison(properties, comparisonItem_dst[i], comparisonItem_dstIndex[i]))
+                ret = ComparisonTimeItem:DoJudgement(comparisonItems[i])
+            ElseIf type eq  "ComparisonStringItem" Then
+                ComparisonStringItem:SetSrcData(comparisonItems[i], GetStringForComparison(properties, comparisonItem_src[i], 0))
+                ComparisonStringItem:SetDstData(comparisonItems[i], GetStringForComparison(properties, comparisonItem_dst[i], comparisonItem_dstIndex[i]))
+                ret = ComparisonStringItem:DoJudgement(comparisonItems[i])
+            ElseIf type eq  "ComparisonInvalidItem" Then ret = ComparisonInvalidItem:DoJudgement(comparisonItems[i])
+            End If
+            If (properties[DEF_CONDITIONSEVALUATION_PROPERTY] == CONDITIONS_EVALUATION_ALL) Then
+                If ret is false Then Return (false) End If
+            Else
+                If ret is true Then Return (true) End If
+            End If
+        Next
+        If (properties[DEF_CONDITIONSEVALUATION_PROPERTY] == CONDITIONS_EVALUATION_ALL) Then
+            Return (true)
+        Else
+            Return (false)
+        End If
+    End Method
+
+    Method GetType(properties[], target)
+        type
+        parameter[1]
+    Begin
+        If target.isInt is true Then Return("Integer")
+        ElseIf target.isDigit is true Then Return("Decimal")
+        Else
+            parameter[0] = target
+            type = ExecUserObj(properties[DEF_GET_TYPE_HANDLER], parameter)
+
+            If Not type is nil And type ne "" Then Return(type) End If
+            If DateUtility:IsDateTimeFormat(target) is true Then Return("DateTime") End If
+            If target eq ComparisonNowDate Then Return("DateTime") End If
+            If TimeUtility:ToTimeForJudge(target) ne "" Then Return("TimeSpan") End If
+            If target eq ComparisonNowTime Then Return("TimeSpan") End If
+            Return("String")
+        End If
+    End Method
+
+    Method ExecUserObj(handler, parameter[])
+        ret
+        i
+    Begin
+        UserObj<"__SMALL_OBJ__" & StringUtility:GetHandleTagNameEraseSymbol(handler)>:Open()
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(handler)>:Set(0, handler)
+
+        For i = 0 to parameter.size - 1
+            UserObj<StringUtility:GetHandleTagNameEraseSymbol(handler)>:Set(i + 1, parameter[i])
+        Next
+
+        ret = UserObj<StringUtility:GetHandleTagNameEraseSymbol(handler)>:Exec(0)
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(handler)>:Close()
+
+        Return(ret)
+    End Method
+End Package

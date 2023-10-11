@@ -1,0 +1,190 @@
+
+Package HistoryDataEditDialog
+
+    _properties[1]
+
+    _logEditType
+
+    _editValue = ""
+
+    DialogResult
+
+    Method SetFieldNameText(value)
+    Begin
+        _properties[0] = value
+        BtLabelCommon:SetText(HistoryDataEditDialog_labelFieldName:Properties, "[" & value & "]")
+    End Method
+
+    Method New()
+    Begin
+        DialogResult = 2
+        HistoryDataEditDialog_res:InitializeComponent()
+
+        With BtTextBoxCommon
+            :SetWidth(HistoryDataEditDialog_textBox:Properties, BtInputDateBoxCommon:GetWidth(HistoryDataEditDialog_inputDateBox:Properties))
+            :SetHeight(HistoryDataEditDialog_textBox:Properties, BtInputDateBoxCommon:GetHeight(HistoryDataEditDialog_inputDateBox:Properties))
+            :SetTop(HistoryDataEditDialog_textBox:Properties, BtInputDateBoxCommon:GetTop(HistoryDataEditDialog_inputDateBox:Properties))
+            :SetLeft(HistoryDataEditDialog_textBox:Properties, BtInputDateBoxCommon:GetLeft(HistoryDataEditDialog_inputDateBox:Properties))
+        End With
+
+        HistoryDataEditDialog_cancelButton:Invalidate()
+        HistoryDataEditDialog_okButton:Invalidate()
+    End Method
+
+    Method CreateTextEditArea(value)
+    Begin
+        ShowTextBox(value, 0, 0)
+        _logEditType = 0
+        HistoryDataEditDialog_FocusTransitionUtility:Reset()
+        HistoryDataEditDialog_FocusTransitionUtility:SetControl("HistoryDataEditDialog_textBox")
+        HistoryDataEditDialog_textBox:Focus()
+
+        HistoryDataEditDialog_FocusTransitionUtility:SetControl("HistoryDataEditDialog_cancelButton")
+        HistoryDataEditDialog_FocusTransitionUtility:SetControl("HistoryDataEditDialog_okButton")
+    End Method
+
+    Method CreateEditArea(value, screenData)
+    Begin
+        HistoryDataEditDialog_FocusTransitionUtility:Reset()
+        Select Case ILogItemScreenData:GetLogEditType(screenData)
+            Case
+                0,
+                2,
+                1,
+                3,
+                4
+                ShowTextBox(
+                    value,
+                    ILogItemScreenData:GetLogEditType(screenData),
+                    ILogItemScreenData:GetDecimalPlaces(screenData))
+                _logEditType = 0
+
+                HistoryDataEditDialog_FocusTransitionUtility:SetControl("HistoryDataEditDialog_textBox")
+                HistoryDataEditDialog_textBox:Focus()
+            Case 5
+                ShowDateBox(
+                    value,
+                    ILogItemScreenData:GetDateFormatType(screenData),
+                    ILogItemScreenData:GetDateSeparatorType(screenData))
+                _logEditType = 1
+
+                HistoryDataEditDialog_FocusTransitionUtility:SetControl("HistoryDataEditDialog_inputDateBox")
+                HistoryDataEditDialog_inputDateBox:Focus()
+        End Select
+
+        HistoryDataEditDialog_FocusTransitionUtility:SetControl("HistoryDataEditDialog_cancelButton")
+        HistoryDataEditDialog_FocusTransitionUtility:SetControl("HistoryDataEditDialog_okButton")
+    End Method
+
+    Method ShowDateBox(value, pattern, separator)
+    Begin
+        With BtInputDateBoxCommon
+            :SetOutputPattern(HistoryDataEditDialog_inputDateBox:Properties, pattern)
+            :SetOutputSeparator(HistoryDataEditDialog_inputDateBox:Properties, separator)
+            :SetText(HistoryDataEditDialog_inputDateBox:Properties, value)
+        End With
+    End Method
+
+    Method ShowTextBox(value, inputControl, decimalPlaces)
+    Begin
+        Select Case inputControl
+            Case 0
+                BtTextBoxCommon:SetInputMode(HistoryDataEditDialog_textBox:Properties, 0)
+            Case 1
+                BtTextBoxCommon:SetInputMode(HistoryDataEditDialog_textBox:Properties, 4)
+                BtTextBoxCommon:SetDecimalPlaces(HistoryDataEditDialog_textBox:Properties, decimalPlaces)
+            Case 2
+                BtTextBoxCommon:SetInputMode(HistoryDataEditDialog_textBox:Properties, 4)
+                BtTextBoxCommon:SetDecimalPlaces(HistoryDataEditDialog_textBox:Properties, decimalPlaces)
+            Case 3
+                BtTextBoxCommon:SetInputMode(HistoryDataEditDialog_textBox:Properties, 4)
+                BtTextBoxCommon:SetMinimum(HistoryDataEditDialog_textBox:Properties, 1)
+                BtTextBoxCommon:SetMaximum(HistoryDataEditDialog_textBox:Properties, 8)
+                BtTextBoxCommon:SetDecimalPlaces(HistoryDataEditDialog_textBox:Properties, 0)
+            Case 4
+                BtTextBoxCommon:SetInputMode(HistoryDataEditDialog_textBox:Properties, 4)
+                BtTextBoxCommon:SetMinimum(HistoryDataEditDialog_textBox:Properties, 0)
+                BtTextBoxCommon:SetMaximum(HistoryDataEditDialog_textBox:Properties, 1)
+                BtTextBoxCommon:SetDecimalPlaces(HistoryDataEditDialog_textBox:Properties, 0)
+        End Select
+        BtTextBoxCommon:SetInitialText(HistoryDataEditDialog_textBox:Properties, value)
+    End Method
+
+    Method GetNewValue()
+    Begin
+        Return (_editValue)
+    End Method
+
+    Method KeyActionCancel(eventArgs)
+    Begin
+        BtButtonCommon:Focus(HistoryDataEditDialog_cancelButton:Properties)
+        HistoryDataEditDialog_cancelButton:PerformClick()
+    End Method
+
+    Method KeyActionOk(eventArgs)
+    Begin
+        BtButtonCommon:Focus(HistoryDataEditDialog_okButton:Properties)
+        HistoryDataEditDialog_okButton:PerformClick()
+    End Method
+
+    Method OnShown(e)
+    Begin
+        Select Case _logEditType
+            Case 1
+                BtInputDateBoxCommon:SetVisible(HistoryDataEditDialog_inputDateBox:Properties, true)
+                BtTextBoxCommon:SetVisible(HistoryDataEditDialog_textBox:Properties, false)
+            Case 0
+                BtInputDateBoxCommon:SetVisible(HistoryDataEditDialog_inputDateBox:Properties, false)
+                BtTextBoxCommon:SetVisible(HistoryDataEditDialog_textBox:Properties, true)
+        End Select
+
+        HistoryDataEditDialog_res:Show(true)
+
+        Select Case _logEditType
+            Case 1
+                BtInputDateBoxCommon:Focus(HistoryDataEditDialog_inputDateBox:Properties)
+            Case 0
+                BtTextBoxCommon:Focus(HistoryDataEditDialog_textBox:Properties)
+        End Select
+
+        Window<"ROOT_WINDOW">:Update()
+
+        HistoryDataEditDialog_res:EventWait()
+    End Method
+
+    Method LogEditDialog_KeyDown(sender)
+    Begin
+        HistoryDataEditDialog_res:KeyAssignedAction(sender)
+    End Method
+
+    Method OKButton_Click(sender, result)
+    Begin
+        Select Case _logEditType
+            Case 1
+                _editValue = BtInputDateBoxCommon:GetText(HistoryDataEditDialog_inputDateBox:Properties)
+            Case 0
+                _editValue = BtTextBoxCommon:GetText(HistoryDataEditDialog_textBox:Properties)
+        End Select
+
+        DialogResult = 1
+        HistoryDataEditDialog_res:Close()
+        HistoryDataEditDialog_res:Dispose()
+
+        Event:Exit()
+    End Method
+
+    Method CancelButton_Click(sender, result)
+    Begin
+        DialogResult = 2
+        HistoryDataEditDialog_res:Close()
+        HistoryDataEditDialog_res:Dispose()
+
+        Event:Exit()
+    End Method
+
+    Method OnPaint(e)
+    Begin
+    End Method
+
+End Package
+

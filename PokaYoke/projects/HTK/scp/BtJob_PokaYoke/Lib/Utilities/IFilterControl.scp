@@ -1,0 +1,52 @@
+
+Package IFilterControl
+    Names[15]
+    ICommons[15]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_PokaYoke_BtLabel_Comparison"
+        ICommons[0] = BtWindow_PokaYoke_BtLabel_Comparison:IFilterControlInvoke
+        Names[1] = "BtWindow_PokaYoke_BtLabel_Input"
+        ICommons[1] = BtWindow_PokaYoke_BtLabel_Input:IFilterControlInvoke
+        Names[2] = "BtWindow_PokaYoke_BtTextBox_Compare"
+        ICommons[2] = BtWindow_PokaYoke_BtTextBox_Compare:IFilterControlInvoke
+        Names[3] = "BtWindow_PokaYoke_BtTextBox_Input"
+        ICommons[3] = BtWindow_PokaYoke_BtTextBox_Input:IFilterControlInvoke
+        Names[4] = "BtWindow_PokaYoke_BtTextBox_Person"
+        ICommons[4] = BtWindow_PokaYoke_BtTextBox_Person:IFilterControlInvoke
+        Names[5] = "BtWindow_PokaYoke_BtLabel_Person"
+        ICommons[5] = BtWindow_PokaYoke_BtLabel_Person:IFilterControlInvoke
+        Names[6] = "BtWindow_PokaYoke_BtLabel_Title"
+        ICommons[6] = BtWindow_PokaYoke_BtLabel_Title:IFilterControlInvoke
+        Names[7] = "BtHistoryDataView_PokaYoke_BtLabel_Title"
+        ICommons[7] = BtHistoryDataView_PokaYoke_BtLabel_Title:IFilterControlInvoke
+        Names[8] = "BtHistoryDataView_PokaYoke_BtLabel_DataCountDisplay"
+        ICommons[8] = BtHistoryDataView_PokaYoke_BtLabel_DataCountDisplay:IFilterControlInvoke
+        Names[9] = "BtCollationErrorDialog_1_BtLabel_Title"
+        ICommons[9] = BtCollationErrorDialog_1_BtLabel_Title:IFilterControlInvoke
+        Names[10] = "BtCollationErrorDialog_1_BtLabel_Message1"
+        ICommons[10] = BtCollationErrorDialog_1_BtLabel_Message1:IFilterControlInvoke
+        Names[11] = "BtCollationErrorDialog_1_BtLabel_Message2"
+        ICommons[11] = BtCollationErrorDialog_1_BtLabel_Message2:IFilterControlInvoke
+        Names[12] = "BtCommunicationErrorDialog_1_BtLabel_Title"
+        ICommons[12] = BtCommunicationErrorDialog_1_BtLabel_Title:IFilterControlInvoke
+        Names[13] = "BtCommunicationErrorDialog_1_BtLabel_Message1"
+        ICommons[13] = BtCommunicationErrorDialog_1_BtLabel_Message1:IFilterControlInvoke
+        Names[14] = "BtCommunicationErrorDialog_1_BtLabel_Message2"
+        ICommons[14] = BtCommunicationErrorDialog_1_BtLabel_Message2:IFilterControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetInputValue(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetInputValue", args, ICommons))
+    End Method
+
+End Package
+

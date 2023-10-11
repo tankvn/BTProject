@@ -1,0 +1,41 @@
+
+ Package BackGroundActionForm
+
+    _properties[2]
+
+    Method GetErrorMessage()
+    Begin
+        Return (_properties[0])
+    End Method
+
+    Method New(title, status)
+    Begin
+        BackGroundActionForm_res:InitializeComponent()
+
+        BackGroundActionForm_res:SetTitleLabelText(title)
+        BackGroundActionForm_res:SetStatusLabelText(status)
+
+        BackGroundActionForm_res:LayoutSetting()
+    End Method
+
+    Method Show()
+    Begin
+        _properties[1] = true
+
+        BackGroundActionForm_res:Show()
+    End Method
+
+    Method Close()
+    Begin
+        _properties[0] = ErrorManager:GetError()
+        _properties[1] = false
+
+        BackGroundActionForm_res:Close()
+    End Method
+
+    Method Reflesh()
+    Begin
+        BackGroundActionForm_res:Reflesh()
+    End Method
+
+End Package

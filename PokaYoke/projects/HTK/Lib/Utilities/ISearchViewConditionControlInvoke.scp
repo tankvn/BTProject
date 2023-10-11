@@ -1,0 +1,4 @@
+    Method ISearchViewConditionControlInvoke(this)
+    Begin
+        DEF_COMMON:ISearchViewConditionControlInvokeCommon(this, Properties)
+    End Method

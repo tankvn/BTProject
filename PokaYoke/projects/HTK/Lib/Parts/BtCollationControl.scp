@@ -1,0 +1,100 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtCollationControlConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+    Method New()
+    Begin
+    End Method
+
+#insert "\Lib\Utilities\IBtCollationControlInvoke"
+#insert "\Lib\Utilities\IBtCombinationComponentInvoke"
+#insert "\Lib\Utilities\ILogItemControlInvoke"
+
+    Method Create(parentName)
+    Begin
+        BtCollationControlCommon:Create(Properties, "DEF_PACKAGE_NAME")
+
+        New()
+    End Method
+
+    Method Initialize()
+    Begin
+        BtCollationControlCommon:Initialize(Properties)
+    End Method
+
+    Method AddItem(comparisonItem, comparison, columnNumber, input, setting, comparisonExclusionCharacters, inputExclusionCharacters, comparisonRangeSettings, inputRangeSettings)
+    Begin
+        BtCollationControlCommon:AddItem(Properties, comparisonItem, comparison, columnNumber, input, setting, comparisonExclusionCharacters, inputExclusionCharacters, comparisonRangeSettings, inputRangeSettings)
+    End Method
+
+    Method Judge()
+    Begin
+        Return (BtCollationControlCommon:Judge(Properties))
+    End Method
+
+    Method GetControlName(index)
+    Begin
+        Return (BtCollationControlCommon:GetControlName(Properties, index))
+    End Method
+
+    Method GetLogTableFieldType(index)
+    Begin
+        Return (BtCollationControlCommon:GetLogTableFieldType(Properties, index))
+    End Method
+
+    Method GetLogData(index)
+    Begin
+        Return (BtCollationControlCommon:GetLogData(Properties, index))
+    End Method
+
+    Method CheckValidInput(checkTarget, index)
+    Begin
+        Return (BtCollationControlCommon:CheckValidInput(Properties, checkTarget, index))
+    End Method
+
+    Method Reset()
+    Begin
+        BtCollationControlCommon:Reset(Properties)
+    End Method
+
+    Method ComparisonDataInputForCollation(sender, result)
+        target
+    Begin
+        If Not result Then Return(false) End If
+
+        If BtCollationControlCommon:IsComparisonTarget(Properties, sender) is true Then
+            If (COLLATION_PATTERN_NTO_N == BtCollationControlCommon:GetCollationPattern(Properties)) Then
+                target = sender
+                If target is nil Then Return() End If
+                If target eq "" Then Return() End If
+                ICollationTarget:AddCollationValue(target)
+            End If
+            BtCollationControlCommon:UpdateCollationCountLabel(Properties)
+        End If
+#ifdef DEF_EVENT_DATA_INPUT
+#ifdef DEF_JUDGE_CONTROL
+        If IControl:GetName("DEF_JUDGE_CONTROL") eq sender Then
+            DEF_EVENT_DATA_INPUT(sender, true)
+        End If
+#endif
+#endif
+        Return (true)
+    End Method
+
+    Method FocusTransitionRequested(sender)
+    Begin
+        Return (BtCollationControlCommon:FocusTransitionRequested(Properties, sender))
+    End Method
+
+    Method ComparisonValueCountUpdated(sender)
+    Begin
+        Return (BtCollationControlCommon:ComparisonValueCountUpdated(Properties, sender))
+    End Method
+
+End Package
+
+#popdefine

@@ -1,0 +1,44 @@
+
+Package BtWindow_PokaYoke_CollationComparisonItem_0
+    Const Name = "BtWindow_PokaYoke_CollationComparisonItem_0"
+
+    Properties[12]
+    Method New()
+    Begin
+        Properties[0] = "BtWindow_PokaYoke_CollationComparisonItem_0"
+        CollationComparisonItemCommon:SetInputRangedValueHandler(Properties, GetInputRangedValue)
+        CollationComparisonItemCommon:SetComparisonRangedDispValueHandler(Properties, GetComparisonRangedDispValue)
+        CollationComparisonItemCommon:SetComparisonRangedInternalValueHandler(Properties, GetComparisonRangedInternalValue)
+    End Method
+    Method ICollationComparisonItemInvoke(this)
+    Begin
+        CollationComparisonItemCommon:ICollationComparisonItemInvokeCommon(this, Properties)
+    End Method
+
+    Method GetInputRangedValue(this)
+    Begin
+        Return (StringUtility:GetRangeExtractedString(EventUtility:GetParameter(this, 0), CollationComparisonItemCommon:GetInputExclusionCharacters(Properties),
+                                                      IRangeSettings:GetRangeType(CollationComparisonItemCommon:GetInputRangeSettings(Properties)),
+                                                      IRangeSettings:GetRangeStart(CollationComparisonItemCommon:GetInputRangeSettings(Properties)),
+                                                      IRangeSettings:GetRangeEnd(CollationComparisonItemCommon:GetInputRangeSettings(Properties)),
+                                                      IRangeSettings:GetAiType(CollationComparisonItemCommon:GetInputRangeSettings(Properties))))
+    End Method
+
+    Method GetComparisonRangedDispValue(this)
+    Begin
+        Return (StringUtility:GetRangeExtractedString(EventUtility:GetParameter(this, 0), CollationComparisonItemCommon:GetComparisonExclusionCharacters(Properties),
+                                                      IRangeSettings:GetRangeType(CollationComparisonItemCommon:GetComparisonRangeSettings(Properties)),
+                                                      IRangeSettings:GetRangeStart(CollationComparisonItemCommon:GetComparisonRangeSettings(Properties)),
+                                                      IRangeSettings:GetRangeEnd(CollationComparisonItemCommon:GetComparisonRangeSettings(Properties)),
+                                                      IRangeSettings:GetAiType(CollationComparisonItemCommon:GetComparisonRangeSettings(Properties))))
+    End Method
+
+    Method GetComparisonRangedInternalValue(this)
+    Begin
+        Return (StringUtility:GetRangeExtractedString(EventUtility:GetParameter(this, 0), CollationComparisonItemCommon:GetComparisonExclusionCharacters(Properties),
+                                                      IRangeSettings:GetRangeType(CollationComparisonItemCommon:GetComparisonRangeSettings(Properties)),
+                                                      IRangeSettings:GetRangeStart(CollationComparisonItemCommon:GetComparisonRangeSettings(Properties)),
+                                                      IRangeSettings:GetRangeEnd(CollationComparisonItemCommon:GetComparisonRangeSettings(Properties)),
+                                                      IRangeSettings:GetAiType(CollationComparisonItemCommon:GetComparisonRangeSettings(Properties))))
+    End Method
+End Package

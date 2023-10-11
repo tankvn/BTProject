@@ -1,0 +1,7 @@
+    Method ILr1DataItemScreenDataInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetLogItemControl"
+                InterfaceCommon:Result = GetLogItemControl(properties)
+        End Select
+    End Method

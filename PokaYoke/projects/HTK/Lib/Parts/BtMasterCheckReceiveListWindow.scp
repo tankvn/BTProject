@@ -1,0 +1,29 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtMasterCheckReceiveListWindowConstants"
+
+    /*Implements IMasterCheckDataOwnerControl*/
+
+#define DEF_INHERITS_BT_SCREEN
+#define DEF_ON_FORM_SHOWN BtMasterCheckReceiveListWindow_OnFormShown
+#insert "\Lib\Parts\BtScreen"
+
+    Properties[DEF_PROPERTY_NUM]
+
+    Method BtMasterCheckReceiveListWindow_OnFormShown()
+    Begin
+        BtMasterCheckReceiveListWindowCommon:UpdateVoucherListTableView(Properties)
+    End Method
+
+    Method _inputVoucherTextBox_DataInput(sender, sw)
+    Begin
+        BtMasterCheckReceiveListWindowCommon:AddVoucher(Properties, ILogItemControl:GetLogData(BtMasterCheckReceiveListWindowCommon:GetInputVoucherTextBox(Properties), 0))
+    End Method
+
+    Method _clearButton_DataInput(sender, sw)
+    Begin
+        BtMasterCheckReceiveListWindowCommon:ClearVoucher(Properties)
+    End Method
+
+
+#popdefine

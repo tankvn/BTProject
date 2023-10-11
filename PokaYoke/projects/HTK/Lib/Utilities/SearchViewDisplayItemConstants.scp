@@ -1,0 +1,8 @@
+#define DEF_COMMON SearchViewDisplayItemCommon
+
+    #define DEF_NAME_PROPERTY 0
+    #define DEF_DISPLAY_CONTROL_PROPERTY 1
+    #define DEF_COLUMNINDEX_PROPERTY 2
+    #define DEF_RANGE_EXTRACTED_STRING_HANDLER 3
+    #define DEF_TABLE_FIELD_NAME_HANDLER 4
+    #define DEF_PROPERTY_NUM 5

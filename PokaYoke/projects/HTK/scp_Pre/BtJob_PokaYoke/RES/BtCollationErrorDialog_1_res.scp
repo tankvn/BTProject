@@ -1,0 +1,152 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+#define DEF_FOCUS_TRANSITION_UTILITY BtCollationErrorDialog_1_FocusTransitionUtility
+#define DEF_EVENT_FORM_KEY_DOWN BtCollationErrorDialog_1:OnKeyDown
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtCollationErrorDialog_1_FocusTransitionUtility
+#include "\Lib\Utilities\FocusTransitionUtility" "..\Lib\Utilities\BtCollationErrorDialog_1_FocusTransitionUtility"
+#popdefine
+#define DEF_COLLATION_ERROR_DIALOG
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtCollationErrorDialog_1_BtLabel_Title
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtCollationErrorDialog_1_BtLabel_Title"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtCollationErrorDialog_1_BtLabel_Message1
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtCollationErrorDialog_1_BtLabel_Message1"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtCollationErrorDialog_1_BtLabel_Message2
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtCollationErrorDialog_1_BtLabel_Message2"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtCollationErrorDialog_1_BtButton_Exit
+#define DEF_EVENT_DATA_INPUT BtCollationErrorDialog_1:BtButton_Exit_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtCollationErrorDialog_1_BtButton_Exit"
+#popdefine
+
+
+Package BtCollationErrorDialog_1_res
+    #defineexpand DEF_INVERT_COLOR_CONTROL BtCollationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message2,BtLabelCommon
+    #defineexpand DEF_INVERT_FOCUS_COLOR_CONTROL BtCollationErrorDialog_1_BtButton_Exit,BtButtonCommon
+    #define DEF_PACKAGE_NAME BtCollationErrorDialog_1
+    #defineexpand DEF_EVENT_TIMER BtCollationErrorDialog_1_res:InvertControlColor
+    #defineexpand DEF_CONTROL BtCollationErrorDialog_1_BtLabel_Title,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message1,BtLabelCommon|BtCollationErrorDialog_1_BtLabel_Message2,BtLabelCommon|BtCollationErrorDialog_1_BtButton_Exit,BtButtonCommon
+    #insert "\Lib\Parts\BtForm"
+    Method InitializeComponent()
+    Begin
+        New()
+        BtFormCommon:SetTimerId(BtCollationErrorDialog_1_res:Properties, 2)
+        InitializeTimer()
+        With BtCollationErrorDialog_1_res
+            BtCollationErrorDialog_1_BtLabel_Title:Create(BtFormCommon:GetName(:Properties))
+            BtCollationErrorDialog_1_BtLabel_Message1:Create(BtFormCommon:GetName(:Properties))
+            BtCollationErrorDialog_1_BtLabel_Message2:Create(BtFormCommon:GetName(:Properties))
+            BtCollationErrorDialog_1_BtButton_Exit:Create(BtFormCommon:GetName(:Properties))
+        End With
+        
+        With BtCollationErrorDialog_1_BtLabel_Title
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 0)
+            BtLabelCommon:SetInitialText(:Properties, "DataMatch result")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 0)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtCollationErrorDialog_1_BtLabel_Message1
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "255|0|0")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 125)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 35)
+            BtLabelCommon:SetInitialText(:Properties, "Chk")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 120)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 1)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtCollationErrorDialog_1_BtLabel_Message2
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "255|0|0")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 125)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 160)
+            BtLabelCommon:SetInitialText(:Properties, "NG")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 120)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 2)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtCollationErrorDialog_1_BtButton_Exit
+            BtButtonCommon:SetText(:Properties, "OK")
+            BtButtonCommon:SetWidth(:Properties, 90)
+            BtButtonCommon:SetHeight(:Properties, 35)
+            BtButtonCommon:SetLeft(:Properties, 75)
+            BtButtonCommon:SetTop(:Properties, 285)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 30)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 3)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtCollationErrorDialog_1_res
+            BtFormCommon:SetBackColor(:Properties, "255|0|0")
+            BtFormCommon:SetWidth(:Properties, 240)
+            BtFormCommon:SetHeight(:Properties, 320)
+            BtFormCommon:SetLeft(:Properties, 0)
+            BtFormCommon:SetTop(:Properties, 0)
+            BtFormCommon:SetFormBorderStyle(:Properties, "none")
+        End With
+        
+    End Method
+End Package
