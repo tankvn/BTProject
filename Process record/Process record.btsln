@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BuilderProject FileVersion="2.3.1.0" ApplicationVersion="2.3.3.0" TerminalAppGuid="3BAB07EB-F4B2-412F-9558-75AA153E9D25" ServerAppGuid="09459227-AED9-4654-B62D-D3CDB25474EC">
+  <CodeDataId>BaseCodeData</CodeDataId>
+  <Template Id="RecordTemplate">
+    <TemplateJob Id="Record">
+      <TerminalJobKey>37c77f0b-bb19-4302-ac10-14a39b089d59</TerminalJobKey>
+      <ServerWindowKey>d6b9de5c-e76b-4197-893e-ad07dbcad659</ServerWindowKey>
+    </TemplateJob>
+  </Template>
+</BuilderProject>

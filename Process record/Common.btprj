@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PermanencyDocument version="0.2.0.0">
+  <CommonProjectSettings version="0.2.0.0">
+    <FileSettings>
+      <CommonFileSettings version="0.2.0.0">
+        <_removeUnusedResources>False</_removeUnusedResources>
+      </CommonFileSettings>
+    </FileSettings>
+  </CommonProjectSettings>
+</PermanencyDocument>
