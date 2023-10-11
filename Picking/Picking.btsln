@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BuilderProject FileVersion="2.3.1.0" ApplicationVersion="2.3.3.0" TerminalAppGuid="F6E711FF-9C30-4B00-8318-2C714FD54A05" ServerAppGuid="C58EAA9C-26B7-4EE2-9E78-E62CF433DF1E">
+  <CodeDataId>BaseCodeData</CodeDataId>
+  <Template Id="PickingTemplate">
+    <TemplateJob Id="Picking">
+      <TerminalJobKey>edaf918d-6bcc-4fdf-b654-e48f7149dbdf</TerminalJobKey>
+      <ServerWindowKey>7ad78900-6e36-4fa8-9797-5829327b5eb8</ServerWindowKey>
+    </TemplateJob>
+    <TemplateJob Id="ReceiveList">
+      <TerminalJobKey>90d2df91-7abf-444e-8fe9-e09934d1196b</TerminalJobKey>
+    </TemplateJob>
+  </Template>
+</BuilderProject>
