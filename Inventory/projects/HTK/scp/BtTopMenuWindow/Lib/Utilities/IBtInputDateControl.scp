@@ -1,0 +1,33 @@
+
+Package IBtInputDateControl
+    Names[1]
+    ICommons[1]
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetOutputPattern(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetOutputPattern", args, ICommons))
+    End Method
+
+    Method GetOutputSeparator(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetOutputSeparator", args, ICommons))
+    End Method
+
+    Method DisplayDate(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "DisplayDate", args, ICommons))
+    End Method
+
+End Package
+

@@ -1,0 +1,103 @@
+
+Package IBtInputControl
+    Names[15]
+    ICommons[15]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_Inventory_BtLabel_ItemNo"
+        ICommons[0] = BtWindow_Inventory_BtLabel_ItemNo:IBtInputControlInvoke
+        Names[1] = "BtWindow_Inventory_BtTextBox_ItemNo"
+        ICommons[1] = BtWindow_Inventory_BtTextBox_ItemNo:IBtInputControlInvoke
+        Names[2] = "BtWindow_Inventory_BtLabel_Quantity"
+        ICommons[2] = BtWindow_Inventory_BtLabel_Quantity:IBtInputControlInvoke
+        Names[3] = "BtWindow_Inventory_BtTextBox_Quantity"
+        ICommons[3] = BtWindow_Inventory_BtTextBox_Quantity:IBtInputControlInvoke
+        Names[4] = "BtWindow_Inventory_BtLabel_Person"
+        ICommons[4] = BtWindow_Inventory_BtLabel_Person:IBtInputControlInvoke
+        Names[5] = "BtWindow_Inventory_BtTextBox_Person"
+        ICommons[5] = BtWindow_Inventory_BtTextBox_Person:IBtInputControlInvoke
+        Names[6] = "BtWindow_Inventory_BtLabel_DataCount"
+        ICommons[6] = BtWindow_Inventory_BtLabel_DataCount:IBtInputControlInvoke
+        Names[7] = "BtWindow_Inventory_BtLabel_DataCountDisplay"
+        ICommons[7] = BtWindow_Inventory_BtLabel_DataCountDisplay:IBtInputControlInvoke
+        Names[8] = "BtWindow_Inventory_BtLabel_Title"
+        ICommons[8] = BtWindow_Inventory_BtLabel_Title:IBtInputControlInvoke
+        Names[9] = "BtHistoryDataView_Inventory_BtLabel_Title"
+        ICommons[9] = BtHistoryDataView_Inventory_BtLabel_Title:IBtInputControlInvoke
+        Names[10] = "BtHistoryDataView_Inventory_BtLabel_DataCountDisplay"
+        ICommons[10] = BtHistoryDataView_Inventory_BtLabel_DataCountDisplay:IBtInputControlInvoke
+        Names[11] = "BtHistoryDataView_Inventory_BtTableView_HistoryData"
+        ICommons[11] = BtHistoryDataView_Inventory_BtTableView_HistoryData:IBtInputControlInvoke
+        Names[12] = "BtCommunicationErrorDialog_1_BtLabel_Title"
+        ICommons[12] = BtCommunicationErrorDialog_1_BtLabel_Title:IBtInputControlInvoke
+        Names[13] = "BtCommunicationErrorDialog_1_BtLabel_Message1"
+        ICommons[13] = BtCommunicationErrorDialog_1_BtLabel_Message1:IBtInputControlInvoke
+        Names[14] = "BtCommunicationErrorDialog_1_BtLabel_Message2"
+        ICommons[14] = BtCommunicationErrorDialog_1_BtLabel_Message2:IBtInputControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetTabIndex(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetTabIndex", args, ICommons))
+    End Method
+
+    Method SetTabIndex(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetTabIndex", args, ICommons))
+    End Method
+
+    Method GetVisible(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetVisible", args, ICommons))
+    End Method
+
+    Method SetVisible(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetVisible", args, ICommons))
+    End Method
+
+    Method GetIsPartOfControl(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetIsPartOfControl", args, ICommons))
+    End Method
+
+    Method SetIsPartOfControl(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetIsPartOfControl", args, ICommons))
+    End Method
+
+    Method Reset(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "Reset", args, ICommons))
+    End Method
+
+    Method StoreTemporaryText(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "StoreTemporaryText", args, ICommons))
+    End Method
+
+    Method ResetTemporaryText(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "ResetTemporaryText", args, ICommons))
+    End Method
+
+End Package
+

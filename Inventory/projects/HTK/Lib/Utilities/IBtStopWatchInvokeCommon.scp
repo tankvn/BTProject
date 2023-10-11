@@ -1,0 +1,11 @@
+    Method IBtStopWatchInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+            Case "GetStartStopButtonName"
+                InterfaceCommon:Result = GetStartStopButtonName(properties)
+            Case "Clear"
+                InterfaceCommon:Result = Clear(properties)
+        End Select
+    End Method

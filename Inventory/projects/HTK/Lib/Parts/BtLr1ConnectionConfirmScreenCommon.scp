@@ -1,0 +1,33 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtLr1ConnectionConfirmScreenConstants"
+
+Package BtLr1ConnectionConfirmScreenCommon
+
+#define DEF_INHERITS_BT_SCREEN
+#insert "\Lib\Parts\BtScreenCommon"
+
+    Method GetBdAddressList(properties[]) Begin Return(properties[DEF_BDADDRESSLIST_PROPERTY]) End Method
+    Method SetBdAddressList(properties[], value) Begin properties[DEF_BDADDRESSLIST_PROPERTY] = value End Method
+
+    Method ToUpper(str)
+        bin[13]
+        str2
+        i
+    Begin
+        If (str is nil) Then Return("") End If
+        If (12 < str.length) Then Return("") End If
+
+        bin = str.UnpackBin()
+        For i = 0 To str.length - 1
+            If 0x61 <= bin[i] And bin[i] <= 0x7a Then
+                bin[i] = bin[i] - 0x20
+            End If
+        Next
+        str2 = bin.PackBin()
+        Return(str2)
+    End Method
+
+End Package
+
+#popdefine

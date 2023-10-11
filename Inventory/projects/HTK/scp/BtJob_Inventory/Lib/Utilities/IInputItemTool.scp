@@ -1,0 +1,31 @@
+
+Package IInputItemTool
+
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_Inventory_BtTextBox_ItemNo"
+        ICommons[0] = BtWindow_Inventory_BtTextBox_ItemNo:IInputItemToolInvoke
+    End Method
+
+    Method IsImplemented(toolName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(toolName, Names))
+    End Method
+
+    Method CheckAndFixDisplayText(toolName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(toolName, Names, "CheckAndFixDisplayText", args, ICommons))
+    End Method
+
+    Method EnterData(toolName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(toolName, Names, "EnterData", args, ICommons))
+    End Method
+
+End Package
+

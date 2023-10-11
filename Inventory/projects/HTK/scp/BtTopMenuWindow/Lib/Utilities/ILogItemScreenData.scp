@@ -1,0 +1,52 @@
+
+Package ILogItemScreenData
+    Names[3]
+    ICommons[3]
+
+    Method New()
+    Begin
+        Names[0] = "BtJob_Inventory_LogItem_3"
+        ICommons[0] = BtJob_Inventory_LogItem_3:ILogItemScreenDataInvoke
+        Names[1] = "BtJob_Inventory_LogItem_4"
+        ICommons[1] = BtJob_Inventory_LogItem_4:ILogItemScreenDataInvoke
+        Names[2] = "BtJob_Inventory_LogItem_5"
+        ICommons[2] = BtJob_Inventory_LogItem_5:ILogItemScreenDataInvoke
+    End Method
+
+    Method IsImplemented(logItemName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(logItemName, Names))
+    End Method
+
+    Method GetLogItemControlName(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetLogItemControlName", args, ICommons))
+    End Method
+
+    Method GetLogEditType(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetLogEditType", args, ICommons))
+    End Method
+
+    Method GetDecimalPlaces(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetDecimalPlaces", args, ICommons))
+    End Method
+
+    Method GetDateFormatType(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetDateFormatType", args, ICommons))
+    End Method
+
+    Method GetDateSeparatorType(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetDateSeparatorType", args, ICommons))
+    End Method
+
+End Package
+

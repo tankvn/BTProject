@@ -1,0 +1,23 @@
+
+Package ILr1DataItemScreenData
+
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(lr1DataItemName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(lr1DataItemName, Names))
+    End Method
+
+    Method GetLogItemControl(lr1DataItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "GetLogItemControl", args, ICommons))
+    End Method
+
+End Package
+

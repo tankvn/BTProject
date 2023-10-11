@@ -1,0 +1,185 @@
+Package DB_DAT
+    _db_idx = -1
+    _lastIdx = 0
+
+    Method Open(dbName)
+    Begin
+        If _db_idx <> -1 Then Return(_db_idx) End If
+        FileSystem:Delete(dbName & "-journal")
+        _db_idx = SQLite:Open(dbName)
+        If _db_idx <= 0 Then _db_idx = -1 End If
+        SQLite:Execute(_db_idx, "BEGIN;")
+        SQLite:Execute(_db_idx, "SQLITE_SQL_STRING_IN_LOGFILE_OFF;")
+        Return(_db_idx)
+    End Method
+
+    Method Close()
+    Begin
+        SQLite:Execute(_db_idx, "COMMIT;")
+        SQLite:Execute(_db_idx, "VACUUM;")
+        SQLite:Close(_db_idx)
+        _db_idx = -1
+    End Method
+
+    Method Clear(tbl_name)
+    Begin
+        If _db_idx <= 0 Then Return() End If
+        SQLite:Execute(_db_idx, "DROP TABLE IF EXISTS " & tbl_name & ";")
+    End Method
+
+    Method Add(tbl_name, key, data)
+    Begin
+        If _db_idx <= 0 Then Return() End If
+        If sub_TblExist(tbl_name) is false Then
+            SQLite:Execute(_db_idx, "CREATE TABLE IF NOT EXISTS " & tbl_name & "(Item_1, Item_2);")
+        End If
+        SQLite:Execute(_db_idx, "INSERT INTO " & tbl_name & " VALUES('" & key & "', '" & data & "');")
+        Return()
+    End Method
+
+    Method Get(tbl_name, key)
+    Begin
+        Return(sub_Get(tbl_name, key, 0))
+    End Method
+
+    Method GetNext(tbl_name, key)
+    Begin
+        Return(sub_Get(tbl_name, key, 1))
+    End Method
+
+    Method Get_Idx(tbl_name, key, idx)
+    Begin
+        _lastIdx = idx
+        Return(sub_Get(tbl_name, key, 2))
+    End Method
+
+    Method Get_Offset(tbl_name, key, idx)
+    Begin
+        _lastIdx = idx
+        Return(sub_Get(tbl_name, key, 3))
+    End Method
+
+    Method sub_Get(tbl_name, key, mode)
+        c_idx
+        data = nil
+        ret
+    Begin
+        If _db_idx <= 0 Then Return() End If
+        c_idx = SQLiteCommand:Create(_db_idx)
+        If mode == 0 Then
+            ret = SQLiteCommand:SetCommandText(c_idx, "SELECT ROWID,* FROM " & tbl_name & " WHERE Item_1 = '" & key & "' LIMIT 1;")
+        ElseIf mode == 1 Then
+            ret = SQLiteCommand:SetCommandText(c_idx, "SELECT ROWID,* FROM " & tbl_name & " WHERE Item_1 = '" & key & "' AND ROWID > " & _lastIdx & " LIMIT 1;")
+        ElseIf mode == 2 Then
+            ret = SQLiteCommand:SetCommandText(c_idx, "SELECT ROWID,* FROM " & tbl_name & " WHERE Item_1 = '" & key & "' AND ROWID = " & _lastIdx & ";")
+        Else
+            ret = SQLiteCommand:SetCommandText(c_idx, "SELECT ROWID,* FROM " & tbl_name & " WHERE Item_1 = '" & key & "' LIMIT 1 OFFSET " & _lastIdx & ";")
+        End If
+        If ret is false Then
+            SQLiteCommand:Delete(c_idx)
+            Return(data)
+        End If
+        SQLiteCommand:ExecuteReader(c_idx)
+        If SQLiteCommand:Read(c_idx) == 1 Then
+            _lastIdx = SQLiteCommand:Value(c_idx, 0)
+            data = SQLiteCommand:Value(c_idx, 2)
+            If key eq "" And data eq "" Then data = nil End If
+        End If
+        SQLiteCommand:Delete(c_idx)
+        Return(data)
+    Catch
+        If c_idx >= 1 Then
+            SQLiteCommand:Delete(c_idx)
+        End If
+        Return(nil)
+    End Method
+
+    Method Delete_All(tbl_name, key)
+    Begin
+        If _db_idx <= 0 Then Return() End If
+        SQLite:Execute(_db_idx, "DELETE FROM " & tbl_name & " WHERE Item_1 = '" & key & "';")
+        SQLite:Execute(_db_idx, "DELETE FROM sqlite_sequence WHERE name = '" & tbl_name & "';")
+    End Method
+
+    Method Delete_Idx(tbl_name, key, idx)
+    Begin
+        If _db_idx <= 0 Then Return() End If
+        SQLite:Execute(_db_idx, "DELETE FROM " & tbl_name & " WHERE Item_1 = '" & key & "' AND ROWID = " & idx & ";")
+    End Method
+
+    Method Delete_Offset(tbl_name, key, idx)
+        i
+    Begin
+        If _db_idx <= 0 Then Return() End If
+        _lastIdx = 0
+        For i = 0 To idx
+            GetNext(tbl_name, key)
+        Next
+        SQLite:Execute(_db_idx, "DELETE FROM " & tbl_name & " WHERE Item_1 = '" & key & "' AND ROWID = " & _lastIdx & ";")
+    End Method
+
+    Method Update_Idx(tbl_name, key, idx, data)
+    Begin
+        If _db_idx <= 0 Then Return() End If
+        SQLite:Execute(_db_idx, "UPDATE " & tbl_name & " SET Item_2 = '"& data &"' WHERE Item_1 = '" & key & "' AND ROWID = " & idx & ";")
+    End Method
+
+    Method Update_Offset(tbl_name, key, idx, data)
+        i
+    Begin
+        If _db_idx <= 0 Then Return() End If
+        _lastIdx = 0
+        For i = 0 To idx
+            GetNext(tbl_name, key)
+        Next
+        SQLite:Execute(_db_idx, "UPDATE " & tbl_name & " SET Item_2 = '"& data &"' WHERE Item_1 = '" & key & "' AND ROWID = " & _lastIdx & ";")
+    End Method
+
+    Method Count(tbl_name, key)
+        c_idx
+        data = 0
+    Begin
+        If _db_idx <= 0 Then Return(0) End If
+        c_idx = SQLiteCommand:Create(_db_idx)
+        If SQLiteCommand:SetCommandText(c_idx, "SELECT COUNT(*) FROM " & tbl_name & " WHERE Item_1 = '" & key & "';") is false Then
+            SQLiteCommand:Delete(c_idx)
+            Return(data)
+        End If
+        SQLiteCommand:ExecuteReader(c_idx)
+        If SQLiteCommand:Read(c_idx) == 1 Then
+            data = SQLiteCommand:Value(c_idx, 0)
+        End If
+        SQLiteCommand:Delete(c_idx)
+        Return(data)
+    Catch
+        If c_idx >= 1 Then
+            SQLiteCommand:Delete(c_idx)
+        End If
+        Return(0)
+    End Method
+
+    Method sub_TblExist(tbl_name)
+        c_idx
+        ret = false
+        data
+    Begin
+        If _db_idx <= 0 Then Return() End If
+        c_idx = SQLiteCommand:Create(_db_idx)
+        If SQLiteCommand:SetCommandText(c_idx, "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = '" & tbl_name & "';") is false Then
+            SQLiteCommand:Delete(c_idx)
+            Return(ret)
+        End If
+        SQLiteCommand:ExecuteReader(c_idx)
+        If SQLiteCommand:Read(c_idx) == 1 Then
+            data = SQLiteCommand:Value(c_idx, 0)
+            If data <> 0 Then ret = true End If
+        End If
+        SQLiteCommand:Delete(c_idx)
+        Return(ret)
+    Catch
+        If c_idx >= 1 Then
+            SQLiteCommand:Delete(c_idx)
+        End If
+        Return(ret)
+    End Method
+End Package

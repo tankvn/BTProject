@@ -1,0 +1,124 @@
+Package PathUtility
+
+    Method GetApplicationLogDirectory()
+    Begin
+        Return("1:")
+    End Method
+
+    Method IsFileExist(filename)
+    Begin
+        If (filename eq "" Or (Not FileSystem:FindFirst(filename) is true)) Then
+            Return(False)
+        End If
+        Return(True)
+    End Method
+
+    Method StorageTypeToPath(storageDestination)
+    Begin
+        If (storageDestination is nil) Then
+            Return ("")
+        End If
+
+        If storageDestination == 1 Then
+            Return("1:")
+        ElseIf storageDestination == 2 Then
+            Return("2:")
+        ElseIf storageDestination == 5 Then
+            Return("5:")
+        Else
+            Return("")
+        End If
+    End Method
+
+    Method SplitDriveNameAndPath(drivePath, value[])
+    Begin
+        If drivePath.Mid(1,1) eq ":" Then
+            value[0] = drivePath.Left(2)
+            value[1] = drivePath.Mid(2, drivePath.length-2)
+        Else
+            value[0] = "2:"
+            value[1] = drivePath
+        End If
+    End Method
+
+    Method Combine(filePath, fileName)
+       result
+    Begin
+        Select Case filePath
+            Case
+                "0:",
+                "1:",
+                "2:",
+                "3:",
+                "5:"
+
+                result = filePath & fileName
+            Case ""
+                result = fileName
+            Case Else
+                If fileName.Mid(0, 1) eq "\\" Then
+                    result = fileName
+                Else
+                    result = filePath & "\\" & fileName
+                End If
+        End Select
+        Return(result)
+    End Method
+
+    Method GetFileNameWithoutExtension(pathFile)
+        nameLength = pathFile.length
+        lastNamePos
+        startNamePos
+    Begin
+        lastNamePos = pathFile.Rfind(".", nameLength - 1)
+        If (lastNamePos is nil) Then
+            lastNamePos = nameLength - 1
+        Else
+            lastNamePos = lastNamePos - 1
+        End If
+
+        startNamePos = pathFile.Rfind("\\", nameLength - 1)
+        If (startNamePos is nil) Then
+            startNamePos = pathFile.Rfind(":", nameLength - 1)
+            If (startNamePos is nil) Then
+                startNamePos = 0
+            Else
+                startNamePos = startNamePos + 1
+            End If
+        End If
+
+        If (lastNamePos < startNamePos) Then
+            Return ("")
+        End If
+
+        Return (pathFile.Mid(startNamePos, lastNamePos - startNamePos + 1))
+    End Method
+
+    Method GetDirectoryName(pathFile)
+        nameLength = pathFile.length
+        lastDirectoryPos
+    Begin
+        lastDirectoryPos = pathFile.Rfind("\\", nameLength - 1)
+        If (lastDirectoryPos is nil) Then
+            lastDirectoryPos = pathFile.Rfind(":", nameLength - 1)
+            If (lastDirectoryPos is nil) Then
+                Return ("")
+            End If
+        End If
+
+        Return (pathFile.Mid(0, lastDirectoryPos + 1))
+    End Method
+
+    Method GetExtension(pathFile)
+        nameLength = pathFile.length
+        startExtPos
+    Begin
+        startExtPos = pathFile.Rfind(".", nameLength - 1)
+        If (startExtPos is nil) Then
+            Return ("")
+        End If
+
+        Return (pathFile.Mid(startExtPos, (nameLength - 1) - startExtPos + 1))
+    End Method
+
+End Package

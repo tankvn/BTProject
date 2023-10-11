@@ -1,0 +1,140 @@
+Package TimeUtility
+
+    Const COMMON_TIME_FORMAT = 0
+
+    Method ToTimeFromCommonFormat(dateText)
+    Begin
+        Return(ToTime(dateText, COMMON_TIME_FORMAT))
+    End Method
+
+    Method ToTime(timeText, timeFormat)
+        ary[3]
+    Begin
+        If timeFormat == 0 Then ary = timeText.split(":")
+        Else ary[0] = timeText.Mid(0, 2) ary[1] = timeText.Mid(2, 2) ary[2] = timeText.Mid(4, 2) End If
+        Return(ary.Merge(":"))
+    Catch
+        ErrorManager:SetError("The conversion to a time failed.")
+        Return("")
+    End Method
+
+    Method FormatCommonTime(formatTarget)
+    Begin
+        Return(FormatTime(formatTarget, COMMON_TIME_FORMAT))
+    End Method
+
+    Method FormatTime(formatTarget, timeFormat)
+        format
+    Begin
+        format = GetTimeFormatString(0)
+        Return(ConvertTimeFormat(formatTarget, format, 0))
+    End Method
+
+    Method GetTimeFormatString(timeFormat)
+        format = ""
+    Begin
+        If timeFormat == 0 Then
+            format = 0
+        ElseIf timeFormat == 1 Then
+            format = 1
+        End If
+        Return(format)
+    End Method
+
+    Method ConvertTimeFormat(formatTarget, format, timeFormat)
+        ary[3]
+    Begin
+        If format == 0 Then
+            ary = formatTarget.split(":")
+        Else
+            ary[0] = formatTarget.Mid(0, 2)
+            ary[1] = formatTarget.Mid(2, 2)
+            ary[2] = formatTarget.Mid(4, 2)
+        End If
+
+        If timeFormat == 0 Then Return(ary.Merge(":"))
+        Else Return(ary[0] & ary[1] & ary[2]) End If
+    Catch
+        ErrorManager:SetError("The conversion to the time format failed.")
+        Return("")
+    End Method
+
+    Method ToTimeForJudge(timeText)
+        val1
+        val2
+        val3
+    Begin
+        If timeText.length == 4 Then
+            val1 = timeText.Mid(0, 2)
+            val2 = timeText.Mid(2, 2)
+        ElseIf timeText.length == 5 Then
+            val1 = timeText.Mid(0, 2)
+            val2 = timeText.Mid(3, 2)
+        ElseIf timeText.length == 6 Then
+            val1 = timeText.Mid(0, 2)
+            val2 = timeText.Mid(2, 2)
+            val3 = timeText.Mid(4, 2)
+        ElseIf timeText.length == 8 Then
+            val1 = timeText.Mid(0, 2)
+            val2 = timeText.Mid(3, 2)
+            val3 = timeText.Mid(6, 2)
+        Else Return("") End If
+
+        If Not (val1.isInt And val2.isInt) Then Return ("") End If
+        If val1 < 0 Or 23 < val1 Then Return("") End If
+        If val2 < 0 Or 59 < val2 Then Return("") End If
+        If not val3 is nil Then
+            If Not val3.isInt Then Return ("") End If
+            If val3 < 0 Or 59 < val3 Then Return("") End If
+            Return(val1 & ":" & val2 & ":" & val3)
+        Else
+            Return(val1 & ":" & val2)
+        End If
+    End Method
+
+    Method Judge(judgeKind, sourceTime, destinationTime, isCompareIncludeSeconds)
+        result = false
+    Begin
+        If sourceTime is nil Or destinationTime is nil Then Return(False) End If
+        If sourceTime eq "" Or destinationTime eq "" Then Return(False) End If
+
+        If sourceTime.length == 8 And destinationTime.length == 8 Then isCompareIncludeSeconds = true
+        Else isCompareIncludeSeconds = false End If
+
+        If judgeKind == 0 Or judgeKind == 2 Then
+            result = (Compare(sourceTime, destinationTime, isCompareIncludeSeconds) == 0)
+        ElseIf judgeKind == 1 Or judgeKind == 3 Then
+            result = (Compare(sourceTime, destinationTime, isCompareIncludeSeconds) <> 0)
+        ElseIf judgeKind == 5 Then
+            result = (Compare(sourceTime, destinationTime, isCompareIncludeSeconds) < 0)
+        ElseIf judgeKind == 6 Then
+            result = (Compare(sourceTime, destinationTime, isCompareIncludeSeconds) > 0)
+        ElseIf judgeKind == 7 Then
+            result = (Compare(sourceTime, destinationTime, isCompareIncludeSeconds) <= 0)
+        ElseIf judgeKind == 4 Or judgeKind == 8 Then
+            result = (Compare(sourceTime, destinationTime, isCompareIncludeSeconds) >= 0)
+        End If
+        Return(result)
+    Catch
+        Return(result)
+    End Method
+
+    Method Compare(sourceTime, destinationTime, isCompareIncludeSeconds)
+        src[3]
+        dst[3]
+    Begin
+        src = sourceTime.split(":")
+        dst = destinationTime.split(":")
+        If src[0] > dst[0] Then Return(1)
+        ElseIf src[0] < dst[0] Then Return(-1)
+        ElseIf src[1] > dst[1] Then Return(1)
+        ElseIf src[1] < dst[1] Then Return(-1)
+        ElseIf isCompareIncludeSeconds is True Then
+            If src[2] > dst[2] Then Return(1)
+            ElseIf src[2] < dst[2] Then Return(-1)
+            End If
+        End If
+        Return(0)
+    End Method
+
+End Package

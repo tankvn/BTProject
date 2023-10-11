@@ -1,0 +1,657 @@
+#insert "\Lib\Utilities\DateUtilityConstants"
+
+Package DateUtility
+
+    Const SEPARATOR_HYPHEN = "-"
+
+    Const SEPARATOR_DOT = "."
+
+    Const SEPARATOR_SLASH = "/"
+
+    Const SEPARATOR_SPACE = " "
+
+    Const COMMON_DATE_FORMAT = DATE_PATTERN_YYYYMMDD
+
+    Const COMMON_DATE_SEPARATOR = DATE_SEPARATOR_HYPHEN
+
+    Const COMMON_TIME_FORMAT = TIME_FORMAT_HOURS_COLON_MINUTES_COLON_SECONDS
+
+    Const SHORT_YEAR_MAX = 2079
+
+    Const HANDY_DATE_FORMAT = DATE_PATTERN_YYYYMMDD
+
+    Const HANDY_DATE_SEPARATOR = DATE_SEPARATOR_SLASH
+
+    FormatTable[FORMAT_NUM*FORMAT_TYPE_NUM] = {
+        "YYYYMMDD", 4, 2, 2, 0,
+        "YYYYMM"  , 4, 2, 0, 0,
+        "YYMMDD"  , 2, 2, 2, 0,
+        "YYMM"    , 2, 2, 0, 0,
+        "MMDDYYYY", 4, 2, 2, 1,
+        "MMYYYY"  , 4, 2, 0, 1,
+        "MMDDYY"  , 2, 2, 2, 1,
+        "MMYY"    , 2, 2, 0, 1,
+        "DDMMYYYY", 4, 2, 2, 2,
+        "DDMMYY"  , 2, 2, 2, 2
+    }
+
+    Method ToDateFromCommonFormat(dateText)
+    Begin
+        Return(ToDate(dateText, COMMON_DATE_FORMAT, COMMON_DATE_SEPARATOR))
+    End Method
+
+    Method ToDate(dateText, dateFormat, dateSeparator)
+    Begin
+        Return(ChangeFormat2Default(dateText, dateFormat, dateSeparator))
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_CONVERT_STRING_TO_DATE)
+        Return("")
+    End Method
+
+    Method GetDateFormatString(dateFormat, separator)
+    Begin
+        Return(dateFormat)
+    End Method
+
+    Method GetOcrDateFormatString(dateFormat, separator)
+    Begin
+        If dateFormat == OCR_DATE_OUTPUT_PATTERN_YYYYMMDD Or dateFormat == OCR_DATE_OUTPUT_PATTERN_YYYYMM Or dateFormat == OCR_DATE_OUTPUT_PATTERN_YYMMDD Or dateFormat == OCR_DATE_OUTPUT_PATTERN_YYMM Then
+            Return(GetDateFormatString(dateFormat, separator))
+        End If
+        Return(GetDateFormatString(DATE_PATTERN_YYYYMMDD, separator))
+    End Method
+
+    Method FormatCommonDate(formatTarget)
+    Begin
+        Return(FormatDate(formatTarget, COMMON_DATE_FORMAT, COMMON_DATE_SEPARATOR))
+    End Method
+
+    Method FormatDate(formatTarget, dateFormat, dateSeparatorType)
+        separatorString
+        formatString
+    Begin
+        formatTarget = formatTarget.Left(10)
+        separatorString = GetDateSeparator(dateSeparatorType)
+        formatString = GetDateFormatString(dateFormat, separatorString)
+        Return(ChangeDefault2Format(formatTarget, formatString, separatorString))
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_FORMAT_DATE)
+        Return("")
+    End Method
+
+    Method GetDateSeparator(dateSeparator)
+        separator = ""
+    Begin
+        If dateSeparator == DATE_SEPARATOR_SLASH Then
+            separator = SEPARATOR_SLASH
+        ElseIf dateSeparator == DATE_SEPARATOR_PERIOD Then
+            separator = SEPARATOR_DOT
+        ElseIf dateSeparator == DATE_SEPARATOR_HYPHEN Then
+            separator = SEPARATOR_HYPHEN
+        ElseIf dateSeparator ==  DATE_SEPARATOR_SPACE Then
+            separator = SEPARATOR_SPACE
+        End If
+        Return(separator)
+    End Method
+
+    Method RoundDate(targetDate, minDateTime, maxDateTime)
+    Begin
+        If 0 < Compare(minDateTime, targetDate, true) Then
+            Return(minDateTime)
+        ElseIf 0 < Compare(targetDate, maxDateTime, true) Then
+            Return(maxDateTime)
+        End If
+        Return(targetDate)
+    End Method
+
+    Method Judge(judgeKind, sourceDate, destinationDate, calculationType, calculationUnit, calculationValue, isCompareIncludeDay)
+        result
+        sourceFixedDate
+        destinationCalculatedDate
+    Begin
+        If (sourceDate is nil) Or (destinationDate is nil) Then Return(false) End If
+        If (sourceDate eq "") Or (destinationDate eq "") Then Return(false) End If
+
+        If ((calculationType == OPERATION_KIND_DIVISION) Or (calculationType == OPERATION_KIND_MULTIPLICATION)) Then
+            Return(false)
+        End If
+
+        sourceFixedDate = sourceDate
+        destinationCalculatedDate = CalculateDate(destinationDate, calculationType, calculationUnit, calculationValue)
+
+        If (judgeKind == JUDGE_KIND_MATCH) Or (judgeKind == JUDGE_KIND_EQUAL) Then
+            result = (Compare(sourceFixedDate, destinationCalculatedDate, isCompareIncludeDay) == 0)
+        ElseIf (judgeKind == JUDGE_KIND_MISMATCH) Or (judgeKind == JUDGE_KIND_NOT_EQUAL) Then
+            result = (Compare(sourceFixedDate, destinationCalculatedDate, isCompareIncludeDay) <> 0)
+        ElseIf judgeKind == JUDGE_KIND_GREATER Then
+            result = (Compare(sourceFixedDate, destinationCalculatedDate, isCompareIncludeDay) < 0)
+        ElseIf judgeKind == JUDGE_KIND_LESS Then
+            result = (Compare(sourceFixedDate, destinationCalculatedDate, isCompareIncludeDay) > 0)
+        ElseIf judgeKind == JUDGE_KIND_GREATER_OR_EQUAL Then
+            result = (Compare(sourceFixedDate, destinationCalculatedDate, isCompareIncludeDay) <= 0)
+        ElseIf (judgeKind == JUDGE_KIND_INCLUDED) Or (judgeKind == JUDGE_KIND_LESS_OR_EQUAL) Then
+            result = (Compare(sourceFixedDate, destinationCalculatedDate, isCompareIncludeDay) >= 0)
+        End If
+        Return(result)
+    Catch
+        Return(result)
+    End Method
+
+    Method CalculateDate(targetDate, calculationType, calculationTarget, value)
+        processType
+    Begin
+        If calculationType == OPERATION_KIND_NONE Then
+            Return(targetDate)
+        ElseIf calculationType == OPERATION_KIND_SUBTRACTION Then
+            If calculationTarget == OPERATION_UNIT_YEAR Then
+                value = value * MONTH_MAX
+                processType = DEF_PROCESS_TYPE_SUBTRACT_MONTH
+            ElseIf calculationTarget == OPERATION_UNIT_MONTH Then
+                processType = DEF_PROCESS_TYPE_SUBTRACT_MONTH
+            Else
+                processType = DEF_PROCESS_TYPE_SUBTRACT_DAY
+            End If
+        Else
+            If calculationTarget == OPERATION_UNIT_YEAR Then
+                value = value * MONTH_MAX
+                processType = DEF_PROCESS_TYPE_ADD_MONTH
+            ElseIf calculationTarget == OPERATION_UNIT_MONTH Then
+                processType = DEF_PROCESS_TYPE_ADD_MONTH
+            Else
+                processType = DEF_PROCESS_TYPE_ADD_DAY
+            End If
+        End If
+        Return(CalculateDateCore(targetDate, processType, value))
+    End Method
+
+    Method IsIncludeDay(datePattern)
+    Begin
+        If ((datePattern == DATE_PATTERN_YYYYMM) Or (datePattern == DATE_PATTERN_MMYYYY) Or (datePattern == DATE_PATTERN_YYMM) Or (datePattern == DATE_PATTERN_MMYY)) Then
+            Return(false)
+        End If
+        Return(true)
+    End Method
+
+    Method Compare(sourceDate, destinationDate, compareIncludeDay)
+        src[3]
+        dst[3]
+    Begin
+        src = sourceDate.split("/")
+        dst = destinationDate.split("/")
+
+        If src[0] > dst[0] Then Return(1)
+        ElseIf src[0] < dst[0] Then Return(-1)
+        ElseIf src[1] > dst[1] Then Return(1)
+        ElseIf src[1] < dst[1] Then Return(-1)
+        ElseIf compareIncludeDay is true Then
+            If src[2] > dst[2] Then Return(1)
+            ElseIf src[2] < dst[2] Then Return(-1)
+            End If
+        End If
+        Return(0)
+    End Method
+
+    Method ChangeHandyDate(dateText, format, separator)
+    Begin
+        Return(ChangeFormat(dateText, format, separator, HANDY_DATE_FORMAT, HANDY_DATE_SEPARATOR))
+    End Method
+
+    Method IsLeapYear(year)
+    Begin
+        If (year % 400 == 0) Then
+            Return(true)
+        ElseIf (year % 4 == 0) And (year % 100 <> 0) Then
+            Return(true)
+        End If
+        Return(false)
+    End Method
+
+    Method IsDateFormat(date)
+    Begin
+        Utility:AddDate(date, 0)
+        Return(true)
+    Catch
+        Return(false)
+    End Method
+
+    Method IsTimeFormat(time)
+        val
+    Begin
+        val = time.Mid(0, 2)
+        If (val < HOUR_MIN) Or (HOUR_MAX < val) Then Return(false) End If
+
+        val = time.Mid(3, 2)
+        If (val < MINUTE_MIN) Or (MINUTE_MAX < val) Then Return(false) End If
+        Return(true)
+    Catch
+        Return(false)
+    End Method
+
+    Method IsDateTimeFormat(date)
+    Begin
+        If date.length <> 19 Then Return(false) End If
+        If IsDateFormat(date.Left(10)) is false Then Return(false) End If
+        If date.Mid(10, 1) ne " " Then Return(false) End If
+        If IsTimeFormat(date.Mid(11, 8)) is false Then Return(false) End If
+        Return(true)
+    End Method
+
+    Method IsNumber(str)
+    Begin
+        Return(str.isInt)
+    End Method
+
+    Method CheckDate(year, month, day)
+        daysOfMonth[MONTH_MAX] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+    Begin
+        If IsNumber(year) is false Then Return(false) End If
+        If IsNumber(month) is false Then Return(false) End If
+        If IsNumber(day) is false Then Return(false) End If
+
+        If (year < YEAR_MIN) Or (YEAR_MAX < year) Then Return(false) End If
+        If (month < MONTH_MIN) Or (MONTH_MAX < month) Then Return(false) End If
+
+        If IsLeapYear(year) is true Then
+            daysOfMonth[1] = 29
+        End If
+        If (day < 1) Or (daysOfMonth[month - 1] < day) Then Return(false) End If
+        Return(true)
+    End Method
+
+    Method SeparateDate(str, format, separator, dateString[])
+        index
+        separatorLength = 0
+        date[3]
+        dateLength[3]
+        offset
+        yearLength
+        monthLength
+        dayLength
+        dateFormat
+    Begin
+        If str is nil Then Return(-1) End If
+        If str eq "" Then Return(-1) End If
+        separatorLength = separator.length
+        For index = 0 to FORMAT_NUM - 1
+            offset = index * FORMAT_TYPE_NUM
+            If format ne FormatTable[offset] Then Fcontinue End If
+
+            yearLength = FormatTable[offset + DEF_YEAR_DIGIT_INDEX]
+            monthLength = FormatTable[offset + DEF_MONTH_DIGIT_INDEX]
+            dayLength = FormatTable[offset + DEF_DAY_DIGIT_INDEX]
+            dateFormat = FormatTable[offset + DEF_DATE_FORMAT_INDEX]
+            If dayLength <> 0 Then
+                If str.length <> FormatTable[offset].length + (separatorLength * 2) Then Return(-1) End If
+            Else
+                If str.length <> FormatTable[offset].length + separatorLength Then Return(-1) End If
+            End If
+            If 0 < separatorLength Then 
+                If dateFormat == DEF_DATE_FORMAT_YYYYMMDD Then
+                    dateLength[0] = yearLength
+                    dateLength[1] = monthLength
+                    dateLength[2] = dayLength
+                Else
+                    dateLength[0] = monthLength
+                    If dayLength == 0 Then
+                        dateLength[1] = yearLength
+                        dateLength[2] = dayLength
+                    Else
+                        dateLength[1] = dayLength
+                        dateLength[2] = yearLength
+                    End If
+                End If
+                If str.Mid(dateLength[0], separatorLength) ne separator Then Return(-1) End If
+                If dateLength[2] <> 0 Then
+                    If str.Mid(dateLength[0] + separatorLength + dateLength[1], separatorLength) ne separator Then Return(-1) End If
+                End If
+            End If
+            If dateFormat == DEF_DATE_FORMAT_YYYYMMDD Then    
+                dateString[0] = str.Mid(0, yearLength)
+                dateString[1] = str.Mid(yearLength+separatorLength, monthLength)
+                If dayLength <> 0 Then
+                    dateString[2] = str.Mid(yearLength+separatorLength+monthLength+separatorLength, dayLength)
+                Else
+                    dateString[2] = "01"
+                End If
+            ElseIf dateFormat == DEF_DATE_FORMAT_MMDDYYYY Then    
+                dateString[1] = str.Mid(0, monthLength)
+                If dayLength <> 0 Then
+                    dateString[2] = str.Mid(monthLength+separatorLength, dayLength)
+                    dateString[0] = str.Mid(monthLength+separatorLength+dayLength+separatorLength, yearLength)
+                Else
+                    dateString[2] = "01"
+                    dateString[0] = str.Mid(monthLength+separatorLength, yearLength)
+                End If
+            Else                        
+                dateString[2] = str.Mid(0, monthLength)
+                If dayLength <> 0 Then
+                    dateString[1] = str.Mid(monthLength+separatorLength, dayLength)
+                    dateString[0] = str.Mid(monthLength+separatorLength+dayLength+separatorLength, yearLength)
+                Else
+                    dateString[2] = "01"
+                    dateString[0] = str.Mid(monthLength+separatorLength, yearLength)
+                End If
+            End If
+            If ConvertDateStringToInt(dateString, date) is false Then Return(-1) End If
+            If CheckDate(date[0], date[1], date[2]) is false Then Return(-1) End If
+            Return(index)
+        Next
+        Return(-1)
+    End Method
+
+    Method CombineDate(date[], format, separator)
+        index
+        year
+        offset
+        yearLength
+        monthLength
+        dayLength
+        dateFormat
+    Begin
+        For index = 0 to FORMAT_NUM - 1
+            offset = index * FORMAT_TYPE_NUM
+            yearLength = FormatTable[offset + DEF_YEAR_DIGIT_INDEX]
+            monthLength = FormatTable[offset + DEF_MONTH_DIGIT_INDEX]
+            dayLength = FormatTable[offset + DEF_DAY_DIGIT_INDEX]
+            dateFormat = FormatTable[offset + DEF_DATE_FORMAT_INDEX]
+            If format ne FormatTable[offset] Then Fcontinue End If
+
+            year = date[0]
+            If (yearLength == 2) And (date[0].length == 4) Then
+                year = date[0].Mid(2, 2)
+            End If
+            If (yearLength == 4) And (date[0].length == 2) Then
+                If TWO_DIGIT_YEAR_MAX <= date[0] Then
+                    year = "19" & date[0]
+                Else
+                    year = "20" & date[0]
+                End If
+            End If
+            If dateFormat == DEF_DATE_FORMAT_YYYYMMDD Then        
+                If dayLength <> 0 Then Return(year & separator & date[1] & separator & date[2])
+                Else Return(year & separator & date[1]) End If
+            ElseIf dateFormat == DEF_DATE_FORMAT_MMDDYYYY Then    
+                If dayLength <> 0 Then Return(date[1] & separator & date[2] & separator & year)
+                Else Return(date[1] & separator & year) End If
+            Else                            
+                If dayLength <> 0 Then Return(date[2] & separator & date[1] & separator & year)
+                Else Return(date[2] & separator & year) End If
+            End If
+        Next
+        Return("")
+    End Method
+
+    Method ConvertDateStringToInt(dateString[], date[])
+    Begin
+        date[0] = 0
+        date[1] = 0
+        date[2] = 0
+
+        If Not dateString[0].Find(".", 0) is nil Then Return(false) End If
+        If Not dateString[1].Find(".", 0) is nil Then Return(false) End If
+        If Not dateString[2].Find(".", 0) is nil Then Return(false) End If
+        date[0] = dateString[0].toInt
+        date[1] = dateString[1].toInt
+        date[2] = dateString[2].toInt
+        If dateString[0].length == 2 Then
+            If TWO_DIGIT_YEAR_MAX <= date[0] Then
+                date[0] = date[0] + 1900
+            Else
+                date[0] = date[0] + 2000
+            End If
+        End If
+        Return(true)
+    Catch
+        date[0] = 0
+        date[1] = 0
+        date[2] = 0
+        Return(false)
+    End Method
+
+    Method ChangeDate(str, processType, format, separator)
+        ret
+        sourceDateString[3]  
+        sourceDate[3]        
+        calculatedDate[3]
+        daysOfMonth[MONTH_MAX] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+        add = 0
+        buf
+        withoutDay = false
+        monthIndex
+    Begin
+        format = ConvertToDatePatternString(format)
+        separator = ConvertToSeparatorString(separator)
+        ret = SeparateDate(str, "YYYYMMDD", "/", sourceDateString)
+        If ret == -1 Then Return(str) End If
+        If (format eq "YYYYMM") Or (format eq "YYMM") Or (format eq "MMYYYY") Or (format eq "MMYY") Then withoutDay = true End If
+        If sourceDateString[2] eq "00" Then withoutDay = true End If
+        If ConvertDateStringToInt(sourceDateString, sourceDate) is false Then Return("") End If
+        If withoutDay is true Then sourceDate[2] = 15 End If
+        If IsLeapYear(sourceDate[0]) is true Then
+            daysOfMonth[1] = 29
+        End If
+
+        If processType == DEF_PROCESS_TYPE_SUBTRACT_DAY Then        
+            If withoutDay is true Then buf = str
+            Else add = -1 End If
+        ElseIf processType == DEF_PROCESS_TYPE_ADD_DAY Then    
+            If withoutDay is true Then buf = str
+            Else add = 1 End If
+        ElseIf processType == DEF_PROCESS_TYPE_SUBTRACT_MONTH Then    
+            If sourceDate[1] <> MONTH_MIN Then
+                monthIndex = sourceDate[1] - 1
+                If daysOfMonth[monthIndex - 1] < sourceDate[2] Then
+                    sourceDate[2] = daysOfMonth[monthIndex - 1]
+                End If
+                sourceDate[1] = sourceDate[1] - 1
+            Else
+                If sourceDate[0] == YEAR_MIN Then
+                    sourceDate[2] = DAY_MIN
+                Else
+                    sourceDate[0] = sourceDate[0] - 1
+                    sourceDate[1] = MONTH_MAX
+                End If
+            End If
+            buf = sourceDate[0] & "/" & ("0" & sourceDate[1]).Right(2) & "/" & ("0" & sourceDate[2]).Right(2)
+        ElseIf processType == DEF_PROCESS_TYPE_ADD_MONTH Then    
+            If sourceDate[1] <> MONTH_MAX Then
+                monthIndex = sourceDate[1] - 1
+                If daysOfMonth[monthIndex + 1] < sourceDate[2] Then
+                    sourceDate[2] = daysOfMonth[monthIndex + 1]
+                End If
+                sourceDate[1] = sourceDate[1] + 1
+            Else
+                If sourceDate[0] == YEAR_MAX Then
+                    sourceDate[2] = DAY_MAX
+                Else
+                    sourceDate[0] = sourceDate[0] + 1
+                    sourceDate[1] = MONTH_MIN
+                End If
+            End If
+            buf = sourceDate[0] & "/" & ("0" & sourceDate[1]).Right(2) & "/" & ("0" & sourceDate[2]).Right(2)
+        End If
+
+        If add <> 0 Then
+            buf = CombineDate(sourceDateString, "YYYYMMDD", "/")
+            buf = CalculateDay(buf, add)
+        End If
+        ret = SeparateDate(buf, "YYYYMMDD", "/", calculatedDate)
+        Return(CombineDate(calculatedDate, format, separator))
+    End Method
+
+    Method CalculateDay(str, add)
+        addValue
+        addTotal
+        tmpDate
+        Const AddMaxValue = 100
+        Const AddMinValue = -100
+    Begin
+        addTotal = add
+        tmpDate = str
+
+        While (true)
+            If add > 0 Then
+                If addTotal > AddMaxValue Then
+                    addValue = AddMaxValue
+                Else
+                    addValue = addTotal
+                End If
+                addTotal = addTotal - addValue
+            Else
+                If addTotal < AddMinValue Then
+                    addValue = AddMinValue
+                Else
+                    addValue = addTotal
+                End If
+                addTotal = addTotal - addValue
+            End If
+            tmpDate = Utility:AddDate(tmpDate, addValue)
+            If add > 0 Then
+                If addTotal <= 0 Then Wbreak End If
+            Else
+                If addTotal >= 0 Then Wbreak End If
+            End If
+        Wend
+        Return(tmpDate)
+    Catch
+        Return(str)
+    End Method
+
+    Method CalculateDateCore(str, processType, val)
+        count
+        date[3]
+        daysOfMonth[MONTH_MAX] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+        monthIndex
+    Begin
+        If processType == DEF_PROCESS_TYPE_SUBTRACT_DAY Then        
+            Return(CalculateDay(str, 0-val))
+        ElseIf processType == DEF_PROCESS_TYPE_ADD_DAY Then    
+            Return(CalculateDay(str, val))
+        End If
+
+        date = str.split("/")
+        For count = 0 To val - 1
+            If IsLeapYear(date[0]) is true Then
+                daysOfMonth[1] = 29
+            Else
+                daysOfMonth[1] = 28
+            End If
+
+            If processType == DEF_PROCESS_TYPE_SUBTRACT_MONTH Then    
+                If date[1] <> MONTH_MIN Then
+                    monthIndex = date[1] - 1
+                    If daysOfMonth[monthIndex - 1] < date[2] Then
+                        date[2] = daysOfMonth[monthIndex - 1]
+                    End If
+                    date[1] = date[1] - 1
+                Else
+                    If date[0] == YEAR_MIN Then
+                        date[2] = DAY_MIN
+                    Else
+                        date[0] = date[0] - 1
+                        date[1] = MONTH_MAX
+                    End If
+                End If
+            ElseIf processType == DEF_PROCESS_TYPE_ADD_MONTH Then    
+                If date[1] <> MONTH_MAX Then
+                    monthIndex = date[1] - 1
+                    If daysOfMonth[monthIndex + 1] < date[2] Then
+                        date[2] = daysOfMonth[monthIndex + 1]
+                    End If
+                    date[1] = date[1] + 1
+                Else
+                    If date[0] == YEAR_MAX Then
+                        date[2] = DAY_MAX
+                    Else
+                        date[0] = date[0] + 1
+                        date[1] = MONTH_MIN
+                    End If
+                End If
+            End If
+        Next
+        Return(("000" & date[0]).Right(4) & "/" & ("0" & date[1]).Right(2) & "/" & ("0" & date[2]).Right(2))
+    End Method
+
+    Method ChangeFormat2Default(str, format, separator)
+        ret
+        date[3]
+    Begin
+        If (str.length == 10) And (str.Mid(4, 1) eq "/") And (str.Mid(7, 1) eq "/") Then Return(str) End If
+        format = ConvertToDatePatternString(format)
+        separator = ConvertToSeparatorString(separator)
+        ret = SeparateDate(str, format, separator, date)
+        If ret == -1 Then Return("") End If
+        Return(CombineDate(date, "YYYYMMDD", "/"))
+    End Method
+
+    Method ChangeDefault2Format(str, format, separator)
+        ret
+        date[3]
+        dateString
+    Begin
+        format = ConvertToDatePatternString(format)
+        separator = ConvertToSeparatorString(separator)
+
+        If (str.length == 8) And (format eq "YYYYMMDD") And (separator eq "") Then
+            dateString = str.Mid(0, 4) & "/" & str.Mid(4, 2) & "/" & str.Mid(6, 2)
+            If IsDateFormat(dateString) is true Then Return(str) End If
+        End If
+        If (str.length <> 10) Or (str.Mid(4, 1) ne "/") Or (str.Mid(7, 1) ne "/") Then Return("") End If
+        ret = SeparateDate(str, "YYYYMMDD", "/", date)
+        If ret == -1 Then Return("") End If
+        Return(CombineDate(date, format, separator))
+    End Method
+
+    Method ChangeFormat(str, srcFormat, srcSeparator, dstFormat, dstSeparator)
+        ret
+        date[3]
+    Begin
+        srcFormat = ConvertToDatePatternString(srcFormat)
+        srcSeparator = ConvertToSeparatorString(srcSeparator)
+        dstFormat = ConvertToDatePatternString(dstFormat)
+        dstSeparator = ConvertToSeparatorString(dstSeparator)
+
+        ret = SeparateDate(str, srcFormat, srcSeparator, date)
+        If ret == -1 Then Return("") End If
+
+        Return(CombineDate(date, dstFormat, dstSeparator))
+    End Method
+
+    Method ConvertToDatePatternString(format)
+    Begin
+        If format is nil Then
+            format = FormatTable[0*FORMAT_TYPE_NUM]
+        ElseIf format.isInt is true Then
+            If format == 1 Then format = FormatTable[0*FORMAT_TYPE_NUM]
+            ElseIf format == 2 Then format = FormatTable[1*FORMAT_TYPE_NUM]
+            ElseIf format == 3 Then format = FormatTable[2*FORMAT_TYPE_NUM]
+            ElseIf format == 4 Then format = FormatTable[3*FORMAT_TYPE_NUM]
+            ElseIf format == 5 Then format = FormatTable[4*FORMAT_TYPE_NUM]
+            ElseIf format == 6 Then format = FormatTable[5*FORMAT_TYPE_NUM]
+            ElseIf format == 7 Then format = FormatTable[6*FORMAT_TYPE_NUM]
+            ElseIf format == 8 Then format = FormatTable[7*FORMAT_TYPE_NUM]
+            ElseIf format == 9 Then format = FormatTable[8*FORMAT_TYPE_NUM]
+            ElseIf format == 10 Then format = FormatTable[9*FORMAT_TYPE_NUM]
+            End If
+        End If
+        Return(format)
+    End Method
+
+    Method ConvertToSeparatorString(separator)
+    Begin
+        If separator is nil Then separator = "/"
+        ElseIf separator.isInt is true Then
+            If separator == 1 Then separator = "/"
+            ElseIf separator == 2 Then separator = "."
+            ElseIf separator == 3 Then separator = "-"
+            ElseIf separator == 4 Then separator = " "
+            ElseIf separator == 0 Then
+                If separator eq "-" Then separator = "-"
+                ElseIf separator eq "." Then separator = "."
+                Else separator = "" End If
+            End If
+        End If
+        Return(separator)
+    End Method
+
+End Package

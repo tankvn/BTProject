@@ -1,0 +1,4 @@
+    Method ISearchViewDisplayControlInvoke(this)
+    Begin
+        DEF_COMMON:ISearchViewDisplayControlInvokeCommon(this, Properties)
+    End Method

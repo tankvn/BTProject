@@ -1,0 +1,9 @@
+    #define VOUCHER_DB_NAME "Voucher.dat"
+
+    #define VOUCHER_TABLE_NAME "Voucher"
+
+    #define VOUCHER_FIELD_NAME_TYPE "field1"
+
+    #define VOUCHER_FIELD_NAME_DISPLAY_VALUE "field2"
+
+    #define VOUCHER_FIELD_KEY "VoucherId"

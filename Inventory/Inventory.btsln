@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BuilderProject FileVersion="2.3.1.0" ApplicationVersion="2.3.3.0" TerminalAppGuid="0AC2B175-A7D3-474E-A499-6D3E7C1294E4" ServerAppGuid="DD94D27F-D386-41EA-9B6F-E9C46687C3D6">
+  <CodeDataId>BaseCodeData</CodeDataId>
+  <Template Id="InventoryTemplate">
+    <TemplateJob Id="Inventory">
+      <TerminalJobKey>edaf918d-6bcc-4fdf-b654-e48f7149dbdf</TerminalJobKey>
+      <ServerWindowKey>ca95b697-4336-47f3-a995-3f61d95ba5a9</ServerWindowKey>
+    </TemplateJob>
+  </Template>
+</BuilderProject>

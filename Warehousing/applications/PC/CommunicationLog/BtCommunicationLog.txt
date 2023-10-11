@@ -1,0 +1,8 @@
+S	10/11/2023	9:49:40 AM		Data Transfer Controller has started.
+S	10/11/2023	9:49:42 AM		Communication was started.
+D	10/11/2023	9:49:49 AM		The "Exit" button was pressed.
+S	10/11/2023	9:49:51 AM		Communication was stopped.
+S	10/11/2023	9:49:51 AM		Communication was started.
+D	10/11/2023	9:49:51 AM		The settings were saved.
+S	10/11/2023	9:49:52 AM		Communication was stopped.
+S	10/11/2023	9:49:52 AM		Data Transfer Controller has ended.

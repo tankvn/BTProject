@@ -1,0 +1,21 @@
+    Method IRangeSettingsInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetRangeType"
+                InterfaceCommon:Result = GetRangeType(properties)
+            Case "SetRangeType"
+                InterfaceCommon:Result = SetRangeType(properties, UserObj<this>:Get(2))
+            Case "GetRangeStart"
+                InterfaceCommon:Result = GetRangeStart(properties)
+            Case "SetRangeStart"
+                InterfaceCommon:Result = SetRangeStart(properties, UserObj<this>:Get(2))
+            Case "GetRangeEnd"
+                InterfaceCommon:Result = GetRangeEnd(properties)
+            Case "SetRangeEnd"
+                InterfaceCommon:Result = SetRangeEnd(properties, UserObj<this>:Get(2))
+            Case "GetAiType"
+                InterfaceCommon:Result = GetAiType(properties)
+            Case "SetAiType"
+                InterfaceCommon:Result = SetAiType(properties, UserObj<this>:Get(2))
+        End Select
+    End Method

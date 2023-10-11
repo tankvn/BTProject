@@ -1,0 +1,508 @@
+
+Package BtButtonCommon
+
+    Method GetType(properties[])
+    Begin
+        Return(properties[1])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[1] = value
+    End Method
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[0])
+    End Method
+    Method SetName(properties[], value)
+    Begin
+        properties[0] = value
+    End Method
+
+    Method GetEnabled(properties[])
+    Begin
+        Return (Button<properties[0]>:enable)
+    End Method
+    Method SetEnabled(properties[], value)
+    Begin
+        Button<properties[0]>:enable = value
+        If (value is true) Then
+            Button<properties[0]>:foreColor = properties[4]
+            Button<properties[0]>:backColor = properties[5]
+        Else
+            Button<properties[0]>:foreColor = "211|211|211"
+            Button<properties[0]>:backColor = "128|128|128"
+        End If
+    End Method
+
+    Method GetVisible(properties[])
+    Begin
+        Return (Button<properties[0]>:visible)
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        properties[10] = value
+    End Method
+
+    Method UpdateVisible(properties[])
+    Begin
+        Button<properties[0]>:visible = properties[10]
+    End Method
+
+    Method GetTabStop(properties[])
+    Begin
+        Return (properties[3])
+    End Method
+    Method SetTabStop(properties[], value)
+    Begin
+        properties[3] = value
+    End Method
+
+    Method GetTabIndex(properties[])
+    Begin
+        Return (properties[2])
+    End Method
+    Method SetTabIndex(properties[], value)
+    Begin
+        properties[2] = value
+    End Method
+
+    Method GetButtonType(properties[])
+    Begin
+        Return(properties[6])
+    End Method
+    Method SetButtonType(properties[], value)
+    Begin
+        properties[6] = value
+    End Method
+
+    Method GetStorageDestination(properties[])
+    Begin
+        Return(properties[7])
+    End Method
+    Method SetStorageDestination(properties[], value)
+    Begin
+        properties[7] = value
+    End Method
+
+    Method GetNormalImageFileName(properties[])
+    Begin
+        Return(properties[8])
+    End Method
+    Method SetNormalImageFileName(properties[], value)
+    Begin
+        properties[8] = value
+    End Method
+
+    Method GetShowFocusedBorder(properties[])
+    Begin
+        Return(properties[9])
+    End Method
+    Method SetShowFocusedBorder(properties[], value)
+    Begin
+        properties[9] = value
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return (Button<properties[0]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        Button<properties[0]>:width = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return (Button<properties[0]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        Button<properties[0]>:height = value
+    End Method
+
+    Method GetBorderStyle(properties[])
+    Begin
+        Return (Button<properties[0]>:frame)
+    End Method
+    Method SetBorderStyle(properties[], value)
+    Begin
+        If value eq "none" Then
+            Button<properties[0]>:simpleWidget = false
+        Else
+            Button<properties[0]>:simpleWidget = false
+        End If
+
+        Button<properties[0]>:frame = value
+    End Method
+
+    Method GetText(properties[])
+    Begin
+        Return (Button<properties[0]>:text)
+    End Method
+    Method SetText(properties[], value)
+    Begin
+        Button<properties[0]>:text = value
+    End Method
+
+    Method GetAlignment(properties[])
+    Begin
+        Return (Button<properties[0]>:textAlign)
+    End Method
+    Method SetAlignment(properties[], value)
+    Begin
+        Button<properties[0]>:textAlign = value
+    End Method
+
+    Method GetFontSize(properties[])
+    Begin
+        Return (Button<properties[0]>:fontSize)
+    End Method
+    Method SetFontSize(properties[], value)
+    Begin
+        Button<properties[0]>:fontSize = value
+    End Method
+
+    Method GetFontName(properties[])
+    Begin
+        Return (Button<properties[0]>:fontName)
+    End Method
+    Method SetFontName(properties[], value)
+    Begin
+        Button<properties[0]>:fontName = value
+    End Method
+
+    Method GetBold(properties[])
+    Begin
+        Return (Button<properties[0]>:fontBold)
+    End Method
+    Method SetBold(properties[], value)
+    Begin
+        Button<properties[0]>:fontBold = value
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+        Return (properties[4])
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+        Button<properties[0]>:foreColor = value
+        Button<properties[0]>:outFocusTextColor = value
+        properties[4] = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (properties[5])
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        Button<properties[0]>:backColor = value
+        Button<properties[0]>:outFocusBackColor = value
+        properties[5] = value
+    End Method
+
+    Method GetFocusColor(properties[])
+    Begin
+        Return (Button<properties[0]>:focusColor)
+    End Method
+    Method SetFocusColor(properties[], value)
+    Begin
+        Button<properties[0]>:focusColor = value
+    End Method
+
+    Method GetFocusedForeColor(properties[])
+    Begin
+        Return (Button<properties[0]>:inFocusTextColor)
+    End Method
+    Method SetFocusedForeColor(properties[], value)
+    Begin
+        Button<properties[0]>:inFocusTextColor = value
+    End Method
+
+    Method GetFocusedBackColor(properties[])
+    Begin
+        Return (Button<properties[0]>:inFocusBackColor)
+    End Method
+    Method SetFocusedBackColor(properties[], value)
+    Begin
+        Button<properties[0]>:inFocusBackColor = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return (Button<properties[0]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        Button<properties[0]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return (Button<properties[0]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        Button<properties[0]>:top = value
+    End Method
+
+    Method GetDataInputHandler(properties[])
+    Begin
+        Return (properties[11])
+    End Method
+    Method SetDataInputHandler(properties[], handle)
+    Begin
+        properties[11] = handle
+    End Method
+
+    Method GetFocusTransitionRequestedHandler(properties[])
+    Begin
+        Return (properties[12])
+    End Method
+    Method SetFocusTransitionRequestedHandler(properties[], handle)
+    Begin
+        properties[12] = handle
+    End Method
+
+    Method GetMoveNextControlHandler(properties[])
+    Begin
+        Return (properties[13])
+    End Method
+    Method SetMoveNextControlHandler(properties[], handle)
+    Begin
+        properties[13] = handle
+    End Method
+
+    Method GetMovePreviousControlHandler(properties[])
+    Begin
+        Return (properties[14])
+    End Method
+    Method SetMovePreviousControlHandler(properties[], handle)
+    Begin
+        properties[14] = handle
+    End Method
+
+    Method IControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+            Case "GetName"
+                InterfaceCommon:Result = GetName(properties)
+            Case "GetText"
+                InterfaceCommon:Result = GetText(properties)
+            Case "SetText"
+                SetText(properties, UserObj<this>:Get(2))
+            Case "Focus"
+                Focus(properties)
+            Case "InvokeFocusHandler"
+                InvokeFocusHandler(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetEnabled"
+                InterfaceCommon:Result = GetEnabled(properties)
+            Case "SetEnabled"
+                SetEnabled(properties, UserObj<this>:Get(2))
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "TemporaryHide"
+                InterfaceCommon:Result = TemporaryHide(properties)
+            Case "UpdateVisible"
+                InterfaceCommon:Result = UpdateVisible(properties)
+            Case "Dispose"
+                InterfaceCommon:Result = Dispose(properties)
+        End Select
+    End Method
+
+    Method New(properties[])
+    Begin
+        SetButtonType(properties, 0)
+        SetForeColor(properties, "0|0|0")
+        SetBackColor(properties, "220|220|220")
+        SetFocusedForeColor(properties, "0|0|0")
+        SetFocusedBackColor(properties, "220|220|220")
+        SetFontSize(properties, "large")
+        If "BTW" eq "BTW" Then
+            SetFontName(properties, "TT Hira UD Sans Rd Mono StdN W4")
+            SetBold(properties, false)
+        End If
+
+        SetStorageDestination(properties, 1)
+        SetNormalImageFileName(properties, "")
+        SetShowFocusedBorder(properties, true)
+
+        SetTabStop(properties, true)
+        SetTabIndex(properties, 0)
+    End Method
+
+    Method Create(properties[], parentName)
+    Begin
+        SetType(properties, "Button")
+
+        properties[15] = false
+        properties[16] = false
+        With Button<properties[0]>
+            :Create(parentName)
+            :enable = True
+        End With
+    End Method
+
+    Method SetHandler(properties[], dataInputHandler, focusTransitionRequestedHandler, moveNextControlHandler, movePreviousControlHandler)
+    Begin
+        SetDataInputHandler(properties, dataInputHandler)
+        SetFocusTransitionRequestedHandler(properties, focusTransitionRequestedHandler)
+        SetMoveNextControlHandler(properties, moveNextControlHandler)
+        SetMovePreviousControlHandler(properties, movePreviousControlHandler)
+    End Method
+
+    Method SetEventHandler(properties[], onClick, onGotFocus, onLostFocus)
+    Begin
+        With Button<properties[0]>
+            :onButton = onClick
+            :onFocusIn = onGotFocus
+            :onFocusOut = onLostFocus
+        End With
+    End Method
+
+    Method EnterData(properties[])
+        parameter[1]
+    Begin
+        parameter[0] = true
+        Return (EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method ExecuteIrregularFocusTransition(properties[])
+        parameter[1]
+    Begin
+        Return (EventUtility:Exec(GetFocusTransitionRequestedHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method Invalidate(properties[])
+        storagePath
+    Begin
+        If (GetButtonType(properties) == 1) Then
+            storagePath = PathUtility:StorageTypeToPath(GetStorageDestination(properties))
+            With Button<properties[0]>
+                :SetImage(PathUtility:Combine(storagePath, GetNormalImageFileName(properties)))
+            End With
+        End If
+        If (GetShowFocusedBorder(properties)) Then
+            Button<properties[0]>:focusColor = "0|0|255"
+        Else
+            Button<properties[0]>:focusColor = GetFocusedBackColor(properties)
+        End If
+    End Method
+
+    Method Focus(properties[])
+    Begin
+        FocusTransitionUtilityCommon:SetFocus(properties[0])
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+        focusHandler
+        parameter[1]
+    Begin
+        If isFocused Then
+            focusHandler = Button<properties[0]>:onFocusIn
+        Else
+            focusHandler = Button<properties[0]>:onFocusOut
+        End If
+        If Not focusHandler is nil Then
+            EventUtility:Exec(focusHandler, properties[0], parameter)
+        End If
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        Button<properties[0]>:visible = false
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        Button<properties[0]>:Delete()
+    End Method
+
+    Method OnGotFocus(properties[], onKeyDownHandler, onFocusInHandler)
+    Begin
+        Key:onPress = onKeyDownHandler
+
+        properties[16] = false
+        If properties[15] Then
+            Return()
+        End If
+        If FocusTransitionUtilityCommon:ForceLostFocus(properties[0]) Then
+            Key:onPress = onKeyDownHandler
+        End If
+        properties[15] = true
+
+        Button<GetName(properties)>:onFocusIn = nil
+
+        Button<properties[0]>:foreColor = GetFocusedForeColor(properties)
+        Button<properties[0]>:backColor = GetFocusedBackColor(properties)
+
+        Button<GetName(properties)>:onFocusIn = onFocusInHandler
+    End Method
+
+    Method OnLostFocus(properties[], onFormKeyDownHandler, onFocusOutHandler)
+    Begin
+        Key:onPress = onFormKeyDownHandler
+
+        properties[15] = false
+        If properties[16] Then
+            Return()
+        End If
+        properties[16] = true
+
+        Button<GetName(properties)>:onFocusOut = nil
+
+        Button<properties[0]>:foreColor = GetForeColor(properties)
+        Button<properties[0]>:backColor = GetBackColor(properties)
+
+        Button<GetName(properties)>:onFocusOut = onFocusOutHandler
+    End Method
+
+    Method OnKeyDown(properties[], sender)
+        parameter[1]
+    Begin
+        Select Case sender
+            Case 0x00010000, 0x00040000
+                SetFocus(
+                    Button<properties[0]>:GetFocus(),
+                    EventUtility:Exec(GetMovePreviousControlHandler(properties), GetName(properties), parameter))
+            Case 0x00020000, 0x00080000
+                SetFocus(
+                    Button<properties[0]>:GetFocus(),
+                    EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+        End Select
+    End Method
+
+    Method OnClick(properties[], onButtonHandler)
+    Begin
+        If Not BtScreenCommon:IsEnabledControl(GetName(properties)) Then
+            Return()
+        End If
+
+        Button<GetName(properties)>:onButton = nil
+
+        If EnterData(properties) Then
+            ExecuteIrregularFocusTransition(properties)
+        End If
+
+        Button<GetName(properties)>:onButton = onButtonHandler
+    End Method
+
+    Method SetFocus(focusControlId, controlId)
+    Begin
+        If focusControlId.isString And controlId.isString Then
+            If focusControlId ne controlId Then
+                FocusTransitionUtilityCommon:SetFocus(controlId)
+            End If
+        End If
+    End Method
+
+End Package
+

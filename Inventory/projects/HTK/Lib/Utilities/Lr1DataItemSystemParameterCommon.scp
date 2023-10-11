@@ -1,0 +1,55 @@
+#pushdefine
+
+#insert "\Lib\Utilities\Lr1DataItemSystemParameterConstants"
+
+Package Lr1DataItemSystemParameterCommon
+
+#pushdefine
+#insert "\Lib\Utilities\Lr1DataItem"
+#popdefine
+
+    Method GetSystemParameter(properties[]) Begin Return(properties[DEF_SYSTEMPARAMETER_PROPERTY]) End Method
+
+    Method GetLogData(properties[])
+        systemParameter
+    Begin
+        If GetSystemParameter(properties) == SYSTEM_PARAMETER_TYPE_SYSTEM_DATE Then
+            Return(DateUtility:FormatCommonDate(SystemParameterUtility:GetCurrentSystemDate()))
+        ElseIf GetSystemParameter(properties) == SYSTEM_PARAMETER_TYPE_SYSTEM_TIME Then
+            Return(TimeUtility:FormatCommonTime(SystemParameterUtility:GetCurrentSystemTime()))
+        Else
+            systemParameter = SystemParameterUtility:GetSystemParameter(GetSystemParameter(properties))
+            ErrorManager:GetError()
+            Return(systemParameter)
+        End If
+    End Method
+
+    Method GetLogDataIndex(properties[]) Begin Return(0) End Method
+
+    Method GetTableItemTypes(properties[]) Begin Return(DbAccess:SQLITE_DATA_TYPE_TEXT) End Method
+
+    Method GetIsDate(properties[])
+    Begin
+        If GetSystemParameter(properties) == SYSTEM_PARAMETER_TYPE_SYSTEM_DATE Then Return(True) End If
+        Return(false)
+    End Method
+
+    Method GetIsTime(properties[])
+    Begin
+        If GetSystemParameter(properties) == SYSTEM_PARAMETER_TYPE_SYSTEM_TIME Then Return(True) End If
+        Return(false)
+    End Method
+
+    Method GetDecimalPlaces(properties[]) Begin Return(OUTPUT_DATA_UTILITY_DEFAULT_DECIMALPLACE) End Method
+
+    Method New(properties[], systemParameter)
+    Begin
+        NewBase(properties)
+        properties[DEF_SYSTEMPARAMETER_PROPERTY] = systemParameter
+    End Method
+    
+#insert "\Lib\Utilities\ILr1DataItemInvokeCommon"
+    
+End Package
+
+#popdefine

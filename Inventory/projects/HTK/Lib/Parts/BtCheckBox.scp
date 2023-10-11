@@ -1,0 +1,101 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtCheckBoxConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+
+    Method DataInput(this)
+    Begin
+#ifdef DEF_EVENT_DATA_INPUT
+        Return (DEF_EVENT_DATA_INPUT(Properties[DEF_NAME_PROPERTY], EventUtility:GetParameter(this, 0)))
+#else
+        Return (true)
+#endif
+    End Method
+
+
+
+
+#insert "\Lib\Utilities\IControlInvoke"
+#insert "\Lib\Utilities\IBtInputControlInvoke"
+#insert "\Lib\Utilities\ILogItemControlInvoke"
+
+    Method New()
+    Begin
+        BtCheckBoxCommon:New(Properties)
+        BtCheckBoxCommon:SetHandler(Properties, DataInput, MoveNextControl, MovePreviousControl)
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        BtCheckBoxCommon:Create(Properties, parentName)
+        BtCheckBoxCommon:SetEventHandler(Properties, BtCheckBox_GotFocus, BtCheckBox_LostFocus)
+
+        New()
+    End Method
+
+    Method MoveNextControl(this)
+    Begin
+#ifdef DEF_FOCUS_TRANSITION_UTILITY
+        Return(DEF_FOCUS_TRANSITION_UTILITY:GetMoveNextControlId(Properties[DEF_NAME_PROPERTY]))
+#endif
+    End Method
+
+    Method MovePreviousControl(this)
+    Begin
+#ifdef DEF_FOCUS_TRANSITION_UTILITY
+        Return(DEF_FOCUS_TRANSITION_UTILITY:GetMovePreviousControlId(Properties[DEF_NAME_PROPERTY]))
+#endif
+    End Method
+
+    Method Focus() 
+    Begin
+        BtCheckBoxCommon:Focus(Properties)
+    End Method
+
+    Method Invalidate()
+    Begin
+    End Method
+
+
+
+    Method BtCheckBox_GotFocus(sender)
+    Begin
+        BtCheckBoxCommon:GotFocus(Properties, BtCheckBox_KeyDown)
+    End Method
+
+    Method BtCheckBox_LostFocus(sender)
+    Begin
+#ifdef DEF_EVENT_FORM_KEY_DOWN
+        BtCheckBoxCommon:LostFocus(Properties, DEF_EVENT_FORM_KEY_DOWN)
+#else
+        BtCheckBoxCommon:LostFocus(Properties, nil)
+#endif
+    End Method
+
+    Method BtCheckBox_KeyDown(sender)
+    Begin
+        If Not BtScreenCommon:IsEnabledControl(Properties[DEF_NAME_PROPERTY]) Then
+            Return()
+        End If
+
+        Key:onPress = nil
+
+#ifdef DEF_EVENT_FORM_KEY_DOWN
+        DEF_EVENT_FORM_KEY_DOWN(sender)
+#endif
+        BtCheckBoxCommon:KeyDown(Properties, sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = BtCheckBox_KeyDown
+        End If
+    End Method
+
+End Package 
+
+#popdefine

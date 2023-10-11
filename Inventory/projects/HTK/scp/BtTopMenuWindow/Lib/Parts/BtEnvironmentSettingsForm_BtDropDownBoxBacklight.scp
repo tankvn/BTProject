@@ -1,0 +1,149 @@
+
+Package BtEnvironmentSettingsForm_BtDropDownBoxBacklight
+    Properties[24]
+
+    Method DataInput(this)
+    Begin
+        Return (true)
+    End Method
+
+    Method FocusTransitionRequested(this)
+        result = false
+    Begin
+        Return (result)
+     End Method
+
+    Method ComparisonValueCountUpdated(this)
+    Begin
+    End Method
+
+    Method CollationCountUpdated(this)
+    Begin
+    End Method
+
+    Method MoveNextControl(this)
+    Begin
+        Return(BtEnvironmentSettingsForm_FocusTransitionUtility:GetMoveNextControlId(Properties[0]))
+    End Method
+
+    Method MovePreviousControl(this)
+    Begin
+        Return(BtEnvironmentSettingsForm_FocusTransitionUtility:GetMovePreviousControlId(Properties[0]))
+    End Method
+
+    Method IControlInvoke(this)
+    Begin
+        BtDropDownBoxCommon:IControlInvokeCommon(this, Properties)
+    End Method
+    Method IBtInputControlInvoke(this)
+    Begin
+        BtDropDownBoxCommon:IBtInputControlInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemControlInvoke(this)
+    Begin
+        BtDropDownBoxCommon:ILogItemControlInvokeCommon(this, Properties)
+    End Method
+    Method IMasterDataOwnerControlInvoke(this)
+    Begin
+        BtDropDownBoxCommon:IMasterDataOwnerControlInvokeCommon(this, Properties)
+    End Method
+    Method ICollationTargetInvoke(this)
+    Begin
+        BtDropDownBoxCommon:ICollationTargetInvokeCommon(this, Properties)
+    End Method
+    Method ISharedParameterInputToolInvoke(this)
+    Begin
+        BtDropDownBoxCommon:ISharedParameterInputToolInvokeCommon(this, Properties)
+    End Method
+
+    Method New()
+    Begin
+        BtDropDownBoxCommon:New(Properties)
+        BtDropDownBoxCommon:SetHandler(Properties, DataInput, FocusTransitionRequested, ComparisonValueCountUpdated, CollationCountUpdated, MoveNextControl, MovePreviousControl)
+    End Method
+
+    Method Dispose()
+    Begin
+        ListTable:DeleteList(Properties[15])
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[0] = "BtEnvironmentSettingsForm_BtDropDownBoxBacklight"
+        BtDropDownBoxCommon:Create(Properties, parentName)
+        BtDropDownBoxCommon:SetEventHandler(Properties, GotFocus, LostFocus, BtDropDownBox_onEditStart, BtDropDownBox_onEditEnd)
+        New()
+    End Method
+
+    Method AddItem(item)
+    Begin
+        BtDropDownBoxCommon:AddItem(Properties, item)
+    End Method
+
+    Method RemoveItem(index)
+    Begin
+        BtDropDownBoxCommon:RemoveItem(Properties, index)
+    End Method
+
+    Method GetItem(index)
+    Begin
+        Return (BtDropDownBoxCommon:GetItem(Properties, index))
+    End Method
+
+    Method SelectItem(index)
+    Begin
+        BtDropDownBoxCommon:SelectItem(Properties, index)
+    End Method
+
+    Method GetSelectedIndex()
+    Begin
+        Return (BtDropDownBoxCommon:GetSelectedIndex(Properties))
+    End Method
+
+    Method Focus()
+    Begin
+        BtDropDownBoxCommon:Focus(Properties)
+    End Method
+
+    Method Invalidate()
+    Begin
+    End Method
+
+    Method GotFocus(sender)
+    Begin
+        BtDropDownBoxCommon:GotFocus(Properties, KeyDown, GotFocus)
+    End Method
+
+    Method LostFocus(sender)
+    Begin
+        BtDropDownBoxCommon:LostFocus(Properties, BtEnvironmentSettingsForm:BtEnvironmentSettingsForm_KeyDown, LostFocus)
+    End Method
+
+    Method KeyDown(sender)
+    Begin
+        If Not BtScreenCommon:IsEnabledControl(Properties[0]) Then
+            Return()
+        End If
+
+        Key:onPress = nil
+
+        BtEnvironmentSettingsForm:BtEnvironmentSettingsForm_KeyDown(sender)
+        BtDropDownBoxCommon:KeyDown(Properties, sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = KeyDown
+        End If
+    End Method
+
+    Method BtDropDownBox_onEditStart(sender)
+    Begin
+        BtDropDownBoxCommon:EditStart(Properties, BtDropDownBox_onEditStart)
+    End Method
+
+    Method BtDropDownBox_onEditEnd(sender)
+    Begin
+        BtDropDownBoxCommon:EditEnd(Properties, BtDropDownBox_onEditEnd)
+    End Method
+
+End Package
+

@@ -1,0 +1,45 @@
+#pushdefine
+
+Package IBtStopWatch
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    Names[DEF_IMPLEMENT_NAME_ARRAY@~]
+    ICommons[DEF_IMPLEMENT_NAME_ARRAY@~]
+#else
+    Names[1]
+    ICommons[1]
+#endif
+    
+    Method New()
+    Begin
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Names[@^] = "DEF_IMPLEMENT_NAME_ARRAY"
+        ICommons[@^] = DEF_IMPLEMENT_NAME_ARRAY:IBtStopWatchInvoke
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetType(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetType", args, ICommons))
+    End Method
+
+    Method GetStartStopButtonName(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetStartStopButtonName", args, ICommons))
+    End Method
+
+    Method Clear(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "Clear", args, ICommons))
+    End Method
+
+End Package 
+
+#popdefine

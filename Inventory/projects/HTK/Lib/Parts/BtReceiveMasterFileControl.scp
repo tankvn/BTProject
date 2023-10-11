@@ -1,0 +1,118 @@
+
+/*Public*/ Package BtReceiveMasterFileControl
+
+    #define DEF_TRANSMISSION_ROUTE_PROPERTY 0   
+    #define DEF_RETRY_COUNT_PROPERTY 1          
+    #define DEF_TIMEOUT_PROPERTY 2              
+    #define DEF_PROPERTY_NUM 3
+    _properties[DEF_PROPERTY_NUM + 1]
+
+
+
+    Method New(transmissionRoute, numberOfRetry, timeout)
+    Begin
+        _properties[DEF_TRANSMISSION_ROUTE_PROPERTY] = transmissionRoute
+        _properties[DEF_RETRY_COUNT_PROPERTY] = numberOfRetry
+        _properties[DEF_TIMEOUT_PROPERTY] = timeout
+        Return (TransmissionController:Create())
+    End Method
+
+    Method Execute(processingId, listId_ReceiveFileNamePairs, checkNoReceivingFileError, parentWindow) /*As List(Of String)*/
+        listId_ReceivedFiles = INVALID_LIST_TABLE_ID
+    Begin
+
+        If (TransmissionController:StartTransmitting(processingId) is false) Then
+            Return (listId_ReceivedFiles)
+        End If 
+
+        If (listId_ReceiveFileNamePairs == INVALID_LIST_TABLE_ID) Or (ListTable:Count(listId_ReceiveFileNamePairs) == 0) Then
+            If (checkNoReceivingFileError is true) Then
+                ErrorManager:SetError(MESSAGE_ERROR_NOT_EXIST_RECEIVING_DATA)
+            End If 
+            Return (listId_ReceivedFiles)
+        End If 
+
+        Window<parentWindow>:enable = false
+        TransmittingForm:New(MESSAGE_LABEL_TRANSMIT_MASTER_RECEIVE, MESSAGE_LABEL_TRANSMIT_CONNECTING)
+        TransmittingForm:Show()
+        
+        listId_ReceivedFiles = ExecuteCore(listId_ReceiveFileNamePairs)
+
+        TransmittingForm:Close()
+        Window<parentWindow>:enable = true
+
+        If (TransmittingForm:GetErrorMessage() ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(TransmittingForm:GetErrorMessage())
+        End If 
+        If (TransmittingForm:GetCommunicationError() is true) Then
+            ErrorManager:SetCommunicationError()
+        End If 
+
+        Return (listId_ReceivedFiles)
+    End Method
+
+    Method Close(processingId)
+    Begin
+        TransmissionController:FinishTransmitting(processingId)
+    End Method
+
+    Method UpdateTransmittingFormLabel(text)
+    Begin
+        If (TransmittingForm:GetIsActive() Is false) Then 
+            Return (nil)
+        End If
+
+        TransmittingForm:SetInfomationLabelText(text)
+    End Method
+
+    Method ExecuteCore(listId_ReceiveFileNamePairs) /*As Object*/
+        listId_ReceivedFiles = INVALID_LIST_TABLE_ID
+    Begin
+        listId_ReceivedFiles = ReceiveFile(listId_ReceiveFileNamePairs)
+
+        If (TransmissionController:GetIsCancelled() is false) And (ListTable:Count(listId_ReceivedFiles) <> ListTable:Count(listId_ReceiveFileNamePairs)) Then
+            ErrorManager:SetCommunicationError()
+            Return (listId_ReceivedFiles)
+        End If 
+        Return (listId_ReceivedFiles)
+    Catch
+        ErrorManager:SetCommunicationError()
+        ListTable:DeleteList(listId_ReceivedFiles)
+        Return (INVALID_LIST_TABLE_ID)
+    End Method
+
+    Method ReceiveFile(listId_ReceiveFileNamePairs) /*As List(Of String)*/
+        index
+        localFileName
+        remoteFileName
+        listId_ReceivedFiles = INVALID_LIST_TABLE_ID
+    Begin
+
+        listId_ReceivedFiles = ListTable:CreateList()
+
+        If (TransmissionController:Connect(_properties[DEF_TRANSMISSION_ROUTE_PROPERTY], _properties[DEF_TIMEOUT_PROPERTY], _properties[DEF_RETRY_COUNT_PROPERTY]) is true) Then
+
+            UpdateTransmittingFormLabel(MESSAGE_LABEL_TRANSMIT_RECEIVING)
+
+            For index = 0 To ListTable:Count(listId_ReceiveFileNamePairs) - 1
+                localFileName = ListTable:Get(listId_ReceiveFileNamePairs, index, "key")
+                remoteFileName = ListTable:Get(listId_ReceiveFileNamePairs, index, "val")
+
+                DbAccess:Close(localFileName)
+
+                If (TransmissionController:GetFile(localFileName, remoteFileName, _properties[DEF_TIMEOUT_PROPERTY], _properties[DEF_RETRY_COUNT_PROPERTY]) is true) Then
+                    ListTable:Add(listId_ReceivedFiles, localFileName, "")
+                Else
+                    Fbreak
+                End If 
+
+            Next
+
+            TransmissionController:Disconnect(_properties[DEF_TIMEOUT_PROPERTY], _properties[DEF_RETRY_COUNT_PROPERTY])
+
+        End If 
+
+        Return (listId_ReceivedFiles)
+    End Method
+
+End Package 

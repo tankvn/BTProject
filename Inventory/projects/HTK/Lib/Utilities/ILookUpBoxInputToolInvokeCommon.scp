@@ -1,0 +1,16 @@
+    Method ILookUpBoxInputToolInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetInitialText"
+                InterfaceCommon:Result = GetInitialText(properties)
+            Case "UpdateData"
+                InterfaceCommon:Result = UpdateData(properties, UserObj<this>:Get(2))
+            Case "ShowCustomMessageBox"
+                InterfaceCommon:Result = ShowCustomMessageBox(UserObj<this>:Get(2), UserObj<this>:Get(3),
+                                                              UserObj<this>:Get(4), UserObj<this>:Get(5), UserObj<this>:Get(6))
+            Case "GetIsSameLogItem"
+                InterfaceCommon:Result = GetIsSameLogItem(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "ChangeMode"
+                InterfaceCommon:Result = ChangeMode(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+        End Select
+    End Method

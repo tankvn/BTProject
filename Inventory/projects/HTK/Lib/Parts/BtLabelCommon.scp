@@ -1,0 +1,107 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtLabelConstants"
+
+Package BtLabelCommon
+
+#insert "\Lib\Parts\BtLabelBaseCommon"
+
+    Method GetIsShared(properties[]) /* Implements ISharedParameterInputTool.IsShared */
+    Begin
+        Return (properties[DEF_IS_SHARED_PROPERTY])
+    End Method
+    Method SetIsShared(properties[], value) /* Implements ISharedParameterInputTool.IsShared */
+    Begin
+        properties[DEF_IS_SHARED_PROPERTY] = value
+    End Method
+
+    Method GetSharedParameterKey(properties[]) /* Implements ISharedParameterInputTool.SharedParameterKey */
+    Begin
+        Return (properties[DEF_SHARED_PARAMETER_KEY_PROPERTY])
+    End Method
+    Method SetSharedParameterKey(properties[], value) /* Implements ISharedParameterInputTool.SharedParameterKey */
+    Begin
+        properties[DEF_SHARED_PARAMETER_KEY_PROPERTY] = value
+    End Method
+
+    Method GetSharedParameterClearTiming(properties[]) /* Implements ISharedParameterInputTool.SharedParameterClearTiming */
+    Begin
+        Return (properties[DEF_SHARED_PARAMETER_CLEAR_TIMING_PROPERTY])
+    End Method
+    Method SetSharedParameterClearTiming(properties[], value) /* Implements ISharedParameterInputTool.SharedParameterClearTiming */
+    Begin
+        properties[DEF_SHARED_PARAMETER_CLEAR_TIMING_PROPERTY] = value
+    End Method
+
+
+#insert "\Lib\Utilities\ISharedParameterInputToolInvokeCommon"
+
+
+    Method Reset(properties[])
+        parameter[1]
+    Begin
+        SetText(properties, GetInitialText(properties))
+        RestoreSharedParameter(properties)
+
+        EventUtility:Exec(GetAfterResetHandler(properties), GetName(properties), parameter)
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method SetHandler(properties[], afterResetHandler, comparisonValueCountUpdatedHandler, collationCountUpdatedHandler, dataUpdatedHandler)
+    Begin
+        SetAfterResetHandler(properties, afterResetHandler)
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountUpdatedHandler(properties, collationCountUpdatedHandler)
+        SetDataUpdatedHandler(properties, dataUpdatedHandler)
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex)
+    Begin
+        If (listId_SearchResult == INVALID_LIST_TABLE_ID) Or (ListTable:Count(listId_SearchResult) == 0) Then
+            Return (0)
+        End If
+
+        BaseSetSearchResult(properties, listId_SearchResult, columnIndex)
+        RegisterSharedParameter(properties)
+    End Method
+
+    Method RegisterSharedParameter(properties[])
+    Begin
+        If Not GetIsShared(properties) Then
+            Return ()
+        End If
+
+        SharedParameterUtility:UpdateSharedParameter(GetSharedParameterKey(properties), GetText(properties), GetText(properties))
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_UPDATE_SHARED_PARAMETER)
+        End If
+    End Method
+
+    Method RestoreSharedParameter(properties[])
+        displayValue
+    Begin
+        displayValue = properties[DEF_INITIAL_TEXT_PROPERTY]
+
+        If (GetIsShared(properties)) Then
+            If (SharedParameterUtility:IsExistKey(GetSharedParameterKey(properties))) Then
+                displayValue = SharedParameterUtility:GetSharedParameter(GetSharedParameterKey(properties))
+            End If
+        End If
+        SetText(properties, displayValue)
+    End Method
+
+    Method GetLogData(properties[], index)
+    Begin
+        Return (GetText(properties))
+    End Method
+
+    Method CollationCountInitialized(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+
+End Package
+
+#popdefine

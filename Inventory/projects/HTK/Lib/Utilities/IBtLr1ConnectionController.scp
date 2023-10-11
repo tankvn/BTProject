@@ -1,0 +1,67 @@
+#pushdefine
+
+Package DEF_PACKAGE_NAME
+
+    Method Connect(controlName)
+    Begin
+        Select Case controlName
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return(DEF_IMPLEMENT_NAME_ARRAY:Connect())
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+        End Select
+    End Method
+
+    Method ConnectSpecifiedTarget(controlName, connectingTarget)
+    Begin
+        Select Case controlName
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return(DEF_IMPLEMENT_NAME_ARRAY:ConnectSpecifiedTarget(connectingTarget))
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+        End Select
+    End Method
+
+    Method Disconnect(controlName)
+    Begin
+        Select Case controlName
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return(DEF_IMPLEMENT_NAME_ARRAY:Disconnect())
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+        End Select
+    End Method
+
+    Method GetIsConnecting(controlName)
+    Begin
+        Select Case controlName
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return(DEF_IMPLEMENT_NAME_ARRAY:GetIsConnecting())
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+        End Select
+    End Method
+
+    Method Search(controlName, searchMax)
+    Begin
+        Select Case controlName
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return(DEF_IMPLEMENT_NAME_ARRAY:Search(searchMax))
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+        End Select
+    End Method
+
+    Method Send(controlName, data, status)
+    Begin
+        Select Case controlName
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return(DEF_IMPLEMENT_NAME_ARRAY:Send(data, status))
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+        End Select
+    End Method
+
+End Package
+
+#popdefine

@@ -1,0 +1,37 @@
+
+ Package ErrorManager
+
+
+      _errorMessage = MESSAGE_ERROR_NONE 
+
+      _communicationError  = false
+
+
+
+      Method SetError( errorMessage  )
+    Begin
+        _errorMessage = errorMessage
+    End Method
+
+      Method GetError()
+      errorMessage 
+    Begin
+         errorMessage  = _errorMessage
+        _errorMessage = MESSAGE_ERROR_NONE 
+        Return (errorMessage)
+    End Method
+
+      Method SetCommunicationError()
+    Begin
+        _communicationError = true
+    End Method
+
+      Method GetCommunicationError()
+      communicationError 
+    Begin
+         communicationError  = _communicationError
+        _communicationError = false
+        Return (communicationError)
+    End Method
+
+End Package 

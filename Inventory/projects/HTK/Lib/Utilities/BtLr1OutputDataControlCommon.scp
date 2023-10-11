@@ -1,0 +1,271 @@
+#pushdefine
+
+#insert "\Lib\Utilities\BtLr1OutputDataControlConstants"
+
+Package BtLr1OutputDataControlCommon
+
+    Method GetName(properties[]) Begin Return(properties[DEF_NAME_PROPERTY]) End Method
+
+    Method GetOutputTerminalData(properties[]) Begin Return(properties[DEF_OUTPUTTERMINALDATA_PROPERTY]) End Method
+
+    Method GetRecordType(properties[]) Begin Return(properties[DEF_RECORDTYPE_PROPERTY]) End Method
+    Method SetRecordType(properties[], value) Begin properties[DEF_RECORDTYPE_PROPERTY] = value End Method
+
+    Method GetSeparatorType(properties[]) Begin Return(properties[DEF_SEPARATORTYPE_PROPERTY]) End Method
+    Method SetSeparatorType(properties[], value) Begin properties[DEF_SEPARATORTYPE_PROPERTY] = value End Method
+
+#insert "\Lib\Utilities\IBtLr1OutputDataControlInvokeCommon"
+
+    Method New(properties[], outputTerminalData)
+    Begin
+        properties[DEF_OUTPUTTERMINALDATA_PROPERTY] = outputTerminalData
+        properties[DEF_NEXTLOGITEMID_PROPERTY] = OUTPUT_DATA_UTILITY_FIRST_LOGITEM_ID
+        properties[DEF_RECORDTYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_RECORD_TYPE
+        properties[DEF_SEPARATORTYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_SEPARATOR_TYPE
+
+        If Not properties[DEF_DATAITEMS_PROPERTY] is nil Then
+            ListTable:DeleteList(properties[DEF_DATAITEMS_PROPERTY])
+        End If
+        properties[DEF_DATAITEMS_PROPERTY] = ListTable:CreateList()
+    End Method
+
+    Method Finalize(properties[])
+    Begin
+        If Not properties[DEF_DATAITEMS_PROPERTY] is nil Then
+            ListTable:DeleteList(properties[DEF_DATAITEMS_PROPERTY])
+            properties[DEF_DATAITEMS_PROPERTY] = nil
+        End If
+    End Method
+
+    Method AddLogItem(properties[], item)
+    Begin
+        If properties[DEF_DATAITEMS_PROPERTY] is nil Then
+            properties[DEF_DATAITEMS_PROPERTY] = ListTable:CreateList()
+        End If
+        ListTable:Add(properties[DEF_DATAITEMS_PROPERTY], properties[DEF_NEXTLOGITEMID_PROPERTY], item)
+        properties[DEF_NEXTLOGITEMID_PROPERTY] = properties[DEF_NEXTLOGITEMID_PROPERTY] + 1
+    End Method
+
+    Method RemoveLogItem(properties[], index)
+    Begin
+        If ListTable:Count(properties[DEF_DATAITEMS_PROPERTY]) <= index Then
+            Return()
+        End If
+        ListTable:Remove(properties[DEF_DATAITEMS_PROPERTY], index)
+    End Method
+
+    Method RemoveLogItemAll(properties[])
+    Begin
+        If Not properties[DEF_DATAITEMS_PROPERTY] is nil Then
+            ListTable:DeleteList(properties[DEF_DATAITEMS_PROPERTY])
+            properties[DEF_DATAITEMS_PROPERTY] = nil
+        End If
+        properties[DEF_NEXTLOGITEMID_PROPERTY] = OUTPUT_DATA_UTILITY_FIRST_LOGITEM_ID
+    End Method
+
+    Method GetLogItem(properties[], index)
+    Begin
+        If ListTable:Count(properties[DEF_DATAITEMS_PROPERTY]) <= index Then
+            Return()
+        End If
+        Return(ListTable:Get(properties[DEF_DATAITEMS_PROPERTY], index, "val"))
+    End Method
+
+    Method GetSeparator(properties[])
+        separator = ""
+    Begin
+        If GetRecordType(properties) == DATA_LENGTH_VARIABLE Then
+            separator = OutputDataUtility:GetSeparatorString(GetSeparatorType(properties))
+        End If
+        Return(separator)
+    End Method
+
+    Method GetOutputByteArray(outputData)
+    Begin
+        Return(outputData)
+    End Method
+
+    Method GetOutputData(properties[])
+        separator
+        id_outputDataList
+        outputData
+    Begin
+        If ListTable:Count(properties[DEF_DATAITEMS_PROPERTY]) <= 0 Then
+            Return("")
+        End If
+
+        If CheckOutputLogTarget(properties) is False Then
+            ErrorManager:SetError(MESSAGE_ERROR_INVALID_INPUT)
+            Return("")
+        End If
+
+        separator = GetSeparator(properties)
+        id_outputDataList = GetOutputDataList(properties, separator)
+
+        outputData = GetOutputString(properties, id_outputDataList, separator)
+        ListTable:DeleteList(id_outputDataList)
+        Return(GetOutputByteArray(outputData))
+    End Method
+
+    Method CheckOutputLogTarget(properties[])
+        isSuccess = true
+        currentSetting
+        i
+        itemName
+        logItemControl
+        logDataIndex
+        logData
+    Begin
+        currentSetting = MessageUtility:GetDisableMessage()
+        MessageUtility:SetDisableMessage(true)
+
+        For i = 0 To ListTable:Count(properties[DEF_DATAITEMS_PROPERTY]) - 1
+            itemName = ListTable:Get(properties[DEF_DATAITEMS_PROPERTY], i, "val")
+
+            If ILr1DataItem:GetType(itemName) eq "Lr1DataItemScreenData" Then
+                logItemControl = ILr1DataItemScreenData:GetLogItemControl(itemName)
+                logDataIndex = ILr1DataItem:GetLogDataIndex(itemName)
+                logData = ILr1DataItem:GetLogData(itemName)
+                If ErrorManager:GetError() ne MESSAGE_ERROR_NONE Then
+                    isSuccess = false
+                    Fbreak
+                End If
+                If (Not ILogItemControl:CheckValidInput(logItemControl, logData, logDataIndex)) Then
+                    isSuccess = false
+                    Fbreak
+                End If
+            End If
+        Next
+
+        MessageUtility:SetDisableMessage(currentSetting)
+
+        Return(isSuccess)
+    End Method
+
+    Method GetOutputDataList(properties[], separator)
+        id_outputDataList
+        sizeDataIndex
+        limitSendDataSize = 0
+        sendDataSize = 0
+        i
+        itemName
+        targetData
+        fixedFormattedData
+        formattedData
+        dataSizeString
+    Begin
+        id_outputDataList = ListTable:CreateList()
+
+        sizeDataIndex = GetSizeDataIndex(properties)
+
+        For i = 0 To ListTable:Count(properties[DEF_DATAITEMS_PROPERTY]) - 1
+            itemName = ListTable:Get(properties[DEF_DATAITEMS_PROPERTY], i, "val")
+            If ILr1DataItem:GetType(itemName) ne "Lr1DataItemSendDataSize" Then
+                targetData = ILr1DataItem:GetOutputData(itemName, GetRecordType(properties))
+                fixedFormattedData = ILr1DataItem:GetFixedFormattedData(itemName, GetRecordType(properties), targetData)
+                formattedData = ILr1DataItem:GetFormattedData(itemName, GetRecordType(properties), targetData)
+                ListTable:Add(id_outputDataList, i, targetData)
+
+                If limitSendDataSize < MAX_SIZE_OUTPUTDATA Then
+                    If i <> 0 And 2 < ListTable:Count(id_outputDataList) Then
+                        sendDataSize = sendDataSize + separator.length
+                    End If
+                    sendDataSize = sendDataSize + StringUtility:GetByteCount(formattedData)
+                    limitSendDataSize = limitSendDataSize + StringUtility:GetByteCount(fixedFormattedData)
+                End If
+            Else
+                ListTable:Add(id_outputDataList, i, "")
+            End If
+        Next
+
+        dataSizeString = GetSendDataSize(properties, limitSendDataSize, sendDataSize, sizeDataIndex)
+        If dataSizeString eq "" Then
+            Return(id_outputDataList)
+        End If
+        ListTable:SetValue(id_outputDataList, sizeDataIndex, dataSizeString)
+
+        Return(id_outputDataList)
+    End Method
+
+    Method GetSizeDataIndex(properties[])
+        sizeDataIndex = INVALID_SIZEDATA_INDEX
+        i
+        itemName
+    Begin
+        For i = 0 To ListTable:Count(properties[DEF_DATAITEMS_PROPERTY]) - 1
+            itemName = ListTable:Get(properties[DEF_DATAITEMS_PROPERTY], i, "val")
+            If ILr1DataItem:GetType(itemName) eq "Lr1DataItemSendDataSize" Then
+                If sizeDataIndex == INVALID_SIZEDATA_INDEX Then
+                    sizeDataIndex = i
+                End If
+            End If
+        Next
+        Return(sizeDataIndex)
+    End Method
+
+    Method GetSendDataSize(properties[], limitSendDataSize, sendDataSize, sizeDataIndex)
+        sendDataSizeItem
+        sendDataSizeDigit
+    Begin
+        If sizeDataIndex == INVALID_SIZEDATA_INDEX Then Return("") End If
+
+        sendDataSizeItem = ListTable:Get(properties[DEF_DATAITEMS_PROPERTY], sizeDataIndex, "val")
+        If ILr1DataItem:GetType(sendDataSizeItem) ne "Lr1DataItemSendDataSize" Then Return("") End If
+
+        sendDataSizeDigit = ILr1DataItemSendDataSize:MaxDigit(sendDataSizeItem, GetRecordType(properties), MAX_SIZE_OUTPUTDATA)
+        If MAX_SIZE_OUTPUTDATA < (limitSendDataSize + sendDataSizeDigit) Then
+            sendDataSize = sendDataSize - (limitSendDataSize + sendDataSizeDigit - MAX_SIZE_OUTPUTDATA)
+        End If
+
+        ILr1DataItemSendDataSize:SetDataSize(sendDataSizeItem, sendDataSize)
+        Return(ILr1DataItem:GetOutputData(sendDataSizeItem, GetRecordType(properties)))
+    End Method
+
+    Method GetOutputString(properties[], id_outputDataList, separator)
+        outputData = ""
+        outputDataSize = 0
+        i
+        itemData
+        itemIndex
+        itemName
+        fixedFormattedData
+        itemDataSize
+        validLength
+        extractedValue
+    Begin
+        For i = 0 To ListTable:Count(id_outputDataList) - 1
+            itemIndex = ListTable:Get(id_outputDataList, i, "key")
+            itemData = ListTable:Get(id_outputDataList, i, "val")
+            itemName = ListTable:Get(properties[DEF_DATAITEMS_PROPERTY], itemIndex, "val")
+
+            fixedFormattedData = ILr1DataItem:GetFixedFormattedData(itemName, GetRecordType(properties), itemData)
+            itemDataSize = StringUtility:GetByteCount(fixedFormattedData)
+            outputDataSize = outputDataSize + itemDataSize
+            If MAX_SIZE_OUTPUTDATA < outputDataSize Then
+                validLength = itemDataSize - (outputDataSize - MAX_SIZE_OUTPUTDATA)
+                If 0 < validLength Then
+                    If GetRecordType(properties) == DATA_LENGTH_VARIABLE And i <> 0 Then
+                        outputData = outputData & separator
+                    End If
+
+                    extractedValue = StringUtility:SubstringByte(fixedFormattedData, 0, validLength)
+                    If GetRecordType(properties) == DATA_LENGTH_VARIABLE Then
+                        extractedValue = ILr1DataItem:GetFormattedData(itemName, GetRecordType(properties), extractedValue)
+                    End If
+                    outputData = outputData & extractedValue
+                End If
+                Fbreak
+            End If
+
+            If GetRecordType(properties) == DATA_LENGTH_VARIABLE And i <> 0 Then
+                outputData = outputData & separator
+            End If
+            outputData = outputData & ILr1DataItem:GetFormattedData(itemName, GetRecordType(properties), itemData)
+        Next
+
+        Return(outputData)
+    End Method
+
+End Package
+
+#popdefine

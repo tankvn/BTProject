@@ -1,0 +1,6 @@
+
+#define DEF_COMMON BtScreenCommon
+
+#define DEF_NAME_PROPERTY 0
+#define DEF_BASE_PROPERTY_NUM 1
+

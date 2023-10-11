@@ -1,0 +1,4 @@
+    Method IBtMasterCheckControlInvoke(this)
+    Begin
+        DEF_COMMON:IBtMasterCheckControlInvokeCommon(this, Properties)
+    End Method

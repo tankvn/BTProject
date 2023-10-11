@@ -1,0 +1,941 @@
+
+Package BtLabelCommon
+
+    Method GetType(properties[])
+    Begin
+        Return(properties[1])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[1] = value
+    End Method
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[0])
+    End Method
+
+    Method Focus(properties[])
+    Begin
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+    Begin
+    End Method
+
+    Method GetTabStop(properties[])
+    Begin
+        Return (properties[2])
+    End Method
+    Method SetTabStop(properties[], value)
+    Begin
+        properties[2] = value
+    End Method
+
+    Method GetTabIndex(properties[])
+    Begin
+        Return (properties[3])
+    End Method
+    Method SetTabIndex(properties[], value)
+    Begin
+        properties[3] = value
+    End Method
+
+    Method GetVisible(properties[])
+    Begin
+        Return (properties[4])
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        properties[4] = value
+    End Method
+
+    Method UpdateVisible(properties[])
+    Begin
+        properties[28] = false
+        Invalidate(properties)
+    End Method
+
+    Method GetEnabled(properties[])
+    Begin
+        Return (properties[31])
+    End Method
+    Method SetEnabled(properties[], value)
+    Begin
+        properties[31] = value
+    End Method
+
+    Method GetIsPartOfControl(properties[])
+    Begin
+        Return (properties[5])
+    End Method
+    Method SetIsPartOfControl(properties[], value)
+    Begin
+        properties[5] = value
+    End Method
+
+    Method GetCollationValue(properties[], dataIndex, index)
+        value
+    Begin
+        If dataIndex is nil Then Return (GetLogData(properties, dataIndex)) End If
+
+        value = DB_DAT:Get_Offset(GetName(properties), "Collation", dataIndex)
+        If value is nil Then
+            If dataIndex == 0 Then Return (GetLogData(properties, dataIndex)) End If
+            Return("")
+        End If
+        Return(value)
+    End Method
+
+    Method GetInitialText(properties[])
+    Begin
+        Return (properties[6])
+    End Method
+    Method SetInitialText(properties[], value)
+    Begin
+        properties[6] = value
+
+        SetText(properties, value)
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return(properties[7])
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        properties[7] = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return(properties[8])
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        properties[8] = value
+    End Method
+
+    Method GetBorderStyle(properties[])
+    Begin
+        Return (properties[9])
+    End Method
+    Method SetBorderStyle(properties[], value)
+    Begin
+        properties[9] = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (properties[10])
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        properties[10] = value
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+        Return (properties[11])
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+        properties[11] = value
+    End Method
+
+    Method GetText(properties[])
+    Begin
+        Return (GetDisplayText(properties, properties[12]))
+    End Method
+    Method SetText(properties[], value)
+    Begin
+        If properties[12] eq value Then
+            Return()
+        End If
+        properties[12] = value
+
+        If GetVisible(properties) Then
+            Invalidate(properties)
+        End If
+    End Method
+
+    Method GetImaging(properties[])
+    Begin
+        Return (properties[13])
+    End Method
+    Method SetImaging(properties[], value)
+    Begin
+        properties[13] = value
+    End Method
+
+    Method GetImageFileName(properties[])
+    Begin
+        Return (properties[14])
+    End Method
+    Method SetImageFileName(properties[], value )
+    Begin
+        properties[14] = value
+    End Method
+
+    Method GetStorageDestination(properties[])
+    Begin
+        Return (properties[15])
+    End Method
+    Method SetStorageDestination(properties[], value)
+    Begin
+        properties[15] = value
+    End Method
+
+    Method GetFontSize(properties[])
+    Begin
+        Return (properties[16])
+    End Method
+    Method SetFontSize(properties[], value)
+    Begin
+        properties[16] = value
+    End Method
+
+    Method GetFontName(properties[])
+    Begin
+        Return (properties[30])
+    End Method
+    Method SetFontName(properties[], value)
+    Begin
+        properties[30] = value
+    End Method
+
+    Method GetBold(properties[])
+    Begin
+        Return (properties[22])
+    End Method
+    Method SetBold(properties[], value)
+    Begin
+        properties[22] = value
+    End Method
+
+    Method GetAlignment(properties[])
+    Begin
+        Return (properties[17])
+    End Method
+    Method SetAlignment(properties[], value )
+    Begin
+        properties[17] = value
+    End Method
+
+    _useNumberGroupSeparator = False
+    Method GetUseNumberGroupSeparator(properties[])
+    Begin
+        Return (properties[18])
+    End Method
+    Method SetUseNumberGroupSeparator(properties[], value)
+    Begin
+        properties[18] = value
+    End Method
+
+    Method GetParent(properties[])
+    Begin
+        Return(properties[19])
+    End Method
+    Method SetParent(properties[], value)
+    Begin
+        properties[19] = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return(properties[20])
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        properties[20] = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return(properties[21])
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        properties[21] = value
+    End Method
+
+    Method GetLogEditType(properties[], index)
+    Begin
+        Return (0)
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index)
+    Begin
+        Return (0)
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index)
+    Begin
+        Return (False)
+    End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl)
+    Begin
+        Return (properties[0] eq targetLogItemControl)
+    End Method
+
+    Method GetInputValue(properties[])
+    Begin
+        Return (GetText(properties))
+    End Method
+
+    Method SetAutoInvalidate(properties[])
+    Begin
+        Invalidate(properties)
+    End Method
+
+    Method GetMagnificate(properties[])
+    Begin
+        Return (properties[23])
+    End Method
+    Method SetMagnificate(properties[], value)
+    Begin
+        properties[23] = value
+    End Method
+
+    Method GetAfterResetHandler(properties[])
+    Begin
+        Return(properties[24])
+    End Method
+    Method SetAfterResetHandler(properties[], handle)
+    Begin
+        properties[24] = handle
+    End Method
+
+    Method GetComparisonValueCountUpdatedHandler(properties[])
+    Begin
+        Return(properties[25])
+    End Method
+    Method SetComparisonValueCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[25] = handle
+    End Method
+
+    Method GetCollationCountUpdatedHandler(properties[])
+    Begin
+        Return(properties[26])
+    End Method
+    Method SetCollationCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[26] = handle
+    End Method
+
+    Method GetDataUpdatedHandler(properties[])
+    Begin
+        Return(properties[32])
+    End Method
+    Method SetDataUpdatedHandler(properties[], handler)
+    Begin
+        properties[32] = handler
+    End Method
+
+    Method IControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+            Case "GetName"
+                InterfaceCommon:Result = GetName(properties)
+            Case "GetText"
+                InterfaceCommon:Result = GetText(properties)
+            Case "SetText"
+                SetText(properties, UserObj<this>:Get(2))
+            Case "Focus"
+                Focus(properties)
+            Case "InvokeFocusHandler"
+                InvokeFocusHandler(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetEnabled"
+                InterfaceCommon:Result = GetEnabled(properties)
+            Case "SetEnabled"
+                SetEnabled(properties, UserObj<this>:Get(2))
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "TemporaryHide"
+                InterfaceCommon:Result = TemporaryHide(properties)
+            Case "UpdateVisible"
+                InterfaceCommon:Result = UpdateVisible(properties)
+            Case "Dispose"
+                InterfaceCommon:Result = Dispose(properties)
+        End Select
+    End Method
+    Method IBtInputControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "SetTabIndex"
+                InterfaceCommon:Result = SetTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                InterfaceCommon:Result = SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetIsPartOfControl"
+                InterfaceCommon:Result = GetIsPartOfControl(properties)
+            Case "SetIsPartOfControl"
+                InterfaceCommon:Result = SetIsPartOfControl(properties, UserObj<this>:Get(2))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+            Case "StoreTemporaryText"
+                InterfaceCommon:Result = StoreTemporaryText(properties)
+            Case "ResetTemporaryText"
+                InterfaceCommon:Result = ResetTemporaryText(properties)
+        End Select
+    End Method
+    Method ILogItemControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetLogEditType"
+                InterfaceCommon:Result = GetLogEditType(properties, UserObj<this>:Get(2))
+            Case "GetDecimalPlaces"
+                InterfaceCommon:Result = GetDecimalPlacesIndex(properties, UserObj<this>:Get(2))
+            Case "GetCheckDuplicateReading"
+                InterfaceCommon:Result = GetCheckDuplicateReading(properties, UserObj<this>:Get(2))
+            Case "GetIsSameLogItem"
+                InterfaceCommon:Result = GetIsSameLogItem(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetControlName"
+                InterfaceCommon:Result = GetControlName(properties, UserObj<this>:Get(2))
+            Case "GetLogTableFieldType"
+                InterfaceCommon:Result = GetLogTableFieldType(properties, UserObj<this>:Get(2))
+            Case "GetLogData"
+                InterfaceCommon:Result = GetLogData(properties, UserObj<this>:Get(2))
+            Case "CheckValidInput"
+                InterfaceCommon:Result = CheckValidInput(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+        End Select
+    End Method
+    Method ICollationTargetInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabStop"
+                InterfaceCommon:Result = GetTabStop(properties)
+            Case "SetTabStop"
+                InterfaceCommon:Result = SetTabStop(properties, UserObj<this>:Get(2))
+            Case "DataInput"
+                InterfaceCommon:Result = DataInput(properties, UserObj<this>:Get(2))
+            Case "FocusTransitionRequested"
+                InterfaceCommon:Result = FocusTransitionRequested(properties)
+            Case "ComparisonValueCountUpdated"
+                InterfaceCommon:Result = ComparisonValueCountUpdated(properties)
+            Case "CollationCountInitialized"
+                InterfaceCommon:Result = CollationCountInitialized(properties)
+            Case "GetCollationValue"
+                InterfaceCommon:Result = GetCollationValue(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetAllCollationValues"
+                InterfaceCommon:Result = GetAllCollationValues(properties, UserObj<this>:Get(2))
+            Case "AddCollationValue"
+                InterfaceCommon:Result = AddCollationValue(properties)
+            Case "RemoveCollationValue"
+                InterfaceCommon:Result = RemoveCollationValue(properties, UserObj<this>:Get(2))
+            Case "ClearCollationValue"
+                InterfaceCommon:Result = ClearCollationValue(properties)
+            Case "GetCollationInputControl"
+                InterfaceCommon:Result = GetCollationInputControl(properties, UserObj<this>:Get(2))
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+        End Select
+    End Method
+    Method ISearchViewDisplayControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "SetSearchResult"
+                InterfaceCommon:Result = SetSearchResult(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+        End Select
+    End Method
+    Method IFilterControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetInputValue"
+                InterfaceCommon:Result = GetInputValue(properties)
+        End Select
+    End Method
+    Method ILookUpBoxDisplayToolInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetInitialText"
+                InterfaceCommon:Result = GetInitialText(properties)
+        End Select
+    End Method
+
+    Method GetControlName(properties[], index)
+    Begin
+        Return (properties[0])
+    End Method
+
+    Method GetLogTableFieldType(properties[], index)
+    Begin
+        Return (2)
+    End Method
+
+    Method GetDisplayText(properties[], value)
+        displayText
+    Begin
+        displayText = value
+
+        If (GetUseNumberGroupSeparator(properties)) Then
+            displayText = MathUtility:GetDegitGroupingText(displayText)
+        End If
+
+        Return (displayText)
+    End Method
+
+    Method Initialize(properties[])
+    Begin
+        properties[28] = false
+        properties[29] = false
+        properties[6] = ""
+        properties[12] = ""
+        SetType(properties, "BtLabel")
+        SetTabStop(properties, false)
+        SetTabIndex(properties, nil)
+        SetIsPartOfControl(properties, false)
+        SetWidth(properties, 100)
+        SetHeight(properties, 100)
+        SetBorderStyle(properties, "none")
+        SetBackColor(properties, "255|255|255")
+        SetForeColor(properties, "0|0|0")
+        SetImaging(properties, false)
+        SetImageFileName(properties, nil)
+        SetStorageDestination(properties, "1")
+        SetFontSize(properties, 12)
+        SetFontName(properties, "TT Hira UD Sans Rd Mono StdN W4")
+        SetBold(properties, false)
+        SetAlignment(properties, "left")
+        SetUseNumberGroupSeparator(properties, false)
+        SetParent(properties, nil)
+        SetLeft(properties, 0)
+        SetTop(properties, 0)
+        SetMagnificate(properties, 1)
+        SetVisible(properties, false)
+        SetEnabled(properties, true)
+    End Method
+
+    Method GetAllCollationValues(properties[], index)
+    Begin
+        Return (DB_DAT:Count(GetName(properties), "Collation"))
+    End Method
+
+    Method AddCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Add(GetName(properties), "Collation", GetCollationValue(properties, nil, 0))
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method RemoveCollationValue(properties[], rowIndex)
+        parameter[1]
+    Begin
+        DB_DAT:Delete_Offset(GetName(properties), "Collation", rowIndex)
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method ClearCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Delete_All(GetName(properties), "Collation")
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method GetCollationInputControl(properties[], index)
+    Begin
+        Return (GetName(properties))
+    End Method
+
+    Method Create(properties[], parentName)
+    Begin
+        Initialize(properties)
+        SetParent(properties, parentName)
+    End Method
+
+    Method Invalidate(properties[])
+    Begin
+        If "BTW" eq "BT" Or GetImaging(properties) Then
+            DrawCanvas(properties)
+            DrawString(properties)
+        Else
+            DrawLabel(properties)
+        End If
+    End Method
+
+    Method DrawLabel(properties[])
+    Begin
+        If properties[28] Then
+            Return()
+        End If
+
+        With Label<properties[0]>
+            If Not properties[29] Then
+                :Create(GetParent(properties))
+                :enable = GetEnabled(properties)
+                :textVAlign = "center"
+                properties[29] = true
+            End If
+
+            :backColor = GetBackColor(properties)
+            :left = GetLeft(properties)
+            :top = GetTop(properties)
+            :width = GetWidth(properties)
+            :height = GetHeight(properties)
+            :frame = GetBorderStyle(properties)
+
+            :foreColor = GetForeColor(properties)
+            :fontSize = GetFontSize(properties)
+            :fontName = GetFontName(properties)
+            :fontBold = GetBold(properties)
+            :textAlign = GetAlignment(properties)
+            :text = GetText(properties)
+
+            :visible = GetVisible(properties)
+        End With
+    End Method
+
+    Method DrawCanvas(properties[])
+    Begin
+        If properties[28] Then
+            Return()
+        End If
+
+        With Canvas<properties[0]>
+            If Not properties[29] Then
+                :Create(GetParent(properties))
+                :enable = false
+                properties[29] = true
+            End If
+
+            :backColor = GetBackColor(properties)
+            :left = GetLeft(properties)
+            :top = GetTop(properties)
+            :width = GetWidth(properties)
+            :height = GetHeight(properties)
+            If GetImaging(properties) Then
+                :frame = "none"
+                :SetImage(GetStorageDestination(properties) & ":" & GetImageFileName(properties))
+            Else
+                :frame = GetBorderStyle(properties)
+            End If
+
+            :visible = GetVisible(properties)
+        End With
+    End Method
+
+    Method DrawString(properties[])
+        Const marginX = 2
+        drawY
+        calcMargin
+        charCount
+        alignment
+    Begin
+        If properties[28] Or GetImaging(properties) Then
+            Return()
+        End If
+
+        If Not properties[29] Then
+            Return()
+        End If
+
+        With Drawing
+            :Initialize()
+            :targetCanvas = properties[0]
+            If GetEnabled(properties) Then
+                :lineColor = GetForeColor(properties)
+            Else
+                :lineColor = "192|192|192"
+            End If
+            :fillColor = GetBackColor(properties)
+            :fontSize = GetFontSize(properties)
+            :magnificate = GetMagnificate(properties)
+            :multiColumn = 2
+
+            If GetBold(properties) Then
+                If Drawing:fontGapx == 0 Then
+                    Drawing:fontGapx = 1
+                End If
+                :bold = true
+            End If
+
+            drawY = (GetHeight(properties) - GetConvertFontToPoint(GetFontSize(properties)) * AdjustmentMagnificate(properties)) / 2
+            If (drawY < 0) Then
+                drawY = 0
+            End If
+
+            If GetText(properties).length > 0 Then
+                alignment = GetAlignment(properties)
+                Select Case alignment
+                Case "left"
+                    :String(GetText(properties), marginX, drawY)
+                Case "center","right"
+                    calcMargin = GetWidth(properties) - (GetText(properties).length * (GetConvertFontToPoint(GetFontSize(properties)) * AdjustmentMagnificate(properties)/ 2))
+                    charCount = StringUtility:GetCharCount(GetText(properties))
+                    If charCount > 0 Then
+                        calcMargin = calcMargin - (Drawing:fontGapx * (charCount - 1))
+                    End If
+                    calcMargin = calcMargin - marginX * 2
+                    If alignment eq "center" Then
+                        calcMargin = calcMargin / 2
+                    Else
+                        calcMargin = calcMargin - AdjustmentBold(properties)
+                    End If
+                    If calcMargin < 0 Then
+                        calcMargin = 0
+                    End If
+                    :String(GetText(properties), calcMargin, drawY)
+                End Select
+            End If
+        End With
+    End Method
+
+    Method GetConvertFontToPoint(value)
+        result = value
+    Begin
+        Select Case value
+            Case "small"
+                result = 12
+            Case "middle"
+                result = 16
+            Case "large"
+                result = 24
+        End Select
+
+        Return(result)
+    End Method
+
+    Method AdjustmentMagnificate(properties[])
+    Begin
+        Select Case GetMagnificate(properties)
+            Case 1
+                Return(1)
+            Case 2
+                Return(2)
+            Case 3
+                Return(1)
+            Case 4
+                Return(2)
+            Case 9
+                Return(3)
+            Case 16
+                Return(4)
+            Case 25
+                Return(5)
+        End Select
+    End Method
+
+    Method AdjustmentBold(properties[])
+    Begin
+        If GetBold(properties) Then
+            Return(GetText(properties).length * (AdjustmentMagnificate(properties) / 2))
+        Else
+            Return(0)
+        End If
+    End Method
+
+    Method ComparisonValueCountUpdated(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CollationCountUpdated(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget , index)
+    Begin
+        Return (True)
+    End Method
+
+    Method GetForeBrushColor(properties[])
+    Begin
+        If "BTW" eq "BT" Or GetImaging(properties) Then
+            If Not Canvas<GetControlName(properties, 0)>:enable Then
+                Return ("211|211|211")
+            End If
+        Else
+            If Not Label<GetControlName(properties, 0)>:enable Then
+                Return ("211|211|211")
+            End If
+        End If
+        Return (GetForeColor(properties))
+    End Method
+
+    Method DataInput(properties[], result)
+    Begin
+        Return (true)
+    End Method
+
+    Method FocusTransitionRequested(properties[])
+    Begin
+        Return (true)
+    End Method
+
+    Method BaseSetSearchResult(properties[], listId_SearchResult, columnIndex)
+        displayText
+    Begin
+        If (listId_SearchResult == 0) Or (ListTable:Count(listId_SearchResult) == 0) Then
+            Return (0)
+        End If
+
+        displayText = ListTable:Get(listId_SearchResult, 0, "val")
+        SetText(properties, displayText)
+
+        If ICollationTarget:IsImplemented(GetName(properties)) Then
+            AddCollationValue(properties)
+        EndIf
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        properties[28] = true
+
+        If properties[29] Then
+            If "BTW" eq "BT" Or GetImaging(properties) Then
+                Canvas<properties[0]>:Delete()
+            Else
+                Label<properties[0]>:Delete()
+            End If
+            properties[29] = false
+        End If
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        If "BTW" eq "BT" Or GetImaging(properties) Then
+            Canvas<properties[0]>:Delete()
+        Else
+            Label<properties[0]>:Delete()
+        End If
+    End Method
+
+    Method StoreTemporaryText(properties[])
+    Begin
+    End Method
+
+    Method ResetTemporaryText(properties[])
+    Begin
+    End Method
+
+    Method GetIsShared(properties[])
+    Begin
+        Return (properties[33 + 2])
+    End Method
+    Method SetIsShared(properties[], value)
+    Begin
+        properties[33 + 2] = value
+    End Method
+
+    Method GetSharedParameterKey(properties[])
+    Begin
+        Return (properties[33 + 0])
+    End Method
+    Method SetSharedParameterKey(properties[], value)
+    Begin
+        properties[33 + 0] = value
+    End Method
+
+    Method GetSharedParameterClearTiming(properties[])
+    Begin
+        Return (properties[33 + 1])
+    End Method
+    Method SetSharedParameterClearTiming(properties[], value)
+    Begin
+        properties[33 + 1] = value
+    End Method
+
+    Method ISharedParameterInputToolInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetIsShared"
+                InterfaceCommon:Result = GetIsShared(properties)
+            Case "SetIsShared"
+                InterfaceCommon:Result = SetIsShared(properties, UserObj<this>:Get(2))
+            Case "GetSharedParameterKey"
+                InterfaceCommon:Result = GetSharedParameterKey(properties)
+            Case "SetSharedParameterKey"
+                InterfaceCommon:Result = SetSharedParameterKey(properties, UserObj<this>:Get(2))
+            Case "GetSharedParameterClearTiming"
+                InterfaceCommon:Result = GetSharedParameterClearTiming(properties)
+            Case "SetSharedParameterClearTiming"
+                InterfaceCommon:Result = SetSharedParameterClearTiming(properties, UserObj<this>:Get(2))
+            Case "RegisterSharedParameter"
+                InterfaceCommon:Result = RegisterSharedParameter(properties)
+            Case "RestoreSharedParameter"
+                InterfaceCommon:Result = RestoreSharedParameter(properties)
+        End Select
+    End Method
+
+    Method Reset(properties[])
+        parameter[1]
+    Begin
+        SetText(properties, GetInitialText(properties))
+        RestoreSharedParameter(properties)
+
+        EventUtility:Exec(GetAfterResetHandler(properties), GetName(properties), parameter)
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method SetHandler(properties[], afterResetHandler, comparisonValueCountUpdatedHandler, collationCountUpdatedHandler, dataUpdatedHandler)
+    Begin
+        SetAfterResetHandler(properties, afterResetHandler)
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountUpdatedHandler(properties, collationCountUpdatedHandler)
+        SetDataUpdatedHandler(properties, dataUpdatedHandler)
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex)
+    Begin
+        If (listId_SearchResult == 0) Or (ListTable:Count(listId_SearchResult) == 0) Then
+            Return (0)
+        End If
+
+        BaseSetSearchResult(properties, listId_SearchResult, columnIndex)
+        RegisterSharedParameter(properties)
+    End Method
+
+    Method RegisterSharedParameter(properties[])
+    Begin
+        If Not GetIsShared(properties) Then
+            Return ()
+        End If
+
+        SharedParameterUtility:UpdateSharedParameter(GetSharedParameterKey(properties), GetText(properties), GetText(properties))
+        If (ErrorManager:GetError() ne "") Then
+            MessageUtility:ShowMessageOk("The operation to update the shared parameters failed.")
+        End If
+    End Method
+
+    Method RestoreSharedParameter(properties[])
+        displayValue
+    Begin
+        displayValue = properties[6]
+
+        If (GetIsShared(properties)) Then
+            If (SharedParameterUtility:IsExistKey(GetSharedParameterKey(properties))) Then
+                displayValue = SharedParameterUtility:GetSharedParameter(GetSharedParameterKey(properties))
+            End If
+        End If
+        SetText(properties, displayValue)
+    End Method
+
+    Method GetLogData(properties[], index)
+    Begin
+        Return (GetText(properties))
+    End Method
+
+    Method CollationCountInitialized(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+End Package
+

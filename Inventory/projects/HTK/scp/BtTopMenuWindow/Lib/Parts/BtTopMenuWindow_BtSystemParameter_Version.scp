@@ -1,0 +1,88 @@
+
+Package BtTopMenuWindow_BtSystemParameter_Version
+
+    Properties[33 + 1]
+
+    Method AfterReset(this)
+    Begin
+    End Method
+
+    Method ComparisonValueCountUpdated(this)
+    Begin
+    End Method
+
+    Method CollationCountUpdated(this)
+    Begin
+    End Method
+
+    Method DataUpdated(this)
+    Begin
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[0] = "BtTopMenuWindow_BtSystemParameter_Version"
+        BtLabelCommon:Create(Properties, parentName)
+        New()
+    End Method
+
+    Method Invalidate()
+    Begin
+        BtLabelCommon:Invalidate(Properties)
+    End Method
+    Method IControlInvoke(this)
+    Begin
+        BtSystemParameterLabelCommon:IControlInvokeCommon(this, Properties)
+    End Method
+    Method IBtInputControlInvoke(this)
+    Begin
+        BtSystemParameterLabelCommon:IBtInputControlInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemControlInvoke(this)
+    Begin
+        BtSystemParameterLabelCommon:ILogItemControlInvokeCommon(this, Properties)
+    End Method
+    Method ICollationTargetInvoke(this)
+    Begin
+        BtSystemParameterLabelCommon:ICollationTargetInvokeCommon(this, Properties)
+    End Method
+    Method ISearchViewDisplayControlInvoke(this)
+    Begin
+        BtSystemParameterLabelCommon:ISearchViewDisplayControlInvokeCommon(this, Properties)
+    End Method
+    Method IFilterControlInvoke(this)
+    Begin
+        BtSystemParameterLabelCommon:IFilterControlInvokeCommon(this, Properties)
+    End Method
+    Method ILookUpBoxDisplayToolInvoke(this)
+    Begin
+        BtSystemParameterLabelCommon:ILookUpBoxDisplayToolInvokeCommon(this, Properties)
+    End Method
+
+    Method New()
+    Begin
+        BtFormCommon:EventEffect(OnTimer, true)
+        BtSystemParameterLabelCommon:SetHandler(Properties, AfterReset, CollationCountUpdated, ComparisonValueCountUpdated)
+    End Method
+
+    Method Dispose(disposing)
+    Begin
+        BtFormCommon:EventEffect(OnTimer, false)
+    End Method
+
+    Method GetLogData(index)
+    Begin
+        Return (BtSystemParameterLabelCommon:GetText(Properties))
+    End Method
+
+    Method OnTimer(sender)
+    Begin
+        Select Case Properties[33 + 0]
+            Case 6, 7
+                BtSystemParameterLabelCommon:UpdateData(Properties)
+            Case Else
+                Return(0)
+        End Select
+    End Method
+End Package
+

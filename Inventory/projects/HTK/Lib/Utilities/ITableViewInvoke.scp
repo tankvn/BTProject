@@ -1,0 +1,4 @@
+    Method ITableViewInvoke(this)
+    Begin
+        DEF_COMMON:ITableViewInvokeCommon(this, Properties)
+    End Method

@@ -1,0 +1,27 @@
+    Method IBtMasterCheckControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetInputVoucher"
+                InterfaceCommon:Result = GetInputVoucher(properties)
+            Case "GetStorageDestination"
+                InterfaceCommon:Result = GetStorageDestination(properties)
+            Case "GetMasterFileName"
+                InterfaceCommon:Result = GetMasterFileName(properties)
+            Case "GetItemKeysCount"
+                InterfaceCommon:Result = GetItemKeysCount(properties)
+            Case "GetLogVoucherColumnNumber"
+                InterfaceCommon:Result = GetLogVoucherColumnNumber(properties)
+            Case "GetLogItemKeysColumnNumbers"
+                InterfaceCommon:Result = GetLogItemKeysColumnNumbers(properties, UserObj<this>:Get(2))
+            Case "GetLogQuantityColumnNumber"
+                InterfaceCommon:Result = GetLogQuantityColumnNumber(properties)
+            Case "GetUserMasterDataInfo"
+                InterfaceCommon:Result = GetUserMasterDataInfo(properties)
+            Case "UpdateLogData"
+                InterfaceCommon:Result = UpdateLogData(properties)
+            Case "RefrectSentNumWithMaxRowId"
+                InterfaceCommon:Result = RefrectSentNumWithMaxRowId(properties, UserObj<this>:Get(2))
+            Case "RefrectSentNumByRealTime"
+                InterfaceCommon:Result = RefrectSentNumByRealTime(properties)
+        End Select
+    End Method

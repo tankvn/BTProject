@@ -1,0 +1,310 @@
+Include "BtTopMenuWindow\Lib\Utilities\IBtSharedParameterLabel"
+Include "BtTopMenuWindow\Lib\Utilities\ISharedParameterInputTool"
+Include "BtTopMenuWindow\Lib\Utilities\IBtInputComponent"
+Include "BtTopMenuWindow\Lib\Utilities\IMasterCheckDataOwnerControl"
+Include "BtTopMenuWindow\Lib\Utilities\IMasterDataOwnerControl"
+Include "BtTopMenuWindow\Lib\Utilities\IFilterControl"
+Include "BtTopMenuWindow\Lib\Utilities\IBtInputControl"
+Include "BtTopMenuWindow\Lib\Utilities\IControl"
+Include "BtTopMenuWindow\Lib\Utilities\IBtMasterCheckControl"
+Include "BtTopMenuWindow\Lib\Utilities\IBtCombinationComponent"
+Include "BtTopMenuWindow\Lib\Utilities\ICollationConditionSetting"
+Include "BtTopMenuWindow\Lib\Utilities\ICollationComparisonItem"
+Include "BtTopMenuWindow\Lib\Utilities\ICollationTarget"
+Include "BtTopMenuWindow\Lib\Utilities\IRangeSettings"
+Include "BtTopMenuWindow\Lib\Utilities\IBtCollationControl"
+Include "BtTopMenuWindow\Lib\Utilities\ISearchViewDisplayItem"
+Include "BtTopMenuWindow\Lib\Utilities\ISearchViewConditionItem"
+Include "BtTopMenuWindow\Lib\Utilities\ISearchViewDisplayControl"
+Include "BtTopMenuWindow\Lib\Utilities\ISearchViewConditionControl"
+Include "BtTopMenuWindow\Lib\Utilities\IInputQuantityTool"
+Include "BtTopMenuWindow\Lib\Utilities\IInputItemTool"
+Include "BtTopMenuWindow\Lib\Utilities\IBtStopWatch"
+Include "BtTopMenuWindow\Lib\Utilities\ILookUpBoxDisplayTool"
+Include "BtTopMenuWindow\Lib\Utilities\ILookUpBoxInputTool"
+Include "BtTopMenuWindow\Lib\Utilities\ITableView"
+Include "BtTopMenuWindow\Lib\Utilities\IBtInputDateControl"
+Include "BtTopMenuWindow\Lib\Parts\ScreenManager"
+Include "BtTopMenuWindow\Lib\Utilities\ILogItemScreenData"
+Include "BtTopMenuWindow\Lib\Utilities\ILogItemSystemParameter"
+Include "BtTopMenuWindow\Lib\Utilities\ILogItem"
+Include "BtTopMenuWindow\Lib\Utilities\IDataFormatControl"
+Include "BtTopMenuWindow\Lib\Utilities\ILogItemControl"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog"
+Include "BtTopMenuWindow\Lib\Parts\RES\DateAndTimeSettingDialog_res"
+Include "BtTopMenuWindow\Lib\Utilities\DateAndTimeSettingDialog_FocusTransitionUtility"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog_okButton"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog_cancelButton"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog_MinuteTextBox"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog_TimeSeparatorLabel"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog_HourTextBox"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog_TimeLabel"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog_InputDateBox"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog_DateLabel"
+Include "BtTopMenuWindow\Lib\Parts\DateAndTimeSettingDialog_labelTitle"
+Include "BtTopMenuWindow\Lib\Parts\RES\BtEnvironmentSettingsForm_res"
+Include "BtTopMenuWindow\Lib\Utilities\BtEnvironmentSettingsForm_FocusTransitionUtility"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtButtonOK"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtButtonCancel"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtButtonDateTimeSetting"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtLabelKeyTouchSound"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtDropDownBoxScanningSound"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtLabelScanningSound"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtLabelAutoPowerOffTimeUnit"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtLabelAutoPowerOffTime"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtLabelBackLighttimeUnit"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtTextBoxBackLighttime"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtDropDownBoxBacklight"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtLabelBacklight"
+Include "BtTopMenuWindow\Lib\Parts\BtEnvironmentSettingsForm_BtLabelTitle"
+Include "BtTopMenuWindow\Lib\Utilities\BtTopMenuWindowForm_FocusTransitionUtility"
+
+Package BtTopMenuWindowForm_res
+
+Properties[11]
+
+_ctrl[1]
+_components[1]
+
+    Method New()
+    Begin
+
+        Properties[0] = "BtTopMenuWindowForm"
+        BtFormCommon:New(Properties)
+    End Method
+
+    Method InitializeChildren()
+    Begin
+        UpdateChildren(False)
+    End Method
+
+    Method UpdateChildren(updateScreen)
+    Begin
+        BtFormCommon:UpdateChildren(_ctrl, _components)
+
+        If updateScreen Then
+            BtTopMenuWindow_res:UpdateChildren()
+        End If
+    End Method
+
+    Method UpdateLogData(updateScreen)
+    Begin
+        If updateScreen Then
+            BtTopMenuWindow_res:UpdateLogData()
+        End If
+    End Method
+
+    Method UpdateMasterData(updateScreen)
+    Begin
+    End Method
+
+    Method ReflectMasterCheckSentNum(logDataMaxRowId)
+    Begin
+        BtTopMenuWindow_res:ReflectMasterCheckSentNum(logDataMaxRowId)
+    End Method
+
+    Method ReflectMasterCheckSentNumByRealTime()
+    Begin
+        BtTopMenuWindow_res:ReflectMasterCheckSentNumByRealTime()
+    End Method
+
+    Method RegisterSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:RegisterSharedParameter(_ctrl)
+
+        If updateScreen Then
+            BtTopMenuWindow_res:RegisterSharedParameter()
+        End If
+    End Method
+
+    Method UpdateSharedParameterInputTool(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameterInputTool(_ctrl, _components)
+
+        If updateScreen Then
+            BtTopMenuWindow_res:UpdateSharedParameterInputTool()
+        End If
+    End Method
+
+    Method UpdateSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameter(_ctrl)
+
+        If updateScreen Then
+            BtTopMenuWindow_res:UpdateSharedParameter()
+        End If
+
+        UpdateSharedParameterInputTool(updateScreen)
+    End Method
+
+    Method ClearSharedParameterWhenWroteLog()
+    Begin
+
+            BtTopMenuWindow_res:ClearSharedParameter(0x1)
+
+        RegisterSharedParameter(true)
+        UpdateSharedParameter(true)
+    End Method
+
+    Method ClearSharedParameterWhenJobClose()
+    Begin
+            BtTopMenuWindow_res:ClearSharedParameter(0x2)
+
+        RegisterSharedParameter(true)
+    End Method
+
+    Method CloseDatabase()
+    Begin
+        BtFormCommon:CloseDatabase(_ctrl, _components)
+    End Method
+
+    Method KeyAssignedAction(sender)
+    Begin
+        Select Case sender
+            Case 0x00000001
+            Case 0x00000002
+            Case 0x00000004
+            Case 0x02000000
+            Case 0x00200000
+            Case 0x00400000
+        End Select
+    End Method
+
+    Method GetActiveControl(checkControl)
+    Begin
+        Return (Window<Properties[0]>:GetFocus())
+    End Method
+
+    Method ResetInvalidInput()
+    Begin
+    End Method
+
+    Method OnShown(e)
+    Begin
+            BtTopMenuWindow_res:OnFormShown()
+    End Method
+
+    Method Close()
+    Begin
+        BtFormCommon:Close(Properties)
+    End Method
+
+    Method Dispose()
+    Begin
+        BtFormCommon:Dispose(_ctrl)
+        BtTopMenuWindow_res:Dispose()
+    End Method
+
+    Method Show(value)
+    Begin
+        BtFormCommon:ShowDisplay(Properties, _ctrl, value)
+    End Method
+
+    Method EventWait()
+    Begin
+        BtFormCommon:EventWait(Properties)
+    End Method
+
+    Method KeyAssignedActionForBtScreen(controlId, sender)
+    Begin
+        Select Case controlId
+            Case "BtTopMenuWindow_res"
+                BtTopMenuWindow_res:KeyAssignedAction(sender)
+        End Select
+    End Method
+
+    _inputKeysList[4]
+    Method AddInputKeysList(value)
+    Begin
+        BtFormCommon:AddInputKeysList(_inputKeysList, value)
+    End Method
+    Method CheckFullInputKeysList()
+    Begin
+        Return(_inputKeysList[3] is nil)
+    End Method
+    Method CheckJudgeInputKeyList()
+    Begin
+        Return(BtFormCommon:CheckJudgeInputKeyList(_inputKeysList))
+    End Method
+
+    Method Focus()
+    Begin
+        Window<Properties[0]>:SetFocus()
+    End Method
+    Method SetEnable(value)
+    Begin
+        Window<Properties[0]>:enable = value
+    End Method
+
+    Method InitializeTimer()
+    Begin
+        BtFormCommon:StartTimer(Properties, OnTimeUp)
+    End Method
+
+    Method TerminateTimer()
+    Begin
+        BtFormCommon:StopTimer(Properties)
+    End Method
+
+    Method OnTimeUp(sender)
+        currentTime
+    Begin
+        currentTime = Handy:GetTickCount1()
+
+        If currentTime < BtFormCommon:GetLastTime(Properties) Then
+            BtFormCommon:SetLastTime(Properties, -1 * 50)
+        End If
+
+        If currentTime < (BtFormCommon:GetLastTime(Properties) + 50) Then Return() End If
+        BtTopMenuWindow_res:OnTimeUp(sender)
+        BtFormCommon:SetLastTime(Properties, Handy:GetTickCount1())
+    End Method
+
+    Method InvertControlColor(sender)
+    Begin
+        If Not Window<Properties[0]>:visible Then
+            Return()
+        End If
+
+        Window<"__UPDATE_OFF__">:Update()
+        Window<"ROOT_WINDOW">:Update()
+    End Method
+
+    Method InitializeComponent()
+    Begin
+        IControl:New()
+        IBtInputControl:New()
+        IFilterControl:New()
+        ICollationTarget:New()
+        IMasterDataOwnerControl:New()
+        IMasterCheckDataOwnerControl:New()
+        IBtInputComponent:New()
+        ISharedParameterInputTool:New()
+        IBtSharedParameterLabel:New()
+        IDataFormatControl:New()
+        ILogItemSystemParameter:New()
+        ILogItemScreenData:New()
+        ILogItemControl:New()
+
+        New()
+        InitializeTimer()
+        BtTopMenuWindow:New()
+        With BtTopMenuWindowForm_res
+        End With
+
+        With BtTopMenuWindowForm_res
+            BtFormCommon:SetBackColor(:Properties, "255|255|255")
+            BtFormCommon:SetWidth(:Properties, 240)
+            BtFormCommon:SetHeight(:Properties, 320)
+            BtFormCommon:SetLeft(:Properties, 0)
+            BtFormCommon:SetTop(:Properties, 0)
+            BtFormCommon:SetFormBorderStyle(:Properties, "none")
+            BtFormCommon:SetVisible(:Properties, true)
+            BtFormCommon:UpdateVisible(:Properties)
+        End With
+
+    End Method
+End Package

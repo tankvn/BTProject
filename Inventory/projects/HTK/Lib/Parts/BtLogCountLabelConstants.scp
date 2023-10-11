@@ -1,0 +1,9 @@
+
+    #insert "\Lib\Parts\BtLabelConstants"
+    #undef DEF_COMMON
+    
+    #define DEF_COMMON BtLogCountLabelCommon
+
+    #define DEF_BT_DATA_FORMAT_CONTROL_PROPERTY DEF_BASE_PROPERTY_NUM + 0
+    #define DEF_PROPERTY_NUM DEF_BASE_PROPERTY_NUM + 1
+

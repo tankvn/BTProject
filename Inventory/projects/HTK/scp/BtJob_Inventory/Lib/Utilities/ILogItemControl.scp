@@ -1,0 +1,101 @@
+
+Package ILogItemControl
+
+    Names[13]
+    ICommons[13]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_Inventory_BtLabel_ItemNo"
+        ICommons[0] = BtWindow_Inventory_BtLabel_ItemNo:ILogItemControlInvoke
+        Names[1] = "BtWindow_Inventory_BtTextBox_ItemNo"
+        ICommons[1] = BtWindow_Inventory_BtTextBox_ItemNo:ILogItemControlInvoke
+        Names[2] = "BtWindow_Inventory_BtLabel_Quantity"
+        ICommons[2] = BtWindow_Inventory_BtLabel_Quantity:ILogItemControlInvoke
+        Names[3] = "BtWindow_Inventory_BtTextBox_Quantity"
+        ICommons[3] = BtWindow_Inventory_BtTextBox_Quantity:ILogItemControlInvoke
+        Names[4] = "BtWindow_Inventory_BtLabel_Person"
+        ICommons[4] = BtWindow_Inventory_BtLabel_Person:ILogItemControlInvoke
+        Names[5] = "BtWindow_Inventory_BtTextBox_Person"
+        ICommons[5] = BtWindow_Inventory_BtTextBox_Person:ILogItemControlInvoke
+        Names[6] = "BtWindow_Inventory_BtLabel_DataCount"
+        ICommons[6] = BtWindow_Inventory_BtLabel_DataCount:ILogItemControlInvoke
+        Names[7] = "BtWindow_Inventory_BtLabel_DataCountDisplay"
+        ICommons[7] = BtWindow_Inventory_BtLabel_DataCountDisplay:ILogItemControlInvoke
+        Names[8] = "BtWindow_Inventory_BtLabel_Title"
+        ICommons[8] = BtWindow_Inventory_BtLabel_Title:ILogItemControlInvoke
+        Names[9] = "BtWindow_Inventory_BtInputItemCountControl_1"
+        ICommons[9] = BtWindow_Inventory_BtInputItemCountControl_1:ILogItemControlInvoke
+        Names[10] = "BtHistoryDataView_Inventory_BtLabel_Title"
+        ICommons[10] = BtHistoryDataView_Inventory_BtLabel_Title:ILogItemControlInvoke
+        Names[11] = "BtHistoryDataView_Inventory_BtLabel_DataCountDisplay"
+        ICommons[11] = BtHistoryDataView_Inventory_BtLabel_DataCountDisplay:ILogItemControlInvoke
+        Names[12] = "BtHistoryDataView_Inventory_BtTableView_HistoryData"
+        ICommons[12] = BtHistoryDataView_Inventory_BtTableView_HistoryData:ILogItemControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetLogEditType(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogEditType", args, ICommons))
+    End Method
+
+    Method GetDecimalPlaces(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetDecimalPlaces", args, ICommons))
+    End Method
+
+    Method GetCheckDuplicateReading(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetCheckDuplicateReading", args, ICommons))
+    End Method
+
+    Method GetIsSameLogItem(controlName, index, logItemControl)
+        args[2]
+    Begin
+        args[0] = index
+        args[1] = logItemControl
+        Return(InterfaceCommon:Call(controlName, Names, "GetIsSameLogItem", args, ICommons))
+    End Method
+
+    Method GetControlName(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetControlName", args, ICommons))
+    End Method
+
+    Method GetLogTableFieldType(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogTableFieldType", args, ICommons))
+    End Method
+
+    Method GetLogData(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogData", args, ICommons))
+    End Method
+
+    Method CheckValidInput(controlName, checkTarget, index)
+        args[2]
+    Begin
+        args[0] = checkTarget
+        args[1] = index
+        Return(InterfaceCommon:Call(controlName, Names, "CheckValidInput", args, ICommons))
+    End Method
+
+End Package
+

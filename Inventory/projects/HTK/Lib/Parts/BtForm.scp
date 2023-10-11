@@ -1,0 +1,331 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtFormConstants"
+
+
+Properties[DEF_PROPERTY_NUM]
+
+#ifdef DEF_CONTROL
+_ctrl[DEF_CONTROL@~]
+#else
+_ctrl[1]
+#endif
+#ifdef DEF_COMPONENTS
+_components[DEF_COMPONENTS@~]
+#else
+_components[1]
+#endif
+
+
+    Method New()
+    Begin
+#beginexpand DEF_CONTROL
+        _ctrl[@^] = "DEF_CONTROL"
+#endexpand DEF_CONTROL
+#beginexpand DEF_COMPONENTS
+        _components[@^] = "DEF_COMPONENTS"
+#endexpand DEF_COMPONENTS
+
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        BtFormCommon:New(Properties)
+    End Method
+
+    Method InitializeChildren()
+    Begin
+        UpdateChildren(False)
+    End Method
+
+    Method UpdateChildren(updateScreen)
+    Begin
+        BtFormCommon:UpdateChildren(_ctrl, _components)
+
+        If updateScreen Then
+#beginexpand DEF_SCREEN
+            DEF_SCREEN:UpdateChildren()
+#endexpand DEF_SCREEN
+        End If
+    End Method
+
+    Method UpdateLogData(updateScreen)
+    Begin
+        If updateScreen Then
+#beginexpand DEF_SCREEN
+            DEF_SCREEN:UpdateLogData()
+#endexpand DEF_SCREEN
+        End If
+    End Method
+
+    Method UpdateMasterData(updateScreen)
+    Begin
+    End Method
+
+    Method ReflectMasterCheckSentNum(logDataMaxRowId)
+    Begin
+#beginexpand DEF_SCREEN
+        DEF_SCREEN:ReflectMasterCheckSentNum(logDataMaxRowId)
+#endexpand DEF_SCREEN
+    End Method
+
+    Method ReflectMasterCheckSentNumByRealTime()
+    Begin
+#beginexpand DEF_SCREEN
+        DEF_SCREEN:ReflectMasterCheckSentNumByRealTime()
+#endexpand DEF_SCREEN
+    End Method
+
+    Method RegisterSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:RegisterSharedParameter(_ctrl)
+
+        If updateScreen Then
+#beginexpand DEF_SCREEN
+            DEF_SCREEN:RegisterSharedParameter()
+#endexpand DEF_SCREEN
+        End If
+    End Method
+
+    Method UpdateSharedParameterInputTool(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameterInputTool(_ctrl, _components)
+
+        If updateScreen Then
+#beginexpand DEF_SCREEN
+            DEF_SCREEN:UpdateSharedParameterInputTool()
+#endexpand DEF_SCREEN
+        End If
+    End Method
+
+    Method UpdateSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameter(_ctrl)
+
+        If updateScreen Then
+#beginexpand DEF_SCREEN
+            DEF_SCREEN:UpdateSharedParameter()
+#endexpand DEF_SCREEN
+        End If
+
+        UpdateSharedParameterInputTool(updateScreen)
+    End Method
+
+    Method ClearSharedParameterWhenWroteLog()
+    Begin
+
+#beginexpand DEF_SCREEN
+            DEF_SCREEN:ClearSharedParameter(SHARED_PARAMETER_CLEAR_TIMING_DATA_OUTPUT)
+#endexpand DEF_SCREEN
+
+        RegisterSharedParameter(true)
+        UpdateSharedParameter(true)
+    End Method
+
+    Method ClearSharedParameterWhenJobClose()
+    Begin
+#beginexpand DEF_SCREEN
+            DEF_SCREEN:ClearSharedParameter(SHARED_PARAMETER_CLEAR_TIMING_JOB_CLOSE)
+#endexpand DEF_SCREEN
+
+        RegisterSharedParameter(true)
+    End Method
+
+    Method CloseDatabase()
+    Begin
+        BtFormCommon:CloseDatabase(_ctrl, _components)
+    End Method
+
+    Method KeyAssignedAction(sender) 
+    Begin
+        Select Case sender
+            Case KEYS_F1
+#ifdef DEF_EVENT_F1_KEY_ACTION
+                DEF_EVENT_F1_KEY_ACTION(sender)
+#endif
+            Case KEYS_F2
+#ifdef DEF_EVENT_F2_KEY_ACTION
+                DEF_EVENT_F2_KEY_ACTION(sender)
+#endif
+            Case KEYS_F3
+#ifdef DEF_EVENT_F3_KEY_ACTION
+                DEF_EVENT_F3_KEY_ACTION(sender)
+#endif
+            Case KEYS_F4
+#ifdef DEF_EVENT_F4_KEY_ACTION
+                DEF_EVENT_F4_KEY_ACTION(sender)
+#endif
+            Case KEYS_L
+#ifdef DEF_EVENT_L_KEY_ACTION
+                DEF_EVENT_L_KEY_ACTION(sender)
+#endif
+            Case KEYS_R
+#ifdef DEF_EVENT_R_KEY_ACTION
+                DEF_EVENT_R_KEY_ACTION(sender)
+#endif
+        End Select
+    End Method
+
+    Method GetActiveControl(checkControl) 
+    Begin
+        Return (Window<Properties[DEF_NAME_PROPERTY]>:GetFocus())
+    End Method
+
+    Method ResetInvalidInput()
+#ifdef DEF_INPUT_CONTROL
+        focusedControl
+#endif
+    Begin
+#ifdef DEF_INPUT_CONTROL
+        focusedControl = Window<Properties[DEF_NAME_PROPERTY]>:GetFocus()
+        Select Case focusedControl
+#beginexpand DEF_INPUT_CONTROL
+            Case "DEF_INPUT_CONTROL"
+                DEF_INPUT_CONTROL:ResetInvalidInput()
+#endexpand DEF_INPUT_CONTROL
+        End Select
+#endif
+    End Method
+
+    Method OnShown(e)
+    Begin
+#beginexpand DEF_SCREEN
+            DEF_SCREEN:OnFormShown()
+#endexpand DEF_SCREEN
+    End Method
+
+    Method Close()
+    Begin
+        BtFormCommon:Close(Properties)
+    End Method
+
+    Method Dispose()
+    Begin
+        BtFormCommon:Dispose(_ctrl)
+#beginexpand DEF_SCREEN
+        DEF_SCREEN:Dispose()
+#endexpand DEF_SCREEN
+    End Method
+
+    Method Show(value)
+    Begin
+        BtFormCommon:ShowDisplay(Properties, _ctrl, value)
+    End Method
+
+    Method EventWait()
+    Begin
+        BtFormCommon:EventWait(Properties)
+    End Method
+
+    Method KeyAssignedActionForBtScreen(controlId, sender)
+    Begin
+#ifdef DEF_SCREEN
+        Select Case controlId
+#beginexpand DEF_SCREEN
+            Case "DEF_SCREEN"
+                DEF_SCREEN:KeyAssignedAction(sender)
+#endexpand DEF_SCREEN
+        End Select
+#endif
+    End Method
+
+
+    _inputKeysList[4] 
+    Method AddInputKeysList(value)
+    Begin
+        BtFormCommon:AddInputKeysList(_inputKeysList, value)
+    End Method
+    Method CheckFullInputKeysList()
+    Begin
+        Return(_inputKeysList[3] is nil)
+    End Method
+    Method CheckJudgeInputKeyList()
+    Begin
+        Return(BtFormCommon:CheckJudgeInputKeyList(_inputKeysList))
+    End Method
+
+    Method Focus()
+    Begin
+        Window<Properties[DEF_NAME_PROPERTY]>:SetFocus()
+    End Method
+    Method SetEnable(value)
+    Begin
+        Window<Properties[DEF_NAME_PROPERTY]>:enable = value
+    End Method
+
+    Method InitializeTimer()
+    Begin
+#beginexpand DEF_EVENT_TIMER
+        UserObj<"__SMALL_OBJ__" & StringUtility:GetHandleTagNameEraseSymbol(DEF_EVENT_TIMER)>:Open()
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(DEF_EVENT_TIMER)>:Set(0, DEF_EVENT_TIMER)
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(DEF_EVENT_TIMER)>:Set(1, false)
+#endexpand DEF_EVENT_TIMER
+        BtFormCommon:StartTimer(Properties, OnTimeUp)
+    End Method
+
+    Method TerminateTimer()
+    Begin
+        BtFormCommon:StopTimer(Properties)
+#beginexpand DEF_EVENT_TIMER
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(DEF_EVENT_TIMER)>:Close()
+#endexpand DEF_EVENT_TIMER
+    End Method
+
+    Method OnTimeUp(sender)
+        currentTime
+    Begin
+        currentTime = Handy:GetTickCount1()
+
+        If currentTime < BtFormCommon:GetLastTime(Properties) Then
+            BtFormCommon:SetLastTime(Properties, -1 * DEF_TIMER_BUFFER)
+        End If
+
+        If currentTime < (BtFormCommon:GetLastTime(Properties) + DEF_TIMER_BUFFER) Then Return() End If
+#beginexpand DEF_EVENT_TIMER
+        If UserObj<StringUtility:GetHandleTagNameEraseSymbol(DEF_EVENT_TIMER)>:Get(1) Then
+            UserObj<StringUtility:GetHandleTagNameEraseSymbol(DEF_EVENT_TIMER)>:Exec(0)
+        End If
+#endexpand DEF_EVENT_TIMER
+#beginexpand DEF_SCREEN
+        DEF_SCREEN:OnTimeUp(sender)
+#endexpand DEF_SCREEN
+        BtFormCommon:SetLastTime(Properties, Handy:GetTickCount1())
+    End Method
+
+    Method InvertControlColor(sender)
+    Begin
+        If Not Window<Properties[DEF_NAME_PROPERTY]>:visible Then
+            Return()
+        End If
+
+        Window<"__UPDATE_OFF__">:Update()
+#ifdef DEF_COLLATION_ERROR_DIALOG
+#beginexpand DEF_INVERT_COLOR_CONTROL
+        DEF_INVERT_COLOR_CONTROL@1:SetBackColor(DEF_INVERT_COLOR_CONTROL@0:Properties,
+                                   IndicatorUtility:InvertColor(DEF_INVERT_COLOR_CONTROL@1:GetBackColor(DEF_INVERT_COLOR_CONTROL@0:Properties)))
+        DEF_INVERT_COLOR_CONTROL@1:SetForeColor(DEF_INVERT_COLOR_CONTROL@0:Properties,
+                                   IndicatorUtility:InvertColor(DEF_INVERT_COLOR_CONTROL@1:GetForeColor(DEF_INVERT_COLOR_CONTROL@0:Properties)))
+#endexpand DEF_INVERT_COLOR_CONTROL
+
+#beginexpand DEF_INVERT_FOCUS_COLOR_CONTROL
+        DEF_INVERT_FOCUS_COLOR_CONTROL@1:SetFocusColor(DEF_INVERT_FOCUS_COLOR_CONTROL@0:Properties,
+                                                       IndicatorUtility:InvertColor(DEF_INVERT_FOCUS_COLOR_CONTROL@1:GetFocusColor(DEF_INVERT_FOCUS_COLOR_CONTROL@0:Properties)))
+#endexpand DEF_INVERT_COLOR_CONTROL
+
+#beginexpand DEF_INVERT_COLOR_CONTROL
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BT" Or DEF_INVERT_COLOR_CONTROL@1:GetImaging(DEF_INVERT_COLOR_CONTROL@0:Properties) Then
+            DEF_INVERT_COLOR_CONTROL@1:DrawCanvas(DEF_INVERT_COLOR_CONTROL@0:Properties)
+        End If
+#endexpand DEF_INVERT_COLOR_CONTROL
+
+        BtFormCommon:SetBackColor(Properties, IndicatorUtility:InvertColor(BtFormCommon:GetBackColor(Properties)))
+
+#beginexpand DEF_INVERT_COLOR_CONTROL
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BT" Or DEF_INVERT_COLOR_CONTROL@1:GetImaging(DEF_INVERT_COLOR_CONTROL@0:Properties) Then
+            DEF_INVERT_COLOR_CONTROL@1:DrawString(DEF_INVERT_COLOR_CONTROL@0:Properties)
+        Else
+            DEF_INVERT_COLOR_CONTROL@1:DrawLabel(DEF_INVERT_COLOR_CONTROL@0:Properties)
+        End If
+#endexpand DEF_INVERT_COLOR_CONTROL
+#endif
+        Window<"ROOT_WINDOW">:Update()
+    End Method
+
+#popdefine

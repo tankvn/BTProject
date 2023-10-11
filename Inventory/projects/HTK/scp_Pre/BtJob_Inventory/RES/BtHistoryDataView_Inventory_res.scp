@@ -1,0 +1,241 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+#define DEF_FOCUS_TRANSITION_UTILITY BtHistoryDataView_Inventory_FocusTransitionUtility
+#define DEF_EVENT_FORM_KEY_DOWN ActiveForm:OnKeyDown
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtHistoryDataView_Inventory_FocusTransitionUtility
+#include "\Lib\Utilities\FocusTransitionUtility" "..\Lib\Utilities\BtHistoryDataView_Inventory_FocusTransitionUtility"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtHistoryDataView_Inventory_BtLabel_Title
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtHistoryDataView_Inventory_BtLabel_Title"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtHistoryDataView_Inventory_BtF1Key_Back
+#define DEF_EVENT_DATA_INPUT BtHistoryDataView_Inventory:BtF1Key_Back_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtHistoryDataView_Inventory_BtF1Key_Back"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtHistoryDataView_Inventory_BtLabel_DataCountDisplay
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtHistoryDataView_Inventory_BtLabel_DataCountDisplay"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtHistoryDataView_Inventory_BtTableView_HistoryData
+#include "\Lib\Parts\BtTableView" "..\Lib\Parts\BtHistoryDataView_Inventory_BtTableView_HistoryData"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtHistoryDataView_Inventory_BtF2Key_Previous
+#define DEF_EVENT_DATA_INPUT BtHistoryDataView_Inventory_res:PreviousRecordButton_Click
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtHistoryDataView_Inventory_BtF2Key_Previous"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtHistoryDataView_Inventory_BtF3Key_Next
+#define DEF_EVENT_DATA_INPUT BtHistoryDataView_Inventory_res:NextRecordButton_Click
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtHistoryDataView_Inventory_BtF3Key_Next"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtHistoryDataView_Inventory_BtF4Key_Delete
+#define DEF_EVENT_DATA_INPUT BtHistoryDataView_Inventory_res:DeleteButton_Click
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtHistoryDataView_Inventory_BtF4Key_Delete"
+#popdefine
+
+
+Package BtHistoryDataView_Inventory_res
+    #define DEF_EVENT_F1_KEY_ACTION BtHistoryDataView_Inventory:F1KeyAction
+    #define DEF_PACKAGE_NAME BtHistoryDataView_Inventory
+    #defineexpand DEF_EVENT_TIMER BtHistoryDataView_Inventory_res:OnTimer
+    #defineexpand DEF_CONTROL BtHistoryDataView_Inventory_BtLabel_Title,BtLabelCommon|BtHistoryDataView_Inventory_BtLabel_DataCountDisplay,BtLabelCommon|BtHistoryDataView_Inventory_BtTableView_HistoryData,BtTableViewCommon|BtHistoryDataView_Inventory_BtF1Key_Back,BtButtonCommon|BtHistoryDataView_Inventory_BtF2Key_Previous,BtButtonCommon|BtHistoryDataView_Inventory_BtF3Key_Next,BtButtonCommon|BtHistoryDataView_Inventory_BtF4Key_Delete,BtButtonCommon
+    #define DEF_JOB_RES BtJob_Inventory_res
+    #define DEF_HISTORY_DETA_EDIT_DIALOG HistoryDataEditDialog
+    #define DEF_DELETE_CONFIRMATION_DIALOG DeleteConfirmationDialog
+    #define DEF_DATA_FORMAT_CONTROL_NAME BtJob_Inventory_InventoryData
+    #define LOG_DISPLAY_TABLE_VIEW BtHistoryDataView_Inventory_BtTableView_HistoryData
+    #define DEF_ITEM_NUM 6
+    #defineexpand DEF_GRAYOUT_ROW_LIST 0|1|2
+    #define RECORD_NO_LABEL BtHistoryDataView_Inventory_BtLabel_DataCountDisplay
+    #define DEF_KEY_PREVIOUS BtHistoryDataView_Inventory_BtF2Key_Previous
+    #define DEF_KEY_NEXT BtHistoryDataView_Inventory_BtF3Key_Next
+    #define DEF_KEY_DELETE BtHistoryDataView_Inventory_BtF4Key_Delete
+    #define DEF_EVENT_COMMUNICATION_ERROR_OCCURRED BtHistoryDataView_Inventory:OnCommunicationErrorOccurred
+    #insert "\Lib\Parts\BtHistoryDataView"
+    Method InitializeComponent()
+    Begin
+        New(BtFormCommon:GetName(BtJob_Inventory_res:Properties))
+        InitializeTimer()
+        With BtHistoryDataView_Inventory_res
+            BtHistoryDataView_Inventory_BtLabel_Title:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Inventory_BtLabel_DataCountDisplay:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Inventory_BtTableView_HistoryData:Create(BtHistoryDataViewCommon:GetName(:Properties), 1, 2)
+            BtHistoryDataView_Inventory_BtF1Key_Back:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Inventory_BtF2Key_Previous:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Inventory_BtF3Key_Next:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Inventory_BtF4Key_Delete:Create(BtHistoryDataViewCommon:GetName(:Properties))
+        End With
+        
+        With BtHistoryDataView_Inventory_BtLabel_Title
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 0)
+            BtLabelCommon:SetInitialText(:Properties, "History data")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 0)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtHistoryDataView_Inventory_BtF1Key_Back
+            BtButtonCommon:SetText(:Properties, "Back")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 0)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "255|0|0")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "255|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 3)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtHistoryDataView_Inventory_BtLabel_DataCountDisplay
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 230)
+            BtLabelCommon:SetHeight(:Properties, 25)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 35)
+            BtLabelCommon:SetInitialText(:Properties, "(000/000)")
+            BtLabelCommon:SetAlignment(:Properties, "right")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 20)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 1)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtHistoryDataView_Inventory_BtTableView_HistoryData
+            BtTableViewCommon:SetWidth(:Properties, 230)
+            BtTableViewCommon:SetHeight(:Properties, 220)
+            BtTableViewCommon:SetLeft(:Properties, 5)
+            BtTableViewCommon:SetTop(:Properties, 60)
+            BtTableViewCommon:SetCellBackColor(:Properties, GRID_BOX_CELL_BACK_COLOR_LIGHT_GRAY)
+            BtTableViewCommon:SetColumnNameVisible(:Properties, true)
+            BtTableViewCommon:SetDisplayColumnCount(:Properties, 2)
+            BtTableViewCommon:SetRowNumberVisible(:Properties, false)
+            BtTableViewCommon:SetFontSize(:Properties, 23)
+            BtTableViewCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtTableViewCommon:SetBold(:Properties, false)
+            BtTableViewCommon:SetIsPartOfControl(:Properties, true)
+            BtTableViewCommon:SetIsDisplayLog(:Properties, true)
+            BtTableViewCommon:SetMaxDataCount(:Properties, 100)
+            BtTableViewCommon:SetFilteringMatchType(:Properties, FILTERING_MATCH_TYPE_EXACT_MATCH)
+            BtTableViewCommon:SetTabIndex(:Properties, 2)
+            BtTableViewCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtHistoryDataView_Inventory_BtF2Key_Previous
+            BtButtonCommon:SetText(:Properties, "<")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 60)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "0|0|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|255")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 4)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtHistoryDataView_Inventory_BtF3Key_Next
+            BtButtonCommon:SetText(:Properties, ">")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 120)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "34|139|34")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "34|139|34")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 5)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtHistoryDataView_Inventory_BtF4Key_Delete
+            BtButtonCommon:SetText(:Properties, "Del")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 180)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "255|215|0")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "255|215|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 6)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtHistoryDataView_Inventory_res
+            BtHistoryDataViewCommon:SetDataEditingEnabled(:Properties, true)
+            BtHistoryDataViewCommon:SetBackColor(:Properties, "255|255|255")
+            BtHistoryDataViewCommon:SetWidth(:Properties, 240)
+            BtHistoryDataViewCommon:SetHeight(:Properties, 320)
+            BtHistoryDataViewCommon:SetLeft(:Properties, 0)
+            BtHistoryDataViewCommon:SetTop(:Properties, 0)
+        End With
+        
+    End Method
+End Package

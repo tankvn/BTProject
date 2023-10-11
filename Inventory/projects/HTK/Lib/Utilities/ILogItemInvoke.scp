@@ -1,0 +1,4 @@
+    Method ILogItemInvoke(this)
+    Begin
+        DEF_COMMON:ILogItemInvokeCommon(this, Properties)
+    End Method

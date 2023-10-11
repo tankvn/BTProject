@@ -1,0 +1,19 @@
+    Method ILr1DataItemInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetName"
+                InterfaceCommon:Result = GetName(properties)
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+            Case "GetFormattedData"
+                InterfaceCommon:Result = GetFormattedData(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetLogDataIndex"
+                InterfaceCommon:Result = GetLogDataIndex(properties)
+            Case "GetLogData"
+                InterfaceCommon:Result = GetLogData(properties)
+            Case "GetOutputData"
+                InterfaceCommon:Result = GetOutputData(properties, UserObj<this>:Get(2))
+            Case "GetFixedFormattedData"
+                InterfaceCommon:Result = GetFixedFormattedData(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+        End Select
+    End Method

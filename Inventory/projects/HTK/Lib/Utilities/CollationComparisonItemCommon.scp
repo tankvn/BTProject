@@ -1,0 +1,110 @@
+
+#insert "\Lib\Utilities\CollationComparisonItemConstants"
+
+Package CollationComparisonItemCommon
+    Method GetName(properties[]) Begin Return (properties[DEF_NAME_PROPERTY]) End Method    
+    Method SetName(properties[], value) Begin End Method
+
+    Method GetComparisonTarget(properties[]) Begin Return (properties[DEF_COMPARISON_TARGET_PROPERTY]) End Method
+    Method SetComparisonTarget(properties[], value) Begin properties[DEF_COMPARISON_TARGET_PROPERTY] = value End Method
+
+    Method GetColumnNumber(properties[]) Begin Return (properties[DEF_COLUMN_NUMBER_PROPERTY]) End Method
+    Method SetColumnNumber(properties[], value) Begin properties[DEF_COLUMN_NUMBER_PROPERTY] = value End Method
+
+    Method GetInputTarget(properties[]) Begin Return (properties[DEF_INPUT_TARGET_PROPERTY]) End Method
+    Method SetInputTarget(properties[], value) Begin properties[DEF_INPUT_TARGET_PROPERTY] = value End Method
+
+    Method GetConditionSetting(properties[]) Begin Return (properties[DEF_CONDITION_SETTING_PROPERTY]) End Method
+    Method SetConditionSetting(properties[], value) Begin properties[DEF_CONDITION_SETTING_PROPERTY] = value End Method
+
+    Method GetComparisonRangeSettings(properties[]) Begin Return (properties[DEF_COMPARISON_RANGE_SETTINGS_PROPERTY]) End Method
+    Method SetComparisonRangeSettings(properties[], value) Begin properties[DEF_COMPARISON_RANGE_SETTINGS_PROPERTY] = value End Method
+
+    Method GetInputRangeSettings(properties[]) Begin Return (properties[DEF_INPUT_RANGE_SETTINGS_PROPERTY]) End Method
+    Method SetInputRangeSettings(properties[], value) Begin properties[DEF_INPUT_RANGE_SETTINGS_PROPERTY] = value End Method
+
+    Method GetInputExclusionCharacters(properties[]) Begin Return (properties[DEF_INPUT_EXCLUSION_CHARACTERS_PROPERTY]) End Method
+    Method SetInputExclusionCharacters(properties[], value) Begin properties[DEF_INPUT_EXCLUSION_CHARACTERS_PROPERTY] = value End Method
+
+    Method GetComparisonExclusionCharacters(properties[]) Begin Return (properties[DEF_COMPARISON_EXCLUSION_CHARACTERS_PROPERTY]) End Method
+    Method SetComparisonExclusionCharacters(properties[], value) Begin properties[DEF_COMPARISON_EXCLUSION_CHARACTERS_PROPERTY] = value End Method
+
+    Method GetInputRangedValueHandler(properties[]) Begin Return(properties[DEF_INPUT_RANGED_VALUE_HANDLER]) End Method
+    Method SetInputRangedValueHandler(properties[], value) Begin properties[DEF_INPUT_RANGED_VALUE_HANDLER] = value End Method
+    Method GetComparisonRangedDispValueHandler(properties[]) Begin Return(properties[DEF_COMPARISON_RANGED_DISP_VALUE_HANDLER]) End Method
+    Method SetComparisonRangedDispValueHandler(properties[], value) Begin properties[DEF_COMPARISON_RANGED_DISP_VALUE_HANDLER] = value End Method
+    Method GetComparisonRangedInternalValueHandler(properties[]) Begin Return(properties[DEF_COMPARISON_RANGED_INTERNAL_VALUE_HANDLER]) End Method
+    Method SetComparisonRangedInternalValueHandler(properties[], value) Begin properties[DEF_COMPARISON_RANGED_INTERNAL_VALUE_HANDLER] = value End Method
+
+#insert "\Lib\Utilities\ICollationComparisonItemInvokeCommon"
+
+    Method GetInputRangedValue(properties[])
+        parameter[1]
+    Begin
+        parameter[0] = GetCollationValue(GetInputTarget(properties), nil, GetColumnNumber(properties))
+        If parameter[0] is nil Then
+            Return (parameter[0])
+        End If
+        Return(EventUtility:Exec(GetInputRangedValueHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method GetComparisonRangedDispValue(properties[])
+        parameter[1]
+    Begin
+        parameter[0] = GetCollationValue(GetComparisonTarget(properties), nil, GetColumnNumber(properties))
+        If parameter[0] is nil Then
+            Return (parameter[0])
+        End If
+        Return(EventUtility:Exec(GetComparisonRangedDispValueHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method GetComparisonRangedInternalValue(properties[], rowIndex)
+        count
+        parameter[1]
+    Begin
+        If (GetComparisonTarget(properties) eq "CurrentDateCollationTarget") Or (GetComparisonTarget(properties) eq "CurrentTimeCollationTarget") Then
+            Return (GetCollationValue(GetComparisonTarget(properties), 0, GetColumnNumber(properties)))
+        End If
+
+        count = GetAllCollationValues(GetComparisonTarget(properties), GetColumnNumber(properties))
+
+        If count == 0  Or count <= rowIndex Then
+            If ICollationTarget:GetType(GetComparisonTarget(properties)) eq "BtLabel" Then
+                parameter[0] = GetCollationValue(GetComparisonTarget(properties), nil, GetColumnNumber(properties))
+            Else
+                Return ("")
+            End If
+        Else
+            parameter[0] = GetCollationValue(GetComparisonTarget(properties), rowIndex, GetColumnNumber(properties))
+        End If
+
+        If parameter[0] is nil Then
+            Return (parameter[0])
+        End If
+
+        Return(EventUtility:Exec(GetComparisonRangedInternalValueHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method GetCollationValue(controlName, dataIndex, index)
+    Begin
+        If controlName eq "CurrentDateCollationTarget" Then
+            Return(CurrentDateCollationTarget:GetCollationValue(index))
+        ElseIf controlName eq "CurrentTimeCollationTarget" Then
+            Return(CurrentTimeCollationTarget:GetCollationValue(index))
+        Else
+            Return(ICollationTarget:GetCollationValue(controlName, dataIndex, index))
+        End If
+    End Method
+
+    Method GetAllCollationValues(controlName, index)
+    Begin
+        If controlName eq "CurrentDateCollationTarget" Then
+            Return(CurrentDateCollationTarget:GetAllCollationValues(index))
+        ElseIf controlName eq "CurrentTimeCollationTarget" Then
+            Return(CurrentTimeCollationTarget:GetAllCollationValues(index))
+        Else
+            Return(ICollationTarget:GetAllCollationValues(controlName, index))
+        End If
+    End Method
+
+End Package

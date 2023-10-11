@@ -1,0 +1,133 @@
+
+Package ILogItem
+
+    Names[6]
+    ICommons[6]
+
+    Method New()
+    Begin
+        Names[0] = "BtJob_Inventory_LogItem_0"
+        ICommons[0] = BtJob_Inventory_LogItem_0:ILogItemInvoke
+        Names[1] = "BtJob_Inventory_LogItem_1"
+        ICommons[1] = BtJob_Inventory_LogItem_1:ILogItemInvoke
+        Names[2] = "BtJob_Inventory_LogItem_2"
+        ICommons[2] = BtJob_Inventory_LogItem_2:ILogItemInvoke
+        Names[3] = "BtJob_Inventory_LogItem_3"
+        ICommons[3] = BtJob_Inventory_LogItem_3:ILogItemInvoke
+        Names[4] = "BtJob_Inventory_LogItem_4"
+        ICommons[4] = BtJob_Inventory_LogItem_4:ILogItemInvoke
+        Names[5] = "BtJob_Inventory_LogItem_5"
+        ICommons[5] = BtJob_Inventory_LogItem_5:ILogItemInvoke
+    End Method
+
+    Method IsImplemented(logItemName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(logItemName, Names))
+    End Method
+
+    Method GetLogData(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetLogData", args, ICommons))
+    End Method
+
+    Method GetLogDataIndex(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetLogDataIndex", args, ICommons))
+    End Method
+
+    Method GetLogItemTypeInfo(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetLogItemTypeInfo", args, ICommons))
+    End Method
+
+    Method GetTableItemName(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetTableItemName", args, ICommons))
+    End Method
+
+    Method GetTableItemTypes(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetTableItemTypes", args, ICommons))
+    End Method
+
+    Method GetIsDate(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetIsDate", args, ICommons))
+    End Method
+
+    Method GetIsTime(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetIsTime", args, ICommons))
+    End Method
+
+    Method GetLogItemType(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetLogItemType", args, ICommons))
+    End Method
+
+    Method SetLogItemId(logItemName, id)
+        args[1]
+    Begin
+        args[0] = id
+        InterfaceCommon:Call(logItemName, Names, "SetLogItemId", args, ICommons)
+    End Method
+
+    Method GetOutputDigit(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetOutputDigit", args, ICommons))
+    End Method
+
+    Method GetIsIndexColumn(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetIsIndexColumn", args, ICommons))
+    End Method
+
+    Method IsFormatChanged(logItemName, databaseName, index)
+        args[2]
+    Begin
+        args[0] = databaseName
+        args[1] = index
+        Return(InterfaceCommon:Call(logItemName, Names, "IsFormatChanged", args, ICommons))
+    End Method
+
+    Method AddLogItemInfo(logItemName, databaseName, index)
+        args[2]
+    Begin
+        args[0] = databaseName
+        args[1] = index
+        Return(InterfaceCommon:Call(logItemName, Names, "AddLogItemInfo", args, ICommons))
+    End Method
+
+    Method GetFormattedLogDataCsv(logItemName, dataLength, value)
+        args[2]
+    Begin
+        args[0] = dataLength
+        args[1] = value
+        Return(InterfaceCommon:Call(logItemName, Names, "GetFormattedLogDataCsv", args, ICommons))
+    End Method
+
+    Method GetFormattedLogDataDb(logItemName, dataLength, value)
+        args[2]
+    Begin
+        args[0] = dataLength
+        args[1] = value
+        Return(InterfaceCommon:Call(logItemName, Names, "GetFormattedLogDataDb", args, ICommons))
+    End Method
+
+    Method GetDisplayName(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetDisplayName", args, ICommons))
+    End Method
+End Package
+

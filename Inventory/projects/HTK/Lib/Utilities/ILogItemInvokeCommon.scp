@@ -1,0 +1,37 @@
+    Method ILogItemInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetLogData"
+                InterfaceCommon:Result = GetLogData(properties)
+            Case "GetLogDataIndex"
+                InterfaceCommon:Result = GetLogDataIndex(properties)
+            Case "GetLogItemTypeInfo"
+                InterfaceCommon:Result = GetLogItemTypeInfo(properties)
+            Case "GetTableItemName"
+                InterfaceCommon:Result = GetTableItemName(properties)
+            Case "GetTableItemTypes"
+                InterfaceCommon:Result = GetTableItemTypes(properties)
+            Case "GetIsDate"
+                InterfaceCommon:Result = GetIsDate(properties)
+            Case "GetIsTime"
+                InterfaceCommon:Result = GetIsTime(properties)
+            Case "GetLogItemType"
+                InterfaceCommon:Result = GetLogItemType(properties)
+            Case "SetLogItemId"
+                InterfaceCommon:Result = SetLogItemId(properties, UserObj<this>:Get(2))
+            Case "GetOutputDigit"
+                InterfaceCommon:Result = GetOutputDigit(properties)
+            Case "GetIsIndexColumn"
+                InterfaceCommon:Result = GetIsIndexColumn(properties)
+            Case "IsFormatChanged"
+                InterfaceCommon:Result = IsFormatChanged(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "AddLogItemInfo"
+                InterfaceCommon:Result = AddLogItemInfo(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetFormattedLogDataCsv"
+                InterfaceCommon:Result = GetFormattedLogDataCsv(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetFormattedLogDataDb"
+                InterfaceCommon:Result = GetFormattedLogDataDb(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetDisplayName"
+                InterfaceCommon:Result = GetDisplayName(properties)
+        End Select
+    End Method

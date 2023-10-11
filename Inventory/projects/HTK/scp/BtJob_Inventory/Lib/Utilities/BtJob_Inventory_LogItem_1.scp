@@ -1,0 +1,20 @@
+
+ Package BtJob_Inventory_LogItem_1
+
+    Properties[19 + 1 + 1]
+
+    Method ILogItemSystemParameterInvoke(this)
+    Begin
+        LogItemSystemParameterCommon:ILogItemSystemParameterInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemInvoke(this)
+    Begin
+        LogItemSystemParameterCommon:ILogItemInvokeCommon(this, Properties)
+    End Method
+
+    Method New(displayName, systemParameter)
+    Begin
+        LogItemSystemParameterCommon:New(Properties, "BtJob_Inventory_LogItem_1", displayName, systemParameter)
+    End Method
+
+End Package

@@ -1,0 +1,58 @@
+#pushdefine
+
+#insert "\Lib\Utilities\Lr1DataItemScreenDataConstants"
+
+Package Lr1DataItemScreenDataCommon
+
+#pushdefine
+#insert "\Lib\Utilities\Lr1DataItem"
+#popdefine
+
+    Method GetJobName(properties[]) Begin Return(properties[DEF_JOBNAME_PROPERTY]) End Method
+
+    Method GetScreenName(properties[]) Begin Return(properties[DEF_SCREENNAME_PROPERTY]) End Method
+
+    Method GetLogItemControl(properties[]) Begin Return(properties[DEF_LOGITEMCONTROL_PROPERTY]) End Method
+
+    Method GetLogEditType(properties[]) Begin Return(ILogItemControl:GetLogEditType(properties[DEF_LOGITEMCONTROL_PROPERTY], properties[DEF_INDEX_PROPERTY])) End Method
+
+    Method GetLogData(properties[]) Begin Return(ILogItemControl:GetLogData(properties[DEF_LOGITEMCONTROL_PROPERTY], properties[DEF_INDEX_PROPERTY])) End Method
+
+    Method GetLogDataIndex(properties[]) Begin Return(properties[DEF_INDEX_PROPERTY]) End Method
+
+    Method GetTableItemTypes(properties[])
+        type
+    Begin
+        type = ILogItemControl:GetLogTableFieldType(properties[DEF_LOGITEMCONTROL_PROPERTY], properties[DEF_INDEX_PROPERTY])
+        If type == SQ_LITE_FIELD_TYPE_INTEGER_NUMBER Then
+            Return(DbAccess:SQLITE_DATA_TYPE_INTEGER)
+        ElseIf type == SQ_LITE_FIELD_TYPE_REAL_NUMBER Then
+            Return(DbAccess:SQLITE_DATA_TYPE_REAL)
+        ElseIf type == SQ_LITE_FIELD_TYPE_TEXT Then
+            Return(DbAccess:SQLITE_DATA_TYPE_TEXT)
+        End If
+    End Method
+
+    Method GetIsDate(properties[]) Begin Return(properties[DEF_ISDATE_PROPERTY]) End Method
+
+    Method GetIsTime(properties[]) Begin Return(properties[DEF_ISTIME_PROPERTY]) End Method
+
+    Method GetDecimalPlaces(properties[]) Begin Return(ILogItemControl:GetDecimalPlaces(properties[DEF_LOGITEMCONTROL_PROPERTY], properties[DEF_INDEX_PROPERTY])) End Method
+
+#insert "\Lib\Utilities\ILr1DataItemInvokeCommon"
+#insert "\Lib\Utilities\ILr1DataItemScreenDataInvokeCommon"
+
+    Method New(properties[], jobName, screenName, logItemControl, isDate, isTime, index)
+    Begin
+        NewBase(properties)
+        properties[DEF_JOBNAME_PROPERTY] = jobName
+        properties[DEF_SCREENNAME_PROPERTY] = screenName
+        properties[DEF_LOGITEMCONTROL_PROPERTY] = logItemControl
+        properties[DEF_ISDATE_PROPERTY] = isDate
+        properties[DEF_ISTIME_PROPERTY] = isTime
+        properties[DEF_INDEX_PROPERTY] = index
+    End Method
+
+End Package
+
+#popdefine

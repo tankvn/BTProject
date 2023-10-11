@@ -1,0 +1,82 @@
+
+ Package BtWindow_Inventory_BtLabel_DataCountDisplay
+
+    Method AfterReset(this)
+    Begin
+    End Method
+
+    Method ComparisonValueCountUpdated(this)
+    Begin
+    End Method
+
+    Method CollationCountUpdated(this)
+    Begin
+    End Method
+
+    Method DataUpdated(this)
+    Begin
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[0] = "BtWindow_Inventory_BtLabel_DataCountDisplay"
+        BtLabelCommon:Create(Properties, parentName)
+        New()
+    End Method
+
+    Method Invalidate()
+    Begin
+        BtLabelCommon:Invalidate(Properties)
+    End Method
+    Method IControlInvoke(this)
+    Begin
+        BtLogCountLabelCommon:IControlInvokeCommon(this, Properties)
+    End Method
+    Method IBtInputControlInvoke(this)
+    Begin
+        BtLogCountLabelCommon:IBtInputControlInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemControlInvoke(this)
+    Begin
+        BtLogCountLabelCommon:ILogItemControlInvokeCommon(this, Properties)
+    End Method
+    Method ICollationTargetInvoke(this)
+    Begin
+        BtLogCountLabelCommon:ICollationTargetInvokeCommon(this, Properties)
+    End Method
+    Method ISearchViewDisplayControlInvoke(this)
+    Begin
+        BtLogCountLabelCommon:ISearchViewDisplayControlInvokeCommon(this, Properties)
+    End Method
+    Method IFilterControlInvoke(this)
+    Begin
+        BtLogCountLabelCommon:IFilterControlInvokeCommon(this, Properties)
+    End Method
+    Method ILookUpBoxDisplayToolInvoke(this)
+    Begin
+        BtLogCountLabelCommon:ILookUpBoxDisplayToolInvokeCommon(this, Properties)
+    End Method
+
+    Properties[33 + 1]
+
+    Method UpdateLogCount()
+    Begin
+        BtLogCountLabelCommon:UpdateLogCount(Properties)
+    End Method
+
+    Method New()
+    Begin
+        BtLogCountLabelCommon:SetHandler(Properties, AfterReset, ComparisonValueCountUpdated, CollationCountUpdated)
+    End Method
+
+    Method Reset()
+    Begin
+        BtLogCountLabelCommon:Reset(Properties)
+    End Method
+
+    Method GetLogData(index)
+    Begin
+        Return (BtLabelCommon:GetText(Properties))
+    End Method
+
+End Package

@@ -1,0 +1,650 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtLookUpBoxConstants"
+
+Package BtLookUpBoxCommon
+    /*Implements ICollationTarget, IMasterDataOwnerControl, ILogItemControl, IBtInputComponent, ISharedParameterInputTool*/
+
+
+    Method GetTabStop(properties[]) /* Implements ICollationTarget.TabStop */
+    Begin
+        Return (properties[DEF_TAB_STOP_PROPERTY])
+    End Method
+    Method SetTabStop(properties[], value) /* Implements ICollationTarget.TabStop */
+    Begin
+        properties[DEF_TAB_STOP_PROPERTY]= value
+    End Method
+
+    Method GetName(properties[]) /* Implements IBtInputComponent.GetName */
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+    Method SetName(properties[], value)
+    Begin
+        properties[DEF_NAME_PROPERTY] = value
+    End Method
+
+    Method GetType(properties[]) /* Implements ICollationTarget.GetType */ /* Implements IBtInputComponent.GetType */
+    Begin
+        Return (properties[DEF_TYPE_PROPERTY])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetIsDisplayedSeparatelyInputAndReplacement(properties[])
+    Begin
+        Return (properties[DEF_IS_DISPLAYED_SEPARATELY_INPUT_AND_REPLACEMENT_PROPERTY])
+    End Method
+    Method SetIsDisplayedSeparatelyInputAndReplacement(properties[], value)
+    Begin
+        properties[DEF_IS_DISPLAYED_SEPARATELY_INPUT_AND_REPLACEMENT_PROPERTY] = value
+    End Method
+
+    Method GetShowNotFoundMasterDataError(properties[])
+    Begin
+        Return (properties[DEF_SHOW_NOT_FOUND_MASTER_DATA_ERROR_PROPERTY])
+    End Method
+    Method SetShowNotFoundMasterDataError(properties[], value)
+    Begin
+        properties[DEF_SHOW_NOT_FOUND_MASTER_DATA_ERROR_PROPERTY] = value
+    End Method
+
+    Method GetMasterFileName(properties[])
+    Begin
+        Return (properties[DEF_MASTER_FILE_NAME_PROPERTY])
+    End Method
+    Method SetMasterFileName(properties[], value)
+    Begin
+        properties[DEF_MASTER_FILE_NAME_PROPERTY] = value
+    End Method
+
+    Method GetStorageDestination(properties[])
+    Begin
+        Return (properties[DEF_STORAGE_DESTINATION_PROPERTY])
+    End Method
+    Method SetStorageDestination(properties[], value)
+    Begin
+        properties[DEF_STORAGE_DESTINATION_PROPERTY] = value
+    End Method
+
+    _collationValues = nil
+
+    Method GetLogEditType(properties[], index) /* Implements ILogItemControl.LogEditType */
+    Begin
+        If (GetIsExistInputTool(properties)) Then
+            If (index == 0) Then
+                Return (ILogItemControl:GetLogEditType(GetInputToolName(properties), 0))
+            End If
+        End If
+        Return (INPUT_CONTROL_STRING_TEXT_BOX)
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index) /* Implements ILogItemControl.DecimalPlaces */
+    Begin
+        If (index == 0) Then
+            If (GetIsExistInputTool(properties)) Then
+                Return (ILogItemControl:GetDecimalPlaces(GetInputToolName(properties), 0))
+            End If
+        Else
+            If (GetIsDisplayedSeparatelyInputAndReplacement(properties)) Then
+                If (GetIsExistDisplayTool(properties)) Then
+                    Return (ILogItemControl:GetDecimalPlaces(GetDisplayToolName(properties), 0))
+                End If
+            Else
+                If (GetIsExistInputTool(properties)) Then
+                    Return (ILogItemControl:GetDecimalPlaces(GetInputToolName(properties), 0))
+                End If
+            End If
+        End If
+        Return (0)
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index) /* Implements ILogItemControl.CheckDuplicateReading */
+    Begin
+        If (GetIsExistInputTool(properties)) Then
+            If (index == 0) Then
+                Return (ILogItemControl:GetCheckDuplicateReading(GetInputToolName(properties), 0))
+            End If
+        End If
+        Return (false)
+    End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl) /* Implements ILogItemControl.IsSameLogItem */
+    Begin
+        If (index == 0) Then
+            If (GetIsExistInputTool(properties)) Then
+                Return (ILogItemControl:GetIsSameLogItem(GetInputToolName(properties), 0, targetLogItemControl))
+            End If
+        Else
+            If (GetIsDisplayedSeparatelyInputAndReplacement(properties)) Then
+                Return (ILogItemControl:GetIsSameLogItem(GetDisplayToolName(properties), 0, targetLogItemControl))
+            Else
+                Return (ILogItemControl:GetIsSameLogItem(GetInputToolName(properties), 0, targetLogItemControl))
+            End If
+        End If
+    End Method
+
+    Method GetTabIndex(properties[]) /* Implements IBtInputComponent.TabIndex */
+    Begin
+        Return (properties[DEF_TAB_INDEX_PROPERTY])
+    End Method
+    Method SetTabIndex(properties[], value) /* Implements IBtInputComponent.TabIndex */
+    Begin
+        properties[DEF_TAB_INDEX_PROPERTY] = value
+    End Method
+
+    Method GetVisible(properties[]) /* Implements IBtInputComponent.Visible */
+    Begin
+        Return (properties[DEF_VISIBLE_PROPERTY])
+    End Method
+    Method SetVisible(properties[], value) /* Implements IBtInputComponent.Visible */
+    Begin
+        properties[DEF_VISIBLE_PROPERTY] = value
+    End Method
+
+    Method GetIsShared(properties[]) /* Implements ISharedParameterInputTool.IsShared */
+    Begin
+        Return (properties[DEF_IS_SHARED_PROPERTY])
+    End Method
+    Method SetIsShared(properties[], value) /* Implements ISharedParameterInputTool.IsShared */
+    Begin
+        properties[DEF_IS_SHARED_PROPERTY] = value
+    End Method
+
+    Method GetSharedParameterKey(properties[]) /* Implements ISharedParameterInputTool.SharedParameterKey */
+    Begin
+        Return (properties[DEF_SHARED_PARAMETER_KEY_PROPERTY])
+    End Method
+    Method SetSharedParameterKey(properties[], value) /* Implements ISharedParameterInputTool.SharedParameterKey */
+    Begin
+        properties[DEF_SHARED_PARAMETER_KEY_PROPERTY] = value
+    End Method
+
+    Method GetSharedParameterClearTiming(properties[]) /* Implements ISharedParameterInputTool.SharedParameterClearTiming */
+    Begin
+        Return (properties[DEF_SHARED_PARAMETER_CLEAR_TIMING_PROPERTY])
+    End Method
+    Method SetSharedParameterClearTiming(properties[], value) /* Implements ISharedParameterInputTool.SharedParameterClearTiming */
+    Begin
+        properties[DEF_SHARED_PARAMETER_CLEAR_TIMING_PROPERTY] = value
+    End Method
+
+    Method GetSearchKey(properties[])
+    Begin
+        Return (properties[DEF_SEARCH_KEY_PROPERTY])
+    End Method
+    Method SetSearchKey(properties[], value)
+    Begin
+        properties[DEF_SEARCH_KEY_PROPERTY] = value
+    End Method
+
+    Method GetReplacementValue(properties[])
+    Begin
+        Return (properties[DEF_REPLACEMENT_VALUE_PROPERTY])
+    End Method
+    Method SetReplacementValue(properties[], value)
+    Begin
+        properties[DEF_REPLACEMENT_VALUE_PROPERTY] = value
+    End Method
+
+    Method GetInputToolName(properties[])
+    Begin
+        Return (properties[DEF_INPUT_TOOL_NAME_PROPERTY])
+    End Method
+    Method SetInputToolName(properties[], value)
+    Begin
+        properties[DEF_INPUT_TOOL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetDisplayToolName(properties[])
+    Begin
+        Return (properties[DEF_DISPLAY_TOOL_NAME_PROPERTY])
+    End Method
+    Method SetDisplayToolName(properties[], value)
+    Begin
+        properties[DEF_DISPLAY_TOOL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetIsExistInputTool(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_INPUT_TOOL_PROPERTY])
+    End Method
+    Method SetIsExistInputTool(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_INPUT_TOOL_PROPERTY] = value
+    End Method
+
+    Method GetIsExistDisplayTool(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_DISPLAY_TOOL_PROPERTY])
+    End Method
+    Method SetIsExistDisplayTool(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_DISPLAY_TOOL_PROPERTY] = value
+    End Method
+
+    Method GetDataInputHandler(properties[])
+    Begin
+        Return (properties[DEF_DATA_INPUT_HANDLER])
+    End Method
+    Method SetDataInputHandler(properties[], handle)
+    Begin
+        properties[DEF_DATA_INPUT_HANDLER] = handle
+    End Method
+
+    Method GetFocusTransitionRequestedHandler(properties[])
+    Begin
+        Return (properties[DEF_FOCUS_TRANSITION_REQUESTED_HANDLER])
+    End Method
+    Method SetFocusTransitionRequestedHandler(properties[], handle)
+    Begin
+        properties[DEF_FOCUS_TRANSITION_REQUESTED_HANDLER] = handle
+    End Method
+
+    Method GetComparisonValueCountUpdatedHandler(properties[])
+    Begin
+        Return (properties[DEF_COMPARISON_VALUE_COUNT_UPDATED_HANDLER])
+    End Method
+    Method SetComparisonValueCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[DEF_COMPARISON_VALUE_COUNT_UPDATED_HANDLER] = handle
+    End Method
+
+    Method GetCollationCountUpdatedHandler(properties[])
+    Begin
+        Return (properties[DEF_COLLATION_COUNT_UPDATED_HANDLER])
+    End Method
+    Method SetCollationCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[DEF_COLLATION_COUNT_UPDATED_HANDLER] = handle
+    End Method
+
+
+
+#insert "\Lib\Utilities\ICollationTargetInvokeCommon"
+#insert "\Lib\Utilities\IMasterDataOwnerControlInvokeCommon"
+#insert "\Lib\Utilities\ILogItemControlInvokeCommon"
+#insert "\Lib\Utilities\IBtInputComponentInvokeCommon"
+#insert "\Lib\Utilities\ISharedParameterInputToolInvokeCommon"
+
+    Method New(properties[])
+    Begin
+        SetMasterFileName(properties, "")
+        SetStorageDestination(properties, STORAGE_DESTINATION_DRIVE1)
+        SetSharedParameterKey(properties, "")
+        SetSearchKey(properties, "")
+        SetReplacementValue(properties, "")
+
+        If (GetIsExistInputTool(properties)) Then
+            IBtInputControl:SetIsPartOfControl(GetInputToolName(properties), true)
+            SetTabIndex(properties, IBtInputControl:GetTabIndex(GetInputToolName(properties)))
+            SetTabStop(properties, ICollationTarget:GetTabStop(GetInputToolName(properties)))
+            SetVisible(properties, IBtInputControl:GetVisible(GetInputToolName(properties)))
+        Else
+            SetTabIndex(properties, 0)
+            SetTabStop(properties, false)
+            SetVisible(properties, false)
+        End If
+
+        If (GetIsExistDisplayTool(properties)) Then
+            IBtInputControl:SetIsPartOfControl(GetDisplayToolName(properties), true)
+        End If
+    End Method
+
+    Method SetHandler(properties[], dataInputHandler, focusTransitionRequestedHandler, comparisonValueCountUpdatedHandler, collationCountUpdatedHandler)
+    Begin
+        SetDataInputHandler(properties, dataInputHandler)
+        SetFocusTransitionRequestedHandler(properties, focusTransitionRequestedHandler)
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountUpdatedHandler(properties, collationCountUpdatedHandler)
+    End Method
+
+    Method Reset(properties[]) /* Implements IBtInputComponent.Reset */
+        parameter[1]
+    Begin
+        SetSearchKey(properties, "")
+        SetReplacementValue(properties, "")
+
+        ResetDisplayControl(properties)
+
+        If (Not GetIsExistInputTool(properties)) Then
+            Return (nil)
+        End If
+
+        IBtInputControl:Reset(GetInputToolName(properties))
+
+        RestoreSharedParameter(properties)
+
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method RegisterSharedParameter(properties[]) /* Implements ISharedParameterInputTool.RegisterSharedParameter */
+    Begin
+        If (Not GetIsShared(properties)) Then
+            Return (nil)
+        End If
+
+        SharedParameterUtility:UpdateSharedParameter(GetSharedParameterKey(properties),
+                                                     GetReplacementValue(properties),
+                                                     GetSearchKey(properties))
+
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_UPDATE_SHARED_PARAMETER)
+        End If
+    End Method
+
+    Method RestoreSharedParameter(properties[]) /* Implements ISharedParameterInputTool.RestoreSharedParameter */
+    Begin
+        If (GetIsShared(properties)) Then
+            If (SharedParameterUtility:IsExistKey(GetSharedParameterKey(properties))) Then
+                SetSearchKey(properties, SharedParameterUtility:GetSharedLogParameter(GetSharedParameterKey(properties)))
+                SetReplacementValue(properties, SharedParameterUtility:GetSharedParameter(GetSharedParameterKey(properties)))
+
+                If (GetIsDisplayedSeparatelyInputAndReplacement(properties)) Then
+                    ILookUpBoxInputTool:UpdateData(GetInputToolName(properties), GetSearchKey(properties))
+                    IControl:SetText(GetDisplayToolName(properties), GetReplacementValue(properties))
+                Else
+                    ILookUpBoxInputTool:UpdateData(GetInputToolName(properties), GetReplacementValue(properties))
+                End If
+            Else
+                IControl:SetText(GetInputToolName(properties),
+                                 ILookUpBoxInputTool:GetInitialText(GetInputToolName(properties)))
+                If (GetIsDisplayedSeparatelyInputAndReplacement(properties)) Then
+                    IControl:SetText(GetDisplayToolName(properties),
+                                     ILookUpBoxDisplayTool:GetInitialText(GetDisplayToolName(properties)))
+                End If
+            End If
+        End If
+    End Method
+
+    Method ResetDisplayControl(properties[])
+    Begin
+        SetReplacementValue(properties, "")
+
+        If (Not GetIsDisplayedSeparatelyInputAndReplacement(properties)) Then
+            Return (nil)
+        End If
+        If (Not GetIsExistDisplayTool(properties)) Then
+            Return (nil)
+        End If
+
+        IBtInputControl:Reset(GetDisplayToolName(properties))
+        ICollationTarget:ClearCollationValue(GetDisplayToolName(properties))
+    End Method
+
+    Method Replace(properties[])
+        storagePath
+        replacementValue
+        errorMessage
+    Begin
+        If (Not GetIsExistInputTool(properties)) Then
+            Return (true)
+        End If
+
+        If (Not GetIsExistDisplayTool(properties)) And (GetIsDisplayedSeparatelyInputAndReplacement(properties)) Then
+            Return (true)
+        End If
+
+        storagePath = PathUtility:StorageTypeToPath(GetStorageDestination(properties))
+        replacementValue = ReplaceCore(storagePath, GetMasterFileName(properties),
+                                       TERMINAL_SETTING_MASTER_TABLE_NAME,
+                                       IControl:GetText(GetInputToolName(properties)))
+
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            ResetDisplayControl(properties)
+            ErrorManager:GetError()
+            SetSearchKey(properties, IControl:GetText(GetInputToolName(properties)))
+            If (GetShowNotFoundMasterDataError(properties)) Then
+                ILookUpBoxInputTool:ShowCustomMessageBox(GetInputToolName(properties),
+                                                         errorMessage, MESSAGE_WARNING, MESSAGE_BOX_BUTTONS_OK,
+                                                         MESSAGE_BOX_ICON_EXCLAMATION, MESSAGE_BOX_DEFAULT_BUTTON_BUTTON1)
+                ILookUpBoxInputTool:ChangeMode(GetInputToolName(properties), KEY_OPERATION_TYPE_EDIT_MODE, true)
+                Return (false)
+            End If
+            Return (true)
+        End If
+
+        SetSearchKey(properties, IControl:GetText(GetInputToolName(properties)))
+        SetReplacementValue(properties, replacementValue)
+
+        If (GetIsDisplayedSeparatelyInputAndReplacement(properties)) Then
+            If (GetIsExistDisplayTool(properties)) Then
+                IControl:SetText(GetDisplayToolName(properties),
+                                 GetReplacementValue(properties))
+            Else
+                Return (true)
+            End If
+        Else
+            IControl:SetText(GetInputToolName(properties),
+                             GetReplacementValue(properties))
+        End If
+        Return (true)
+    End Method
+
+    Method ReplaceCore(storagePath, fileName, tableName, keyValue)
+        dbName
+        tableInfList
+        errrorMessage
+        fieldValuePairs
+        id_selectFields
+        id_sortFields
+        selectResult
+        replaceValue
+    Begin
+        If (Not PathUtility:IsFileExist(PathUtility:Combine(storagePath, fileName))) Then
+            ErrorManager:SetError(MESSAGE_ERROR_UNREGISTERED_REPLACEMENT_MASTER)
+            Return (nil)
+        End If
+        dbName = PathUtility:Combine(storagePath, fileName)
+
+        tableInfList = DbAccess:GetFieldInfo(dbName, tableName)
+        errrorMessage = ErrorManager:GetError()
+        If (ListTable:Count(tableInfList) < 2) Or (errrorMessage ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(MESSAGE_ERROR_UNREGISTERED_REPLACEMENT_MASTER)
+            Return (nil)
+        End If
+
+        fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(fieldValuePairs, ListTable:Get(tableInfList, 0, "key"), keyValue)
+        ListTable:DeleteList(tableInfList)
+
+        id_selectFields = ListTable:CreateList()
+        id_sortFields = ListTable:CreateList()
+        selectResult = DbAccess:SelectValues(dbName, tableName,
+                                             id_selectFields, fieldValuePairs,
+                                             false, FILTERING_MATCH_TYPE_EXACT_MATCH,
+                                             false, id_sortFields, 0, 0)
+        ListTable:DeleteList(fieldValuePairs)
+        ListTable:DeleteList(id_selectFields)
+        ListTable:DeleteList(id_sortFields)
+
+        If ((ListTable:Count(selectResult) == 0) Or
+            (ErrorManager:GetError() ne MESSAGE_ERROR_NONE)) Then
+            ErrorManager:SetError(MESSAGE_ERROR_UNREGISTERED_REPLACEMENT_MASTER)
+            ListTable:DeleteList(selectResult)
+            Return (nil)
+        End If
+        If (ListTable:Count(ListTable:Get(selectResult, 0, "val")) < 2) Then
+            ErrorManager:SetError(MESSAGE_ERROR_UNREGISTERED_REPLACEMENT_MASTER)
+            ListTable:DeleteList(selectResult)
+            Return (nil)
+        End If
+
+        replaceValue = ListTable:Get(ListTable:Get(selectResult, 0, "val"), 1, "val")
+        ListTable:DeleteList(selectResult)
+
+        Return (replaceValue)
+    End Method
+
+    Method InputTextBoxInputted(properties[], result)
+        parameter[1]
+    Begin
+        RegisterSharedParameter(properties)
+        parameter[0] = result
+        Return (EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method GetControlName(properties[], index) /* Implements ILogItemControl.GetControlName */
+    Begin
+        Select Case index
+            Case LOOKUP_BOX_DATA_INPUT
+                Return (GetName(properties) + KEY_SUFFIX)
+
+            Case LOOKUP_BOX_DATA_REPLACE
+                Return (GetName(properties) + RESULT_SUFFIX)
+
+            Case Else
+                Return (GetName(properties))
+        End Select
+    End Method
+
+    Method GetLogTableFieldType(properties[], index) /* Implements ILogItemControl.GetLogTableFieldType */
+    Begin
+        Select Case index
+            Case LOOKUP_BOX_DATA_INPUT
+                If (GetIsExistInputTool(properties)) Then
+                    Return (ILogItemControl:GetLogTableFieldType(GetInputToolName(properties), 0))
+                Else
+                    Return (SQ_LITE_FIELD_TYPE_TEXT)
+                End If
+            Case LOOKUP_BOX_DATA_REPLACE
+                If (GetIsDisplayedSeparatelyInputAndReplacement(properties)) Then
+                    Return (SQ_LITE_FIELD_TYPE_TEXT)
+                Else
+                    If (GetIsExistInputTool(properties)) Then
+                        Return (ILogItemControl:GetLogTableFieldType(GetInputToolName(properties), 0))
+                    Else
+                        Return (SQ_LITE_FIELD_TYPE_TEXT)
+                    End If
+                End If
+            Case Else
+                Return (SQ_LITE_FIELD_TYPE_TEXT)
+        End Select
+    End Method
+
+    Method GetLogData(properties[], index) /* Implements ILogItemControl.GetLogData */
+    Begin
+        Select Case index
+            Case LOOKUP_BOX_DATA_INPUT
+                Return (GetSearchKey(properties))
+
+            Case LOOKUP_BOX_DATA_REPLACE
+                Return (GetReplacementValue(properties))
+
+            Case Else
+                Return ("")
+        End Select
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget, index) /* Implements ILogItemControl.CheckValidInput */
+    Begin
+        Select Case index
+            Case LOOKUP_BOX_DATA_INPUT
+                If (GetIsExistInputTool(properties)) Then
+                    Return (ILogItemControl:CheckValidInput(GetInputToolName(properties), checkTarget, index))
+                Else
+                    Return (true)
+                End If
+            Case LOOKUP_BOX_DATA_REPLACE
+                Return (true)
+            Case Else
+                Return (false)
+        End Select
+    End Method
+
+    Method GetCollationValue(properties[], dataIndex, index) /* Implements ICollationTarget.GetCollationValue */
+        value
+    Begin
+        If dataIndex is nil Then Return (GetLogData(properties, index)) End If
+
+        Select Case index
+            Case LOOKUP_BOX_DATA_INPUT
+                value = DB_DAT:Get_Offset(GetName(properties), "CollationInput", dataIndex)
+            Case LOOKUP_BOX_DATA_REPLACE
+                value = DB_DAT:Get_Offset(GetName(properties), "CollationReplace", dataIndex)
+        End Select
+        If value is nil Then
+            If dataIndex == 0 Then Return (GetLogData(properties, dataIndex)) End If
+            Return("")
+        End If
+        Return(value)
+    End Method
+
+    Method GetAllCollationValues(properties[], index) /* Implements ICollationTarget.GetAllCollationValues */
+    Begin
+        Return (DB_DAT:Count(GetName(properties), "CollationInput"))
+    End Method
+
+    Method AddCollationValue(properties[]) /* Implements ICollationTarget.AddCollationValue */
+        parameter[1]
+    Begin
+        DB_DAT:Add(GetName(properties), "CollationInput", GetCollationValue(properties, nil, LOOKUP_BOX_DATA_INPUT))
+        DB_DAT:Add(GetName(properties), "CollationReplace", GetCollationValue(properties, nil, LOOKUP_BOX_DATA_REPLACE))
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method RemoveCollationValue(properties[], rowIndex) /* Implements ICollationTarget.RemoveCollationValue */
+        parameter[1]
+    Begin
+        DB_DAT:Delete_Offset(GetName(properties), "CollationInput", rowIndex)
+        DB_DAT:Delete_Offset(GetName(properties), "CollationReplace", rowIndex)
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method ClearCollationValue(properties[]) /* Implements ICollationTarget.ClearCollationValue */
+        parameter[1]
+    Begin
+        DB_DAT:Delete_All(GetName(properties), "CollationInput")
+        DB_DAT:Delete_All(GetName(properties), "CollationReplace")
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method GetCollationInputControl(properties[], index) /* Implements ICollationTarget.GetCollationInputControl */
+    Begin
+        Return (GetInputToolName(properties))
+    End Method
+
+    Method UpdateMasterData(properties[]) /* Implements IMasterDataOwnerControl.UpdateMasterData */
+    Begin
+    End Method
+
+    Method CloseMasterData(properties[]) /* Implements IMasterDataOwnerControl.CloseMasterData */
+        storagePath
+    Begin
+        storagePath = PathUtility:StorageTypeToPath(GetStorageDestination(properties))
+        DbAccess:Close(PathUtility:Combine(storagePath, GetMasterFileName(properties)))
+    End Method
+
+    Method DataInput(properties[], result) /* Implements ICollationTarget.DataInput */
+        parameter[1]
+    Begin
+        parameter[0] = true
+        Return (EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method FocusTransitionRequested(properties[]) /* Implements ICollationTarget.FocusTransitionRequested */
+        parameter[1]
+    Begin
+        Return (EventUtility:Exec(GetFocusTransitionRequestedHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method ComparisonValueCountUpdated(properties[]) /* Implements ICollationTarget.ComparisonValueCountUpdated */
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CollationCountInitialized(properties[]) /* Implements ICollationTarget.CollationCountInitialized */
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+
+End Package
+
+#popdefine

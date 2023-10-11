@@ -1,0 +1,288 @@
+
+Package ReadResultProcessor
+    Properties[5]
+    _codeType[4]
+    _columnParam[4]
+    _columnString[4]
+    _readData[16]
+    _detectData[16]
+
+    Method Initialize()
+        i
+    Begin
+        Properties[0] = 0
+        For i = 0 To 3
+            _codeType[i] = nil
+            _columnParam[i] = nil
+            _columnString[i] = nil
+        Next
+        ResetReadResult()
+    End Method
+
+    Method SetFullDetectionCondition(index, code, column_param, column_string)
+    Begin
+        Properties[0] = Properties[0] + 1
+        _codeType[index] = code
+        _columnParam[index] = column_param
+        _columnString[index] = column_string
+    End Method
+
+    Method ResetReadResult()
+        i
+    Begin
+        Properties[1] = 0
+        Properties[2] = 0
+        Properties[3] = false
+        Properties[4] = false
+        For i = 0 To 15
+            _readData[i] = ""
+            _detectData[i] = ""
+        Next
+    End Method
+
+    Method Exec()
+        separator
+    Begin
+        ResetReadResult()
+
+        With BCR
+            :GetData(0)
+            If :count == 1 Then
+                Return (ReadableCodeSettings:ReadScanData(:data))
+            End If
+
+            If (IsUnmergeCodeType()) Then
+                :GetData(0)
+                Return (ReadableCodeSettings:ReadScanData(:data))
+            End If
+        End With
+
+        separator = SettleSeparator()
+
+        If ReadOut() is false Then
+            ErrorManager:SetError("The operation to read the code failed.")
+            Return ("")
+        End If
+
+        If SortData() is false Then
+            ErrorManager:SetError("The operation to read the code failed.")
+            Return ("")
+        End If
+
+        Return (MergeData(separator))
+    End Method
+
+    Method IsUnmergeCodeType()
+        firstCodeType
+        secondCodeType
+        secondLinkFlag
+    Begin
+        With BCR
+            :GetData(0)
+            firstCodeType = :lastType
+            :GetData(1)
+            secondCodeType = :lastType
+            secondLinkFlag = :composite
+        End With
+
+        If (secondCodeType eq "PDF417" And secondLinkFlag eq "not_linked")Then
+            If (firstCodeType eq "EAN128") Then
+                Return (false)
+            End If
+            Return (true)
+        ElseIf (secondCodeType eq "Maxi") Or (secondCodeType eq "DataMatrix") Then
+            Return (true)
+        End If
+        Return (false)
+    End Method
+
+    Method SettleSeparator()
+        separatorBin[1]
+    Begin
+        separatorBin[0] = GetSeparatorBin()
+        If (separatorBin[0] == 0x0) Then
+            Return ("")
+        End If
+        Return (separatorBin.PackBin())
+    End Method
+
+    Method GetSeparatorBin()
+        firstCodeType
+        firstLinkFlag
+        secondCodeType
+        secondLinkFlag
+    Begin
+        With BCR
+            :GetData(0)
+            firstCodeType = :lastType
+            firstLinkFlag = :composite
+            :GetData(1)
+            secondCodeType = :lastType
+            secondLinkFlag = :composite
+        End With
+
+        If firstCodeType eq "EAN128" Then
+            If secondCodeType eq "PDF417" Then
+                Return (0x20)
+            End If
+            Properties[4] = true
+            Return (0x20)
+        ElseIf firstCodeType eq "QR" Then
+            If (secondCodeType eq "QR") And (BCR:GetQRData(0) ne "0,0,0") Then
+                Properties[3] = true
+                Return (0x0)
+            End If
+            Properties[4] = true
+            Return (0x0)
+        ElseIf firstCodeType eq "JAN" Then
+            If ((secondLinkFlag eq "linked_cc_a") Or (secondLinkFlag eq "linked_cc_b") Or (secondLinkFlag eq "linked_cc_c")) Then
+                Return (0x20)
+            End If
+            Properties[4] = true
+            Return (0x0)
+        End If
+
+        If (firstLinkFlag ne "not_linked") Then
+            Return (0x20)
+        End If
+        Properties[4] = true
+        Return (0x0)
+    End Method
+
+    Method ReadOut()
+        i
+    Begin
+        Properties[2] = 0
+        With BCR
+            Properties[1] = :count
+            For i = 0 To Properties[1] - 1
+                If :GetData(i) is false Then
+                    Fbreak
+                Else
+                    _readData[i] = ReadableCodeSettings:ReadScanData(:data)
+                    Properties[2] = Properties[2] + _readData[i].length
+                End If
+            Next
+        End With
+
+        If Properties[2] > 8192 Then
+            Return(false)
+        Else
+            Return(true)
+        End If
+    End Method
+
+    Method SortData()
+    Begin
+        If Properties[3] is true Then
+            Return (SortLinkedQRData())
+        ElseIf Properties[4] is true Then
+            Return (SortFullDetectionData())
+        Else
+            Return (SetCompositeData())
+        End If
+        Return (false)
+    End Method
+
+    Method SortLinkedQRData()
+        i
+        QRData = ""
+        splitQRData[3]
+        baseQRData[3]
+    Begin
+        For i = 0 To Properties[1] - 1
+            QRData = BCR:GetQRData(i)
+            If QRData eq "0,0,0" Then Return (false) End If
+
+            splitQRData = QRData.split(",")
+            If i == 0 Then
+                baseQRData[0] = splitQRData[0]
+                baseQRData[1] = splitQRData[1]
+                baseQRData[2] = splitQRData[2]
+            Else
+                If baseQRData[1] <> splitQRData[1] Then Return (false) End If
+
+                If baseQRData[2] <> splitQRData[2] Then Return (false) End If
+
+                If _detectData[splitQRData[0] - 1] ne "" Then Return (false) End If
+            End If
+            _detectData[splitQRData[0] - 1] = _readData[i]
+        Next
+
+        Return (true)
+    End Method
+
+    Method SortFullDetectionData()
+        i
+        cordType
+    Begin
+        For i = 0 To Properties[0]
+            If i == Properties[0] Then
+                Return (false)
+            End If
+            If _codeType[i] eq BCR:lastType Then
+                cordType = i
+                Fbreak
+            End If
+        Next
+        If CheckCondition(cordType) is false Then
+            Return (false)
+        Else
+            Return (true)
+        End If
+    End Method
+
+    Method CheckCondition(cordType)
+        column_param[4] = {"", "", "", ""}
+        column_string[4] = {"!", "!", "!", "!"}
+        column_setflg[4] = {false, false, false, false}
+        minmax[2]
+        i
+        j
+    Begin
+        column_param = _columnParam[cordType].split("|")
+        column_string = _columnString[cordType].split("|")
+
+        For i = 0 To Properties[1] - 1
+            minmax = column_param[i].split(",")
+            For j = 0 To Properties[1] - 1
+                If column_setflg[j] is false Then
+                    If minmax[0] <= _readData[j].length And _readData[j].length <= minmax[1] Then
+                        If StringUtility:IsSatisfiedInputRestriction(_readData[j], column_string[i]) Then
+                            _detectData[i] = _readData[j]
+                            column_setflg[j] = true
+                            Fbreak
+                        End If
+                    End If
+                End If
+            Next
+            If _detectData[i].length == 0 Then
+                Return (false)
+            End If
+        Next
+        Return (true)
+    End Method
+
+    Method SetCompositeData()
+        i
+    Begin
+        For i = 0 To Properties[1] - 1
+            _detectData[i] = _readData[i]
+        Next
+        Return (true)
+    End Method
+
+    Method MergeData(separator)
+        i
+        data = ""
+    Begin
+        For i = 0 To Properties[1] - 1
+            If (i <> 0) Then
+                data = data & separator
+            End If
+            data = data & _detectData[i]
+        Next
+        Return (data)
+    End Method
+
+End Package

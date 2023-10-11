@@ -1,0 +1,157 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtInputDateBoxConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+
+    Method DataInput(this)
+    Begin
+#ifdef DEF_EVENT_DATA_INPUT
+        Return (DEF_EVENT_DATA_INPUT(Properties[DEF_NAME_PROPERTY], EventUtility:GetParameter(this, 0)))
+#else
+        Return (true)
+#endif
+    End Method
+
+    Method FocusTransitionRequested(this)
+        result = false
+    Begin
+#ifdef DEF_FOCUS_TRANSITION_CONTROL
+#beginexpand DEF_FOCUS_TRANSITION_CONTROL
+        If (Not result) Then
+            result = result Or DEF_FOCUS_TRANSITION_CONTROL:FocusTransitionRequested(Properties[DEF_NAME_PROPERTY])
+        End If
+#endexpand DEF_FOCUS_TRANSITION_CONTROL
+#endif
+        Return (result)
+    End Method
+
+    Method ComparisonValueCountUpdated(this)
+    Begin
+#ifdef DEF_EVENT_COMPARISON_VALUE_COUNT_UPDATED
+        DEF_EVENT_COMPARISON_VALUE_COUNT_UPDATED(Properties[DEF_NAME_PROPERTY])
+#endif
+    End Method
+
+    Method CollationCountUpdated(this)
+    Begin
+#ifdef DEF_EVENT_COLLATION_COUNT_UPDATED
+        DEF_EVENT_COLLATION_COUNT_UPDATED(Properties[DEF_NAME_PROPERTY])
+#endif
+    End Method
+
+    Method MoveNextControl(this)
+    Begin
+#ifdef DEF_FOCUS_TRANSITION_UTILITY
+        Return(DEF_FOCUS_TRANSITION_UTILITY:GetMoveNextControlId(Properties[DEF_NAME_PROPERTY]))
+#endif
+    End Method
+
+    Method MovePreviousControl(this)
+    Begin
+#ifdef DEF_FOCUS_TRANSITION_UTILITY
+        Return(DEF_FOCUS_TRANSITION_UTILITY:GetMovePreviousControlId(Properties[DEF_NAME_PROPERTY]))
+#endif
+    End Method
+
+
+    Method New()
+    Begin
+        BtInputDateBoxCommon:New(Properties)
+        BtInputDateBoxCommon:SetHandler(Properties, ComparisonValueCountUpdated, CollationCountUpdated, DataInput, FocusTransitionRequested, MoveNextControl, MovePreviousControl)
+    End Method
+
+#insert "\Lib\Utilities\IControlInvoke"
+#insert "\Lib\Utilities\IBtInputControlInvoke"
+#insert "\Lib\Utilities\ILogItemControlInvoke"
+#insert "\Lib\Utilities\ICollationTargetInvoke"
+#insert "\Lib\Utilities\ISearchViewDisplayControlInvoke"
+#insert "\Lib\Utilities\ISharedParameterInputToolInvoke"
+#insert "\Lib\Utilities\IBtInputDateControlInvoke"
+
+    Method Create(parentName)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        BtInputDateBoxCommon:Create(Properties, parentName)
+        BtInputDateBoxCommon:SetEventHandler(Properties, My_GotFocus, My_LostFocus, My_onEditStart, My_onEditEnd, My_onEditCancel, My_onScanComplete, My_onTouchOut)
+        New()
+    End Method
+
+    Method Focus()
+    Begin
+        BtInputDateBoxCommon:Focus(Properties)
+    End Method
+
+    Method Invalidate()
+    Begin
+    End Method
+
+    Method ResetInvalidInput()
+    Begin
+        BtInputDateBoxCommon:ResetInvalidInput(Properties)
+    End Method
+
+    Method My_onPress(sender)
+    Begin
+        If Not BtScreenCommon:IsEnabledControl(Properties[DEF_NAME_PROPERTY]) Then
+            Return()
+        End If
+
+        Key:onPress = nil
+
+#ifdef DEF_EVENT_FORM_KEY_DOWN
+        DEF_EVENT_FORM_KEY_DOWN(sender)
+#endif
+
+        BtInputDateBoxCommon:OnPress(Properties, sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = My_onPress
+        End If
+    End Method
+
+    Method My_onEditStart(sender)
+    Begin
+        BtInputDateBoxCommon:OnEditStart(Properties, My_onEditStart)
+    End Method
+
+    Method My_onEditEnd(sender)
+    Begin
+        BtInputDateBoxCommon:OnEditEnd(Properties, My_onEditEnd)
+    End Method
+
+    Method My_onEditCancel(sender)
+    Begin
+        BtInputDateBoxCommon:OnEditCancel(Properties, My_onEditCancel)
+    End Method
+
+    Method My_GotFocus(sender)
+    Begin
+        BtInputDateBoxCommon:GotFocus(Properties, My_onPress, My_GotFocus)
+    End Method
+
+    Method My_LostFocus(sender)
+    Begin
+#ifdef DEF_EVENT_FORM_KEY_DOWN
+        BtInputDateBoxCommon:LostFocus(Properties, DEF_EVENT_FORM_KEY_DOWN, My_LostFocus)
+#else
+        BtInputDateBoxCommon:LostFocus(Properties, nil, My_LostFocus)
+#endif
+    End Method
+
+    Method My_onScanComplete(sender)
+    Begin
+        BtInputDateBoxCommon:OnScanned(Properties, My_onScanComplete)
+    End Method
+
+    Method My_onTouchOut(sender)
+    Begin
+        BtInputDateBoxCommon:TouchOut(Properties, My_onTouchOut)
+    End Method
+
+End Package
+
+#popdefine

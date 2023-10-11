@@ -1,0 +1,7 @@
+    Method IBtSharedParameterLabelInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "RestoreSharedParameter"
+                InterfaceCommon:Result = RestoreSharedParameter(properties)
+        End Select
+    End Method

@@ -1,0 +1,37 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtSharedParameterLabelConstants"
+
+Package DEF_PACKAGE_NAME
+
+#insert "\Lib\Parts\BtLabelBase"
+
+    Properties[DEF_PROPERTY_NUM]
+
+
+#insert "\Lib\Utilities\IBtSharedParameterLabelInvoke"
+
+    Method New()
+    Begin
+        BtSharedParameterLabelCommon:SetSharedParameterKey(Properties, "")
+        BtSharedParameterLabelCommon:SetHandler(Properties, AfterReset, ComparisonValueCountUpdated, CollationCountUpdated, DataUpdated)
+    End Method
+
+    Method RestoreSharedParameter()
+    Begin
+        BtSharedParameterLabelCommon:RestoreSharedParameter(Properties)
+    End Method
+
+    Method Dispose()
+    Begin
+    End Method
+
+    Method GetLogData(index)
+    Begin
+        Return (SharedParameterUtility:GetSharedParameter(BtSharedParameterLabelCommon:GetSharedParameterKey(Properties)))
+    End Method
+
+
+End Package
+
+#popdefine

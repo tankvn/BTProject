@@ -1,0 +1,10 @@
+D	10/11/2023	9:49:42 AM	USB (COM4)	The standby mode preparations have started. 
+D	10/11/2023	9:49:42 AM	USB (COM3)	The standby mode preparations have started. 
+S	10/11/2023	9:49:42 AM	USB (COM4)	The standby mode has started. 
+S	10/11/2023	9:49:42 AM	USB (COM3)	The standby mode has started. 
+S	10/11/2023	9:49:51 AM	USB (COM3)	The standby mode has been exited. 
+S	10/11/2023	9:49:51 AM	USB (COM4)	The standby mode has been exited. 
+D	10/11/2023	9:49:51 AM	USB (COM4)	The standby mode preparations have started. 
+D	10/11/2023	9:49:51 AM	USB (COM3)	The standby mode preparations have started. 
+S	10/11/2023	9:49:52 AM	USB (COM4)	The standby mode has been exited. 
+S	10/11/2023	9:49:52 AM	USB (COM3)	The standby mode has been exited. 

@@ -1,0 +1,35 @@
+
+#insert "\Lib\Parts\BtLogCountLabelConstants"
+
+/*Public*/ Package DEF_PACKAGE_NAME
+    /*Inherits BtLabel*/
+
+#insert "\Lib\Parts\BtLabelBase"
+
+
+    Properties[DEF_PROPERTY_NUM]
+
+
+
+    Method UpdateLogCount()
+    Begin
+        BtLogCountLabelCommon:UpdateLogCount(Properties)
+    End Method
+
+    Method New()
+    Begin
+        BtLogCountLabelCommon:SetHandler(Properties, AfterReset, ComparisonValueCountUpdated, CollationCountUpdated)
+    End Method
+
+    Method Reset()
+    Begin
+        BtLogCountLabelCommon:Reset(Properties)
+    End Method
+
+    Method GetLogData(index)
+    Begin
+        Return (BtLabelCommon:GetText(Properties))
+    End Method
+
+
+End Package

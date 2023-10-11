@@ -1,0 +1,64 @@
+
+Include "BtJob_Inventory\RES\BtHistoryDataView_Inventory_res"
+
+Package BtHistoryDataView_Inventory
+    _isInitialized = false
+
+    Method New()
+    Begin
+        BtHistoryDataView_Inventory_res:InitializeComponent()
+
+        BtHistoryDataView_Inventory_FocusTransitionUtility:SetControl("BtHistoryDataView_Inventory_BtTableView_HistoryData")
+        BtHistoryDataView_Inventory_FocusTransitionUtility:SetControl("BtHistoryDataView_Inventory_BtF1Key_Back")
+        BtHistoryDataView_Inventory_FocusTransitionUtility:SetControl("BtHistoryDataView_Inventory_BtF2Key_Previous")
+        BtHistoryDataView_Inventory_FocusTransitionUtility:SetControl("BtHistoryDataView_Inventory_BtF3Key_Next")
+        BtHistoryDataView_Inventory_FocusTransitionUtility:SetControl("BtHistoryDataView_Inventory_BtF4Key_Delete")
+
+        With BtHistoryDataView_Inventory_BtTableView_HistoryData
+            BtTableViewCommon:SetTableName(:Properties, "htdat")
+        End With
+    End Method
+
+    Method Initialize()
+    Begin
+        BtHistoryDataView_Inventory_res:SetLogFormat(nil)
+        BtHistoryDataView_Inventory_res:InitializeChildren()
+
+        BtHistoryDataView_Inventory_BtF1Key_Back:Invalidate()
+        BtHistoryDataView_Inventory_BtF2Key_Previous:Invalidate()
+        BtHistoryDataView_Inventory_BtF3Key_Next:Invalidate()
+        BtHistoryDataView_Inventory_BtF4Key_Delete:Invalidate()
+        _isInitialized = true
+    End Method
+
+    Method Finalized()
+    Begin
+        BtHistoryDataView_Inventory_res:Dispose()
+    End Method
+
+    Method UpdateDatabase()
+    Begin
+        BtHistoryDataView_Inventory_res:SetCurrentLogData()
+    End Method
+
+    Method OnCommunicationErrorOccurred()
+    Begin
+        ActiveForm:ShowBtCommunicationErrorDialog_1()
+    End Method
+
+    Method F1KeyAction(sender)
+        result = true
+    Begin
+        BtHistoryDataView_Inventory_res:ResetInvalidInput()
+        BtHistoryDataView_Inventory_BtF1Key_Back:Focus()
+        BtHistoryDataView_Inventory_BtF1Key_Back:PerformClick()
+        Return (result)
+    End Method
+
+    Method BtF1Key_Back_DataInput(sender, result)
+    Begin
+        BtJob_Inventory:ShowBtWindow_Inventory()
+        Return (result)
+        Return (result)
+    End Method
+End Package

@@ -1,0 +1,376 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+#define DEF_FOCUS_TRANSITION_UTILITY BtWindow_Inventory_FocusTransitionUtility
+#define DEF_EVENT_FORM_KEY_DOWN ActiveForm:OnKeyDown
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_FocusTransitionUtility
+#include "\Lib\Utilities\FocusTransitionUtility" "..\Lib\Utilities\BtWindow_Inventory_FocusTransitionUtility"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtLabel_ItemNo
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtWindow_Inventory_BtLabel_ItemNo"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtTextBox_ItemNo
+#define DEF_EVENT_DATA_INPUT BtWindow_Inventory:BtTextBox_ItemNo_DataInput
+#define DEF_EVENT_AFTER_RESET BtWindow_Inventory:BtTextBox_ItemNo_AfterReset
+#include "\Lib\Parts\BtTextBox" "..\Lib\Parts\BtWindow_Inventory_BtTextBox_ItemNo"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtLabel_Quantity
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtWindow_Inventory_BtLabel_Quantity"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtTextBox_Quantity
+#defineexpand DEF_FOCUS_TRANSITION_CONTROL BtWindow_Inventory_BtFocusTransitionController1
+#define DEF_EVENT_DATA_INPUT BtWindow_Inventory:BtTextBox_Quantity_DataInput
+#define DEF_EVENT_GOT_FOCUS_EXTENSION BtWindow_Inventory:BtTextBox_Quantity_GotFocusExtension
+#define DEF_EVENT_LOST_FOCUS_EXTENSION BtWindow_Inventory:BtTextBox_Quantity_LostFocusExtension
+#include "\Lib\Parts\BtTextBox" "..\Lib\Parts\BtWindow_Inventory_BtTextBox_Quantity"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtLabel_Person
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtWindow_Inventory_BtLabel_Person"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtTextBox_Person
+#include "\Lib\Parts\BtTextBox" "..\Lib\Parts\BtWindow_Inventory_BtTextBox_Person"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtLabel_DataCount
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtWindow_Inventory_BtLabel_DataCount"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtLabel_DataCountDisplay
+#include "\Lib\Parts\BtLogCountLabel" "..\Lib\Parts\BtWindow_Inventory_BtLabel_DataCountDisplay"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtLabel_Title
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtWindow_Inventory_BtLabel_Title"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtF1Key_Back
+#define DEF_EVENT_DATA_INPUT BtWindow_Inventory:BtF1Key_Back_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtWindow_Inventory_BtF1Key_Back"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtF2Key_SendDataFile
+#define DEF_EVENT_DATA_INPUT BtWindow_Inventory:BtF2Key_SendDataFile_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtWindow_Inventory_BtF2Key_SendDataFile"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtF3Key_HistoryDataView
+#define DEF_EVENT_DATA_INPUT BtWindow_Inventory:BtF3Key_HistoryDataView_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtWindow_Inventory_BtF3Key_HistoryDataView"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtInputItemCountControl_1
+#define DEF_TEXTBOX_INPUT_ITEM_TOOL BtWindow_Inventory_BtTextBox_ItemNo
+#define DEF_TEXTBOX_FIRST_INPUT_QUANTITY BtWindow_Inventory_BtTextBox_Quantity
+#define DEF_EVENT_OUTPUT_LOG BtWindow_Inventory:BtTextBox_Quantity_DataInput
+#include "\Lib\Parts\BtInputItemCountControl" "..\Lib\Parts\BtWindow_Inventory_BtInputItemCountControl_1"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtWindow_Inventory_BtFocusTransitionController1
+#definemulti DEF_TRANSITION_SOURCE_IS_CONTROL BtWindow_Inventory_BtTextBox_Quantity,BtTextBoxCommon
+#defineexpand DEF_VERIFICATION_CONTROL BtWindow_Inventory_BtTextBox_Quantity
+#definemulti DEF_TRANSITION_DESTINATION BtWindow_Inventory_BtTextBox_ItemNo,BtTextBoxCommon
+#defineexpand DEF_RESET_TARGET BtWindow_Inventory_BtTextBox_ItemNo,BtTextBoxCommon|BtWindow_Inventory_BtLabel_Quantity,BtLabelCommon|BtWindow_Inventory_BtTextBox_Quantity,BtTextBoxCommon
+#include "\Lib\Parts\BtFocusTransitionController" "..\Lib\Parts\BtWindow_Inventory_BtFocusTransitionController1"
+#popdefine
+
+
+Package BtWindow_Inventory_res
+    #define DEF_EVENT_F1_KEY_ACTION BtWindow_Inventory:F1KeyAction
+    #define DEF_EVENT_F2_KEY_ACTION BtWindow_Inventory:F2KeyAction
+    #define DEF_EVENT_F3_KEY_ACTION BtWindow_Inventory:F3KeyAction
+    #define DEF_PACKAGE_NAME BtWindow_Inventory
+    #defineexpand DEF_CONTROL BtWindow_Inventory_BtLabel_Title,BtLabelCommon|BtWindow_Inventory_BtLabel_Person,BtLabelCommon|BtWindow_Inventory_BtTextBox_Person,BtTextBoxCommon|BtWindow_Inventory_BtLabel_ItemNo,BtLabelCommon|BtWindow_Inventory_BtTextBox_ItemNo,BtTextBoxCommon|BtWindow_Inventory_BtLabel_Quantity,BtLabelCommon|BtWindow_Inventory_BtTextBox_Quantity,BtTextBoxCommon|BtWindow_Inventory_BtLabel_DataCount,BtLabelCommon|BtWindow_Inventory_BtLabel_DataCountDisplay,BtLogCountLabelCommon|BtWindow_Inventory_BtF1Key_Back,BtButtonCommon|BtWindow_Inventory_BtF2Key_SendDataFile,BtButtonCommon|BtWindow_Inventory_BtF3Key_HistoryDataView,BtButtonCommon
+    #defineexpand DEF_COMPONENTS BtWindow_Inventory_BtInputItemCountControl_1,BtInputItemCountControlCommon|BtWindow_Inventory_BtFocusTransitionController1,BtFocusTransitionControllerCommon
+    #defineexpand DEF_INPUT_CONTROL BtWindow_Inventory_BtTextBox_ItemNo|BtWindow_Inventory_BtTextBox_Quantity|BtWindow_Inventory_BtTextBox_Person
+    #defineexpand DEF_LOG_COUNT_LABEL BtWindow_Inventory_BtLabel_DataCountDisplay
+    #insert "\Lib\Parts\BtScreen"
+    Method InitializeComponent()
+    Begin
+        New(BtFormCommon:GetName(BtJob_Inventory_res:Properties))
+        InitializeTimer()
+        With BtWindow_Inventory_res
+            BtWindow_Inventory_BtLabel_Title:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtLabel_Person:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtTextBox_Person:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtLabel_ItemNo:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtTextBox_ItemNo:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtLabel_Quantity:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtTextBox_Quantity:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtLabel_DataCount:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtLabel_DataCountDisplay:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtF1Key_Back:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtF2Key_SendDataFile:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtF3Key_HistoryDataView:Create(BtScreenCommon:GetName(:Properties))
+            BtWindow_Inventory_BtInputItemCountControl_1:Create(BtScreenCommon:GetName(:Properties))
+        End With
+        
+        With BtWindow_Inventory_BtLabel_ItemNo
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 60)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 90)
+            BtLabelCommon:SetInitialText(:Properties, "Item")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 3)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtTextBox_ItemNo
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetWidth(:Properties, 170)
+            BtTextBoxCommon:SetHeight(:Properties, 39)
+            BtTextBoxCommon:SetLeft(:Properties, 65)
+            BtTextBoxCommon:SetTop(:Properties, 90)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "168|255|255")
+            BtTextBoxCommon:SetFontSize(:Properties, 30)
+            BtTextBoxCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtTextBoxCommon:SetBold(:Properties, false)
+            BtTextBoxCommon:SetTabIndex(:Properties, 4)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtLabel_Quantity
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 60)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 135)
+            BtLabelCommon:SetInitialText(:Properties, "Qty")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 5)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtTextBox_Quantity
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetWidth(:Properties, 60)
+            BtTextBoxCommon:SetHeight(:Properties, 39)
+            BtTextBoxCommon:SetLeft(:Properties, 65)
+            BtTextBoxCommon:SetTop(:Properties, 135)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "168|255|255")
+            BtTextBoxCommon:SetInputMode(:Properties, INPUT_MODE_SCAN_AND_KEY_NUMERIC)
+            BtTextBoxCommon:SetFontSize(:Properties, 30)
+            BtTextBoxCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtTextBoxCommon:SetBold(:Properties, false)
+            BtTextBoxCommon:SetTabIndex(:Properties, 6)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtLabel_Person
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 60)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 45)
+            BtLabelCommon:SetInitialText(:Properties, "PIC")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 1)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtTextBox_Person
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetWidth(:Properties, 170)
+            BtTextBoxCommon:SetHeight(:Properties, 39)
+            BtTextBoxCommon:SetLeft(:Properties, 65)
+            BtTextBoxCommon:SetTop(:Properties, 45)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "168|255|255")
+            BtTextBoxCommon:SetFontSize(:Properties, 30)
+            BtTextBoxCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtTextBoxCommon:SetBold(:Properties, false)
+            BtTextBoxCommon:SetTabIndex(:Properties, 2)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtLabel_DataCount
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 65)
+            BtLabelCommon:SetHeight(:Properties, 25)
+            BtLabelCommon:SetLeft(:Properties, 130)
+            BtLabelCommon:SetTop(:Properties, 260)
+            BtLabelCommon:SetInitialText(:Properties, "Count:")
+            BtLabelCommon:SetAlignment(:Properties, "right")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 20)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 7)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtLabel_DataCountDisplay
+            BtLogCountLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLogCountLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLogCountLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLogCountLabelCommon:SetWidth(:Properties, 35)
+            BtLogCountLabelCommon:SetHeight(:Properties, 25)
+            BtLogCountLabelCommon:SetLeft(:Properties, 195)
+            BtLogCountLabelCommon:SetTop(:Properties, 260)
+            BtLogCountLabelCommon:SetInitialText(:Properties, "00")
+            BtLogCountLabelCommon:SetAlignment(:Properties, "right")
+            BtLogCountLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLogCountLabelCommon:SetFontSize(:Properties, 20)
+            BtLogCountLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLogCountLabelCommon:SetBold(:Properties, false)
+            BtLogCountLabelCommon:SetTabIndex(:Properties, 8)
+            BtLogCountLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtLabel_Title
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 0)
+            BtLabelCommon:SetInitialText(:Properties, "Inventory")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 0)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtF1Key_Back
+            BtButtonCommon:SetText(:Properties, "Back")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 0)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "255|0|0")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "255|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 9)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtF2Key_SendDataFile
+            BtButtonCommon:SetText(:Properties, "Send")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 60)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "0|0|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|255")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 10)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtF3Key_HistoryDataView
+            BtButtonCommon:SetText(:Properties, "Hist")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 120)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "34|139|34")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "34|139|34")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 11)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtWindow_Inventory_BtInputItemCountControl_1
+            BtInputItemCountControlCommon:SetQuantityEntryType(:Properties, QUANTITY_ENTRY_TYPE_SINGLE_INPUT)
+            BtInputItemCountControlCommon:SetFirstInputQuantityUnit(:Properties, 1)
+        End With
+        
+        With BtWindow_Inventory_res
+            BtScreenCommon:SetBackColor(:Properties, "255|255|255")
+            BtScreenCommon:SetWidth(:Properties, 240)
+            BtScreenCommon:SetHeight(:Properties, 320)
+            BtScreenCommon:SetLeft(:Properties, 0)
+            BtScreenCommon:SetTop(:Properties, 0)
+        End With
+        
+    End Method
+End Package

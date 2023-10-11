@@ -1,0 +1,51 @@
+Package ComparisonDateItem
+    #define ID_JUDGEKIND 1
+    #define ID_SOURCEDATE 2
+    #define ID_DESTINATIONDATE 3
+    #define ID_CALCULATIONTYPE 4
+    #define ID_CALCULATIONTARGET 5
+    #define ID_CALCULATIONVALUE 6
+    #define ID_ISCOMPAREINCLUDEDAY 7
+
+    Method New(name, judgeKind, sourceDate, sourceDatePattern, destinationDate, destinationDatePattern, calculationType, calculationTarget,  calculationValue)
+        val = false
+    Begin
+        With UserObj<name>
+            :Open()
+            :Set(0, "ComparisonDateItem")
+            :Set(ID_JUDGEKIND, judgeKind)
+            :Set(ID_SOURCEDATE, sourceDate)
+            :Set(ID_DESTINATIONDATE, destinationDate)
+            :Set(ID_CALCULATIONTYPE, calculationType)
+            :Set(ID_CALCULATIONTARGET, calculationTarget)
+            :Set(ID_CALCULATIONVALUE, calculationValue)
+            If DateUtility:IsIncludeDay(sourceDatePattern) is true And DateUtility:IsIncludeDay(destinationDatePattern) is true Then
+                val = true
+            End If
+            :Set(ID_ISCOMPAREINCLUDEDAY, val)
+        End With
+    End Method
+
+    Method DoJudgement(name)
+    Begin
+        With UserObj<name>
+            Return(DateUtility:Judge(:Get(ID_JUDGEKIND), :Get(ID_SOURCEDATE), :Get(ID_DESTINATIONDATE), :Get(ID_CALCULATIONTYPE), :Get(ID_CALCULATIONTARGET), :Get(ID_CALCULATIONVALUE), :Get(ID_ISCOMPAREINCLUDEDAY)))
+        End With
+    End Method
+
+    Method GetType(name)
+    Begin
+        Return(UserObj<name>:Get(0))
+    End Method
+
+    Method SetSrcData(name, value)
+    Begin
+        UserObj<name>:Set(ID_SOURCEDATE, value)
+    End Method
+
+    Method SetDstData(name, value)
+    Begin
+        UserObj<name>:Set(ID_DESTINATIONDATE, value)
+    End Method
+
+End Package

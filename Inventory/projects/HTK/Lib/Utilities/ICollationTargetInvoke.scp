@@ -1,0 +1,4 @@
+    Method ICollationTargetInvoke(this)
+    Begin
+        DEF_COMMON:ICollationTargetInvokeCommon(this, Properties)
+    End Method

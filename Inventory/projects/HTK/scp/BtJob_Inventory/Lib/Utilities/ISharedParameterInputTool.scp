@@ -1,0 +1,84 @@
+
+Package ISharedParameterInputTool
+    Names[9]
+    ICommons[9]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_Inventory_BtLabel_ItemNo"
+        ICommons[0] = BtWindow_Inventory_BtLabel_ItemNo:ISharedParameterInputToolInvoke
+        Names[1] = "BtWindow_Inventory_BtTextBox_ItemNo"
+        ICommons[1] = BtWindow_Inventory_BtTextBox_ItemNo:ISharedParameterInputToolInvoke
+        Names[2] = "BtWindow_Inventory_BtLabel_Quantity"
+        ICommons[2] = BtWindow_Inventory_BtLabel_Quantity:ISharedParameterInputToolInvoke
+        Names[3] = "BtWindow_Inventory_BtTextBox_Quantity"
+        ICommons[3] = BtWindow_Inventory_BtTextBox_Quantity:ISharedParameterInputToolInvoke
+        Names[4] = "BtWindow_Inventory_BtLabel_Person"
+        ICommons[4] = BtWindow_Inventory_BtLabel_Person:ISharedParameterInputToolInvoke
+        Names[5] = "BtWindow_Inventory_BtTextBox_Person"
+        ICommons[5] = BtWindow_Inventory_BtTextBox_Person:ISharedParameterInputToolInvoke
+        Names[6] = "BtWindow_Inventory_BtLabel_DataCount"
+        ICommons[6] = BtWindow_Inventory_BtLabel_DataCount:ISharedParameterInputToolInvoke
+        Names[7] = "BtWindow_Inventory_BtLabel_Title"
+        ICommons[7] = BtWindow_Inventory_BtLabel_Title:ISharedParameterInputToolInvoke
+        Names[8] = "BtHistoryDataView_Inventory_BtLabel_Title"
+        ICommons[8] = BtHistoryDataView_Inventory_BtLabel_Title:ISharedParameterInputToolInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetIsShared(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetIsShared", args, ICommons))
+    End Method
+
+    Method SetIsShared(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetIsShared", args, ICommons))
+    End Method
+
+    Method GetSharedParameterKey(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSharedParameterKey", args, ICommons))
+    End Method
+
+    Method SetSharedParameterKey(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetSharedParameterKey", args, ICommons))
+    End Method
+
+    Method GetSharedParameterClearTiming(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetSharedParameterClearTiming", args, ICommons))
+    End Method
+
+    Method SetSharedParameterClearTiming(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetSharedParameterClearTiming", args, ICommons))
+    End Method
+
+    Method RegisterSharedParameter(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RegisterSharedParameter", args, ICommons))
+    End Method
+
+    Method RestoreSharedParameter(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RestoreSharedParameter", args, ICommons))
+    End Method
+End Package
+

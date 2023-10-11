@@ -1,0 +1,7 @@
+    Method IPickingMasterDataOwnerControlInvoke(this)
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "ClosePickingMasterData"
+                InterfaceCommon:Result = ClosePickingMasterData(InterfaceCommon:Properties)
+        End Select
+    End Method

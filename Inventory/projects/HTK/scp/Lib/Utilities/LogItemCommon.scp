@@ -1,0 +1,84 @@
+
+Package LogItemCommon
+
+    Method GetLogItemTableItemTypes()
+        listId_TableFieldTypePairs
+    Begin
+        listId_TableFieldTypePairs = ListTable:CreateList()
+
+        ListTable:Add(listId_TableFieldTypePairs, "LogIndex", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "FieldName", "text")
+
+        ListTable:Add(listId_TableFieldTypePairs, "SqlFieldType", "text")
+
+        ListTable:Add(listId_TableFieldTypePairs, "IsDate", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "IsTime", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "ExclusionCharacters", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "OutputDoubleQuotation", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "PaddingType", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "DataAlignType", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "DateFormatType", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "DateSeparatorType", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "TimeFormatType", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "CalculationType", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "CalculationParameter", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "DateCalculationUnitType", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "OutputRangeType", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "OutputRangeStart", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "OutputRangeEnd", "integer")
+
+        ListTable:Add(listId_TableFieldTypePairs, "OutputDigit", "integer")
+
+        Return (listId_TableFieldTypePairs)
+    End Method
+
+    Method HasLogItemTable(databaseName)
+    Begin
+        If (DbAccess:HasTable(databaseName, "LogItem") is false) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method CreateLogItemInfoTable(databaseName)
+        listId_TableFieldTypePairs
+    Begin
+
+        listId_TableFieldTypePairs = GetLogItemTableItemTypes()
+        DbAccess:CreateTable(databaseName, "LogItem", listId_TableFieldTypePairs)
+        ListTable:DeleteList(listId_TableFieldTypePairs)
+        If (ErrorManager:GetError() ne "") Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method DeleteLogItemInfoTable(databaseName)
+    Begin
+
+        DbAccess:DropTable(databaseName, "LogItem")
+        If (ErrorManager:GetError() ne "") Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+End Package

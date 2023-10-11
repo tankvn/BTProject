@@ -1,0 +1,263 @@
+
+Package BtScreenCommon
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[0])
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (Window<properties[0]>:backColor)
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        Window<properties[0]>:backColor = value
+    End Method
+
+    Method GetFormBorderStyle(properties[])
+    Begin
+        Return(Window<properties[0]>:frame)
+    End Method
+    Method SetFormBorderStyle(properties[], value)
+    Begin
+        Window<properties[0]>:frame = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return(Window<properties[0]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        Window<properties[0]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return(Window<properties[0]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        Window<properties[0]>:top = value
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return(Window<properties[0]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        Window<properties[0]>:width = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return (Window<properties[0]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        Window<properties[0]>:height = value
+    End Method
+
+    Method GetVisible(properties[])
+    Begin
+        Return(Window<properties[0]>:visible)
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        Window<properties[0]>:visible = value
+    End Method
+
+    Method New(properties[], parentName)
+    Begin
+        Window<properties[0]>:Create(parentName)
+        SetWidth(properties, 240)
+        SetHeight(properties, 320)
+        SetLeft(properties, 0)
+        SetTop(properties, 0)
+        SetBackColor(properties, "255|255|255")
+        SetFormBorderStyle(properties, "none")
+        With Window<properties[0]>
+            :width = GetWidth(properties)
+            :height = GetHeight(properties)
+            :frame = "none"
+            :enable = true
+        End With
+    End Method
+
+    Method Close(properties[])
+    Begin
+        With Window<properties[0]>
+            :visible = false
+            :Delete()
+            :Update()
+        End With
+    End Method
+
+    Method Show(properties[], value)
+    Begin
+        With Window<properties[0]>
+            :backColor = GetBackColor(properties)
+            :visible = GetVisible(properties)
+            :enable = true
+            :left = GetLeft(properties)
+            :top = GetTop(properties)
+            :width = GetWidth(properties)
+            :height = GetHeight(properties)
+            :frame = GetFormBorderStyle(properties)
+            :visible = value
+            :Update()
+        End With
+    End Method
+
+    Method Focus(properties[])
+    Begin
+        Window<properties[0]>:SetFocus()
+    End Method
+
+    Method SetEnable(properties[], value)
+    Begin
+        Window<properties[0]>:enable = value
+    End Method
+
+    Method GetFocus(properties[])
+    Begin
+        Return(Window<properties[0]>:GetFocus())
+    End Method
+
+    Method UpdateMasterData(ctrl[], components[])
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                If IMasterDataOwnerControl:IsImplemented(ctrl[i]) Then
+                    IMasterDataOwnerControl:UpdateMasterData(ctrl[i])
+                End If
+            Next
+        End If
+        If Not components[0] is nil Then
+            For i = 0 To components.size - 1
+                If IMasterDataOwnerControl:IsImplemented(components[i]) Then
+                    IMasterDataOwnerControl:UpdateMasterData(components[i])
+                End If
+            Next
+        End If
+    End Method
+
+    Method ReflectMasterCheckSentNum(components[], logDataMaxRowId)
+        i
+    Begin
+        If Not components[0] is nil Then
+            For i = 0 To components.size - 1
+                If IBtMasterCheckControl:IsImplemented(components[i]) Then
+                    IBtMasterCheckControl:RefrectSentNumWithMaxRowId(components[i], logDataMaxRowId)
+                End If
+            Next
+        End If
+    End Method
+
+    Method ReflectMasterCheckSentNumByRealTime(components[])
+        i
+    Begin
+        If Not components[0] is nil Then
+            For i = 0 To components.size - 1
+                If IBtMasterCheckControl:IsImplemented(components[i]) Then
+                    IBtMasterCheckControl:RefrectSentNumByRealTime(components[i])
+                End If
+            Next
+        End If
+    End Method
+
+    Method ClearSharedParameter(ctrl[], components[], clearTiming)
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                If ISharedParameterInputTool:IsImplemented(ctrl[i]) Then
+                    If ISharedParameterInputTool:GetIsShared(ctrl[i]) Then
+                        If (SharedParameterUtility:CheckEnableClearTiming(ISharedParameterInputTool:GetSharedParameterClearTiming(ctrl[i]), clearTiming)) Then
+                            SharedParameterUtility:ClearSharedParameter(ISharedParameterInputTool:GetSharedParameterKey(ctrl[i]))
+                        End If
+                    End If
+                End If
+            Next
+        End If
+        If Not components[0] is nil Then
+            For i = 0 To components.size - 1
+                If ISharedParameterInputTool:IsImplemented(components[i]) Then
+                    If ISharedParameterInputTool:GetIsShared(components[i]) Then
+                        If (SharedParameterUtility:CheckEnableClearTiming(ISharedParameterInputTool:GetSharedParameterClearTiming(components[i]), clearTiming)) Then
+                            SharedParameterUtility:ClearSharedParameter(ISharedParameterInputTool:GetSharedParameterKey(components[i]))
+                        End If
+                    End If
+                End If
+            Next
+        End If
+    End Method
+
+    Method RegisterSharedParameter(ctrl[], components[])
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                If ISharedParameterInputTool:IsImplemented(ctrl[i]) And IBtInputControl:IsImplemented(ctrl[i]) Then
+                    If ISharedParameterInputTool:GetIsShared(ctrl[i]) Then
+                        If (Not SharedParameterUtility:IsExistKey(ISharedParameterInputTool:GetSharedParameterKey(ctrl[i]))) Then
+                            IBtInputControl:Reset(ctrl[i])
+                            ISharedParameterInputTool:RegisterSharedParameter(ctrl[i])
+                        End If
+                    End If
+                End If
+            Next
+        End If
+        If Not components[0] is nil Then
+            For i = 0 To components.size - 1
+                If ISharedParameterInputTool:IsImplemented(components[i]) And IBtInputComponent:IsImplemented(components[i]) Then
+                    If ISharedParameterInputTool:GetIsShared(components[i]) Then
+                        If (Not SharedParameterUtility:IsExistKey(ISharedParameterInputTool:GetSharedParameterKey(components[i]))) Then
+                            IBtInputComponent:Reset(components[i])
+                            ISharedParameterInputTool:RegisterSharedParameter(components[i])
+                        End If
+                    End If
+                End If
+            Next
+        End If
+    End Method
+
+    Method UpdateSharedParameterInputTool(ctrl[], components[])
+        i
+    Begin
+        If Not ctrl[0] is nil Then
+            For i = 0 To ctrl.size - 1
+                If ISharedParameterInputTool:IsImplemented(ctrl[i]) Then
+                    If ISharedParameterInputTool:GetIsShared(ctrl[i]) Then
+                        ISharedParameterInputTool:RestoreSharedParameter(ctrl[i])
+                    End If
+                End If
+            Next
+        End If
+        If Not components[0] is nil Then
+            For i = 0 To components.size - 1
+                If ISharedParameterInputTool:IsImplemented(components[i]) Then
+                    If ISharedParameterInputTool:GetIsShared(components[i]) Then
+                        ISharedParameterInputTool:RestoreSharedParameter(components[i])
+                    End If
+                End If
+            Next
+        End If
+    End Method
+
+    Method IsEnabledControl(control_)
+        parentWindow
+    Begin
+        parentWindow = Window<control_>:parent
+        If Not Window<control_>:visible Or Not Window<control_>:enable Or Not Window<parentWindow>:visible Or Not Window<parentWindow>:enable Then
+            Return (false)
+        Else
+            Return (true)
+        End If
+    End Method
+
+End Package
+

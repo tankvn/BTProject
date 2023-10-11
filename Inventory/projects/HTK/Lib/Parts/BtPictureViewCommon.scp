@@ -1,0 +1,292 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtPictureViewConstants"
+
+Package BtPictureViewCommon
+
+    Method GetType(properties[]) /* Implements IControl.GetType */
+    Begin
+        Return (properties[DEF_TYPE_PROPERTY])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetName(properties[]) /* Implements IControl.GetName */
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+    Method SetName(properties[], value)
+    Begin
+        properties[DEF_NAME_PROPERTY] = value
+    End Method
+
+    Method GetText(properties[]) /* Implements IControl.GetText */
+    Begin
+        Return ("")
+    End Method
+    Method SetText(properties[], value) /* Implements IControl.SetText */
+    Begin
+    End Method
+
+    Method GetTabIndex(properties[]) /* Implements IBtInputControl.GetTabIndex */
+    Begin
+        Return (properties[DEF_TAB_INDEX_PROPERTY])
+    End Method
+    Method SetTabIndex(properties[], value) /* Implements IBtInputControl.SetTabIndex */
+    Begin
+        properties[DEF_TAB_INDEX_PROPERTY] = value
+    End Method
+
+    Method GetVisible(properties[]) /* Implements IBtInputControl.GetVisible */ /* Implements IControl.GetVisible */
+    Begin
+        Return (Canvas<properties[DEF_NAME_PROPERTY]>:visible)
+    End Method
+    Method SetVisible(properties[], value) /* Implements IBtInputControl.SetVisible */ /* Implements IControl.SetVisible */
+    Begin
+        properties[DEF_VISIBLE_PROPERTY] = value
+    End Method
+
+    Method UpdateVisible(properties[]) /* Implements IControl.Visible */ /* Implements IBtInputControl.Visible */
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:visible = properties[DEF_VISIBLE_PROPERTY]
+    End Method
+
+    Method GetEnabled(properties[]) /* Implements IControl.GetEnabled */
+    Begin
+        Return (Canvas<properties[DEF_NAME_PROPERTY]>:enable)
+    End Method
+    Method SetEnabled(properties[], value) /* Implements IControl.SetEnabled */
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:enable = value
+    End Method
+
+    Method GetIsPartOfControl(properties[]) /* Implements IBtInputControl.GetIsPartOfControl */
+    Begin
+        Return (properties[DEF_IS_PART_OF_CONTROL_PROPERTY])
+    End Method
+    Method SetIsPartOfControl(properties[], value) /* Implements IBtInputControl.SetIsPartOfControl */
+    Begin
+        properties[DEF_IS_PART_OF_CONTROL_PROPERTY] = value
+    End Method
+
+    Method GetInitialStorageDestination(properties[])
+    Begin
+        Return (properties[DEF_INITIAL_STORAGE_DESTINATION_PROPERTY])
+    End Method
+    Method SetInitialStorageDestination(properties[], value)
+    Begin
+        properties[DEF_INITIAL_STORAGE_DESTINATION_PROPERTY] = value
+        SetStorageDestination(properties, value)
+    End Method
+
+    Method GetInitialImageFileName(properties[])
+    Begin
+        Return (properties[DEF_INITIAL_IMAGE_FILE_NAME_PROPERTY])
+    End Method
+    Method SetInitialImageFileName(properties[], value)
+    Begin
+        properties[DEF_INITIAL_IMAGE_FILE_NAME_PROPERTY] = value
+        SetImageFileName(properties, value)
+    End Method
+
+    Method GetStorageDestination(properties[])
+    Begin
+        Return (properties[DEF_STORAGE_DESTINATION_PROPERTY])
+    End Method
+    Method SetStorageDestination(properties[], value)
+    Begin
+        properties[DEF_STORAGE_DESTINATION_PROPERTY] = value
+    End Method
+
+    Method GetImageFileName(properties[])
+    Begin
+        Return (properties[DEF_IMAGE_FILE_NAME_PROPERTY])
+    End Method
+    Method SetImageFileName(properties[], value)
+    Begin
+        properties[DEF_IMAGE_FILE_NAME_PROPERTY] = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (Canvas<properties[DEF_NAME_PROPERTY]>:backColor)
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:backColor = value
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return (Canvas<properties[DEF_NAME_PROPERTY]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:width = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return (Canvas<properties[DEF_NAME_PROPERTY]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:height = value
+    End Method
+
+    Method GetBorderStyle(properties[])
+    Begin
+        Return (Canvas<properties[DEF_NAME_PROPERTY]>:frame)
+    End Method
+    Method SetBorderStyle(properties[], value)
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:frame = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return (Canvas<properties[DEF_NAME_PROPERTY]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return (Canvas<properties[DEF_NAME_PROPERTY]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:top = value
+    End Method
+
+
+#insert "\Lib\Utilities\IControlInvokeCommon"
+#insert "\Lib\Utilities\IBtInputControlInvokeCommon"
+#insert "\Lib\Utilities\ISearchViewDisplayControlInvokeCommon"
+
+    Method New(properties[])
+    Begin
+        SetStorageDestination(properties, STORAGE_DESTINATION_DRIVE1)
+        SetInitialStorageDestination(properties, STORAGE_DESTINATION_DRIVE1)
+        SetInitialImageFileName(properties, "")
+        SetImageFileName(properties, "")
+        SetIsPartOfControl(properties, false)
+        SetBorderStyle(properties, "none")
+        SetTabIndex(properties, 0)
+    End Method
+
+    Method Create(properties[], parentName)
+    Begin
+        SetType(properties, "PictureBox")
+
+        With Canvas<properties[DEF_NAME_PROPERTY]>
+            :Create(parentName)
+            :enable = true
+        End With
+    End Method
+
+    Method Reset(properties[]) /* Implements ISearchViewDisplayControl.Reset */ /* Implements IBtInputControl.Reset */
+    Begin
+        SetStorageDestination(properties, GetInitialStorageDestination(properties))
+        SetImageFileName(properties, GetInitialImageFileName(properties))
+        UpdateImage(properties, PathUtility:StorageTypeToPath(GetStorageDestination(properties)), GetImageFileName(properties))
+    End Method
+
+    Method Focus(properties[]) /* Implements IControl.Focus */
+    Begin
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+    Begin
+    End Method
+
+    Method SetImage(properties[], pathImageFile)
+        Const DriveNameIndex = 0
+        Const ImageFileNameIndex = 1
+        pathInfo[2]
+    Begin
+        PathUtility:SplitDriveNameAndPath(pathImageFile, pathInfo)
+        If (pathInfo[DriveNameIndex] is nil) Then
+            SetStorageDestination(properties, STORAGE_DESTINATION_DRIVE2)
+            pathInfo[DriveNameIndex] = STORAGE_DESTINATION_DRIVE2
+        End If
+        SetImageFileName(properties, pathInfo[ImageFileNameIndex])
+        UpdateImage(properties, pathInfo[DriveNameIndex], pathInfo[ImageFileNameIndex])
+    End Method
+
+    Method GetDriveName(pathImageFile)
+        separatorIndex
+    Begin
+        separatorIndex = pathImageFile.Find(":", 0)
+        Return (pathImageFile.Left(separatorIndex + 1))
+    End Method
+
+    Method GetImagePath(pathImageFile)
+        separatorIndex
+    Begin
+        separatorIndex = pathImageFile.Rfind(":", pathImageFile.length - 1)
+        Return (pathImageFile.Right(separatorIndex))
+    End Method
+
+    Method UpdateImage(properties[], storageDestination, fileName)
+        isSuccess
+    Begin
+        isSuccess = Canvas<properties[DEF_NAME_PROPERTY]>:SetImage(PathUtility:Combine(storageDestination, fileName))
+        If Not isSuccess Then
+            Canvas<properties[DEF_NAME_PROPERTY]>:backColor = GetBackColor(properties)
+        End If
+
+        Invalidate(properties)
+    End Method
+
+    Method Invalidate(properties[])
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:Update()
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex) /* Implements ISearchViewDisplayControl.SetSearchResult */
+        newImageFileName = ""
+    Begin
+        If (listId_SearchResult <> INVALID_LIST_TABLE_ID) Then
+            If (0 < ListTable:Count(listId_SearchResult)) Then
+                newImageFileName = ListTable:Get(listId_SearchResult, 0, "val")
+            End If
+        End If
+
+        SetImage(properties, newImageFileName)
+
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:visible = false
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        Canvas<properties[DEF_NAME_PROPERTY]>:Delete()
+    End Method
+
+    Method StoreTemporaryText(properties[])
+    Begin
+    End Method
+
+    Method ResetTemporaryText(properties[])
+    Begin
+    End Method
+
+End Package
+
+#popdefine

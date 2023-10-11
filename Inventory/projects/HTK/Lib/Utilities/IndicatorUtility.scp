@@ -1,0 +1,208 @@
+#insert "\Lib\Utilities\IndicatorUtilityConstants"
+
+Package IndicatorUtility
+
+    Properties[DEF_PROPERTY_NUM]
+
+    Method StartBVLAction(soundInterval, soundCount, buzzerVolume, musicalScale, vibratorEnable, indicatorColor)
+    Begin
+        Sound(soundInterval, soundInterval, soundCount, buzzerVolume, musicalScale)
+        Vibrate(soundInterval, soundInterval, soundCount)
+        Light(soundInterval, soundInterval, soundCount, indicatorColor)
+        If (buzzerVolume <> BUZZER_VOLUME_OFF) Then
+            Buzzer:Exec()
+        End If
+        If (vibratorEnable is true) Then
+            Vibration:Exec()
+        End If
+        If (indicatorColor <> INDICATOR_COLOR_OFF) Then
+            Led:Exec()
+        End If
+    End Method
+
+    Method StopBVLAction()
+    Begin
+        Buzzer:Stop()
+        Vibration:Stop()
+        Led:Stop()
+    End Method
+
+    Method LoadSettings()
+    Begin
+        Properties[DEF_BUZZER_ON_TIME_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetBuzzerOnTime(false)          
+        Properties[DEF_BUZZER_OFF_TIME_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetBuzzerOffTime(false)        
+        Properties[DEF_BUZZER_LOOP_COUNT_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetBuzzerLoopCount(false)    
+        Properties[DEF_BUZZER_PITCH_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetBuzzerPitch(false)             
+        Properties[DEF_BUZZER_VOLUME_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetBuzzerVolume(false)           
+        Properties[DEF_BUZZER_ENABLE_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetBuzzerEnable(false)           
+        Properties[DEF_BUZZER_ON_TIME_ERROR_PROPERTY] = SystemSettingFileUtility:GetBuzzerOnTime(true)             
+        Properties[DEF_BUZZER_OFF_TIME_ERROR_PROPERTY] = SystemSettingFileUtility:GetBuzzerOffTime(true)           
+        Properties[DEF_BUZZER_LOOP_COUNT_ERROR_PROPERTY] = SystemSettingFileUtility:GetBuzzerLoopCount(true)       
+        Properties[DEF_BUZZER_PITCH_ERROR_PROPERTY] = SystemSettingFileUtility:GetBuzzerPitch(true)                
+        Properties[DEF_BUZZER_VOLUME_ERROR_PROPERTY] = SystemSettingFileUtility:GetBuzzerVolume(true)              
+        Properties[DEF_BUZZER_ENABLE_ERROR_PROPERTY] = SystemSettingFileUtility:GetBuzzerEnable(true)              
+        Properties[DEF_VIBRATOR_ON_TIME_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetVibratorOnTime(false)      
+        Properties[DEF_VIBRATOR_OFF_TIME_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetVibratorOffTime(false)    
+        Properties[DEF_VIBRATOR_LOOP_COUNT_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetVibratorLoopCount(false)
+        Properties[DEF_VIBRATOR_ENABLE_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetVibratorEnable(false)       
+        Properties[DEF_VIBRATOR_ON_TIME_ERROR_PROPERTY] = SystemSettingFileUtility:GetVibratorOnTime(true)         
+        Properties[DEF_VIBRATOR_OFF_TIME_ERROR_PROPERTY] = SystemSettingFileUtility:GetVibratorOffTime(true)       
+        Properties[DEF_VIBRATOR_LOOP_COUNT_ERROR_PROPERTY] = SystemSettingFileUtility:GetVibratorLoopCount(true)   
+        Properties[DEF_VIBRATOR_ENABLE_ERROR_PROPERTY] = SystemSettingFileUtility:GetVibratorEnable(true)          
+        Properties[DEF_LED_ON_TIME_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetLedOnTime(false)                
+        Properties[DEF_LED_OFF_TIME_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetLedOffTime(false)              
+        Properties[DEF_LED_LOOP_COUNT_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetLedLoopCount(false)          
+        Properties[DEF_LED_COLOR_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetLedColor(false)                   
+        Properties[DEF_LED_ledEnable_SUCCESS_PROPERTY] = SystemSettingFileUtility:GetLedEnable(false)              
+        Properties[DEF_LED_ON_TIME_ERROR_PROPERTY] = SystemSettingFileUtility:GetLedOnTime(true)                   
+        Properties[DEF_LED_OFF_TIME_ERROR_PROPERTY] = SystemSettingFileUtility:GetLedOffTime(true)                 
+        Properties[DEF_LED_LOOP_COUNT_ERROR_PROPERTY] = SystemSettingFileUtility:GetLedLoopCount(true)             
+        Properties[DEF_LED_COLOR_ERROR_PROPERTY] = SystemSettingFileUtility:GetLedColor(true)                      
+        Properties[DEF_LED_ledEnable_ERROR_PROPERTY] = SystemSettingFileUtility:GetLedEnable(true)                 
+    End Method
+
+    Method ReadSuccessBVLAction()
+    Begin
+        BCR:GetData(0)
+        If (BCR:count == 0) Then
+            Return ()
+        End If
+
+        ReadBVLAction(false)
+    End Method
+
+    Method ReadErrorBVLAction()
+    Begin
+        ReadBVLAction(true)
+    End Method
+
+    Method ReadBVLAction(isError)
+        onTime          
+        offTime         
+        loopCount       
+        pitch           
+        volume          
+        color           
+        buzzerEnable    
+        vibratorEnable  
+        ledEnable       
+    Begin
+        StopBVLAction()
+
+        If isError Then
+            onTime = Properties[DEF_BUZZER_ON_TIME_ERROR_PROPERTY]              
+            offTime = Properties[DEF_BUZZER_OFF_TIME_ERROR_PROPERTY]            
+            loopCount = Properties[DEF_BUZZER_LOOP_COUNT_ERROR_PROPERTY]        
+            pitch = Properties[DEF_BUZZER_PITCH_ERROR_PROPERTY]                 
+            volume = Properties[DEF_BUZZER_VOLUME_ERROR_PROPERTY]               
+            buzzerEnable = Properties[DEF_BUZZER_ENABLE_ERROR_PROPERTY]         
+        Else
+            onTime = Properties[DEF_BUZZER_ON_TIME_SUCCESS_PROPERTY]            
+            offTime = Properties[DEF_BUZZER_OFF_TIME_SUCCESS_PROPERTY]          
+            loopCount = Properties[DEF_BUZZER_LOOP_COUNT_SUCCESS_PROPERTY]      
+            pitch = Properties[DEF_BUZZER_PITCH_SUCCESS_PROPERTY]               
+            volume = Properties[DEF_BUZZER_VOLUME_SUCCESS_PROPERTY]             
+            buzzerEnable = Properties[DEF_BUZZER_ENABLE_SUCCESS_PROPERTY]       
+        End If
+        Sound(onTime, offTime, loopCount, volume, pitch)
+
+        If isError Then
+            onTime = Properties[DEF_VIBRATOR_ON_TIME_ERROR_PROPERTY]            
+            offTime = Properties[DEF_VIBRATOR_OFF_TIME_ERROR_PROPERTY]          
+            loopCount = Properties[DEF_VIBRATOR_LOOP_COUNT_ERROR_PROPERTY]      
+            vibratorEnable = Properties[DEF_VIBRATOR_ENABLE_ERROR_PROPERTY]     
+        Else
+            onTime = Properties[DEF_VIBRATOR_ON_TIME_SUCCESS_PROPERTY]          
+            offTime = Properties[DEF_VIBRATOR_OFF_TIME_SUCCESS_PROPERTY]        
+            loopCount = Properties[DEF_VIBRATOR_LOOP_COUNT_SUCCESS_PROPERTY]    
+            vibratorEnable = Properties[DEF_VIBRATOR_ENABLE_SUCCESS_PROPERTY]   
+        End If
+        Vibrate(onTime, offTime, loopCount)
+
+        If isError Then
+            onTime = Properties[DEF_LED_ON_TIME_ERROR_PROPERTY]                 
+            offTime = Properties[DEF_LED_OFF_TIME_ERROR_PROPERTY]               
+            loopCount = Properties[DEF_LED_LOOP_COUNT_ERROR_PROPERTY]           
+            color = Properties[DEF_LED_COLOR_ERROR_PROPERTY]                    
+            ledEnable = Properties[DEF_LED_ledEnable_ERROR_PROPERTY]            
+        Else
+            onTime = Properties[DEF_LED_ON_TIME_SUCCESS_PROPERTY]                
+            offTime = Properties[DEF_LED_OFF_TIME_SUCCESS_PROPERTY]              
+            loopCount = Properties[DEF_LED_LOOP_COUNT_SUCCESS_PROPERTY]          
+            color = Properties[DEF_LED_COLOR_SUCCESS_PROPERTY]                   
+            ledEnable = Properties[DEF_LED_ledEnable_SUCCESS_PROPERTY]           
+        End If
+        Light(onTime, offTime, loopCount, color)
+
+        If (buzzerEnable is true) Then
+            Buzzer:Exec()
+        End If
+        If (vibratorEnable is true) Then
+            Vibration:Exec()
+        End If
+        If (ledEnable is true) Then
+            Led:Exec()
+        End If
+    End Method
+
+    Method Sound(onTime, offTime, soundCount, buzzerVolume, musicalScale)
+    Begin
+        Buzzer:onTime = onTime
+        Buzzer:offTime = offTime
+        Buzzer:loopCount = soundCount
+        If buzzerVolume == BUZZER_VOLUME_OFF Then Buzzer:volume = nil
+        Else Buzzer:volume = buzzerVolume End If
+        Buzzer:pitch = musicalScale
+        Buzzer:synchronization = false
+    End Method
+
+    Method Vibrate(onTime, offTime, soundCount)
+    Begin
+        Vibration:onTime = onTime
+        Vibration:offTime = offTime
+        Vibration:loopCount = soundCount
+        Vibration:synchronization = false
+    End Method
+
+    Method Light(onTime, offTime, soundCount, indicatorColor)
+    Begin
+        Led:onTime = onTime
+        Led:offTime = offTime
+        Led:loopCount = soundCount
+        If (indicatorColor == INDICATOR_COLOR_OFF) Then Led:color = nil
+        ElseIf indicatorColor == INDICATOR_COLOR_RED Then Led:color = "red"
+        ElseIf indicatorColor == INDICATOR_COLOR_GREEN Then Led:color = "green"
+        ElseIf indicatorColor == INDICATOR_COLOR_RED + INDICATOR_COLOR_GREEN Then Led:color = "orange" End If
+        Led:synchronization = false
+    End Method
+
+    Method InvertControlColor(controls[])
+        i
+    Begin
+        For i = 0 to controls.size - 1
+            InvertControlColorCore(controls[i])
+        Next
+    End Method
+
+    Method InvertControlColorCore(control_)
+        color
+    Begin
+        If control_ is nil Then Return() End If
+        color = InvertColor(TextField<control_>:foreColor)
+        TextField<control_>:foreColor = color
+        color = InvertColor(TextField<control_>:backColor)
+        TextField<control_>:backColor = color
+    End Method
+
+    Method InvertColor(source)
+        ary[16]
+    Begin
+        If source is nil Then Return() End If
+
+        ary = source.split("|")
+        ary[0] = 256-1-ary[0]    
+        ary[1] = 256-1-ary[1]    
+        ary[2] = 256-1-ary[2]    
+        Return(ary[0] & "|" & ary[1] & "|" & ary[2])
+    End Method
+End Package

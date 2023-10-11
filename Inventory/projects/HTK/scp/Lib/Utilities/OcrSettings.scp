@@ -1,0 +1,179 @@
+Package OcrSettings
+
+    Method SetOcrEnable(enableType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        OCR:enableType = enableType
+    Catch
+        ErrorManager:SetError("The operation to set the OCR reading combination failed.")
+    End Method
+
+    Method SetOcrPattern(patternType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        If patternType.isInt is true Then
+            If patternType == 1 Then patternType = "string"
+            ElseIf patternType == 2 Then patternType = "date"
+            End If
+        End If
+        OCR:pattern = patternType
+    Catch
+        ErrorManager:SetError("The operation to set the OCR identification pattern failed.")
+    End Method
+
+    Method SetOcrOutDispCheck(outDispCheckType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        If outDispCheckType.isInt is true Then
+            If outDispCheckType == 0 Then outDispCheckType = false
+            ElseIf outDispCheckType == 1 Then outDispCheckType = true
+            ElseIf outDispCheckType == 2 Then outDispCheckType = true
+            End If
+        End If
+        OCR:enableDispOnAlert = outDispCheckType
+    Catch
+        ErrorManager:SetError("The operation to set the display of the OCR reading confirmation screen failed.")
+    End Method
+
+    Method SetOcrDigitAdType(digitAdType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        If digitAdType.isInt is true Then
+            If digitAdType == 1 Then digitAdType = "2digit"
+            ElseIf digitAdType == 2 Then digitAdType = "4digit"
+            ElseIf digitAdType == 3 Then digitAdType = "both"
+            End If
+        End If
+        OCR:adDigit = digitAdType
+    Catch
+        ErrorManager:SetError("The operation to set the OCR year in the western calendar failed.")
+    End Method
+
+    Method SetOcrDayExistType(dayExistType)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        If dayExistType.isInt is true Then
+            If dayExistType == 1 Then dayExistType = "exist"
+            ElseIf dayExistType == 2 Then dayExistType = "notExist"
+            ElseIf dayExistType == 3 Then dayExistType = "both"
+            End If
+        End If
+        OCR:dayExist = dayExistType
+    Catch
+        ErrorManager:SetError("The operation to set the way that the OCR date is expressed failed.")
+    End Method
+
+    Method SetOcrReadOneDegitMonthAndDay(readOneDegitMonthAndDay)
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        OCR:oneDigitMD = readOneDegitMonthAndDay
+    Catch
+        ErrorManager:SetError("The operation to set the reading flag for one-digit OCR months and days failed.")
+    End Method
+
+    Method SetOcrOutputDatePattern(pattern)
+        dat[2]
+        patternString
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        dat = OCR:outDateFormat.split(",")
+        patternString = ConvertPatternString(pattern)
+        If (dat[1] is nil) Then
+            OCR:outDateFormat = patternString & ","
+        Else
+            OCR:outDateFormat = patternString & "," & dat[1]
+        End If
+    Catch
+        ErrorManager:SetError("The operation to set the OCR output pattern failed.")
+    End Method
+
+    Method SetOcrOutputDateSeparator(separator)
+        dat[2]
+        separatorString
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        dat = OCR:outDateFormat.split(",")
+        separatorString = ConvertSeparatorString(separator)
+        OCR:outDateFormat = dat[0] & "," & separatorString
+    Catch
+        ErrorManager:SetError("The operation to set the OCR output separator failed.")
+    End Method
+
+    Method LoadConfigFile(filename)
+        result
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        result = OCR:LoadConfig(filename)
+        If result is false Then
+            ErrorManager:SetError("The operation to read the OCR settings file failed.")
+        End If
+        Return(result)
+    End Method
+
+    Method SaveConfigFile(filename)
+        result
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        result = OCR:SaveConfig(filename, true)
+        If result is false Then
+            ErrorManager:SetError("Failed to save the OCR configuration file.")
+        End If
+        Return(result)
+    End Method
+
+    Method SetOcrEnableFormat(enableOcrFormat[])
+        i,j
+        fmtstr
+        dat[3]
+    Begin
+        If Not IsOcrTerminal() Then Return() End If
+        For i = 1 to 50
+            fmtstr = OCR:GetFormatInfo(i)
+            dat = fmtstr.split("|")
+            OCR:SetFormatInfo(i, enableOcrFormat[i-1], dat[1], dat[2])
+        Next
+    Catch
+        ErrorManager:SetError("The operation to enable/disable the OCR format failed.")
+    End Method
+
+    Method ConvertPatternString(pattern)
+    Begin
+        Select Case pattern
+            Case 1
+                Return ("YYYYMMDD")
+            Case 2
+                Return ("YYYYMM")
+            Case 3
+                Return ("YYMMDD")
+            Case 4
+                Return ("YYMM")
+        End Select
+    End Method
+
+    Method ConvertSeparatorString(separator)
+    Begin
+        Select Case separator
+            Case 0
+                Return ("")
+            Case 1
+                Return ("/")
+            Case 2
+                Return (".")
+            Case 3
+                Return ("-")
+            Case 4
+                Return (" ")
+        End Select
+    End Method
+
+    Method IsOcrTerminal()
+    Begin
+        If (Handy:model.Find("BT-W", 0)) Then
+            If OCR:isOCRAvailable is true Then Return (true) End If
+            Return (false)
+        Else
+            Return (false)
+        End If
+    End Method
+
+End Package

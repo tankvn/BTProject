@@ -1,0 +1,144 @@
+
+Package TransmittingForm_res
+
+    Method GetTitleLabelText()
+    Begin
+        Return (Label<"Label_Title">:text)
+    End Method
+
+    Method SetTitleLabelText(value)
+    Begin
+        Label<"Label_Title">:text = value
+    End Method
+
+    Method GetStatusLabelText()
+    Begin
+        Return (Label<"Label_Status">:text)
+    End Method
+
+    Method SetStatusLabelText(value)
+    Begin
+        Label<"Label_Status">:text = value
+    End Method
+
+    Method GetEnableCancel()
+    Begin
+        Return (Label<"Label_Cancel">:visible)
+    End Method
+
+    Method SetEnableCancel(value)
+    Begin
+        Label<"Label_Cancel">:visible = value
+    End Method
+
+    Method InitializeComponent()
+    Begin
+        With Window<"TRANSMITTING_WINDOW">
+            :Create("ROOT_WINDOW")
+            :left = 30
+            :top  = 100
+            :width = 236
+            :height = 115
+            :backColor = "193|190|193"
+            :frame = "thin"
+        End With
+
+        With Label<"Label_Title">
+            :Create("TRANSMITTING_WINDOW")
+            :foreColor = "255|255|255"
+            :backColor = "0|0|128"
+            :left = 0
+            :top = 0
+            :width = 236
+            :height = 30
+            :text = ""
+            :textAlign = "center"
+            :fontSize  = 18
+            If "BTW" eq "BTW" Then
+                :fontName  = "TT Hira UD Sans Rd Mono StdN W4"
+            End If
+            :frame = "none"
+            :visible = True
+            :enable = True
+            :textVAlign = "center"
+        End With
+
+        With Label<"Label_Status">
+            :Create("TRANSMITTING_WINDOW")
+            :foreColor = "0|0|0"
+            :backColor = "193|190|193"
+            :left = 0
+            :top = 40
+            :width = 236
+            :height = 30
+            :text   = ""
+            :textAlign = "center"
+            :fontSize  = 24
+            If "BTW" eq "BTW" Then
+                :fontName  = "TT Hira UD Sans Rd Mono StdN W4"
+            End If
+            :frame = "none"
+            :visible = True
+            :enable = True
+            :textVAlign = "center"
+        End With
+
+        With Label<"Label_Cancel">
+            :Create("TRANSMITTING_WINDOW")
+            :foreColor = "0|0|0"
+            :backColor = "193|190|193"
+            :left = 0
+            :top = 80
+            :width = 236
+            :height = 30
+            :text   = "C: Cancel"
+            :textAlign = "center"
+            :fontSize  = 24
+            If "BTW" eq "BTW" Then
+                :fontName  = "TT Hira UD Sans Rd Mono StdN W4"
+            End If
+            :frame = "none"
+            :visible = True
+            :enable = True
+            :textVAlign = "center"
+        End With
+
+    End Method
+
+    Method LayoutSetting()
+        displaySize[2]
+        outSize[2]
+    Begin
+        displaySize[0] = Window<"TRANSMITTING_WINDOW">:width
+        displaySize[1] = Window<"TRANSMITTING_WINDOW">:height
+        LayoutUtility:CalculateDisplayLocation(displaySize, outSize)
+        Window<"TRANSMITTING_WINDOW">:left = outSize[0]
+        Window<"TRANSMITTING_WINDOW">:top = outSize[1]
+    End Method
+
+    Method Show()
+    Begin
+        With Window<"TRANSMITTING_WINDOW">
+            :visible = True
+            :enable = True
+            :Update()
+            :SetFocus()
+        End With
+    End Method
+
+    Method Close()
+    Begin
+        Window<"TRANSMITTING_WINDOW">:Delete()
+        Window<"ROOT_WINDOW">:Update()
+    End Method
+
+    Method Reflesh()
+    Begin
+        With Window<"TRANSMITTING_WINDOW">
+            :visible = false
+            :visible = true
+            :SetFocus()
+        End With
+    End Method
+
+End Package

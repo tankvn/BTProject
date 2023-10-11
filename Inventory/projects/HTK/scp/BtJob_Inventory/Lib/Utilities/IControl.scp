@@ -1,0 +1,175 @@
+
+Package IControl
+    Names[36]
+    ICommons[36]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_Inventory_BtLabel_ItemNo"
+        ICommons[0] = BtWindow_Inventory_BtLabel_ItemNo:IControlInvoke
+        Names[1] = "BtWindow_Inventory_BtTextBox_ItemNo"
+        ICommons[1] = BtWindow_Inventory_BtTextBox_ItemNo:IControlInvoke
+        Names[2] = "BtWindow_Inventory_BtLabel_Quantity"
+        ICommons[2] = BtWindow_Inventory_BtLabel_Quantity:IControlInvoke
+        Names[3] = "BtWindow_Inventory_BtTextBox_Quantity"
+        ICommons[3] = BtWindow_Inventory_BtTextBox_Quantity:IControlInvoke
+        Names[4] = "BtWindow_Inventory_BtLabel_Person"
+        ICommons[4] = BtWindow_Inventory_BtLabel_Person:IControlInvoke
+        Names[5] = "BtWindow_Inventory_BtTextBox_Person"
+        ICommons[5] = BtWindow_Inventory_BtTextBox_Person:IControlInvoke
+        Names[6] = "BtWindow_Inventory_BtLabel_DataCount"
+        ICommons[6] = BtWindow_Inventory_BtLabel_DataCount:IControlInvoke
+        Names[7] = "BtWindow_Inventory_BtLabel_DataCountDisplay"
+        ICommons[7] = BtWindow_Inventory_BtLabel_DataCountDisplay:IControlInvoke
+        Names[8] = "BtWindow_Inventory_BtLabel_Title"
+        ICommons[8] = BtWindow_Inventory_BtLabel_Title:IControlInvoke
+        Names[9] = "BtWindow_Inventory_BtF1Key_Back"
+        ICommons[9] = BtWindow_Inventory_BtF1Key_Back:IControlInvoke
+        Names[10] = "BtWindow_Inventory_BtF2Key_SendDataFile"
+        ICommons[10] = BtWindow_Inventory_BtF2Key_SendDataFile:IControlInvoke
+        Names[11] = "BtWindow_Inventory_BtF3Key_HistoryDataView"
+        ICommons[11] = BtWindow_Inventory_BtF3Key_HistoryDataView:IControlInvoke
+        Names[12] = "BtHistoryDataView_Inventory_BtLabel_Title"
+        ICommons[12] = BtHistoryDataView_Inventory_BtLabel_Title:IControlInvoke
+        Names[13] = "BtHistoryDataView_Inventory_BtF1Key_Back"
+        ICommons[13] = BtHistoryDataView_Inventory_BtF1Key_Back:IControlInvoke
+        Names[14] = "BtHistoryDataView_Inventory_BtLabel_DataCountDisplay"
+        ICommons[14] = BtHistoryDataView_Inventory_BtLabel_DataCountDisplay:IControlInvoke
+        Names[15] = "BtHistoryDataView_Inventory_BtTableView_HistoryData"
+        ICommons[15] = BtHistoryDataView_Inventory_BtTableView_HistoryData:IControlInvoke
+        Names[16] = "BtHistoryDataView_Inventory_BtF2Key_Previous"
+        ICommons[16] = BtHistoryDataView_Inventory_BtF2Key_Previous:IControlInvoke
+        Names[17] = "BtHistoryDataView_Inventory_BtF3Key_Next"
+        ICommons[17] = BtHistoryDataView_Inventory_BtF3Key_Next:IControlInvoke
+        Names[18] = "BtHistoryDataView_Inventory_BtF4Key_Delete"
+        ICommons[18] = BtHistoryDataView_Inventory_BtF4Key_Delete:IControlInvoke
+        Names[19] = "BtCommunicationErrorDialog_1_BtLabel_Title"
+        ICommons[19] = BtCommunicationErrorDialog_1_BtLabel_Title:IControlInvoke
+        Names[20] = "BtCommunicationErrorDialog_1_BtLabel_Message1"
+        ICommons[20] = BtCommunicationErrorDialog_1_BtLabel_Message1:IControlInvoke
+        Names[21] = "BtCommunicationErrorDialog_1_BtLabel_Message2"
+        ICommons[21] = BtCommunicationErrorDialog_1_BtLabel_Message2:IControlInvoke
+        Names[22] = "BtCommunicationErrorDialog_1_BtButton_Exit"
+        ICommons[22] = BtCommunicationErrorDialog_1_BtButton_Exit:IControlInvoke
+        Names[23] = "HistoryDataEditDialog_labelTitle"
+        ICommons[23] = HistoryDataEditDialog_labelTitle:IControlInvoke
+        Names[24] = "HistoryDataEditDialog_labelFieldName"
+        ICommons[24] = HistoryDataEditDialog_labelFieldName:IControlInvoke
+        Names[25] = "HistoryDataEditDialog_dataStringLabel"
+        ICommons[25] = HistoryDataEditDialog_dataStringLabel:IControlInvoke
+        Names[26] = "HistoryDataEditDialog_fieldStringLabel"
+        ICommons[26] = HistoryDataEditDialog_fieldStringLabel:IControlInvoke
+        Names[27] = "HistoryDataEditDialog_textBox"
+        ICommons[27] = HistoryDataEditDialog_textBox:IControlInvoke
+        Names[28] = "HistoryDataEditDialog_inputDateBox"
+        ICommons[28] = HistoryDataEditDialog_inputDateBox:IControlInvoke
+        Names[29] = "HistoryDataEditDialog_okButton"
+        ICommons[29] = HistoryDataEditDialog_okButton:IControlInvoke
+        Names[30] = "HistoryDataEditDialog_cancelButton"
+        ICommons[30] = HistoryDataEditDialog_cancelButton:IControlInvoke
+        Names[31] = "DeleteConfirmationDialog_BtLabel1"
+        ICommons[31] = DeleteConfirmationDialog_BtLabel1:IControlInvoke
+        Names[32] = "DeleteConfirmationDialog_messageLabel"
+        ICommons[32] = DeleteConfirmationDialog_messageLabel:IControlInvoke
+        Names[33] = "DeleteConfirmationDialog_deletionOneRecordButton"
+        ICommons[33] = DeleteConfirmationDialog_deletionOneRecordButton:IControlInvoke
+        Names[34] = "DeleteConfirmationDialog_deletionAllRecordsButton"
+        ICommons[34] = DeleteConfirmationDialog_deletionAllRecordsButton:IControlInvoke
+        Names[35] = "DeleteConfirmationDialog_cancelButton"
+        ICommons[35] = DeleteConfirmationDialog_cancelButton:IControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetType(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetType", args, ICommons))
+    End Method
+
+    Method GetName(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetName", args, ICommons))
+    End Method
+
+    Method GetText(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetText", args, ICommons))
+    End Method
+
+    Method SetText(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetText", args, ICommons))
+    End Method
+
+    Method Focus(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "Focus", args, ICommons))
+    End Method
+
+    Method InvokeFocusHandler(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "InvokeFocusHandler", args, ICommons))
+    End Method
+
+    Method GetVisible(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetVisible", args, ICommons))
+    End Method
+
+    Method SetVisible(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetVisible", args, ICommons))
+    End Method
+
+    Method GetEnabled(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetEnabled", args, ICommons))
+    End Method
+
+    Method SetEnabled(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetEnabled", args, ICommons))
+    End Method
+
+    Method GetTabIndex(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetTabIndex", args, ICommons))
+    End Method
+
+    Method TemporaryHide(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "TemporaryHide", args, ICommons))
+    End Method
+
+    Method UpdateVisible(controlName)
+        args[1]
+    Begin
+        InterfaceCommon:Call(controlName, Names, "UpdateVisible", args, ICommons)
+    End Method
+
+    Method Dispose(controlName)
+        args[1]
+    Begin
+        InterfaceCommon:Call(controlName, Names, "Dispose", args, ICommons)
+    End Method
+End Package
+

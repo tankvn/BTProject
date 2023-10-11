@@ -1,0 +1,95 @@
+#insert "\Lib\Utilities\LogItemConstants"
+#insert "\Lib\Utilities\LogItemSystemParameterConstants"
+
+/*Public*/ Package LogItemSystemParameterCommon
+    /*Inherits LogItem*/
+
+#pushdefine
+#insert "\Lib\Utilities\LogItem"
+#popdefine
+
+
+
+    Method GetSystemParameter(properties[]) /*As SystemParameterType*/
+    Begin
+        Return (properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY])
+    End Method
+
+    Method GetLogData(properties[]) /*As String*/
+        systemParameter
+    Begin
+        If (properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY] == SYSTEM_PARAMETER_TYPE_SYSTEM_DATE) Then
+            Return (DateUtility:FormatCommonDate(SystemParameterUtility:GetCurrentSystemDate()))
+        ElseIf (properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY] == SYSTEM_PARAMETER_TYPE_SYSTEM_TIME) Then
+            Return (TimeUtility:FormatCommonTime(SystemParameterUtility:GetCurrentSystemTime()))
+        Else
+            systemParameter = SystemParameterUtility:GetSystemParameter(properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY])
+            ErrorManager:GetError()
+            Return (systemParameter)
+        End If 
+    End Method
+
+    Method GetLogDataIndex(properties[]) /*As Integer*/
+    Begin
+            Return (0)
+    End Method
+
+    Method GetLogItemTypeInfo(properties[]) /*As String*/
+    Begin
+        Return (FIELD_PREFIX & ":(" &  GetSystemParameter(properties) & ")" & "(" & GetLogItemId(properties) & ")") 
+    End Method
+
+    Method GetTableItemTypes(properties[]) /*As String*/
+    Begin
+        Return (DB_ACCESS_SQLITE_DATA_TYPE_TEXT)
+    End Method
+
+    Method GetIsDate(properties[]) /*As Boolean*/
+    Begin
+        Select Case properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY]
+            Case SYSTEM_PARAMETER_TYPE_SYSTEM_DATE
+                Return (true)
+        End Select
+        Return (false)
+    End Method
+
+    Method GetIsTime(properties[]) /*As Boolean*/
+    Begin
+        Select Case properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY]
+            Case SYSTEM_PARAMETER_TYPE_SYSTEM_TIME
+                Return (true)
+        End Select
+        Return (false)
+    End Method
+
+    Method GetDecimalPlaces(properties[]) /*As Integer*/
+    Begin
+        Return (OUTPUT_DATA_UTILITY_DEFAULT_DECIMALPLACE)
+    End Method
+
+
+#insert "\Lib\Utilities\ILogItemSystemParameterInvokeCommon"
+#insert "\Lib\Utilities\ILogItemInvokeCommon"
+
+    Method New(properties[], name, displayName, systemParameter)
+    Begin
+        NewBase(properties, name, displayName, LOG_ITEM_TYPE_SYSTEM_PARAMETER)
+        properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY] = systemParameter
+    End Method
+
+    Method IsFormatChanged(properties[], databaseName, index) /*As Boolean*/
+    Begin
+        Return (IsFormatChangedBase(properties, GetTableItemTypes(properties), databaseName, index))
+    End Method
+
+    Method AddLogItemInfo(properties[], databaseName, index) /*As Boolean*/
+    Begin
+        Return (AddLogItemInfoBase(properties, GetTableItemTypes(properties), databaseName, index))
+    End Method
+
+    Method GetFormattedLogDataDb(properties[], dataLength, value)
+    Begin
+        Return (GetFormattedLogDataDbBase(properties, GetTableItemTypes(properties), GetDecimalPlaces(properties), dataLength, value))
+    End Method
+
+End Package 

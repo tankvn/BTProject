@@ -1,0 +1,39 @@
+#pushdefine
+
+Package DEF_PACKAGE_NAME
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    Names[DEF_IMPLEMENT_NAME_ARRAY@~]
+    ICommons[DEF_IMPLEMENT_NAME_ARRAY@~]
+#else
+    Names[1]
+    ICommons[1]
+#endif
+    Method New()
+    Begin
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Names[@^] = "DEF_IMPLEMENT_NAME_ARRAY"
+        ICommons[@^] = DEF_IMPLEMENT_NAME_ARRAY:IMasterDataOwnerControlInvoke
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+
+    Method UpdateMasterData(controlName)
+        args[1]
+    Begin
+        Return (InterfaceCommon:Call(controlName, Names, "UpdateMasterData", args, ICommons))
+    End Method
+
+    Method CloseMasterData(controlName)
+        args[1]
+    Begin
+        Return (InterfaceCommon:Call(controlName, Names, "CloseMasterData", args, ICommons))
+    End Method
+
+End Package 
+
+#popdefine

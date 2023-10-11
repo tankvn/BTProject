@@ -1,0 +1,811 @@
+
+Package RealTimeConnectionController
+
+    _properties[2]
+
+    Method GetSentLocalDataMaxRowId()
+    Begin
+        Return (_properties[0])
+    End Method
+
+    Method New()
+    Begin
+        _properties[1] = ""
+        _properties[0] = -1
+    End Method
+
+    Method NewWithFormat(logFormat)
+    Begin
+        _properties[1] = logFormat
+        _properties[0] = -1
+    End Method
+
+    Method SendJobData(tableName, listId_TableFieldValuePairs, parentWindow)
+        result
+    Begin
+
+        Window<parentWindow>:enable = false
+        TransmittingForm:New("Wireless Data Comm.", "Communicating")
+        TransmittingForm:Show()
+        TransmittingForm:SetEnableCancel(false)
+
+        result = SendJobDataCore(tableName, listId_TableFieldValuePairs)
+
+        TransmittingForm:Close()
+        Window<parentWindow>:enable = true
+
+        If (TransmittingForm:GetErrorMessage() ne "") Then
+            ErrorManager:SetError(TransmittingForm:GetErrorMessage())
+        End If
+        If (TransmittingForm:GetCommunicationError() is true) Then
+            ErrorManager:SetCommunicationError()
+        End If
+
+    End Method
+
+    Method SendJobDataCore(tableName, listId_TableFieldValuePairs)
+        errorMessage
+        sendDataString
+        ret
+        listId_SendDataStrings = 0
+    Begin
+
+        RemoteAccess:timeOut = 7
+
+        SendLocalJobData()
+        If (ErrorManager:GetCommunicationError()) Then
+            ErrorManager:SetCommunicationError()
+            Return (false)
+        End If
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne "") Then
+            ErrorManager:SetError(errorMessage)
+            Return (false)
+        End If
+
+        sendDataString = CreateSendDataString(listId_TableFieldValuePairs)
+        listId_SendDataStrings = ListTable:CreateList()
+        ListTable:Add(listId_SendDataStrings, sendDataString, "")
+        ret = ExecuteSendJobData(tableName, listId_SendDataStrings)
+        ListTable:DeleteList(listId_SendDataStrings)
+
+        Return (ret)
+    End Method
+
+    Method ExecuteSendJobData(tableName, listId_SendDataStrings)
+        i
+    Begin
+
+        If Not Connect() Then
+            ErrorManager:SetCommunicationError()
+            Return (false)
+        End If
+
+        RemoteDB:databaseName = ""
+        RemoteDB:tableName = tableName
+        RemoteDB:keyFieldNum = 0
+        RemoteDB:newFieldNum = ListTable:Count(listId_SendDataStrings)
+
+        RemoteDB:SetOption("INSERT_DATA", 1)
+
+        For i = 0 to ListTable:Count(listId_SendDataStrings) - 1
+            RemoteDB:index = i
+            RemoteDB:data = ListTable:Get(listId_SendDataStrings, i, "key")
+
+            If (RemoteDB:SetData("newdata", i + 1) is false) Then
+                ErrorManager:SetCommunicationError()
+                Return (false)
+            End If
+        Next
+
+        If Not DbExec("insert") Then
+            ErrorManager:SetCommunicationError()
+            Return (false)
+        End If
+
+        If RemoteDB:result < 0 Then
+            ErrorManager:SetError("The operation to output data failed.")
+            Return (false)
+        End If
+
+        Return (true)
+
+    End Method
+
+    Method SendLocalJobData()
+        listId_SelectFieldList = 0
+        listId_ReadySendDataStrings = 0
+        readySentMaxRowId
+        totalByteCount
+        offset
+        listId_Data = 0
+        errorMessage
+        sendDataString
+        byteCount
+        i
+        logFormatName
+        logItemName
+    Begin
+
+        _properties[0] = -1
+
+        logFormatName = _properties[1]
+        If logFormatName eq "" Then
+            Return(nil)
+        End If
+
+        listId_SelectFieldList = ListTable:CreateList()
+        For i = 0 to IDataFormatControl:GetCount(logFormatName) - 1
+            logItemName = IDataFormatControl:GetLogItem(logFormatName, i)
+            ListTable:Add(listId_SelectFieldList, ILogItem:GetTableItemName(logItemName), "")
+        Next
+        ListTable:Add(listId_SelectFieldList, "ROWID", "")
+
+        listId_ReadySendDataStrings = ListTable:CreateList()
+        readySentMaxRowId = -1
+        totalByteCount = 0
+        offset = 0
+        While(true)
+            listId_Data = DbAccess:SelectValues(IDataFormatControl:GetPathDriveLogDataBase(logFormatName), IDataFormatControl:GetTableName(logFormatName), listId_SelectFieldList, 0, false, 0, false, 0, 1, offset)
+            errorMessage = ErrorManager:GetError()
+            If (errorMessage ne "") Then
+                ErrorManager:SetError(errorMessage)
+                ListTable:DeleteList(listId_Data)
+                Wbreak
+            End If
+
+            If (ListTable:Count(listId_Data) == 0) Then
+                ListTable:DeleteList(listId_Data)
+                If 0 < ListTable:Count(listId_ReadySendDataStrings) Then
+                    If Not ExecuteSendJobData(IDataFormatControl:GetOutputTargetName(logFormatName), listId_ReadySendDataStrings) Then
+                        ErrorManager:SetCommunicationError()
+                        Wbreak
+                    End If
+
+                    _properties[0] = readySentMaxRowId
+                End If
+                Wbreak
+            End If
+
+            sendDataString = CreateSendDataStringFromData(listId_Data)
+            byteCount = StringUtility:GetByteCount(sendDataString)
+
+            If (36 <= ListTable:Count(listId_ReadySendDataStrings)) Or (30000 < (totalByteCount + byteCount)) Then
+                If Not ExecuteSendJobData(IDataFormatControl:GetOutputTargetName(logFormatName), listId_ReadySendDataStrings) Then
+                    ErrorManager:SetCommunicationError()
+                    ListTable:DeleteList(listId_Data)
+                    Wbreak
+                End If
+
+                _properties[0] = readySentMaxRowId
+
+                For i = 0 to ListTable:Count(listId_ReadySendDataStrings) - 1
+                    ListTable:Remove(listId_ReadySendDataStrings, i)
+                Next
+                totalByteCount = 0
+            End If
+
+            ListTable:Add(listId_ReadySendDataStrings, sendDataString, "")
+            readySentMaxRowId = ListTable:Get(listId_Data, ListTable:Count(listId_Data) - 1, "val")
+            ListTable:DeleteList(listId_Data)
+
+            totalByteCount = totalByteCount + byteCount
+            offset = offset + 1
+        Wend
+        ListTable:DeleteList(listId_ReadySendDataStrings)
+        ListTable:DeleteList(listId_SelectFieldList)
+    End Method
+
+    Method CreateSendDataString(listId_TableFieldValuePairs)
+        sendDataString = ""
+        i
+    Begin
+
+        For i = 0 to ListTable:Count(listId_TableFieldValuePairs) - 1
+
+            If i <> 0 Then
+                sendDataString = sendDataString & ","
+            End If
+
+            sendDataString = sendDataString & DbAccess:EncloseDoubleQuotations(ListTable:Get(listId_TableFieldValuePairs, i, "val"))
+        Next
+
+        Return (sendDataString)
+
+    End Method
+
+    Method CreateSendDataStringFromData(listId_Data)
+        sendDataString = ""
+        value
+        i
+    Begin
+
+        For i = 0 to ListTable:Count(listId_Data) - 2
+
+            If i <> 0 Then
+                sendDataString = sendDataString & ","
+            End If
+
+            value = ListTable:Get(listId_Data, i, "val")
+            If value.isString is false Then
+                If value is nil Then
+                    value = ""
+                End If
+            End If
+
+            sendDataString = sendDataString & DbAccess:EncloseDoubleQuotations(value)
+        Next
+
+        Return (sendDataString)
+
+    End Method
+
+    Method SelectCount(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions, parentWindow)
+        listId_ResultData = 0
+    Begin
+        Window<parentWindow>:enable = false
+        TransmittingForm:New("Wireless Data Comm.", "Communicating")
+        TransmittingForm:Show()
+        TransmittingForm:SetEnableCancel(false)
+
+        listId_ResultData = SelectCountCore(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions)
+
+        TransmittingForm:Close()
+        Window<parentWindow>:enable = true
+
+        If (TransmittingForm:GetErrorMessage() ne "") Then
+            ErrorManager:SetError(TransmittingForm:GetErrorMessage())
+        End If
+        If (TransmittingForm:GetCommunicationError() is true) Then
+            ErrorManager:SetCommunicationError()
+        End If
+
+        Return (listId_ResultData)
+
+    End Method
+
+    Method SelectCountCore(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions)
+        errorMessage
+        result
+        resultCount
+        resultMaxRecordId
+    Begin
+        SendLocalJobData()
+        If ErrorManager:GetCommunicationError() Then
+            ErrorManager:SetCommunicationError()
+            Return (0)
+        End If
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne "") Then
+            ErrorManager:SetError(errorMessage)
+            Return (0)
+        End If
+
+        If Not PrepareSelect(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions) Then
+            Return (0)
+        End If
+
+        RemoteDB:SetOption("SELECT_COUNT", 1)
+
+        If Not DbExec("select") Then
+            ErrorManager:SetCommunicationError()
+            Return (0)
+        End If
+
+        If RemoteDB:result <> 1 Then
+            ErrorManager:SetError("The operation to acquire the row failed.")
+            Return (0)
+        End If
+
+        If RemoteDB:resultFieldNum <> 1 Then
+            ErrorManager:SetError("The obtained data is illegal.")
+            Return (0)
+        End If
+
+        RemoteDB:GetData("result", 1)
+        resultCount = RemoteDB:data
+
+        resultMaxRecordId = RemoteDB:GetOption("response", 1)
+        If resultMaxRecordId.isString Then
+            If resultMaxRecordId eq "" Then
+                resultMaxRecordId = -1
+            End If
+        End If
+
+        Return (GetSelectCountResult(resultCount, resultMaxRecordId))
+
+    End Method
+
+    Method GetSelectCountResult(count, maxRecordId)
+        listId_SelectCountResult = 0
+    Begin
+        listId_SelectCountResult = ListTable:CreateList()
+        ListTable:Add(listId_SelectCountResult, "Count", count)
+        ListTable:Add(listId_SelectCountResult, "MaxRecordId", maxRecordId)
+        Return (listId_SelectCountResult)
+    End Method
+
+    Method SelectOne(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions, maxRecordId, offset, parentWindow)
+        resultData
+    Begin
+        Window<parentWindow>:enable = false
+        TransmittingForm:New("Wireless Data Comm.", "Communicating")
+        TransmittingForm:Show()
+        TransmittingForm:SetEnableCancel(false)
+
+        resultData = SelectOneCore(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions, maxRecordId, offset)
+
+        TransmittingForm:Close()
+        Window<parentWindow>:enable = true
+
+        If (TransmittingForm:GetErrorMessage() ne "") Then
+            ErrorManager:SetError(TransmittingForm:GetErrorMessage())
+        End If
+        If (TransmittingForm:GetCommunicationError() is true) Then
+            ErrorManager:SetCommunicationError()
+        End If
+
+        Return (resultData)
+
+    End Method
+
+    Method SelectOneCore(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions, maxRecordId, offset)
+        errorMessage
+        listId_Data = 0
+    Begin
+        SendLocalJobData()
+        If ErrorManager:GetCommunicationError() Then
+            ErrorManager:SetCommunicationError()
+            Return (listId_Data)
+        End If
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne "") Then
+            ErrorManager:SetError(errorMessage)
+            Return (listId_Data)
+        End If
+
+        If Not PrepareSelect(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions) Then
+            Return (listId_Data)
+        End If
+
+        RemoteDB:SetOption("SELECT_ONE", 1)
+
+        If (0 <= maxRecordId) And (0 <= offset) Then
+            RemoteDB:SetOption(maxRecordId & "," & offset, 2)
+        End If
+
+        listId_Data = ExecuteSelect()
+
+        Return (listId_Data)
+
+    End Method
+
+    Method SelectMultiple(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions, limit, parentWindow)
+        resultData
+    Begin
+        Window<parentWindow>:enable = false
+        TransmittingForm:New("Wireless Data Comm.", "Communicating")
+        TransmittingForm:Show()
+        TransmittingForm:SetEnableCancel(false)
+
+        resultData = SelectMultipleCore(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions, limit)
+
+        TransmittingForm:Close()
+        Window<parentWindow>:enable = true
+
+        If (TransmittingForm:GetErrorMessage() ne "") Then
+            ErrorManager:SetError(TransmittingForm:GetErrorMessage())
+        End If
+        If (TransmittingForm:GetCommunicationError() is true) Then
+            ErrorManager:SetCommunicationError()
+        End If
+
+        Return (resultData)
+
+    End Method
+
+    Method SelectMultipleCore(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions, limit)
+        errorMessage
+        listId_Data = 0
+    Begin
+        SendLocalJobData()
+        If ErrorManager:GetCommunicationError() Then
+            ErrorManager:SetCommunicationError()
+            Return (listId_Data)
+        End If
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne "") Then
+            ErrorManager:SetError(errorMessage)
+            Return (listId_Data)
+        End If
+
+        If Not PrepareSelect(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions) Then
+            Return (listId_Data)
+        End If
+
+        RemoteDB:SetOption("SELECT_MULTIPLE", 1)
+
+        If 0 <= limit Then
+            RemoteDB:SetOption(limit, 2)
+        End If
+
+        listId_Data = ExecuteSelect()
+
+        Return (listId_Data)
+
+    End Method
+
+    Method PrepareSelect(dbName, tableName, listId_SelectFieldIndexes, listId_Conditions)
+        keyFieldNum
+        keyDataIndex
+        i
+        groupIndex
+        conditionIndex
+        listId_ConditionCollection = 0
+        listId_IndexValues = 0
+        listId_IndexValuePair = 0
+    Begin
+
+        RemoteAccess:timeOut = 7
+
+        If Not Connect() Then
+            ErrorManager:SetCommunicationError()
+            Return (false)
+        End If
+
+        RemoteDB:databaseName = dbName
+        RemoteDB:tableName = tableName
+
+        If (listId_SelectFieldIndexes <> 0) And (ListTable:Count(listId_SelectFieldIndexes) <> 0) Then
+            RemoteDB:newFieldNum = ListTable:Count(listId_SelectFieldIndexes)
+        Else
+            RemoteDB:newFieldNum = 0
+        End If
+
+        keyFieldNum = 0
+        If (listId_Conditions <> 0) Then
+            For i = 0 to ListTable:Count(listId_Conditions) - 1
+                listId_ConditionCollection = ListTable:Get(listId_Conditions, i, "val")
+                listId_IndexValues = ListTable:GetValue(listId_ConditionCollection, "IndexValueList")
+                If (listId_IndexValues.isInt) Then
+                    If (listId_IndexValues <> 0) Then
+                        keyFieldNum = keyFieldNum + ListTable:Count(listId_IndexValues)
+                    End If
+                End If
+
+                If ListTable:GetValue(listId_ConditionCollection, "IsOrCondition") is true Then
+                    keyFieldNum = keyFieldNum + 2
+                End If
+            Next
+        End If
+        RemoteDB:keyFieldNum = keyFieldNum
+
+        If (listId_SelectFieldIndexes <> 0) And (ListTable:Count(listId_SelectFieldIndexes) <> 0) Then
+            For i = 0 to ListTable:Count(listId_SelectFieldIndexes) - 1
+                RemoteDB:index = ListTable:Get(listId_SelectFieldIndexes, i, "key")
+
+                If RemoteDB:SetData("newdata", i + 1) is false Then
+                    ErrorManager:SetCommunicationError()
+                    Return (false)
+                End If
+            Next
+        End If
+
+        If (listId_Conditions <> 0) And (0 < ListTable:Count(listId_Conditions)) Then
+
+            keyDataIndex = 1
+
+            For groupIndex = 0 to ListTable:Count(listId_Conditions) - 1
+
+                listId_ConditionCollection = ListTable:Get(listId_Conditions, groupIndex, "val")
+                If ListTable:GetValue(listId_ConditionCollection, "IsOrCondition") is true Then
+                    RemoteDB:operator = 90
+                    If RemoteDB:SetData("keydata", keyDataIndex) is false Then
+                        ErrorManager:SetCommunicationError()
+                        Return (false)
+                    End If
+
+                    keyDataIndex = keyDataIndex + 1
+                End If
+
+                listId_IndexValues = ListTable:GetValue(listId_ConditionCollection, "IndexValueList")
+                If (listId_IndexValues.isInt) Then
+                    If (listId_IndexValues <> 0) Then
+                        For conditionIndex = 0 to ListTable:Count(listId_IndexValues) - 1
+                            listId_IndexValuePair = ListTable:Get(listId_IndexValues, conditionIndex, "val")
+                            RemoteDB:index = ListTable:GetValue(listId_IndexValuePair, "Index")
+                            RemoteDB:data = ListTable:GetValue(listId_IndexValuePair, "Value")
+
+                            Select Case (ListTable:GetValue(listId_IndexValuePair, "MatchType"))
+                                Case 0
+                                    RemoteDB:operator = 0
+                                Case 1
+                                    RemoteDB:operator = 20
+                                Case 2
+                                    RemoteDB:operator = 21
+                                Case 3
+                                    RemoteDB:operator = 22
+                            End Select
+
+                            If RemoteDB:SetData("keydata", keyDataIndex) is false Then
+                                ErrorManager:SetCommunicationError()
+                                Return (false)
+                            End If
+
+                            keyDataIndex = keyDataIndex + 1
+                        Next
+                    End If
+                End If
+
+                If ListTable:GetValue(listId_ConditionCollection, "IsOrCondition") is true Then
+                    RemoteDB:operator = 91
+                    If RemoteDB:SetData("keydata", keyDataIndex) is false Then
+                        ErrorManager:SetCommunicationError()
+                        Return (false)
+                    End If
+
+                    keyDataIndex = keyDataIndex + 1
+                End If
+            Next
+        End If
+
+        Return (true)
+
+    End Method
+
+    Method ExecuteSelect()
+        result
+        resultFieldNum
+        listId_Data = 0
+        restRecordNum
+        getRecordNum
+        fetchResult
+    Begin
+
+        If Not DbExec("select") Then
+            ErrorManager:SetCommunicationError()
+            Return (listId_Data)
+        End If
+
+        If RemoteDB:result < 0 Then
+            ErrorManager:SetError("The operation to acquire the row failed.")
+            Return (listId_Data)
+        End If
+
+        resultFieldNum = RemoteDB:GetOption("response", 1)
+        If (resultFieldNum.isInt is false) Then
+            ErrorManager:SetError("The obtained data is illegal.")
+            Return (listId_Data)
+        End If
+
+        listId_Data = ListTable:CreateList()
+
+        restRecordNum = RemoteDB:result
+        getRecordNum = AddRecordToTable(resultFieldNum, restRecordNum, listId_Data)
+        If getRecordNum < 0 Then
+            Return (listId_Data)
+        End If
+
+        restRecordNum = restRecordNum - getRecordNum
+        While(0 < restRecordNum)
+
+            If Not DbExec("fetch forward") Then
+                ErrorManager:SetCommunicationError()
+                Return (listId_Data)
+            End If
+
+            fetchResult = RemoteDB:result
+            If fetchResult < 0 Then
+                ErrorManager:SetError("The operation to acquire the row failed.")
+                Return (listId_Data)
+            End If
+
+            getRecordNum = AddRecordToTable(resultFieldNum, restRecordNum, listId_Data)
+            If getRecordNum < 0 Then
+                Return (listId_Data)
+            End If
+
+            restRecordNum = restRecordNum - getRecordNum
+        Wend
+        Return (listId_Data)
+    End Method
+
+    Method AddRecordToTable(resultFieldNum, restRecordNum, listId_Data)
+        getRecordNum
+        listId_Values = 0
+        listId_Col = 0
+        recordIndex
+        fieldIndex
+    Begin
+
+        getRecordNum = RemoteDB:resultFieldNum
+        If getRecordNum == 0 Then
+            If 0 < restRecordNum Then
+                ErrorManager:SetError("The obtained data is illegal.")
+                Return (-1)
+            End If
+            Return (getRecordNum)
+        End If
+
+        For recordIndex = 0 to getRecordNum - 1
+            If RemoteDB:GetData("result", recordIndex + 1) is false Then
+                ErrorManager:SetCommunicationError()
+                Return (-1)
+            End If
+
+            listId_Values = GetSelectResultRecord(RemoteDB:data)
+            If (listId_Values == 0) Then
+                ErrorManager:SetError("The obtained data is illegal.")
+                ListTable:DeleteList(listId_Values)
+                Return (-1)
+            End If
+
+            If ListTable:Count(listId_Values) <> resultFieldNum Then
+                ErrorManager:SetError("The obtained data is illegal.")
+                ListTable:DeleteList(listId_Values)
+                Return (-1)
+            End If
+
+            listId_Col = ListTable:CreateList()
+            For fieldIndex = 0 to ListTable:Count(listId_Values) - 1
+                ListTable:Add(listId_Col, "field" & (fieldIndex + 1), ListTable:Get(listId_Values, fieldIndex, "key"))
+            Next
+            ListTable:AddList(listId_Data, recordIndex, listId_Col)
+            ListTable:DeleteList(listId_Values)
+        Next
+
+        Return (getRecordNum)
+    Catch
+        If (listId_Values <> 0) Then
+            ListTable:DeleteList(listId_Values)
+        End If
+        ErrorManager:SetError("The operation to acquire the row failed.")
+        Return (-1)
+    End Method
+
+    Method GetSelectResultRecord(recordString)
+        listId_Values = 0
+        currentPos
+        foundPos
+        restString
+        newValue
+    Begin
+        listId_Values = ListTable:CreateList()
+
+        currentPos = 0
+        foundPos = 0
+        While(true)
+            foundPos = recordString.Find("\"", currentPos)
+
+            If foundPos is nil Then
+                ListTable:DeleteList(listId_Values)
+                Return (0)
+            End If
+
+            If (recordString.Mid(currentPos, foundPos - currentPos) ne "") Then
+                ListTable:DeleteList(listId_Values)
+                Return (0)
+            End If
+
+            currentPos = foundPos + 1
+
+            foundPos = GetNextEndDoubleQuoteString(recordString, currentPos)
+            If foundPos < 0 Then
+                ListTable:DeleteList(listId_Values)
+                Return (0)
+            End If
+
+            newValue = recordString.Mid(currentPos, foundPos - currentPos)
+            newValue = StringUtility:Replace(newValue, "\"\"", "\"")
+            ListTable:Add(listId_Values, newValue, "")
+
+            currentPos = foundPos + 1
+
+            foundPos = recordString.Find(",", currentPos)
+
+            If foundPos is nil Then
+                restString = recordString.Mid(currentPos, recordString.Length - currentPos)
+                If restString ne "" Then
+                    ListTable:DeleteList(listId_Values)
+                    Return (0)
+                End If
+                Wbreak
+            End If
+
+            If (recordString.Mid(currentPos, foundPos - currentPos) ne "") Then
+                ListTable:DeleteList(listId_Values)
+                Return (0)
+            End If
+
+            currentPos = foundPos + 1
+        Wend
+        Return (listId_Values)
+
+    End Method
+
+    Method GetNextEndDoubleQuoteString(recordString, startIndex)
+        currentPos
+    Begin
+
+        currentPos = startIndex
+        While(true)
+            currentPos = recordString.Find("\"", currentPos)
+
+            If currentPos is nil Then
+                Return (-1)
+            End If
+
+            If (currentPos == recordString.Length - 1) Or (recordString.Mid(currentPos + 1, 1) ne "\"") Then
+                Return (currentPos)
+            End If
+
+            currentPos = currentPos + 2
+        Wend
+    End Method
+
+    Method Connect()
+        count
+        retryWLanOpen = false
+    Begin
+        If (WLAN:isOpen is false) Then
+            If WLAN:Open("sync") is false Then
+                Return (false)
+            End If
+        Else
+            retryWLanOpen = true
+        End If
+
+        For count = 0 to 2
+
+            If RemoteAccess:enable is true Then
+                Return (true)
+            End If
+
+            RemoteAccess:enable = true
+            If (RemoteAccess:enable is true) Then
+                Return (true)
+            End If
+
+            If (retryWLanOpen is true) Then
+                WLAN:Close()
+                WLAN:Open("sync")
+                retryWLanOpen = false
+            End If
+        Next
+
+        Return (false)
+    End Method
+
+    Method Disconnect()
+        count
+    Begin
+        For count = 0 to 2
+
+            If RemoteAccess:enable is false Then
+                Fbreak
+            End If
+
+            RemoteAccess:enable = false
+            If (RemoteAccess:enable is false) Then
+                Fbreak
+            End If
+        Next
+    End Method
+
+    Method DbExec(request)
+        count
+    Begin
+        For count = 0 to 2
+            If (RemoteDB:Exec(request) is true) Then
+                Return (true)
+            End If
+        Next
+
+        Return (false)
+    End Method
+
+    Method Cancel()
+    Begin
+    End Method
+
+End Package

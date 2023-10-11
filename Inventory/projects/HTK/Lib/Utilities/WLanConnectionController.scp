@@ -1,0 +1,31 @@
+
+Package WLanConnectionController
+    /*Implements IConnectionCanceller*/
+
+    Method Connect(parentWindow) /*As Boolean*/
+        result
+    Begin
+
+        If (WLAN:isOpen is true) Then
+            Return (true)
+        End If
+
+        result = ConnectCore()
+
+        Return (result)
+    End Method
+
+    Method ConnectCore() /*As Boolean*/
+    Begin
+        If (WLAN:Open("async") is false) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method Cancel()
+    Begin
+    End Method
+
+End Package

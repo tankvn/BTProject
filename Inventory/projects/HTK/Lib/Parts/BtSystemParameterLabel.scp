@@ -1,0 +1,39 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtSystemParameterLabelConstants"
+
+Package DEF_PACKAGE_NAME 
+    /*Inherits BtLabel*/
+
+    Properties[DEF_PROPERTY_NUM]
+
+#insert "\Lib\Parts\BtLabelBase"
+
+    Method New()
+    Begin
+        BtFormCommon:EventEffect(OnTimer, true)
+        BtSystemParameterLabelCommon:SetHandler(Properties, AfterReset, CollationCountUpdated, ComparisonValueCountUpdated)
+    End Method
+
+    Method Dispose(disposing)
+    Begin
+        BtFormCommon:EventEffect(OnTimer, false)
+    End Method
+
+    Method GetLogData(index)
+    Begin
+        Return (BtSystemParameterLabelCommon:GetText(Properties))
+    End Method
+
+    Method OnTimer(sender)
+    Begin
+        Select Case Properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY]
+            Case SYSTEM_PARAMETER_TYPE_SYSTEM_DATE, SYSTEM_PARAMETER_TYPE_SYSTEM_TIME
+                BtSystemParameterLabelCommon:UpdateData(Properties)
+            Case Else
+                Return(0)
+        End Select
+    End Method
+End Package
+
+#popdefine

@@ -1,0 +1,4 @@
+    Method IComparisonItemInvoke(this)
+    Begin
+        DEF_COMMON:IComparisonItemInvoke(this, Properties)
+    End Method

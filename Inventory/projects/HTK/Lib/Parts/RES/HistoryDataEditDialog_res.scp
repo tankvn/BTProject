@@ -1,0 +1,225 @@
+#pushdefine
+
+#insert "\Lib\Utilities\MessageResources"
+
+#define DEF_EVENT_FORM_KEY_DOWN HistoryDataEditDialog:LogEditDialog_KeyDown
+#define DEF_FOCUS_TRANSITION_UTILITY HistoryDataEditDialog_FocusTransitionUtility
+
+#pushdefine
+#define DEF_PACKAGE_NAME HistoryDataEditDialog_FocusTransitionUtility
+#include "\Lib\Utilities\FocusTransitionUtility" "..\Lib\Utilities\HistoryDataEditDialog_FocusTransitionUtility"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME HistoryDataEditDialog_labelTitle
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\HistoryDataEditDialog_labelTitle"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME HistoryDataEditDialog_inputDateBox
+#include "\Lib\Parts\BtInputDateBox" "..\Lib\Parts\HistoryDataEditDialog_inputDateBox"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME HistoryDataEditDialog_textBox
+#include "\Lib\Parts\BtTextBox" "..\Lib\Parts\HistoryDataEditDialog_textBox"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME HistoryDataEditDialog_cancelButton
+#define DEF_EVENT_DATA_INPUT HistoryDataEditDialog:CancelButton_Click
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\HistoryDataEditDialog_cancelButton"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME HistoryDataEditDialog_okButton
+#define DEF_EVENT_DATA_INPUT HistoryDataEditDialog:OKButton_Click
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\HistoryDataEditDialog_okButton"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME HistoryDataEditDialog_labelFieldName
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\HistoryDataEditDialog_labelFieldName"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME HistoryDataEditDialog_dataStringLabel
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\HistoryDataEditDialog_dataStringLabel"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME HistoryDataEditDialog_fieldStringLabel
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\HistoryDataEditDialog_fieldStringLabel"
+#popdefine
+
+
+Package HistoryDataEditDialog_res
+#defineexpand DEF_CONTROL HistoryDataEditDialog_labelTitle|HistoryDataEditDialog_inputDateBox|HistoryDataEditDialog_textBox|HistoryDataEditDialog_cancelButton|HistoryDataEditDialog_okButton|HistoryDataEditDialog_labelFieldName|HistoryDataEditDialog_dataStringLabel|HistoryDataEditDialog_fieldStringLabel
+#define DEF_PACKAGE_NAME HistoryDataEditDialog
+#define DEF_EVENT_F1_KEY_ACTION HistoryDataEditDialog:KeyActionCancel
+#define DEF_EVENT_F4_KEY_ACTION HistoryDataEditDialog:KeyActionOk
+#insert "\Lib\Parts\BtForm"
+
+    Method InitializeComponent()
+        displaySize[2]
+        outSize[2]
+    Begin
+        Window<"__UPDATE_OFF__">:Update()
+        New()
+        BtFormCommon:SetWidth(Properties, 230)
+        BtFormCommon:SetHeight(Properties, 255)
+        displaySize[0] = BtFormCommon:GetWidth(HistoryDataEditDialog_res:Properties)
+        displaySize[1] = BtFormCommon:GetHeight(HistoryDataEditDialog_res:Properties)
+        LayoutUtility:CalculateDisplayLocation(displaySize, outSize)
+        BtFormCommon:SetLeft(HistoryDataEditDialog_res:Properties, outSize[0])
+        BtFormCommon:SetTop(HistoryDataEditDialog_res:Properties, outSize[1])
+        BtFormCommon:SetFormBorderStyle(Properties, "thin")
+        Window<"ROOT_WINDOW">:Update()
+        HistoryDataEditDialog_labelTitle:Create(BtFormCommon:GetName(Properties))
+        HistoryDataEditDialog_inputDateBox:Create(BtFormCommon:GetName(Properties))
+        HistoryDataEditDialog_textBox:Create(BtFormCommon:GetName(Properties))
+        HistoryDataEditDialog_cancelButton:Create(BtFormCommon:GetName(Properties))
+        HistoryDataEditDialog_okButton:Create(BtFormCommon:GetName(Properties))
+        HistoryDataEditDialog_labelFieldName:Create(BtFormCommon:GetName(Properties))
+        HistoryDataEditDialog_dataStringLabel:Create(BtFormCommon:GetName(Properties))
+        HistoryDataEditDialog_fieldStringLabel:Create(BtFormCommon:GetName(Properties))
+        With HistoryDataEditDialog_labelTitle
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetLeft(:Properties, 2)
+            BtLabelCommon:SetTop(:Properties, 2)
+            BtLabelCommon:SetText(:Properties, "Edit data")
+            BtLabelCommon:SetWidth(:Properties, 223)
+            BtLabelCommon:SetHeight(:Properties, 30)
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, "1")
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:SetTabIndex(:Properties, 0)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With HistoryDataEditDialog_inputDateBox
+            BtInputDateBoxCommon:SetLeft(:Properties, 7)
+            BtInputDateBoxCommon:SetTop(:Properties, 165)
+            BtInputDateBoxCommon:SetWidth(:Properties, 211)
+            BtInputDateBoxCommon:SetHeight(:Properties, 34)
+            BtInputDateBoxCommon:SetTabIndex(:Properties, 1)
+            BtInputDateBoxCommon:SetFontSize(:Properties, 18)
+        End With
+        With HistoryDataEditDialog_textBox
+            BtTextBoxCommon:SetLeft(:Properties, 7)
+            BtTextBoxCommon:SetTop(:Properties, 165)
+            BtTextBoxCommon:SetWidth(:Properties, 211)
+            BtTextBoxCommon:SetHeight(:Properties, 34)
+            BtTextBoxCommon:SetFontSize(:Properties, 18)
+            BtTextBoxCommon:SetMaxLength(:Properties, 8192)
+            BtTextBoxCommon:SetAlignment(:Properties, "left")
+            BtTextBoxCommon:SetDecimalPlaces(:Properties, 0)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "162|255|255")
+            BtTextBoxCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtTextBoxCommon:SetFullDetectionCount(:Properties, 0)
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetInputMode(:Properties, INPUT_MODE_SCAN_AND_KEY_ALPHANUMERIC)
+            BtTextBoxCommon:SetIsCheckRepdigit(:Properties, false)
+            BtTextBoxCommon:SetIsEditOnF2(:Properties, false)
+            BtTextBoxCommon:SetIsEmptyProhibited(:Properties, false)
+            BtTextBoxCommon:SetIsPartOfControl(:Properties, false)
+            BtTextBoxCommon:SetIsShared(:Properties, false)
+            BtTextBoxCommon:SetIsShowOutOfRangeError(:Properties, false)
+            BtTextBoxCommon:SetLightingEnabled(:Properties, true)
+            BtTextBoxCommon:SetMaximum(:Properties, 2000000)
+            BtTextBoxCommon:SetMinimum(:Properties, -2000000)
+            BtTextBoxCommon:SetOcrEnableType(:Properties, 3)
+            BtTextBoxCommon:SetPreventDuplicateReading(:Properties, false)
+            BtTextBoxCommon:SetScanInverseType(:Properties, SCAN_INVERSE_TYPE_POSITIVE)
+            BtTextBoxCommon:SetScanMirrorType(:Properties, SCAN_MIRROR_TYPE_UN_MIRROR)
+            BtTextBoxCommon:SetScanRangeType(:Properties, SCAN_RANGE_TYPE_FIRST)
+            BtTextBoxCommon:SetSharedParameterKey(:Properties, "")
+            BtTextBoxCommon:SetStorageDestination(:Properties, "1:")
+            BtTextBoxCommon:SetTriggerMode(:Properties, TRIGGER_MODE_AUTO_OFF)
+            BtTextBoxCommon:SetEnableOcrSettingsFile(:Properties, false)
+            BtTextBoxCommon:SetTabIndex(:Properties, 2)
+        End With
+        With HistoryDataEditDialog_cancelButton
+            BtButtonCommon:SetText(:Properties, "Cancel")
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetLeft(:Properties, 7)
+            BtButtonCommon:SetTop(:Properties, 210)
+            BtButtonCommon:SetWidth(:Properties, 100)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetTabIndex(:Properties, 3)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        With HistoryDataEditDialog_okButton
+            BtButtonCommon:SetText(:Properties, "OK")
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetLeft(:Properties, 120)
+            BtButtonCommon:SetTop(:Properties, 210)
+            BtButtonCommon:SetWidth(:Properties, 100)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetTabIndex(:Properties, 4)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        With HistoryDataEditDialog_labelFieldName
+            BtLabelCommon:SetLeft(:Properties, 7)
+            BtLabelCommon:SetTop(:Properties, 80)
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetWidth(:Properties, 197)
+            BtLabelCommon:SetHeight(:Properties, 30)
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, "1")
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:SetTabIndex(:Properties, 5)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With HistoryDataEditDialog_dataStringLabel
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 130)
+            BtLabelCommon:SetText(:Properties, "Data")
+            BtLabelCommon:SetWidth(:Properties, 200)
+            BtLabelCommon:SetHeight(:Properties, 30)
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, "1")
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:SetTabIndex(:Properties, 6)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With HistoryDataEditDialog_fieldStringLabel
+            BtLabelCommon:SetText(:Properties, "Field")
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetWidth(:Properties, 200)
+            BtLabelCommon:SetHeight(:Properties, 30)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 40)
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, "1")
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:SetTabIndex(:Properties, 7)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+    End Method
+End Package
+
+#popdefine

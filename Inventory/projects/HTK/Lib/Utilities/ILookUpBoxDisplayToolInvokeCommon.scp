@@ -1,0 +1,7 @@
+    Method ILookUpBoxDisplayToolInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetInitialText"
+                InterfaceCommon:Result = GetInitialText(properties)
+        End Select
+    End Method

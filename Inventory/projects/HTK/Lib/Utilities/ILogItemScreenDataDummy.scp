@@ -1,0 +1,90 @@
+#pushdefine
+
+Package ILogItemScreenData
+    
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(logItemName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case logItemName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (true)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (false)
+    End Method
+
+
+    Method GetLogItemControlName(logItemName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case logItemName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return ("DEF_IMPLEMENT_NAME_ARRAY@1")
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetLogEditType(logItemName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case logItemName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (DEF_IMPLEMENT_NAME_ARRAY@2)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetDecimalPlaces(logItemName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case logItemName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (DEF_IMPLEMENT_NAME_ARRAY@3)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetDateFormatType(logItemName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case logItemName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (DEF_IMPLEMENT_NAME_ARRAY@4)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+    Method GetDateSeparatorType(logItemName)
+    Begin
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    #beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Select Case logItemName
+        Case "DEF_IMPLEMENT_NAME_ARRAY"
+            Return (DEF_IMPLEMENT_NAME_ARRAY@5)
+        End Select
+    #endexpand DEF_IMPLEMENT_NAME_ARRAY
+#endif
+        Return (nil)
+    End Method
+
+End Package
+
+#popdefine

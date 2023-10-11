@@ -1,0 +1,189 @@
+Package SharedParameterUtility
+    #define DB_NAME "SharedParameter.dat"
+
+    #define TABLE_NAME "SharedParameter"
+
+    #define FIELD_NAME_TYPE "field1"
+
+    #define FIELD_NAME_DISPLAY_VALUE "field2"
+
+    #define FIELD_NAME_LOG_VALUE "field3"
+
+    Method GetPathSharedParameterDataBase()
+    Begin
+        Return (TERMINAL_SETTING_PATH_DRIVE_NO_1 & DB_NAME)
+    End Method
+
+    Method GetTableItemTypes()
+        id_tableFields
+    Begin
+        id_tableFields = ListTable:CreateList()
+        ListTable:Add(id_tableFields, FIELD_NAME_TYPE, "text primary key")
+        ListTable:Add(id_tableFields, FIELD_NAME_DISPLAY_VALUE, "text")
+        ListTable:Add(id_tableFields, FIELD_NAME_LOG_VALUE, "text")
+        Return(id_tableFields)
+    End Method
+
+    Method UpdateSharedParameter(sharedParameterKey, displayValue, logValue)
+        id_tableFieldTypePairs
+        errormessage
+        id_fieldValuePairs
+        dataCount
+        id_insertFiledValuePair
+        id_newvalueFiledValuePair
+    Begin
+        id_tableFieldTypePairs = GetTableItemTypes()
+        DbAccess:CreateTable(TERMINAL_SETTING_PATH_DRIVE_NO_1 & DB_NAME, TABLE_NAME, id_tableFieldTypePairs)
+        ListTable:DeleteList(id_tableFieldTypePairs)
+        errormessage= ErrorManager:GetError()
+        If errormessage ne MESSAGE_ERROR_NONE Then
+            ErrorManager:SetError(MESSAGE_ERROR_UPDATE_SHARED_PARAMETER)
+            Return()
+        End If
+
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, FIELD_NAME_TYPE, sharedParameterKey)
+
+        dataCount = DbAccess:SelectCount(TERMINAL_SETTING_PATH_DRIVE_NO_1 & DB_NAME, TABLE_NAME, id_fieldValuePairs, False, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(MESSAGE_ERROR_UPDATE_SHARED_PARAMETER)
+            ListTable:DeleteList(id_fieldValuePairs)
+            Return()
+        End If
+        If dataCount == 0 Then
+            id_insertFiledValuePair = ListTable:CreateList()
+            ListTable:Add(id_insertFiledValuePair, FIELD_NAME_TYPE, sharedParameterKey)
+            ListTable:Add(id_insertFiledValuePair, FIELD_NAME_DISPLAY_VALUE, displayValue)
+            ListTable:Add(id_insertFiledValuePair, FIELD_NAME_LOG_VALUE, logValue)
+            DbAccess:InsertRecord(TERMINAL_SETTING_PATH_DRIVE_NO_1 & DB_NAME, TABLE_NAME, id_insertFiledValuePair)
+            ListTable:DeleteList(id_insertFiledValuePair)
+        Else
+            id_newvalueFiledValuePair = ListTable:CreateList()
+            ListTable:Add(id_newvalueFiledValuePair, FIELD_NAME_DISPLAY_VALUE, displayValue)
+            ListTable:Add(id_newvalueFiledValuePair, FIELD_NAME_LOG_VALUE, logValue)
+            DbAccess:UpdateValue(TERMINAL_SETTING_PATH_DRIVE_NO_1 & DB_NAME, TABLE_NAME, id_fieldValuePairs, id_newvalueFiledValuePair)
+            ListTable:DeleteList(id_newvalueFiledValuePair)
+        End If
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(MESSAGE_ERROR_UPDATE_SHARED_PARAMETER)
+            Return()
+        End If
+    End Method
+
+    Method GetSharedParameter(sharedParameterKey)
+        id_fieldValuePairs
+        id_sharedParameter
+        errormessage
+        str
+    Begin
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, FIELD_NAME_TYPE, sharedParameterKey)
+        id_sharedParameter = DbAccess:SelectValue(TERMINAL_SETTING_PATH_DRIVE_NO_1 & DB_NAME, TABLE_NAME, FIELD_NAME_DISPLAY_VALUE,
+                                id_fieldValuePairs, False, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        errormessage= ErrorManager:GetError()
+        If errormessage ne MESSAGE_ERROR_NONE Then
+            If (id_sharedParameter <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(id_sharedParameter)
+            End If
+            Return("")
+        End If
+        If id_sharedParameter <= 0 Then
+            Return ("")
+        End If
+        str = ListTable:Get(id_sharedParameter, 0, "val")
+        ListTable:DeleteList(id_sharedParameter)
+        If (str is nil) Then
+          Return ("")
+        End If
+        Return(str)
+    End Method
+
+    Method GetSharedLogParameter(sharedParameterKey)
+        id_fieldValuePairs
+        id_sharedParameter
+        errormessage
+        str
+    Begin
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, FIELD_NAME_TYPE, sharedParameterKey)
+        id_sharedParameter= DbAccess:SelectValue(TERMINAL_SETTING_PATH_DRIVE_NO_1 & DB_NAME, TABLE_NAME, FIELD_NAME_LOG_VALUE,
+                                id_fieldValuePairs, False, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        errormessage= ErrorManager:GetError()
+        If errormessage ne MESSAGE_ERROR_NONE Then
+            If (id_sharedParameter <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(id_sharedParameter)
+            End If
+            Return("")
+        End If
+        If id_sharedParameter <= 0 Then
+            Return ("")
+        End If
+        str = ListTable:Get(id_sharedParameter, 0, "val")
+        ListTable:DeleteList(id_sharedParameter)
+        If (str is nil) Then
+          Return ("")
+        End If
+        Return(str)
+    End Method
+
+    Method IsExistKey(sharedParameterKey)
+        id_fieldValuePairs
+        count
+    Begin
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, FIELD_NAME_TYPE, sharedParameterKey)
+        count = DbAccess:SelectCount(TERMINAL_SETTING_PATH_DRIVE_NO_1 & DB_NAME,
+                                                    TABLE_NAME, id_fieldValuePairs, False, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        ErrorManager:GetError()
+        If count == 0 Then
+            Return(False)
+        End If
+        Return(True)
+    End Method
+
+    Method ClearSharedParameter(sharedParameterKey)
+        id_fieldValuePairs
+        errormessage
+    Begin
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, FIELD_NAME_TYPE, sharedParameterKey)
+        DbAccess:DeleteRecord(TERMINAL_SETTING_PATH_DRIVE_NO_1 & DB_NAME, TABLE_NAME, id_fieldValuePairs)
+        ListTable:DeleteList(id_fieldValuePairs)
+        errormessage = ErrorManager:GetError()
+        If errormessage ne MESSAGE_ERROR_NONE Then
+            Return()
+        End If
+    End Method
+
+    Method CheckEnableClearTiming(clearTimings, targetClearTiming)
+    Begin
+        If (clearTimings == SHARED_PARAMETER_CLEAR_TIMING_NONE) Then
+            Return(false)
+        End If
+
+        If (clearTimings >= SHARED_PARAMETER_CLEAR_TIMING_JOB_CLOSE) Then
+            If (targetClearTiming == SHARED_PARAMETER_CLEAR_TIMING_JOB_CLOSE) Then
+                Return(true)
+            End If
+            clearTimings = clearTimings - SHARED_PARAMETER_CLEAR_TIMING_JOB_CLOSE
+        End If
+
+        If (clearTimings >= SHARED_PARAMETER_CLEAR_TIMING_DATA_OUTPUT) Then
+            If (targetClearTiming == SHARED_PARAMETER_CLEAR_TIMING_DATA_OUTPUT) Then
+                Return(true)
+            End If
+        End If
+
+        Return(false)
+    End Method
+End Package

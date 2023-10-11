@@ -1,0 +1,112 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtExecuteApplicationButtonConstants"
+
+Package BtExecuteApplicationButtonCommon
+#define DEF_INHERITS_BT_BUTTON
+#insert "\Lib\Parts\BtButtonCommon"
+#undef DEF_INHERITS_BT_BUTTON
+    
+    Method GetApplicationKind(properties[])
+    Begin
+        Return (properties[DEF_APPLICATION_KIND_PROPERTY])
+    End Method
+    Method SetApplicationKind(properties[], value)
+    Begin
+        properties[DEF_APPLICATION_KIND_PROPERTY] = value
+    End Method
+    
+    Method GetApplicationStorageDestination(properties[]) 
+    Begin
+        Return (properties[DEF_APPLICATION_STORAGE_DESTINATION_PROPERTY])
+    End Method
+    Method SetApplicationStorageDestination(properties[], value) 
+    Begin
+        properties[DEF_APPLICATION_STORAGE_DESTINATION_PROPERTY] = value
+    End Method
+
+    Method GetApplicationFileName(properties[]) 
+    Begin
+        Return (properties[DEF_APPLICATION_FILE_NAME_PROPERTY])
+    End Method
+    Method SetApplicationFileName(properties[], value) 
+    Begin
+        properties[DEF_APPLICATION_FILE_NAME_PROPERTY] = value
+    End Method
+
+    Method GetApplicationArguments(properties[]) 
+    Begin
+        Return (properties[DEF_APPLICATION_ARGUMENTS_PROPERTY])
+    End Method
+    Method SetApplicationArguments(properties[], value) 
+    Begin
+        properties[DEF_APPLICATION_ARGUMENTS_PROPERTY] = value
+    End Method
+
+
+    Method ExecuteFile(properties[])
+        fileName
+        fileFullPath
+        pathDriveNo
+    Begin
+        If GetApplicationFileName(properties) eq "" Then Return(false) End If
+
+        Select Case GetApplicationKind(properties)
+            Case EXECUTE_APPLICATION_KIND_EXE
+                If GetApplicationFileName(properties).left(1) eq "\\" Then
+                    fileFullPath = GetApplicationFileName(properties)
+                    fileName = GetApplicationFileName(properties).Mid(
+                        GetApplicationFileName(properties).Rfind("\\", GetApplicationFileName(properties).length - 1) + 1, 
+                        GetApplicationFileName(properties).length - 1)
+                Else
+                    fileFullPath = PathUtility:Combine(GetApplicationStorageDestination(properties), GetApplicationFileName(properties))
+                    fileName = GetApplicationFileName(properties)
+
+                    Select Case GetApplicationStorageDestination(properties) 
+                        Case TERMINAL_SETTING_PATH_WINDOWS_DRIVE_NO_1
+                            pathDriveNo = TERMINAL_SETTING_PATH_DRIVE_NO_1
+                        Case TERMINAL_SETTING_PATH_WINDOWS_DRIVE_NO_2
+                            pathDriveNo = TERMINAL_SETTING_PATH_DRIVE_NO_2
+                        Case TERMINAL_SETTING_PATH_WINDOWS_DRIVE_NO_5
+                            pathDriveNo = TERMINAL_SETTING_PATH_DRIVE_NO_5
+                    End Select
+    
+                    If Not PathUtility:IsFileExist(pathDriveNo & fileName) Then Return(false) End If
+                End If
+
+                RestoreTerminalSetting()
+
+                Return(Utility:StartExe(fileFullPath, GetApplicationArguments(properties), 2))
+            Case EXECUTE_APPLICATION_KIND_SB3
+                fileFullPath = GetApplicationStorageDestination(properties) & ":" & GetApplicationFileName(properties)
+
+                If Not PathUtility:IsFileExist(fileFullPath) Then Return(false) End If
+    
+                Window<"ROOT_WINDOW">:Delete()
+    
+                Handy:focusMoveMode = 0
+    
+                RestoreTerminalSetting()
+    
+                System:LoadSB3(fileFullPath)
+                Return(true)
+        End Select
+        
+        Return(false)
+    End Method
+    
+    Method RestoreTerminalSetting()
+    Begin
+        OcrSettings:LoadConfigFile(TERMINAL_SETTING_DEFAULT_OCR_SETTING_INI_FILE)
+        ActiveForm:CloseDatabase()
+    End Method
+    
+    Method OnClick(properties[])
+    Begin
+        If Not ExecuteFile(properties) Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_START_EXTERNAL_APPLICATION)
+        End If
+    End Method
+End Package 
+
+#popdefine

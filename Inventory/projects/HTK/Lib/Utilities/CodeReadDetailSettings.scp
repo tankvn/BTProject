@@ -1,0 +1,159 @@
+
+Package CodeReadDetailSettings
+
+
+    #define MASK_SCAN_INVERSE 0x3
+
+    #define MASK_SCAN_MIRROR 0xC
+
+    #define MIN_GS1128_MIN 1
+
+    #define MAX_GS1128_MIN 100
+
+    #define DEFAULT_GS1128_MIN 1
+
+    #define MAX_GS1128_MAX 100
+
+    #define DEFAULT_GS1128_MAX 100
+
+    #define BT_SCAN_FD_CODESET_MAX 4
+
+
+
+    Method SetScanInverse(scanInverse)
+        systemSetting
+    Begin
+        systemSetting = GetScanInverse()
+        If (systemSetting is nil) Then Return() End If
+        If (scanInverse eq systemSetting) Then Return() End If
+        BCR:reverse = scanInverse
+    End Method
+
+    Method GetScanInverse()
+    Begin
+        Return (BCR:reverse)
+    End Method
+
+    Method SetScanMirror(scanMirror)
+        systemSetting
+    Begin
+        systemSetting = GetScanMirror()
+        If (systemSetting is nil) Then Return() End If
+        If (scanMirror eq systemSetting) Then Return() End If
+        BCR:inverse = scanMirror
+    End Method
+
+    Method GetScanMirror()
+    Begin
+        Return (BCR:inverse)
+    End Method
+
+    Method SetScanRange(scanRange)
+        systemSetting
+    Begin
+        systemSetting = GetScanRange()
+        If (systemSetting is nil) Then Return() End If
+        If (scanRange eq systemSetting) Then Return() End If
+        BCR:scanType2D = scanRange
+    End Method
+
+    Method GetScanRange()
+    Begin
+        Return (BCR:scanType2D)
+    End Method
+
+    Method SetIllumination(lightingEnabled)
+    Begin
+        BCR:scanIllumination = lightingEnabled
+    End Method
+
+    Method GetIllumination()
+    Begin
+        Return (BCR:scanIllumination)
+    End Method
+    
+    Method SetLiveViewEnabled(liveViewEnabled)
+    Begin
+        BCR:liveViewDecoding = liveViewEnabled
+    End Method
+
+    Method GetLiveViewEnabled()
+    Begin
+        Return (BCR:liveViewDecoding)
+    End Method
+
+    Method SetDistanceLedEnabled(distanceLedEnabled)
+    Begin
+        BCR:distanceLED = distanceLedEnabled
+    End Method
+
+    Method GetDistanceLedEnabled()
+    Begin
+        Return (BCR:distanceLED)
+    End Method
+    
+    Method SetScanExtIllumination(externalLightingEnabled)
+    Begin
+        BCR:scanExtIllumination = externalLightingEnabled
+    End Method
+
+    Method GetScanExtIllumination()
+    Begin
+        Return (BCR:scanExtIllumination)
+    End Method
+    
+    Method SetScanExtTargetBrightness(externalLightingTargetBrightness)
+    Begin
+        BCR:scanExtTargetBrightness = externalLightingTargetBrightness
+    End Method
+
+    Method GetScanExtTargetBrightness()
+    Begin
+        Return (BCR:scanExtTargetBrightness)
+    End Method
+    
+    Method SetThreeDMode(threeDMode)
+    Begin
+        BCR:threeDMode = threeDMode
+    End Method
+
+    Method GetThreeDMode()
+    Begin
+        Return (BCR:threeDMode)
+    End Method
+    
+    Method SetFullDetectionSetting(index, code, columnParam)
+    Begin
+        If (code Is nil) Or (columnParam Is nil) Or (BT_SCAN_FD_CODESET_MAX <= index) Then
+            ErrorManager:SetError(MESSAGE_ERROR_SET_FULL_DETECTION)
+            Return (nil)
+        End If
+
+        BCR:SetFullDetection(index, code, columnParam)
+    End Method
+
+    Method GetFullDetectionSetting()
+    Begin
+    End Method
+
+    Method SetGS1128Separator(separator)
+    Begin
+        EAN128:separator = separator
+    End Method
+
+    Method GetGS1128Separator()
+    Begin
+        Return (EAN128:separator)
+    End Method
+
+    Method SetCompositeSeparator(separator)
+    Begin
+        Composite:separator = separator
+    End Method
+
+    Method GetCompositeSeparator()
+    Begin
+        Return (Composite:separator)
+    End Method
+
+End Package

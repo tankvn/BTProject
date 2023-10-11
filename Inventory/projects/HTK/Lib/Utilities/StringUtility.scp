@@ -1,0 +1,374 @@
+Package StringUtility
+    Const SEPARATOR_COMMA = ","
+    Const SEPARATOR_HYPHEN = "-"
+    Const SEPARATOR_SPACE = " "
+    Const SEPARATOR_SLASH = "/"
+
+    Const WILDCARD = "?"
+    Const TRUNCATION = "!"
+    Const LEFT_BLOCK = "["
+    Const RIGHT_BLOCK  = "]"
+    Const MINUS = "-"
+    Const ALTERNATE_CHARACTER = 0x40
+
+    Method SubstringByte(source, startIndex, byteCount)
+        startPos = startIndex
+        extractedCount = byteCount
+    Begin
+        If (source.length <= startIndex) Or (startIndex < 0) Then
+            ErrorManager:SetError(MESSAGE_ERROR_SUBSTRING_BYTE_COUNT)
+            Return ("")
+        End If
+
+        If (source.length < startIndex + byteCount) Then
+            extractedCount = source.length - startIndex
+        End If
+
+        If Utility:MbCheck(source, startPos) == 3 Then
+            startPos = startPos + 1
+            extractedCount = extractedCount - 1
+        End If
+        If Utility:MbCheck(source, startPos + extractedCount - 1) == 2 Then extractedCount = extractedCount - 1 End If
+
+        Return(source.Mid(startPos, extractedCount))
+    End Method
+
+    Method DeleteCharactersByString(data, deleteChar)
+        i
+    Begin
+        For i = 0 to deleteChar.length -1
+            data = data.Remove(deleteChar.Mid(i, 1))
+        Next
+        Return(data)
+    End Method
+
+    Method DeleteCharacters(data, deleteChar)
+        del = ""
+    Begin
+        deleteChar = deleteChar % 16
+        If deleteChar >= EXCLUSION_CHARACTERS_COMMA Then del = del & "," deleteChar = deleteChar - EXCLUSION_CHARACTERS_COMMA End If
+        If deleteChar >= EXCLUSION_CHARACTERS_SLASH Then del = del & "/" deleteChar = deleteChar - EXCLUSION_CHARACTERS_SLASH End If
+        If deleteChar >= EXCLUSION_CHARACTERS_SPACE Then del = del & " " deleteChar = deleteChar - EXCLUSION_CHARACTERS_SPACE End If
+        If deleteChar >= EXCLUSION_CHARACTERS_HYPHEN Then del = del & "-" deleteChar = deleteChar - EXCLUSION_CHARACTERS_HYPHEN End If
+        Return(DeleteCharactersByString(data, del))
+    End Method
+
+    Method DecodePassword(encryptedPassword[])
+        bin[100]
+        i
+    Begin
+        For i = 0 to encryptedPassword.size - 1
+            If encryptedPassword[i] is nil Then Fbreak End If
+            bin[i] = 256-1-encryptedPassword[i]    
+        Next
+        Return(bin.PackBin())
+    End Method
+
+    Method Judge(judgeKind, sourceStr, destinationStr, calculationType, calculationValue)
+        calcResult
+        sourceNum = 0
+        destinationNum = 0
+        destinationNumCalculatedNum = 0
+    Begin
+        If sourceStr is nil Or destinationStr is nil Then Return(false) End If
+
+        If (judgeKind <> JUDGE_KIND_MATCH) And (judgeKind <> JUDGE_KIND_MISMATCH) And (judgeKind <> JUDGE_KIND_INCLUDED) Then
+            sourceNum = MathUtility:ParseToDecimal(sourceStr)
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                Return (false)
+            End If
+            destinationNum = MathUtility:ParseToDecimal(destinationStr)
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                Return (false)
+            End If
+            destinationNumCalculatedNum = MathUtility:CalculateByOperator(destinationNum, calculationType, calculationValue)
+            calcResult = (ErrorManager:GetError() eq MESSAGE_ERROR_NONE)
+            If (calcResult is false) Then
+                Return (false)
+            End If
+            destinationNum = destinationNumCalculatedNum
+        End If
+
+        If judgeKind == JUDGE_KIND_MATCH Then        
+            If sourceStr eq destinationStr Then Return(true) End If
+        ElseIf judgeKind == JUDGE_KIND_MISMATCH Then    
+            If sourceStr ne destinationStr Then Return(true) End If
+        ElseIf judgeKind == JUDGE_KIND_INCLUDED Then    
+            If Not destinationStr.Find(sourceStr, 0) is nil Then Return(true) End If
+        ElseIf judgeKind == JUDGE_KIND_EQUAL Then    
+            If sourceNum == destinationNum Then Return(true) End If
+        ElseIf judgeKind == JUDGE_KIND_NOT_EQUAL Then    
+            If sourceNum <> destinationNum Then Return(true) End If
+        ElseIf judgeKind == JUDGE_KIND_GREATER Then    
+            If sourceNum < destinationNum Then Return(true) End If
+        ElseIf judgeKind == JUDGE_KIND_LESS Then    
+            If sourceNum > destinationNum Then Return(true) End If
+        ElseIf judgeKind == JUDGE_KIND_GREATER_OR_EQUAL Then    
+            If sourceNum <= destinationNum Then Return(true) End If
+        ElseIf judgeKind == JUDGE_KIND_LESS_OR_EQUAL Then    
+            If sourceNum >= destinationNum Then Return(true) End If
+        End If
+
+        Return(false)
+    Catch
+        Return(false)
+    End Method
+
+    Method GetRangeExtractedString(value, exclusionCaracters, outputRangeType, outputRangeStart, outputRangeEnd, outputAiType)
+        data
+    Begin
+        If value is nil Then Return(nil) End If
+        If outputRangeType == 0 Then            
+            value = DeleteCharacters(value, exclusionCaracters)
+            Return(value)
+        ElseIf outputRangeType == 1 Then        
+            data = DeleteCharacters(value, exclusionCaracters)
+            data = SubstringByte(data, outputRangeStart-1, outputRangeEnd-(outputRangeStart-1))
+            Return(data)
+        ElseIf outputRangeType == 2 Then        
+            data = AiUtility:GetAi(value, outputAiType, TERMINAL_SETTING_SEPARATOR_EAN128, TERMINAL_SETTING_SEPARATOR_FULLDETECTION, TERMINAL_SETTING_SEPARATOR_COMPOSITE)
+            data = DeleteCharacters(data, exclusionCaracters)
+            Return(data)
+        End If
+    End Method
+
+    Method ValidateNumericRepdigit(targetNumber)
+        numbers
+        firstDigit
+        i
+    Begin
+        numbers = targetNumber.Remove(".")
+        If numbers.length < 2 Then Return(False) End If
+
+        firstDigit = numbers.Left(1)
+        For i = 1 to numbers.length - 1
+            If numbers.Mid(i, 1) ne firstDigit Then
+                Return(False)
+            End If
+        Next
+        Return(True)
+    End Method
+
+    Method GetByteCount(text)
+    Begin
+        Return(text.length)
+    End Method
+
+    Method GetCharCount(text)
+        i
+        charCount = 0
+        ret
+    Begin
+        For i = 0 to text.length - 1
+            ret = Utility:MbCheck(text,i)
+            Select Case ret
+                Case 1   
+                    charCount = charCount + 1
+                Case 2   
+                    charCount = charCount + 1
+                Case 3   
+                Case Else
+            End Select
+        Next
+
+        Return(charCount)
+    End Method
+
+    Method Replace(text, src, dst)
+        ary[4097]
+        i = 0
+        str = ""
+    Begin
+        If src eq "" Then Return(text) End If
+        ary = text.split(src)
+        While true
+            If ary[i] is nil Then Wbreak End If
+            If str ne "" Then str = str & dst End If
+            str = str & ary[i]
+            i = i + 1
+        Wend
+        Return(str)
+    End Method
+
+    Method SplitMulti(text, sep, ary[])
+        i = 0
+        str = ""
+        cnt = 0
+    Begin
+        str = text
+        If sep.length > 1 Then
+            For i = 1 To sep.length-1
+                str = Replace(str, sep.Mid(i, 1), sep.Mid(0, 1))
+            Next
+        End If
+        For i = 0 To ary.size - 1
+            ary[i] = nil
+        Next
+        ary = str.split(sep.Mid(0, 1))
+        While true
+            If ary[cnt] is nil Then Wbreak End If
+            cnt = cnt + 1
+        Wend
+        Return(cnt)
+    End Method
+
+    Method IsEqualWildString(data, pattern)
+        index[2] = {0, 0}
+    Begin
+        Return(CoreIsEqualWildString(data, pattern, index))
+    End Method
+
+    Method CoreIsEqualWildString(data, pattern, index[])
+        tmp_patternIndex
+        ret
+        bin[3]
+        tmp
+    Begin
+
+        If pattern eq "" Then Return(false) End If
+
+        While true
+            If pattern.length <= index[1] Then
+                Return(data.length <= index[0])
+            ElseIf pattern.Mid(index[1], 1) eq WILDCARD Then
+                If data.length <= index[0] Then Return(false) End If
+
+                index[0] = index[0] + 1
+                index[1] = index[1] + 1
+            ElseIf pattern.Mid(index[1], 1) eq TRUNCATION Then
+                If pattern.length <= index[1] + 1 Then Return(true) End If
+
+                While data.length <> index[0]
+                    tmp_patternIndex = index[1]
+                    index[1] = index[1] + 1
+                    ret = CoreIsEqualWildString(data, pattern, index)
+                    index[1] = tmp_patternIndex
+                    If ret Then Return(true) End If
+                    index[0] = index[0] + 1
+                Wend
+                Return(false)
+
+            ElseIf pattern.Mid(index[1], 1) eq LEFT_BLOCK Then
+                If data.length <= index[0] Then Return(false) End If
+                If pattern.length - index[1] < 5 Then Return(false) End If
+
+                If (pattern.length <= index[1] + 4) Or
+                   (Not IsAscii(pattern.Mid(index[1]+1, 1))) Or
+                   (pattern.Mid(index[1]+2, 1) ne MINUS) Or
+                   (Not IsAscii(pattern.Mid(index[1]+3, 1))) Or
+                   (pattern.Mid(index[1]+4, 1) ne RIGHT_BLOCK) Then
+
+                    Return(false)
+                End If
+                tmp = pattern.Mid(index[1]+1, 1) & pattern.Mid(index[1]+3, 1) & data.Mid(index[0], 1)
+                bin = tmp.UnpackBin()
+                If bin[0] <= bin[2] And bin[2] <= bin[1] Then
+                    index[0] = index[0] + 1
+                    index[1] = index[1] + 5
+                Else
+                    Return(false)
+                End If
+            ElseIf pattern.Mid(index[1], 1) eq RIGHT_BLOCK Then
+                Return(false)
+            Else
+                If data.Mid(index[0], 1) ne pattern.Mid(index[1], 1) Then
+                    Return(false)
+                End If
+
+                index[0] = index[0] + 1
+                index[1] = index[1] + 1
+            End If
+        Wend
+    End Method
+
+    Method IsAscii(c)
+        bin[2] = {0, 0}
+        tmp
+    Begin
+        If c.length < 1 Then Return(false) End If
+        tmp = c.Left(1)
+        bin = tmp.UnpackBin()
+        If 0 <= bin[0] And bin[0] <= 127 Then Return(true)
+        Else Return(false) End If
+    End Method
+
+    Method ConvertCase(targetChar, toUpperCase)
+        bin[2] = {0, 0}
+    Begin
+        If targetChar.length <> 1 Then
+            Return("")
+        End If
+        bin = targetChar.UnpackBin()
+        If 97 <= bin[0] And bin[0] <= 122 Then
+            If toUpperCase is true Then
+                bin[0] = bin[0] - 32
+            End If
+        ElseIf 65 <= bin[0] And bin[0] <= 90 Then
+            If toUpperCase is false Then
+                bin[0] = bin[0] + 32
+            End If
+        End If
+        Return(bin.Pack)
+    End Method
+
+    Method ToUpper(text)
+        i
+        newText = ""
+        ret
+    Begin
+        For i = 0 to text.length - 1
+            ret = Utility:MbCheck(text,i)
+            Select Case ret
+                Case 1   
+                    newText = newText & ConvertCase(text.Mid(i, 1), true)
+                Case 2   
+                    newText = newText & text.Mid(i, 2)
+                Case 3   
+                Case Else
+            End Select
+        Next
+
+        Return(newText)
+    End Method
+
+    Method GetHandleTagNameEraseSymbol(handle)
+        symbol
+    Begin
+        symbol = "=" & handle
+        Return(symbol.Remove("<").Remove(",").Remove("=").Remove(">"))
+    End Method
+
+    Method ConvertControlCharacter(data)
+        index
+        bin[8192]
+    Begin
+        If (data is nil) Then Return ("") End If
+        If (data.Length == 0) Then Return ("") End If
+        bin = data.UnpackBin
+        For index = 0 to bin.size - 1
+            If (bin[index] is nil) Then Fbreak End If
+            If IsControl(bin[index]) Then
+                bin[index] = ALTERNATE_CHARACTER
+            End If
+        Next
+        Return (bin.PackBin)
+    End Method
+
+    Method IsControl(data)
+    Begin
+        Return (((0x00 <= data) And (data <= 0x1F)) Or (data == 0x7F))
+    End Method
+
+    Method IsSatisfiedInputRestriction(checkTarget, inputRestriction)
+    Begin
+        If (inputRestriction eq "") Then
+            Return (true)
+        End If
+        If (Not (checkTarget weq inputRestriction)) Then
+            Return (false)
+        End If
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+End Package

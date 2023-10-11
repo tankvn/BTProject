@@ -1,0 +1,17 @@
+
+#insert "\Lib\Utilities\RangeSettingsConstants"
+
+Package DEF_PACKAGE_NAME
+    Properties[DEF_PROPERTY_NUM]
+
+    Method New(outputRangeType, rangeStart, rangeEnd, aiType)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        RangeSettingsCommon:SetRangeType(Properties, outputRangeType)
+        RangeSettingsCommon:SetRangeStart(Properties, rangeStart)
+        RangeSettingsCommon:SetRangeEnd(Properties, rangeEnd)
+        RangeSettingsCommon:SetAiType(Properties, aiType)
+    End Method
+#insert "\Lib\Utilities\IRangeSettingsInvoke"
+
+End Package 

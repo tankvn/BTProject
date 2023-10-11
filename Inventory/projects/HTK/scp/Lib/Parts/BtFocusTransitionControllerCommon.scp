@@ -1,0 +1,35 @@
+
+Package BtFocusTransitionControllerCommon
+
+    Method GetTransitionCount(properties[])
+    Begin
+        Return (properties[0])
+    End Method
+    Method SetTransitionCount(properties[], value)
+    Begin
+        properties[0] = value
+    End Method
+
+    Method GetResetCount(properties[])
+    Begin
+        Return (properties[1])
+    End Method
+    Method SetResetCount(properties[], value)
+    Begin
+        properties[1] = value
+    End Method
+
+    Method Initialize(properties[])
+    Begin
+        SetTransitionCount(properties, 0)
+        SetResetCount(properties, 10)
+        ResetCount(properties)
+    End Method
+
+    Method ResetCount(properties[])
+    Begin
+        SetResetCount(properties, GetTransitionCount(properties) - 1)
+    End Method
+
+End Package
+

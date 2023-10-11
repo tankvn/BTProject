@@ -1,0 +1,64 @@
+
+Package ILr1DataItem
+
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(lr1DataItemName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(lr1DataItemName, Names))
+    End Method
+
+    Method GetName(lr1DataItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "GetName", args, ICommons))
+    End Method
+
+    Method GetType(lr1DataItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "GetType", args, ICommons))
+    End Method
+
+    Method GetFormattedData(lr1DataItemName, dataLength, targetValue)
+        args[2]
+    Begin
+        args[0] = dataLength
+        args[1] = targetValue
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "GetFormattedData", args, ICommons))
+    End Method
+
+    Method GetLogDataIndex(lr1DataItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "GetLogDataIndex", args, ICommons))
+    End Method
+
+    Method GetLogData(lr1DataItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "GetLogData", args, ICommons))
+    End Method
+
+    Method GetOutputData(lr1DataItemName, dataLength)
+        args[1]
+    Begin
+        args[0] = dataLength
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "GetOutputData", args, ICommons))
+    End Method
+
+    Method GetFixedFormattedData(lr1DataItemName, dataLength, targetValue)
+        args[2]
+    Begin
+        args[0] = dataLength
+        args[1] = targetValue
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "GetFixedFormattedData", args, ICommons))
+    End Method
+
+End Package
+

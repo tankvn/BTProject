@@ -1,0 +1,4 @@
+    Method IBtInputComponentInvoke(this)
+    Begin
+        DEF_COMMON:IBtInputComponentInvokeCommon(this, Properties)
+    End Method

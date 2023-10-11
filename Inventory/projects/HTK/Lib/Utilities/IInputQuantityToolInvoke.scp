@@ -1,0 +1,4 @@
+    Method IInputQuantityToolInvoke(this)
+    Begin
+        DEF_COMMON:IInputQuantityToolInvokeCommon(this, Properties)
+    End Method

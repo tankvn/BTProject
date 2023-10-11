@@ -1,0 +1,13 @@
+    Method IInputQuantityToolInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "CheckAndFixDisplayText"
+                InterfaceCommon:Result = CheckAndFixDisplayText(properties)
+            Case "ChangeMode"
+                InterfaceCommon:Result = ChangeMode(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "PreprocessEnterData"
+                InterfaceCommon:Result = PreprocessEnterData(properties)
+            Case "ReadScanData"
+                InterfaceCommon:Result = ReadScanData(properties)
+        End Select
+    End Method

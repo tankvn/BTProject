@@ -1,0 +1,4 @@
+    Method IBtLr1OutputDataControlInvoke(this)
+    Begin
+        DEF_COMMON:IBtLr1OutputDataControlInvokeCommon(this, Properties)
+    End Method

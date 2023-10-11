@@ -1,0 +1,31 @@
+    Method ICollationTargetInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabStop"
+                InterfaceCommon:Result = GetTabStop(properties)
+            Case "SetTabStop"
+                InterfaceCommon:Result = SetTabStop(properties, UserObj<this>:Get(2))
+            Case "DataInput"
+                InterfaceCommon:Result = DataInput(properties, UserObj<this>:Get(2))
+            Case "FocusTransitionRequested"
+                InterfaceCommon:Result = FocusTransitionRequested(properties)
+            Case "ComparisonValueCountUpdated"
+                InterfaceCommon:Result = ComparisonValueCountUpdated(properties)
+            Case "CollationCountInitialized"
+                InterfaceCommon:Result = CollationCountInitialized(properties)
+            Case "GetCollationValue"
+                InterfaceCommon:Result = GetCollationValue(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "GetAllCollationValues"
+                InterfaceCommon:Result = GetAllCollationValues(properties, UserObj<this>:Get(2))
+            Case "AddCollationValue"
+                InterfaceCommon:Result = AddCollationValue(properties)
+            Case "RemoveCollationValue"
+                InterfaceCommon:Result = RemoveCollationValue(properties, UserObj<this>:Get(2))
+            Case "ClearCollationValue"
+                InterfaceCommon:Result = ClearCollationValue(properties)
+            Case "GetCollationInputControl"
+                InterfaceCommon:Result = GetCollationInputControl(properties, UserObj<this>:Get(2))
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+        End Select
+    End Method

@@ -1,0 +1,25 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+
+
+Package BtTopMenuWindowForm_partial
+    Method GetAllMasterFileNamePairs()
+        listId_ReceiveFileNamePairs
+    Begin
+        listId_ReceiveFileNamePairs = ListTable:CreateList()
+        Return (listId_ReceiveFileNamePairs)
+    End Method
+    
+    Method CheckLogFormat()
+    Begin
+        BtJob_Inventory_partial:CreateLogFormat(true)
+        BtJob_Inventory_partial:CloseLogDatabase()
+        BtJob_Inventory_partial:DeleteBackupLogData()
+    End Method
+    
+End Package

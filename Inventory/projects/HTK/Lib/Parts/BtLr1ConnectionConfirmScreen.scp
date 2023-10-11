@@ -1,0 +1,171 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtLr1ConnectionConfirmScreenConstants"
+
+
+#define DEF_INHERITS_BT_SCREEN
+#define DEF_ON_SHOWN InitializeScreen
+#insert "\Lib\Parts\BtScreen"
+
+    Properties[DEF_PROPERTY_NUM]
+
+    Method Initialize()
+    Begin
+#ifdef DEF_CONNECTION_RESULT_LABEL
+        BtLabelCommon:SetIsPartOfControl(DEF_CONNECTION_RESULT_LABEL:Properties, true)
+#endif
+#ifdef DEF_SEARCH_RESULT_TABLE_VIEW
+        BtTableViewCommon:SetOnSelectChange(DEF_SEARCH_RESULT_TABLE_VIEW:Properties, SearchResultTableView_CurrentCellChanged)
+#endif
+    End Method
+
+    Method InitializeScreen()
+    Begin
+        UpdateConnectionStateLabelCore()
+        UpdateSearchResult(0)
+    End Method
+
+    Method Close()
+    Begin
+        Disconnect()
+        If Not BtLr1ConnectionConfirmScreenCommon:GetBdAddressList(Properties) is nil Then
+            ListTable:DeleteList(BtLr1ConnectionConfirmScreenCommon:GetBdAddressList(Properties))
+        End If
+        BtLr1ConnectionConfirmScreenCommon:SetBdAddressList(Properties, nil)
+    End Method
+
+    Method Disconnect()
+    Begin
+        BtLr1ConnectionController:Disconnect()
+        ErrorManager:GetCommunicationError()
+    End Method
+
+    Method UpdateConnectionStateLabel()
+    Begin
+#ifdef DEF_CONNECTION_RESULT_LABEL
+        UpdateConnectionStateLabelCore()
+#endif
+    End Method
+
+    Method UpdateConnectionStateLabelCore()
+        resultString
+    Begin
+        If BtLr1ConnectionControllerCommon:GetIsConnecting(BtLr1ConnectionController:Properties) Then
+            resultString = MESSAGE_BTLR1_CONNECTION_CONFIRM_SUCCEEDED
+        Else
+            resultString = MESSAGE_BTLR1_CONNECTION_CONFIRM_FAILED
+        End If
+
+#ifdef DEF_CONNECTION_RESULT_LABEL
+        BtLabelCommon:SetText(DEF_CONNECTION_RESULT_LABEL:Properties, resultString)
+        DEF_CONNECTION_RESULT_LABEL:Invalidate()
+#endif
+    End Method
+
+    Method UpdateSearchResult(results)
+        id
+    Begin
+#ifdef DEF_SEARCH_RESULT_TABLE_VIEW
+        id = CreateSearchResultTable(results)
+        BtTableViewCommon:SetOriginalDataSource(DEF_SEARCH_RESULT_TABLE_VIEW:Properties, id)
+        DEF_SEARCH_RESULT_TABLE_VIEW:UpdateData(true)
+#endif
+    End Method
+
+    Method CreateSearchResultTable(results)
+    Begin
+        Return(results)
+    End Method
+
+    Method DisplaySelectedBdAddress()
+        idx
+        dat
+    Begin
+#ifdef DEF_SEARCH_RESULT_TABLE_VIEW
+        idx = BtTableViewCommon:GetCurrentRowIndex(DEF_SEARCH_RESULT_TABLE_VIEW:Properties)
+        If idx < 0 Then Return() End If
+        dat = DEF_SEARCH_RESULT_TABLE_VIEW:GetCellData(0, idx)
+        If dat is nil Then Return() End If
+#ifdef DEF_BD_ADDRESS_TEXTBOX
+        BtLr1BdAddressTextBoxCommon:SetText(DEF_BD_ADDRESS_TEXTBOX:Properties, dat)
+#endif
+#endif
+    End Method
+
+    Method SearchButton_Click(sender, result)
+        searchResult
+        headBdAddress
+        communicationError
+        errorMessage
+    Begin
+        searchResult = BtLr1ConnectionController:Search(SEARCH_MAX, Window<Properties[DEF_NAME_PROPERTY]>:parent)
+        communicationError = ErrorManager:GetCommunicationError()
+        errorMessage = ErrorManager:GetError()
+        If (searchResult <= 0) And (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+
+        If Not BtLr1ConnectionConfirmScreenCommon:GetBdAddressList(Properties) is nil Then
+            ListTable:DeleteList(BtLr1ConnectionConfirmScreenCommon:GetBdAddressList(Properties))
+        End If
+        BtLr1ConnectionConfirmScreenCommon:SetBdAddressList(Properties, searchResult)
+
+        UpdateSearchResult(searchResult)
+#ifdef DEF_SEARCH_RESULT_TABLE_VIEW
+        headBdAddress = DEF_SEARCH_RESULT_TABLE_VIEW:GetCellData(0, 0)
+#endif
+        If headBdAddress is nil Then Return() End If
+#ifdef DEF_BD_ADDRESS_TEXTBOX
+        BtLr1BdAddressTextBoxCommon:SetText(DEF_BD_ADDRESS_TEXTBOX:Properties, headBdAddress)
+#endif
+        UpdateConnectionStateLabelCore()
+    End Method
+
+    Method SearchResultTableView_CurrentCellChanged(sender)
+    Begin
+        DisplaySelectedBdAddress()
+    End Method
+
+    Method SearchResultTableView_DataInput(sender, result)
+    Begin
+        DisplaySelectedBdAddress()
+    End Method
+
+    Method SearchResultTableView_MouseDown(sender)
+    Begin
+        DisplaySelectedBdAddress()
+    End Method
+
+    Method ConnectButton_Click(sender, result)
+        address
+        isCanceled
+        connectionResult
+        newAddress
+        oldAddress
+    Begin
+#ifdef DEF_BD_ADDRESS_TEXTBOX
+        address = BtLr1BdAddressTextBoxCommon:GetText(DEF_BD_ADDRESS_TEXTBOX:Properties)
+        isCanceled = BtLr1ConnectionController:ConnectSpecifiedTarget(Window<Properties[DEF_NAME_PROPERTY]>:parent, address)
+
+        connectionResult = ((ErrorManager:GetCommunicationError() is false) And (isCanceled is false))
+        If (isCanceled) Then Return(false) End If
+
+        newAddress = BtLr1ConnectionConfirmScreenCommon:ToUpper(address)
+        oldAddress = BtLr1ConnectionConfirmScreenCommon:ToUpper(BtLr1BdAddressManager:GetBdAddress())
+        If connectionResult is true And newAddress ne oldAddress Then
+            If Handy:ShowMessageBox(MESSAGE_QUESTION_BTLR1_UPDATE_BD_ADDRESS, "yesno|yes") is true Then
+                BtLr1BdAddressManager:SetBdAddress(address)
+            End If
+        End If
+        UpdateConnectionStateLabelCore()
+#endif
+    End Method
+
+    Method DisconnectButton_Click(sender, result)
+    Begin
+        Disconnect()
+        UpdateConnectionStateLabelCore()
+    End Method
+
+#popdefine

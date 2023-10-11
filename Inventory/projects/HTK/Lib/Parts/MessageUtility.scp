@@ -1,0 +1,85 @@
+#pushdefine
+
+Package MessageUtility
+
+    #define DEF_DISABLE_MESSAGE_PROPERTY 0
+    #define DEF_PROPERTY_NUM 1
+    _properties[DEF_PROPERTY_NUM]
+
+    Const frm = "thin"
+    Const font = "middle"
+
+
+    Method GetDisableMessage() 
+    Begin
+        Return (_properties[DEF_DISABLE_MESSAGE_PROPERTY])
+    End Method
+    Method SetDisableMessage(value) 
+    Begin
+        _properties[DEF_DISABLE_MESSAGE_PROPERTY] = value
+    End Method
+
+
+    Method ShowMessageOk(message)
+    Begin
+        If (GetDisableMessage()) Then
+            Return(0)
+        End If
+
+        Dialog:Message("", message.Mid(0, 1023), "ok", frm, "information", font)
+    Catch
+        Return(0)
+    End Method
+
+    Method ShowMessage(message, title, buttonType, icon, defaultButton)
+        btn
+    Begin
+        If (GetDisableMessage()) Then
+            Select Case buttonType
+                Case MESSAGE_BOX_BUTTONS_OK
+                    Return (DIALOG_RESULT_OK)
+                Case MESSAGE_BOX_BUTTONS_OKCANCEL
+                    If (defaultButton == MESSAGE_BOX_DEFAULT_BUTTON_BUTTON2) Then
+                        Return (DIALOG_RESULT_CANCEL)
+                    End If
+                    Return (DIALOG_RESULT_OK)
+                Case MESSAGE_BOX_BUTTONS_YES_NO
+                    If (defaultButton == MESSAGE_BOX_DEFAULT_BUTTON_BUTTON2) Then
+                        Return (DIALOG_RESULT_NO)
+                    End If
+                    Return (DIALOG_RESULT_YES)
+            End Select
+        End If
+
+        Select Case buttonType
+            Case MESSAGE_BOX_BUTTONS_OK
+                btn = MESSAGE_BOX_BUTTONS_OK
+                Dialog:Message(title.Mid(0, 127), message.Mid(0, 1023), btn, frm, icon, font)
+                Return(DIALOG_RESULT_OK)
+            Case MESSAGE_BOX_BUTTONS_OKCANCEL
+                If (defaultButton == MESSAGE_BOX_DEFAULT_BUTTON_BUTTON2) Then
+                    btn = MESSAGE_BOX_BUTTONS_OKCANCEL & "|cancel"
+                Else
+                    btn = MESSAGE_BOX_BUTTONS_OKCANCEL & "|ok"
+                End If
+                If Dialog:Message(title.Mid(0, 127), message.Mid(0, 1023), btn, frm, icon, font) Then
+                    Return(DIALOG_RESULT_OK)
+                Else
+                    Return(DIALOG_RESULT_CANCEL)
+                End If
+            Case MESSAGE_BOX_BUTTONS_YES_NO
+                If (defaultButton == MESSAGE_BOX_DEFAULT_BUTTON_BUTTON2) Then
+                    btn = MESSAGE_BOX_BUTTONS_YES_NO & "|no"
+                Else
+                    btn = MESSAGE_BOX_BUTTONS_YES_NO & "|yes"
+                End If
+                If Dialog:Message(title.Mid(0, 127), message.Mid(0, 1023), btn, frm, icon, font) Then
+                    Return(DIALOG_RESULT_YES)
+                Else
+                    Return(DIALOG_RESULT_NO)
+                End If
+        End Select
+    End Method
+
+End Package
+#popdefine

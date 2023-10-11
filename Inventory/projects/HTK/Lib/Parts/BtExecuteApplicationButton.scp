@@ -1,0 +1,19 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtExecuteApplicationButtonConstants"
+
+Package DEF_PACKAGE_NAME
+#define DEF_INHERITS_BT_BUTTON
+#insert "\Lib\Parts\BtButton"
+#undef DEF_INHERITS_BT_BUTTON
+    
+    Properties[DEF_PROPERTY_NUM]
+
+
+    Method OnClick(e)
+    Begin
+        BtExecuteApplicationButtonCommon:OnClick(Properties)
+    End Method
+End Package 
+
+#popdefine

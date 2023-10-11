@@ -1,0 +1,26 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtLr1BdAddressTextBoxConstants"
+
+Package BtLr1BdAddressTextBoxCommon
+
+#define DEF_INHERITS_BT_TEXTBOX
+#insert "\Lib\Parts\BtTextBoxCommon"
+#undef DEF_INHERITS_BT_TEXTBOX
+
+    Method Reset(properties[])
+    Begin
+        BaseReset(properties)
+        SetText(properties, BtLr1BdAddressManager:GetBdAddress())
+    End Method
+
+    Method ExtractScanData(data)
+    Begin
+        If data.length <> 25 Then Return(data) End If
+        If data.Mid(12, 1) ne "," Then Return(data) End If
+        Return(data.Mid(13, 12))
+    End Method
+
+End Package
+
+#popdefine

@@ -1,0 +1,304 @@
+#pushdefine
+
+#insert "\Lib\Utilities\BtLr1ConnectionControllerConstants"
+
+Package BtLr1ConnectionControllerCommon
+
+    Method GetIsCanceled(properties[]) Begin Return(properties[DEF_IS_CANCELED_PROPERTY]) End Method
+    Method SetIsCanceled(properties[], value) Begin properties[DEF_IS_CANCELED_PROPERTY] = value End Method
+
+    Method GetIsConnecting(properties[]) Begin Return(properties[DEF_IS_CONNECTING_PROPERTY]) End Method
+    Method SetIsConnecting(properties[], value)
+        parameter[1]
+    Begin
+        properties[DEF_IS_CONNECTING_PROPERTY] = value
+        EventUtility:Exec(GetLr1ConnectionChangedHandler(properties), nil, parameter)
+    End Method
+
+    Method GetIsTransmitting(properties[]) Begin Return(properties[DEF_IS_TRANSMITTING_PROPERTY]) End Method
+
+    Method GetLr1ConnectionChangedHandler(properties[])
+    Begin
+        Return (properties[DEF_LR1_CONNECTION_CHANGED_HANDLER])
+    End Method
+    Method SetLr1ConnectionChangedHandler(properties[], handle)
+    Begin
+        properties[DEF_LR1_CONNECTION_CHANGED_HANDLER] = handle
+    End Method
+
+     Method New(properties[], retry, timeout, tryConnectAndDisconnect, isPrimaryBdAddressInDb)
+     Begin
+        properties[DEF_RETRY_PROPERTY] = retry
+        properties[DEF_TIMEOUT_PROPERTY] = timeout
+        properties[DEF_TRY_CONNECT_AND_DISCONNECT_PROPERTY] = tryConnectAndDisconnect
+        properties[DEF_IS_PRIMARY_BD_ADDRESS_IN_DB_PROPERTY] = isPrimaryBdAddressInDb
+        properties[DEF_IS_CANCELED_PROPERTY] = false
+    End Method
+
+    Method StartTransmitting(properties[])
+    Begin
+        If GetIsTransmitting(properties) Then Return(false) End If
+
+        properties[DEF_IS_TRANSMITTING_PROPERTY] = true
+        properties[DEF_IS_ENABLED_PROPERTY] = true
+        Return(true)
+    End Method
+
+    Method FinishTransmitting(properties[])
+    Begin
+        If Not properties[DEF_IS_ENABLED_PROPERTY] Then Return() End If
+
+        properties[DEF_IS_TRANSMITTING_PROPERTY] = false
+        properties[DEF_IS_ENABLED_PROPERTY] = false
+    End Method
+
+    Method Connect(properties[], connectingTarget, specifiedConnectionTarget, parentWindow)
+    Begin
+        If Not StartTransmitting(properties) Then Return(true) End If
+
+        SetIsCanceled(properties, false)
+        Window<parentWindow>:enable = false
+        TransmittingForm:New(MESSAGE_LABEL_BTLR1_CONNECTION_CONFIRM_TITLE, MESSAGE_LABEL_BTLR1_CONNECTING)
+        TransmittingForm:Show()
+
+        If (specifiedConnectionTarget) Then
+            ConnectCore(properties, true, connectingTarget)
+        Else
+            ConnectCore(properties, true, BtLr1BdAddressManager:GetBdAddress())
+        End If
+        FinishTransmitting(properties)
+
+        TransmittingForm:Close()
+        Window<parentWindow>:enable = true
+        SetConnectionResult()
+
+        Return(GetIsCanceled(properties))
+    End Method
+
+    Method ConnectCore(properties[], tryConnectAndDisconnect, bdAddress)
+        ret
+        target
+        count
+    Begin
+        If Bluetooth:isOpen is false Then
+            Network:Close(nil)
+        End If
+
+        target = bdAddress
+
+        For count = 0 To properties[DEF_RETRY_PROPERTY]
+            ret = BiCom:Connect(target, GetTimeoutMillisecond(properties), "C")
+
+            If BiCom:error eq "BICOM_CANCELED" Then
+                SetIsCanceled(properties, true)
+                SetIsConnecting(properties, false)
+                Return (false)
+            End If
+
+            If ret Is true Then SetIsConnecting(properties, true) Return(true) End If
+            If (ret Is false) And (BiCom:error eq "BICOM_ALREADYOPEN") Then
+                If tryConnectAndDisconnect Then
+                    BiCom:Disconnect()
+                    ret = BiCom:Connect(target, GetTimeoutMillisecond(properties), "C")
+                    If ret Is true Then SetIsConnecting(properties, true) Return(true) End If
+                Else
+                    SetIsConnecting(properties, true)
+                    Return(true)
+                End If
+            End If
+        Next
+
+        SetIsConnecting(properties, false)
+        Bluetooth:Close()
+        WriteErrorLog("Connect(" & Bluetooth:error & ")")
+        ErrorManager:SetCommunicationError()
+        Return(false)
+    Catch
+        WriteErrorLog("Connect(" & "Error" & ")")
+        ErrorManager:SetCommunicationError()
+        Return(false)
+    End Method
+
+    Method DisconnectCore(properties[])
+        ret
+    Begin
+        ret = BiCom:Disconnect()
+        SetIsConnecting(properties, false)
+        If ret Is true Then Return() End If
+        If BiCom:error eq "NETWORK_ALREADYOPEN" Then Return() End If
+
+        WriteErrorLog("Disconnect(" & BiCom:error & ")")
+        ErrorManager:SetCommunicationError()
+        Bluetooth:Close()
+        Return()
+    Catch
+        WriteErrorLog("Disconnect(" & "Error" & ")")
+        ErrorManager:SetCommunicationError()
+        Bluetooth:Close()
+        Return()
+    End Method
+
+    Method Send(properties[], data, status, parentWindow)
+    Begin
+        If Not StartTransmitting(properties) Then Return(true) End If
+
+        SetIsCanceled(properties, false)
+        Window<parentWindow>:enable = false
+        TransmittingForm:New(MESSAGE_LABEL_TRANSMIT_DATA_OUTPUT, MESSAGE_LABEL_BTLR1_SENDING)
+        TransmittingForm:Show()
+
+        SendCore(properties, data, status)
+        FinishTransmitting(properties)
+
+        TransmittingForm:Close()
+        Window<parentWindow>:enable = true
+        SetConnectionResult()
+
+        Return (GetIsCanceled(properties))
+    End Method
+
+    Method SendCore(properties[], data, status)
+        ret
+        sendSuccess
+        i
+        err
+    Begin
+        If ConnectCore(properties, properties[DEF_TRY_CONNECT_AND_DISCONNECT_PROPERTY], BtLr1BdAddressManager:GetBdAddress()) Is false Then Return(false) End If
+
+        For i = 0 To properties[DEF_RETRY_PROPERTY]
+            ret = BiCom:Send(data, status)
+            If ret Is true Then
+                sendSuccess = true
+                Fbreak
+            End If
+        Next
+        err = BiCom:error
+
+        If properties[DEF_TRY_CONNECT_AND_DISCONNECT_PROPERTY] Then
+            DisconnectCore(properties)
+        End If
+
+        If sendSuccess Is false Then
+            WriteErrorLog("Send(" & err & ")")
+            ErrorManager:SetCommunicationError()
+        End If
+
+        Return(sendSuccess)
+    Catch
+        WriteErrorLog("Send(" & "Error" & ")")
+        ErrorManager:SetCommunicationError()
+        Return(false)
+    End Method
+
+    Method Cancel(properties[])
+    Begin
+        properties[DEF_IS_CANCELED_PROPERTY] = true
+    End Method
+
+    Method Search(properties[], searchMax, parentWindow)
+        searchResult
+    Begin
+        Window<parentWindow>:enable = false
+        TransmittingForm:New(MESSAGE_LABEL_BTLR1_CONNECTION_CONFIRM_TITLE, MESSAGE_LABEL_BTLR1_SEARCHING)
+        TransmittingForm:Show()
+
+        searchResult = SearchCore(properties, searchMax)
+        FinishTransmitting(properties)
+
+        TransmittingForm:Close()
+        Window<parentWindow>:enable = true
+        SetConnectionResult()
+
+        Return(searchResult)
+    End Method
+
+    Method SearchCore(properties[], searchMax)
+        ret
+        id
+        id2
+        i
+        j = 0
+    Begin
+        DisconnectCore(properties)
+
+        ret = Bluetooth:Search("C")
+        If ret is false Then
+            ErrorManager:SetError(MESSAGE_ERROR_BTLR1_CONNECT_FAIL)
+            Return(0)
+        End If
+
+        id = ListTable:CreateList()
+        For i = 0 to ret - 1
+            If IsBtLr1(properties, i) is true Then
+                id2 = ListTable:CreateList()
+                ListTable:Add(id2, 0, Bluetooth:GetSearchResult(i, "addr"))
+                ListTable:AddList(id, j, id2)
+                j = j + 1
+                If j >= searchMax Then Return(id) End If
+            End If
+        Next
+
+        Bluetooth:Close()
+        SetIsConnecting(properties, false)
+
+        If ListTable:Count(id) == 0 Then
+            ErrorManager:SetError(MESSAGE_ERROR_BTLR1_SEARCHED_NOT_FIND)
+            ListTable:DeleteList(id)
+            Return(0)
+        End If
+        Return(id)
+    End Method
+
+    Method IsBtLr1(properties[], target)
+        name
+        connectionSuccess
+    Begin
+        name = Bluetooth:GetSearchResult(target, "name")
+
+        If name ne BT_LR1_MACHINE_NAME And name ne "" Then Return(false) End If
+        connectionSuccess = BiCom:Connect(Bluetooth:GetSearchResult(target, "addr"), GetTimeoutMillisecond(properties), nil)
+        If (connectionSuccess) Then
+            DisconnectCore(properties)
+        End If
+        Return(connectionSuccess)
+    End Method
+
+    Method SetConnectionResult()
+    Begin
+        If (TransmittingForm:GetErrorMessage ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(TransmittingForm:GetErrorMessage())
+        End If
+        If TransmittingForm:GetCommunicationError() Then
+            ErrorManager:SetCommunicationError()
+        End If
+    End Method
+
+    Method GetTimeoutMillisecond(properties[])
+    Begin
+        Return (properties[DEF_TIMEOUT_PROPERTY] * 1000)
+    End Method
+
+    Method WriteErrorLog(log)
+    Begin
+        TransmissionLogUtility:WriteLog(LOG_FILE_NAME, log)
+    End Method
+
+    Method SetLr1HeaderTerminator(header, terminator)
+    Begin
+        SetDataHeader(header)
+        SetDataTerminator(terminator)
+    End Method
+
+    Method SetDataHeader(header)
+    Begin
+        BiCom:header = Utility:HexChar2Bin(header)
+    End Method
+
+    Method SetDataTerminator(terminator)
+    Begin
+        BiCom:terminator = Utility:HexChar2Bin(terminator)
+    End Method
+
+End Package
+
+#popdefine

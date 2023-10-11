@@ -1,0 +1,18 @@
+
+#insert "\Lib\Utilities\SearchViewItemConstants"
+
+Package DEF_PACKAGE_NAME
+    Properties[DEF_PROPERTY_NUM]
+
+    Method New(tableFieldName)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        Properties[DEF_TABLEFIELDNAME_PROPERTY] = tableFieldName
+        SearchViewItemCommon:SetOutputRangeType(Properties, OUTPUT_RANGE_TYPE_NONE)
+        SearchViewItemCommon:SetOutputRangeStart(Properties, 1)
+        SearchViewItemCommon:SetOutputRangeEnd(Properties, DEFAULT_OUTPUT_RANGE_END)
+        SearchViewItemCommon:SetOutputAiType(Properties, "")
+        SearchViewItemCommon:SetExclusionCharacters(Properties, EXCLUSION_CHARACTERS_NONE)
+    End Method
+
+End Package

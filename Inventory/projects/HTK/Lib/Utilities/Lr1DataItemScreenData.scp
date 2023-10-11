@@ -1,0 +1,21 @@
+#pushdefine
+
+#insert "\Lib\Utilities\Lr1DataItemScreenDataConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_LR1DATAITEMSCREENDATA_PROPERTY_NUM]
+
+#insert "\Lib\Utilities\ILr1DataItemInvoke"
+#insert "\Lib\Utilities\ILr1DataItemScreenDataInvoke"
+
+    Method New(jobName, screenName, logItemControl, isDate, isTime, index)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        Properties[DEF_TYPE_PROPERTY] = "Lr1DataItemScreenData"
+        Lr1DataItemScreenDataCommon:New(Properties, jobName, screenName, logItemControl, isDate, isTime, index)
+    End Method
+
+End Package
+
+#popdefine

@@ -1,0 +1,508 @@
+
+Package SystemSettingFileUtility
+
+    Method WriteSetting(section, key, newValue)
+        result
+        srcFileName
+        destFileName
+        currentLine
+        sectionName = "[" & section & "]"
+        sectionFound = false
+        keyInfo[2]
+        isUpdated = false
+    Begin
+        srcFileName = "1:EnvironmentSettings.ini"
+        destFileName = srcFileName & "." & Handy:date.Remove("/") & Handy:time.Remove(":") & ".tmp"
+
+        result = FileStream<srcFileName>:Open("r")
+        If (FileStream<destFileName>:Open("w") is false) Then
+            FileStream<srcFileName>:Close()
+            Return (false)
+        End If
+
+        If (result is true) Then
+            While true
+                currentLine = ReadValue(srcFileName)
+                If (currentLine eq "") Then
+                    Wbreak
+                End If
+
+                If (IsSection(currentLine) is true) Then
+                    If (sectionFound is true) And (isUpdated is false) Then
+                        WriteNewSettings(destFileName, "", key, newValue)
+                        isUpdated = true
+                    End If
+                    If (currentLine eq sectionName) Then
+                        sectionFound = true
+                    End If
+                Else
+                    keyInfo = currentLine.split("=")
+                    If (sectionFound is true) And (isUpdated is false) Then
+                        If (keyInfo[0] eq key) Then
+                            WriteNewSettings(destFileName, "", key, newValue)
+                            isUpdated = true
+                            Wcontinue
+                        End If
+                    End If
+                End If
+                WriteValue(destFileName, currentLine)
+            Wend
+            FileStream<srcFileName>:Close()
+        End If
+
+        If (isUpdated is false) Then
+            If (sectionFound is true) Then
+                WriteNewSettings(destFileName, "", key, newValue)
+            Else
+                WriteNewSettings(destFileName, sectionName, key, newValue)
+            End If
+        End If
+        FileStream<destFileName>:Close()
+
+        FileSystem:Initialize()
+        result = FileSystem:Copy(destFileName, srcFileName, true)
+        If (result is true) Then
+            FileSystem:Delete(destFileName)
+        End If
+
+        Return (true)
+    End Method
+
+    Method ReadSetting(section, key) As String
+        result
+        srcFileName
+        sectionName = "[" & section & "]"
+        currentLine
+        sectionFound = false
+        keyInfo[2]
+    Begin
+        srcFileName = "1:EnvironmentSettings.ini"
+
+        result = FileStream<srcFileName>:Open("r")
+        If (result is false) Then
+            Return ("")
+        End If
+
+        While true
+            currentLine = ReadValue(srcFileName)
+            If (currentLine eq "") Then
+                Wbreak
+            End If
+
+            If (IsSection(currentLine) is true) Then
+                If (sectionFound is true) Then
+                    FileStream<srcFileName>:Close()
+                    Return ("")
+                End If
+                If (currentLine eq sectionName) Then
+                    sectionFound = true
+                End If
+            Else
+                keyInfo = currentLine.split("=")
+                If (sectionFound is true) Then
+                    If (keyInfo[0] eq key) Then
+                        FileStream<srcFileName>:Close()
+                        Return (keyInfo[1])
+                    End If
+                End If
+            End If
+        Wend
+        FileStream<srcFileName>:Close()
+
+        Return ("")
+    End Method
+
+    Method WriteNewSettings(destFileName, sectionName, keyName, newValue)
+        keyInfo
+    Begin
+        If (sectionName ne "") Then
+            WriteValue(destFileName, sectionName)
+        End If
+        keyInfo = keyName & "=" & newValue
+        WriteValue(destFileName, keyInfo)
+    End Method
+
+    Method WriteValue(destFileName, newValue)
+        newLine
+    Begin
+        newLine = newValue & "\n"
+        FileStream<destFileName>:Puts(newLine)
+    End Method
+
+    Method ReadValue(srcFileName)
+        readValue
+    Begin
+        readValue = FileStream<srcFileName>:Gets(8192)
+        readValue = readValue.Remove("\n")
+        readValue = readValue.Remove("\r")
+        Return (readValue)
+    End Method
+
+    Method IsSection(targetString)
+    Begin
+        Return ((targetString.Left(1) eq "[") And (targetString.Right(1) eq "]"))
+    End Method
+
+    Method UpdateKeyOperationSoundData(soundLevel)
+    Begin
+        Key:SetVolume(soundLevel)
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+
+    Method UpdateTouchOperationSoundData(soundLevel)
+        isTouchPanel = false
+    Begin
+        If (isTouchPanel is true) Then
+            If (soundLevel==0) Then
+                LCD:volume = false
+            Else
+                LCD:volume = true
+            End If
+        End If
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+
+    Method LoadKeyOperationSoundData()
+        soundLevel
+    Begin
+        soundLevel = GetKeyOperationSoundData()
+        If soundLevel eq "" Then
+            Return (false)
+        End If
+        If (UpdateKeyOperationSoundData(soundLevel) is false) Then
+            Return (false)
+        End If
+        If (UpdateTouchOperationSoundData(soundLevel) is false) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method GetBuzzerOnTime(isError)
+        ontime
+        section
+    Begin
+        If isError is true Then
+            section = "buzzer_error"
+        Else
+            section = "buzzer_success"
+        End If
+        ontime = SystemSettingFileUtility:ReadSetting(section, "ontime")
+        If ontime eq "" Then
+            Return (Buzzer:onTime)
+        End If
+        ontime = ontime / 100
+        Return (ontime)
+    End Method
+
+    Method GetBuzzerOffTime(isError)
+        offtime
+        section
+    Begin
+        If isError is true Then
+            section = "buzzer_error"
+        Else
+            section = "buzzer_success"
+        End If
+        offtime = SystemSettingFileUtility:ReadSetting(section, "offtime")
+        If offtime eq "" Then
+            Return (Buzzer:offTime)
+        End If
+        offtime = offtime / 100
+        Return (offtime)
+    End Method
+
+    Method GetBuzzerLoopCount(isError)
+        repeatcount
+        section
+    Begin
+        If isError is true Then
+            section = "buzzer_error"
+        Else
+            section = "buzzer_success"
+        End If
+        repeatcount = SystemSettingFileUtility:ReadSetting(section, "repeatcount")
+        If repeatcount eq "" Then
+            Return (Buzzer:loopCount)
+        End If
+        Return (repeatcount)
+    End Method
+
+    Method GetBuzzerPitch(isError)
+        tone
+        section
+    Begin
+        If isError is true Then
+            section = "buzzer_error"
+        Else
+            section = "buzzer_success"
+        End If
+        tone = SystemSettingFileUtility:ReadSetting(section, "tone")
+        If tone eq "" Then
+            Return (Buzzer:pitch)
+        End If
+        Return (tone)
+    End Method
+
+    Method GetBuzzerVolume(isError)
+        volume
+        section
+    Begin
+        If isError is true Then
+            section = "buzzer_error"
+        Else
+            section = "buzzer_success"
+        End If
+        volume = SystemSettingFileUtility:ReadSetting(section, "volume")
+        If volume eq "" Then
+            If (Buzzer:volume is nil) Then
+                Return ("0")
+            End If
+            Return (Buzzer:volume)
+        End If
+        Return (volume)
+    End Method
+
+    Method GetBuzzerEnable(isError)
+        buzzerEnable
+        section
+    Begin
+        If isError is true Then
+            section = "buzzer_error"
+        Else
+            section = "buzzer_success"
+        End If
+        buzzerEnable = SystemSettingFileUtility:ReadSetting(section, "enable")
+        If buzzerEnable eq "1" Then
+            Return (true)
+        End If
+        Return (false)
+    End Method
+
+    Method GetVibratorOnTime(isError)
+        ontime
+        section
+    Begin
+        If isError is true Then
+            section = "vibrator_error"
+        Else
+            section = "vibrator_success"
+        End If
+        ontime = SystemSettingFileUtility:ReadSetting(section, "ontime")
+        If ontime eq "" Then
+            Return (Vibration:onTime)
+        End If
+        ontime = ontime / 100
+        Return (ontime)
+    End Method
+
+    Method GetVibratorOffTime(isError)
+        offtime
+        section
+    Begin
+        If isError is true Then
+            section = "vibrator_error"
+        Else
+            section = "vibrator_success"
+        End If
+        offtime = SystemSettingFileUtility:ReadSetting(section, "offtime")
+        If offtime eq "" Then
+            Return (Vibration:offTime)
+        End If
+        offtime = offtime / 100
+        Return (offtime)
+    End Method
+
+    Method GetVibratorLoopCount(isError)
+        repeatcount
+        section
+    Begin
+        If isError is true Then
+            section = "vibrator_error"
+        Else
+            section = "vibrator_success"
+        End If
+        repeatcount = SystemSettingFileUtility:ReadSetting(section, "repeatcount")
+        If repeatcount eq "" Then
+            Return (Vibration:loopCount)
+        End If
+        Return (repeatcount)
+    End Method
+
+    Method GetVibratorEnable(isError)
+        vibratorEnable
+        section
+    Begin
+        If isError is true Then
+            section = "vibrator_error"
+        Else
+            section = "vibrator_success"
+        End If
+        vibratorEnable = SystemSettingFileUtility:ReadSetting(section, "enable")
+        If vibratorEnable eq "1" Then
+            Return (true)
+        End If
+        Return (false)
+    End Method
+
+    Method GetLedOnTime(isError)
+        ontime
+        section
+    Begin
+        If isError is true Then
+            section = "led_error"
+        Else
+            section = "led_success"
+        End If
+        ontime = SystemSettingFileUtility:ReadSetting(section, "ontime")
+        If ontime eq "" Then
+            Return (Led:onTime)
+        End If
+        ontime = ontime / 100
+        Return (ontime)
+    End Method
+
+    Method GetLedOffTime(isError)
+        offtime
+        section
+    Begin
+        If isError is true Then
+            section = "led_error"
+        Else
+            section = "led_success"
+        End If
+        offtime = SystemSettingFileUtility:ReadSetting(section, "offtime")
+        If offtime eq "" Then
+            Return (Led:offTime)
+        End If
+        offtime = offtime / 100
+        Return (offtime)
+    End Method
+
+    Method GetLedLoopCount(isError)
+        repeatcount
+        section
+    Begin
+        If isError is true Then
+            section = "led_error"
+        Else
+            section = "led_success"
+        End If
+        repeatcount = SystemSettingFileUtility:ReadSetting(section, "repeatcount")
+        If repeatcount eq "" Then
+            Return (Led:loopCount)
+        End If
+        Return (repeatcount)
+    End Method
+
+    Method GetLedColor(isError)
+        color
+        section
+    Begin
+        If isError is true Then
+            section = "led_error"
+        Else
+            section = "led_success"
+        End If
+        color = SystemSettingFileUtility:ReadSetting(section, "color")
+        If color eq "" Then
+            If (Led:onTime eq "red") Then color = 1
+            ElseIf (Led:onTime eq "green") Then color = 2
+            ElseIf (Led:onTime eq "orange") Then color = 1 + 2
+            Else color = 0 End If
+            Return (color)
+        End If
+        Return (color)
+    End Method
+
+    Method GetLedEnable(isError)
+        ledEnable
+        section
+    Begin
+        If isError is true Then
+            section = "led_error"
+        Else
+            section = "led_success"
+        End If
+        ledEnable = SystemSettingFileUtility:ReadSetting(section, "enable")
+        If ledEnable eq "1" Then
+            Return (true)
+        End If
+        Return (false)
+    End Method
+
+    Method LoadSystemSettingFile()
+    Begin
+        If (LoadKeyOperationSoundData() is false) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method GetBuzzerData(pattern)
+    Begin
+        Return (ReadSetting(pattern, "volume"))
+    End Method
+
+    Method WriteScanSoundLevel(soundLevel, section)
+    Begin
+        If (WriteSetting(section, "volume", soundLevel) is false) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method GetBuzzerLevelWhenScanningSucceed()
+    Begin
+        Return (GetBuzzerData("buzzer_success"))
+    End Method
+
+    Method SetScanningSuccessSoundLevel(soundLevel)
+    Begin
+        If (WriteScanSoundLevel(soundLevel, "buzzer_success") is false) Then
+            ErrorManager:SetError("The operation to apply the volume setting during reading failed.")
+            Return (nil)
+        End If
+    End Method
+
+    Method GetBuzzerLevelWhenScanningError()
+    Begin
+        Return (GetBuzzerData("buzzer_error"))
+    End Method
+
+    Method SetScanningErrorSoundLevel(soundLevel)
+    Begin
+        If (WriteScanSoundLevel(soundLevel, "buzzer_error") is false) Then
+            ErrorManager:SetError("The operation to apply the volume setting during reading failed.")
+            Return (nil)
+        End If
+    End Method
+
+    Method GetKeyOperationSoundData()
+    Begin
+        Return (ReadSetting("key_setting", "keyclickvolume"))
+    End Method
+
+    Method SetKeyOperationSoundData(soundLevel)
+    Begin
+        If (WriteSetting("key_setting", "keyclickvolume", soundLevel) is false) Then
+            ErrorManager:SetError("The operation to acquire the key-touch sound setting failed.")
+            Return (nil)
+        End If
+
+        If (LoadSystemSettingFile() is false) Then
+            ErrorManager:SetError("The operation to acquire the key-touch sound setting failed.")
+            Return (nil)
+        End If
+    Catch
+        ErrorManager:SetError("The operation to acquire the key-touch sound setting failed.")
+    End Method
+
+End Package

@@ -1,0 +1,58 @@
+
+ Package TransmissionLogUtility
+
+    Const vbTab = "\t"
+
+    Const newLine = "\r\n"
+
+    Method WriteLog(fileName, log)
+        enableErrorLog = true
+        allLog[100]
+        rowCount = 0
+        nowDate
+        nowTime
+        logFilePath
+        result
+        currentLine
+        index
+    Begin
+
+        If (enableErrorLog is false) Then
+            Return (nil)
+        End If
+
+        nowDate = Handy:date
+        nowTime = Handy:time
+        allLog[rowCount] = nowDate & vbTab & nowTime & vbTab & log & newLine
+        rowCount = rowCount + 1
+
+        logFilePath = PathUtility:Combine(PathUtility:GetApplicationLogDirectory(), fileName)
+
+        result = FileStream<logFilePath>:Open("r")
+        If result is true Then
+            For index = 2 to 100
+                currentLine = FileStream<logFilePath>:Gets(8192)
+                If (currentLine eq "") Then
+                    Fbreak
+                End If
+                allLog[rowCount] = currentLine
+                rowCount = rowCount + 1
+            Next
+            FileStream<logFilePath>:Close()
+        End If
+
+        result = FileStream<logFilePath>:Open("w")
+        If result is true Then
+            FileStream<logFilePath>:currentPos = 0
+            For index = 0 to rowCount - 1
+                result = FileStream<logFilePath>:Puts(allLog[index])
+                If (result is false) Then
+                    Fbreak
+                End If
+            Next
+            FileStream<logFilePath>:Close()
+        End If
+    Catch
+    End Method
+
+End Package

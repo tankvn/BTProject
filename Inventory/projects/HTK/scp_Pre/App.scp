@@ -1,0 +1,45 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+
+Include "Lib\Utilities\ErrorManager"
+Include "Lib\Utilities\DateUtility"
+Include "Lib\Utilities\SystemParameterUtility"
+Include "Lib\Utilities\SystemSettingFileUtility"
+Include "Lib\Utilities\PathUtility"
+Include "Lib\Utilities\TransmissionLogUtility"
+Include "Lib\Utilities\OCRSettings"
+Include "Lib\Parts\MessageUtility"
+
+
+Method main()
+Begin
+    If Not SystemParameterUtility:IsSupportBtDesignTool() Then
+        MessageUtility:ShowMessageOk(MESSAGE_ERROR_NOT_SUPPORT_DESIGNTOOL)
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BTW" Then
+            Utility:StartExe("__Terminate_BTEmu__", "", 0)
+        End If
+        Handy:Reset()
+    End If
+    
+    Handy:LoadConfig("1:___CommonSetting___.bin")
+    SystemSettingFileUtility:LoadSystemSettingFile()
+    OcrSettings:SaveConfigFile(TERMINAL_SETTING_DEFAULT_OCR_SETTING_INI_FILE)
+    
+    LCD:status = false
+    LCD:backLightMode = "now"
+    
+    Handy:focusMoveMode = 1
+    
+    System:Load("BtTopMenuWindowForm", "App", "BtTopMenuWindowForm", 0, 0)
+Catch
+    Handy:ShowMessageBox(MESSAGE_ERROR_APPLICATION_TROUBLE &"("&System:error&")", "ok" )
+End Method
+
+Package App
+    
+End Package

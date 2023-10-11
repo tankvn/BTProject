@@ -1,0 +1,19 @@
+#insert "\Lib\Utilities\LogItemConstants"
+#insert "\Lib\Utilities\LogItemScreenDataConstants"
+
+/*Public*/ Package DEF_PACKAGE_NAME
+    /*Inherits LogItem*/
+
+    Properties[DEF_PROPERTY_NUM + 1]
+
+
+
+#insert "\Lib\Utilities\ILogItemScreenDataInvoke"
+#insert "\Lib\Utilities\ILogItemInvoke"
+
+    Method New(displayName, jobName, screenName, logItemControlName, isDate, isTime, tableItemTypes, index)
+    Begin
+        LogItemScreenDataCommon:New(Properties, "DEF_PACKAGE_NAME", displayName, jobName, screenName, logItemControlName, isDate, isTime, tableItemTypes, index)
+    End Method
+
+End Package 

@@ -1,0 +1,50 @@
+
+Package IFilterControl
+    Names[14]
+    ICommons[14]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_Inventory_BtLabel_ItemNo"
+        ICommons[0] = BtWindow_Inventory_BtLabel_ItemNo:IFilterControlInvoke
+        Names[1] = "BtWindow_Inventory_BtTextBox_ItemNo"
+        ICommons[1] = BtWindow_Inventory_BtTextBox_ItemNo:IFilterControlInvoke
+        Names[2] = "BtWindow_Inventory_BtLabel_Quantity"
+        ICommons[2] = BtWindow_Inventory_BtLabel_Quantity:IFilterControlInvoke
+        Names[3] = "BtWindow_Inventory_BtTextBox_Quantity"
+        ICommons[3] = BtWindow_Inventory_BtTextBox_Quantity:IFilterControlInvoke
+        Names[4] = "BtWindow_Inventory_BtLabel_Person"
+        ICommons[4] = BtWindow_Inventory_BtLabel_Person:IFilterControlInvoke
+        Names[5] = "BtWindow_Inventory_BtTextBox_Person"
+        ICommons[5] = BtWindow_Inventory_BtTextBox_Person:IFilterControlInvoke
+        Names[6] = "BtWindow_Inventory_BtLabel_DataCount"
+        ICommons[6] = BtWindow_Inventory_BtLabel_DataCount:IFilterControlInvoke
+        Names[7] = "BtWindow_Inventory_BtLabel_DataCountDisplay"
+        ICommons[7] = BtWindow_Inventory_BtLabel_DataCountDisplay:IFilterControlInvoke
+        Names[8] = "BtWindow_Inventory_BtLabel_Title"
+        ICommons[8] = BtWindow_Inventory_BtLabel_Title:IFilterControlInvoke
+        Names[9] = "BtHistoryDataView_Inventory_BtLabel_Title"
+        ICommons[9] = BtHistoryDataView_Inventory_BtLabel_Title:IFilterControlInvoke
+        Names[10] = "BtHistoryDataView_Inventory_BtLabel_DataCountDisplay"
+        ICommons[10] = BtHistoryDataView_Inventory_BtLabel_DataCountDisplay:IFilterControlInvoke
+        Names[11] = "BtCommunicationErrorDialog_1_BtLabel_Title"
+        ICommons[11] = BtCommunicationErrorDialog_1_BtLabel_Title:IFilterControlInvoke
+        Names[12] = "BtCommunicationErrorDialog_1_BtLabel_Message1"
+        ICommons[12] = BtCommunicationErrorDialog_1_BtLabel_Message1:IFilterControlInvoke
+        Names[13] = "BtCommunicationErrorDialog_1_BtLabel_Message2"
+        ICommons[13] = BtCommunicationErrorDialog_1_BtLabel_Message2:IFilterControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetInputValue(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetInputValue", args, ICommons))
+    End Method
+
+End Package
+

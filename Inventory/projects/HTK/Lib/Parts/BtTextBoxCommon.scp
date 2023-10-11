@@ -1,0 +1,1893 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtTextBoxConstants"
+
+#ifndef DEF_INHERITS_BT_TEXTBOX
+Package BtTextBoxCommon
+#endif
+
+
+    Method GetName(properties[]) 
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+    Method SetName(properties[], value) 
+    Begin
+        properties[DEF_NAME_PROPERTY] = value
+    End Method
+
+    Method GetType(properties[])
+    Begin
+        Return (properties[DEF_TYPE_PROPERTY])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetTabStop(properties[])
+    Begin
+        Return (properties[DEF_TAB_STOP_PROPERTY])
+    End Method
+    Method SetTabStop(properties[], value)
+    Begin
+        properties[DEF_TAB_STOP_PROPERTY] = value
+    End Method
+
+    Method GetTabIndex(properties[])
+    Begin
+        Return (properties[DEF_TAB_INDEX_PROPERTY])
+    End Method
+    Method SetTabIndex(properties[], value)
+    Begin
+        properties[DEF_TAB_INDEX_PROPERTY] = value
+    End Method
+
+    Method GetVisible(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:visible)
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        properties[DEF_VISIBLE_PROPERTY] = value
+    End Method
+
+    Method UpdateVisible(properties[]) /* Implements IControl.Visible */ /* Implements IBtInputControl.Visible */
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:visible = properties[DEF_VISIBLE_PROPERTY]
+    End Method
+
+    Method GetEnabled(properties[]) /* Implements IControl.GetEnabled */
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:enable)
+    End Method
+    Method SetEnabled(properties[], value) /* Implements IControl.SetEnabled */
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:enable = value
+    End Method
+
+    Method GetEnable(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:enable)
+    End Method
+    Method SetEnable(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:enable = value
+        If (value is true) Then
+            TextField<properties[DEF_NAME_PROPERTY]>:foreColor = properties[DEF_FORE_COLOR_PROPERTY]
+            TextField<properties[DEF_NAME_PROPERTY]>:backColor = properties[DEF_BACK_COLOR_PROPERTY]
+        Else
+            TextField<properties[DEF_NAME_PROPERTY]>:foreColor = TERMINAL_SETTING_FORE_COLOR_GRAY_OUT
+            TextField<properties[DEF_NAME_PROPERTY]>:backColor = TERMINAL_SETTING_BACK_COLOR_GRAY_OUT
+        End If
+    End Method
+
+    Method GetIsPartOfControl(properties[])
+    Begin
+        Return (properties[DEF_IS_PART_OF_CONTROL_PROPERTY])
+    End Method
+    Method SetIsPartOfControl(properties[], value)
+    Begin
+        properties[DEF_IS_PART_OF_CONTROL_PROPERTY] = value
+    End Method
+
+    Method GetInitialText(properties[])
+    Begin
+        Return (properties[DEF_INITIAL_TEXT_PROPERTY])
+    End Method
+    Method SetInitialText(properties[], value)
+    Begin
+        properties[DEF_INITIAL_TEXT_PROPERTY] = value
+        properties[DEF_LAST_INPUT_TEXT_PROPERTY] = value
+        TextField<properties[DEF_NAME_PROPERTY]>:text = value
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+        Return (properties[DEF_FORE_COLOR_PROPERTY])
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:foreColor = value
+        TextField<properties[DEF_NAME_PROPERTY]>:outFocusTextColor = value
+        properties[DEF_FORE_COLOR_PROPERTY] = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (properties[DEF_BACK_COLOR_PROPERTY])
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:backColor = value
+        TextField<properties[DEF_NAME_PROPERTY]>:outFocusBackColor = value
+        properties[DEF_BACK_COLOR_PROPERTY] = value
+    End Method
+
+    Method GetFocusedForeColor(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:inFocusTextColor)
+    End Method
+    Method SetFocusedForeColor(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:inFocusTextColor = value
+    End Method
+
+    Method GetFocusedBackColor(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:inFocusBackColor)
+    End Method
+    Method SetFocusedBackColor(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:inFocusBackColor = value
+    End Method
+
+    Method GetFocusColor(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:focusColor)
+    End Method
+    Method SetFocusColor(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:focusColor = value
+    End Method
+
+    Method GetFontSize(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:fontSize)
+    End Method
+    Method SetFontSize(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:fontSize = value
+    End Method
+
+    Method GetFontName(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:fontName)
+    End Method
+    Method SetFontName(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:fontName = value
+    End Method
+
+    Method GetBold(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:fontBold)
+    End Method
+    Method SetBold(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:fontBold = value
+    End Method
+
+    Method GetText(properties[])
+    Begin
+        If Not properties[DEF_TEMP_TEXT_PROPERTY] is nil Then
+            Return (properties[DEF_TEMP_TEXT_PROPERTY])
+        End If
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:text)
+    End Method
+    Method SetText(properties[], value)
+    Begin
+        If Not properties[DEF_TEMP_TEXT_PROPERTY] is nil Then
+            properties[DEF_TEMP_TEXT_PROPERTY] = value
+        End If
+        TextField<properties[DEF_NAME_PROPERTY]>:text = value
+    End Method
+
+    Method GetBorderStyle(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:frame)
+    End Method
+    Method SetBorderStyle(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:frame = value
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+         TextField<properties[DEF_NAME_PROPERTY]>:width = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:height = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:top = value
+    End Method
+
+    Method GetAlignment(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:textAlign)
+    End Method
+    Method SetAlignment(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:textAlign = value
+    End Method
+
+    Method GetInputMode(properties[])
+    Begin
+        Return (properties[DEF_INPUT_MODE_PROPERTY])
+    End Method
+    Method SetInputMode(properties[], value)
+    Begin
+        properties[DEF_INPUT_MODE_PROPERTY] = value
+
+        If (IsInputModeKey(properties)) Then
+            TextField<properties[DEF_NAME_PROPERTY]>:inputOption = 8
+            TextField<properties[DEF_NAME_PROPERTY]>:enableBCR = nil
+        ElseIf (value == INPUT_MODE_SCAN_ALPHANUMERIC) Then
+            TextField<properties[DEF_NAME_PROPERTY]>:inputOption = 1
+            TextField<properties[DEF_NAME_PROPERTY]>:enableBCR = 1
+        Else
+            TextField<properties[DEF_NAME_PROPERTY]>:inputOption = 8
+            TextField<properties[DEF_NAME_PROPERTY]>:enableBCR = 1
+        End If
+    End Method
+
+    Method GetIsEmptyProhibited(properties[])
+    Begin
+        Return (properties[DEF_IS_EMPTY_PROHIBITED_PROPERTY])
+    End Method
+    Method SetIsEmptyProhibited(properties[], value)
+    Begin
+        properties[DEF_IS_EMPTY_PROHIBITED_PROPERTY] = value
+    End Method
+
+    Method GetMaxLength(properties[])
+    Begin
+        Return (properties[DEF_MAX_LENGTH_PROPERTY])
+    End Method
+    Method SetMaxLength(properties[], value)
+    Begin
+        If (MAX_SINGLE_BYTE_CHARACTER_LIMIT < value) Then
+            properties[DEF_MAX_LENGTH_PROPERTY] = MAX_SINGLE_BYTE_CHARACTER_LIMIT
+        Else
+            properties[DEF_MAX_LENGTH_PROPERTY] = value
+        End If
+    End Method
+
+    Method GetMinimum(properties[])
+    Begin
+        Return (properties[DEF_MINIMUM_PROPERTY])
+    End Method
+    Method SetMinimum(properties[], value)
+    Begin
+        If (value < MIN_NUMBER_LIMIT) Then
+            properties[DEF_MINIMUM_PROPERTY] = MIN_NUMBER_LIMIT
+        Else
+            properties[DEF_MINIMUM_PROPERTY] = value
+        End If
+    End Method
+
+    Method GetMaximum(properties[])
+    Begin
+        Return (properties[DEF_MAXIMUM_PROPERTY])
+    End Method
+    Method SetMaximum(properties[], value)
+    Begin
+        If (MAX_NUMBER_LIMIT < value) Then
+            properties[DEF_MAXIMUM_PROPERTY] = MAX_NUMBER_LIMIT
+        Else
+            properties[DEF_MAXIMUM_PROPERTY] = value
+        End If
+    End Method
+
+    Method GetDecimalPlaces(properties[])
+    Begin
+        Return (properties[DEF_DECIMAL_PLACES_PROPERTY])
+    End Method
+    Method SetDecimalPlaces(properties[], value)
+    Begin
+        If (value < MIN_DECIMAL_LIMIT) Then
+            properties[DEF_DECIMAL_PLACES_PROPERTY] = MIN_DECIMAL_LIMIT
+        ElseIf (MAX_DECIMAL_LIMIT < value) Then
+            properties[DEF_DECIMAL_PLACES_PROPERTY] = MAX_DECIMAL_LIMIT
+        Else
+            properties[DEF_DECIMAL_PLACES_PROPERTY] = value
+        End If
+    End Method
+
+    Method GetIsCheckRepdigit(properties[])
+    Begin
+        Return (properties[DEF_IS_CHECK_REPDIGIT_PROPERTY])
+    End Method
+    Method SetIsCheckRepdigit(properties[], value)
+    Begin
+        properties[DEF_IS_CHECK_REPDIGIT_PROPERTY] = value
+    End Method
+
+    Method GetPreventDuplicateReading(properties[])
+    Begin
+        Return (properties[DEF_PREVENT_DUPLICATE_READING_PROPERTY])
+    End Method
+    Method SetPreventDuplicateReading(properties[], value)
+    Begin
+        properties[DEF_PREVENT_DUPLICATE_READING_PROPERTY] = value
+    End Method
+
+    Method GetIsShowOutOfRangeError(properties[])
+    Begin
+        Return (properties[DEF_IS_SHOW_OUT_OF_RANGE_ERROR_PROPERTY])
+    End Method
+    Method SetIsShowOutOfRangeError(properties[], value)
+    Begin
+        properties[DEF_IS_SHOW_OUT_OF_RANGE_ERROR_PROPERTY] = value
+    End Method
+
+    Method GetLightingEnabled(properties[])
+    Begin
+        Return (properties[DEF_LIGHTING_ENABLED_PROPERTY])
+    End Method
+    Method SetLightingEnabled(properties[], value)
+    Begin
+        properties[DEF_LIGHTING_ENABLED_PROPERTY] = value
+    End Method
+
+    Method GetScanEnableCodeType(properties[])
+    Begin
+        Return (properties[DEF_SCAN_ENABLE_CODE_TYPE_PROPERTY])
+    End Method
+    Method SetScanEnableCodeType(properties[], value)
+    Begin
+        properties[DEF_SCAN_ENABLE_CODE_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetTriggerMode(properties[])
+    Begin
+        Return (TextField<properties[DEF_NAME_PROPERTY]>:enableBCR)
+    End Method
+    Method SetTriggerMode(properties[], value)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:enableBCR = value
+    End Method
+
+    Method GetScanInverseType(properties[])
+    Begin
+        Return (properties[DEF_SCAN_INVERSE_TYPE_PROPERTY])
+    End Method
+    Method SetScanInverseType(properties[], value)
+    Begin
+        properties[DEF_SCAN_INVERSE_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetScanMirrorType(properties[])
+    Begin
+        Return (properties[DEF_SCAN_MIRROR_TYPE_PROPERTY])
+    End Method
+    Method SetScanMirrorType(properties[], value)
+    Begin
+        properties[DEF_SCAN_MIRROR_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetScanRangeType(properties[])
+    Begin
+        Return (properties[DEF_SCAN_RANGE_TYPE_PROPERTY])
+    End Method
+    Method SetScanRangeType(properties[], value)
+    Begin
+        properties[DEF_SCAN_RANGE_TYPE_PROPERTY] = value
+    End Method
+    
+    Method GetCoaxialLightingEnabled(properties[])
+    Begin
+        Return (properties[DEF_COAXIAL_LIGHTING_ENABLED_PROPERTY])
+    End Method
+    Method SetCoaxialLightingEnabled(properties[], value)
+    Begin
+        properties[DEF_COAXIAL_LIGHTING_ENABLED_PROPERTY] = value
+    End Method
+    
+    Method GetCoaxialLightingTargetValue(properties[])
+    Begin
+        Return (properties[DEF_COAXIAL_LIGHTING_TARGET_VALUE_PROPERTY])
+    End Method
+    Method SetCoaxialLightingTargetValue(properties[], value)
+    Begin
+        properties[DEF_COAXIAL_LIGHTING_TARGET_VALUE_PROPERTY] = value
+    End Method
+    
+    Method GetMultiAngleLightingEnabled(properties[])
+    Begin
+        Return (properties[DEF_MULTI_ANGLE_LIGHTING_ENABLED_PROPERTY])
+    End Method
+    Method SetMultiAngleLightingEnabled(properties[], value)
+    Begin
+        properties[DEF_MULTI_ANGLE_LIGHTING_ENABLED_PROPERTY] = value
+    End Method
+    
+    Method GetMultiAngleLightingTargetValue(properties[])
+    Begin
+        Return (properties[DEF_MULTI_ANGLE_LIGHTING_TARGET_VALUE_PROPERTY])
+    End Method
+    Method SetMultiAngleLightingTargetValue(properties[], value)
+    Begin
+        properties[DEF_MULTI_ANGLE_LIGHTING_TARGET_VALUE_PROPERTY] = value
+    End Method
+    
+    Method GetLowAngleLightingEnabled(properties[])
+    Begin
+        Return (properties[DEF_LOW_ANGLE_LIGHTING_ENABLED_PROPERTY])
+    End Method
+    Method SetLowAngleLightingEnabled(properties[], value)
+    Begin
+        properties[DEF_LOW_ANGLE_LIGHTING_ENABLED_PROPERTY] = value
+    End Method
+    
+    Method GetLowAngleLightingTargetValue(properties[])
+    Begin
+        Return (properties[DEF_LOW_ANGLE_LIGHTING_TARGET_VALUE_PROPERTY])
+    End Method
+    Method SetLowAngleLightingTargetValue(properties[], value)
+    Begin
+        properties[DEF_LOW_ANGLE_LIGHTING_TARGET_VALUE_PROPERTY] = value
+    End Method
+    
+    Method GetThreeDCharacterLightingEnabled(properties[])
+    Begin
+        Return (properties[DEF_THREE_D_CHARACTER_LIGHTING_ENABLED_PROPERTY])
+    End Method
+    Method SetThreeDCharacterLightingEnabled(properties[], value)
+    Begin
+        properties[DEF_THREE_D_CHARACTER_LIGHTING_ENABLED_PROPERTY] = value
+    End Method
+    
+    Method GetThreeDCharacterLightingTargetValue(properties[])
+    Begin
+        Return (properties[DEF_THREE_D_CHARACTER_LIGHTING_TARGET_VALUE_PROPERTY])
+    End Method
+    Method SetThreeDCharacterLightingTargetValue(properties[], value)
+    Begin
+        properties[DEF_THREE_D_CHARACTER_LIGHTING_TARGET_VALUE_PROPERTY] = value
+    End Method
+    
+    Method GetScan3D(properties[])
+    Begin
+        Return (properties[DEF_SCAN3D_PROPERTY])
+    End Method
+    Method SetScan3D(properties[], value)
+    Begin
+        properties[DEF_SCAN3D_PROPERTY] = value
+    End Method
+    
+    Method GetTargetArea(properties[])
+    Begin
+        Return (properties[DEF_TARGET_AREA_PROPERTY])
+    End Method
+    Method SetTargetArea(properties[], value)
+    Begin
+        properties[DEF_TARGET_AREA_PROPERTY] = value
+    End Method
+    
+    Method GetLiveViewEnabled(properties[])
+    Begin
+        Return (properties[DEF_LIVE_VIEW_ENABLED_PROPERTY])
+    End Method
+    Method SetLiveViewEnabled(properties[], value)
+    Begin
+        properties[DEF_LIVE_VIEW_ENABLED_PROPERTY] = value
+    End Method
+
+    Method GetDistanceLedEnabled(properties[])
+    Begin
+        Return (properties[DEF_DISTANCE_LED_ENABLED_PROPERTY])
+    End Method
+    Method SetDistanceLedEnabled(properties[], value)
+    Begin
+        properties[DEF_DISTANCE_LED_ENABLED_PROPERTY] = value
+    End Method
+
+    Method GetStorageDestination(properties[])
+    Begin
+        Return (properties[DEF_STORAGE_DESTINATION_PROPERTY])
+    End Method
+    Method SetStorageDestination(properties[], value)
+    Begin
+        properties[DEF_STORAGE_DESTINATION_PROPERTY] = value
+    End Method
+
+    Method GetEnableOcrSettingsFile(properties[])
+    Begin
+        Return (properties[DEF_ENABLE_OCR_SETTINGS_FILE_PROPERTY])
+    End Method
+    Method SetEnableOcrSettingsFile(properties[], value)
+    Begin
+        properties[DEF_ENABLE_OCR_SETTINGS_FILE_PROPERTY] = value
+    End Method
+
+    Method GetOcrSettingsFileName(properties[])
+    Begin
+        Return (properties[DEF_OCR_SETTINGS_FILE_NAME_PROPERTY])
+    End Method
+    Method SetOcrSettingsFileName(properties[], value)
+    Begin
+        properties[DEF_OCR_SETTINGS_FILE_NAME_PROPERTY] = value
+    End Method
+
+    Method GetEnableOcrFormatRegistrationNumbers(properties[])
+    Begin
+        Return (properties[DEF_ENABLE_OCR_FORMAT_REGISTRATION_NUMBERS_PROPERTY])
+    End Method
+    Method SetEnableOcrFormatRegistrationNumbers(properties[], value)
+    Begin
+        properties[DEF_ENABLE_OCR_FORMAT_REGISTRATION_NUMBERS_PROPERTY] = value
+    End Method
+
+    Method GetOcrFormatRegistrationNumbers(ocrFormatRegistrationNumbers[], index)
+    Begin
+        Return (ocrFormatRegistrationNumbers[index])
+    End Method
+    Method SetOcrFormatRegistrationNumbers(ocrFormatRegistrationNumbers[], index, value)
+    Begin
+        ocrFormatRegistrationNumbers[index] = value
+    End Method
+
+    Method GetOcrEnableType(properties[])
+    Begin
+        Return (properties[DEF_OCR_ENABLE_TYPE_PROPERTY])
+    End Method
+    Method SetOcrEnableType(properties[], value)
+    Begin
+        properties[DEF_OCR_ENABLE_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetIsShared(properties[]) /* Implements ISharedParameterInputTool.IsShared */
+    Begin
+        Return (properties[DEF_IS_SHARED_PROPERTY])
+    End Method
+    Method SetIsShared(properties[], value) /* Implements ISharedParameterInputTool.IsShared */
+    Begin
+        properties[DEF_IS_SHARED_PROPERTY] = value
+    End Method
+
+    Method GetSharedParameterKey(properties[]) /* Implements ISharedParameterInputTool.SharedParameterKey */
+    Begin
+        Return (properties[DEF_SHARED_PARAMETER_KEY_PROPERTY])
+    End Method
+    Method SetSharedParameterKey(properties[], value) /* Implements ISharedParameterInputTool.SharedParameterKey */
+    Begin
+        properties[DEF_SHARED_PARAMETER_KEY_PROPERTY] = value
+    End Method
+
+    Method GetSharedParameterClearTiming(properties[]) /*Implements ISharedParameterInputTool.SharedParameterClearTiming*/
+    Begin
+        Return (properties[DEF_SHARED_PARAMETER_CLEAR_TIMING_PROPERTY])
+    End Method
+    Method SetSharedParameterClearTiming(properties[], value) /*Implements ISharedParameterInputTool.SharedParameterClearTiming*/
+    Begin
+        properties[DEF_SHARED_PARAMETER_CLEAR_TIMING_PROPERTY] = value
+    End Method
+
+    Method GetKeyOperationType(properties[])
+    Begin
+       Return (properties[DEF_KEY_OPERATION_TYPE_PROPERTY])
+    End Method
+    Method SetKeyOperationType(properties[], value)
+    Begin
+       properties[DEF_KEY_OPERATION_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetFullDetectionCount(properties[])
+    Begin
+        Return (properties[DEF_FULL_DETECTION_COUNT_PROPERTY])
+    End Method
+    Method SetFullDetectionCount(properties[], value)
+    Begin
+        properties[DEF_FULL_DETECTION_COUNT_PROPERTY] = value
+    End Method
+
+    Method GetFullDetectionCode(fullDetectionCode[], index)
+    Begin
+        Return (fullDetectionCode[index])
+    End Method
+    Method SetFullDetectionCode(fullDetectionCode[], index, value)
+    Begin
+        fullDetectionCode[index] = value
+    End Method
+
+    Method GetFullDetectionColumnParam(fullDetectionColumnParam[], index)
+    Begin
+        Return (fullDetectionColumnParam[index])
+    End Method
+    Method SetFullDetectionColumnParam(fullDetectionColumnParam[], index, value)
+    Begin
+        fullDetectionColumnParam[index] = value
+    End Method
+
+    Method GetFullDetectionColumnString(fullDetectionColumnString[], index)
+    Begin
+        Return (fullDetectionColumnString[index])
+    End Method
+    Method SetFullDetectionColumnString(fullDetectionColumnString[], index, value)
+    Begin
+        fullDetectionColumnString[index] = value
+    End Method
+
+    Method GetIsEditOnF2(properties[])
+    Begin
+        Return (properties[DEF_IS_EDIT_ON_F2_PROPERTY])
+    End Method
+    Method SetIsEditOnF2(properties[], value)
+    Begin
+        properties[DEF_IS_EDIT_ON_F2_PROPERTY] = value
+    End Method
+
+    Method GetKeyInputModeSwitchingF3(properties[])
+    Begin
+        Return (properties[DEF_KEY_INPUT_MODE_SWITCHING_F3_PROPERTY])
+    End Method
+    Method SetKeyInputModeSwitchingF3(properties[], value)
+    Begin
+        properties[DEF_KEY_INPUT_MODE_SWITCHING_F3_PROPERTY] = value
+    End Method
+
+    Method GetInputValue(properties[]) /*Implements ISearchViewConditionControl.InputValue, IFilterControl.InputValue*/
+    Begin
+        Return (GetText(properties))
+    End Method
+    Method GetLogEditType(properties[], index) /*Implements ILogItemControl.LogEditType*/
+    Begin
+        Return (GetLogTableInputControl(properties))
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index) 
+    Begin
+        Return (properties[DEF_DECIMAL_PLACES_PROPERTY])
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index) /*Implements ILogItemControl.CheckDuplicateReading*/
+    Begin
+        Return (GetPreventDuplicateReading(properties))
+    End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl) /*Implements ILogItemControl.IsSameLogItem*/
+    Begin
+        Return (properties[DEF_NAME_PROPERTY] eq targetLogItemControl)
+    End Method
+
+    Method GetInputRestriction(properties[]) /*As String*/
+    Begin
+        Return (properties[DEF_INPUT_RESTRICTION_PROPERTY])
+    End Method
+    Method SetInputRestriction(properties[], value) /*As String*/
+    Begin
+        properties[DEF_INPUT_RESTRICTION_PROPERTY] = value
+    End Method
+
+    Method GetGotFocusExtensionHandler(properties[])
+    Begin
+        Return (properties[DEF_GOT_FOCUS_EXTENSION_HANDLER])
+    End Method
+    Method SetGotFocusExtensionHandler(properties[], handle)
+    Begin
+        properties[DEF_GOT_FOCUS_EXTENSION_HANDLER] = handle
+    End Method
+
+    Method GetLostFocusExtensionHandler(properties[])
+    Begin
+        Return (properties[DEF_LOST_FOCUS_EXTENSION_HANDLER])
+    End Method
+    Method SetLostFocusExtensionHandler(properties[], handle)
+    Begin
+        properties[DEF_LOST_FOCUS_EXTENSION_HANDLER] = handle
+    End Method
+
+    Method GetDataInputHandler(properties[])
+    Begin
+        Return (properties[DEF_DATA_INPUT_HANDLER])
+    End Method
+    Method SetDataInputHandler(properties[], handle)
+    Begin
+        properties[DEF_DATA_INPUT_HANDLER] = handle
+    End Method
+
+    Method GetDataInputCheckHandler(properties[])
+    Begin
+        Return (properties[DEF_DATA_INPUT_CHECK_HANDLER])
+    End Method
+    Method SetDataInputCheckHandler(properties[], handle)
+    Begin
+        properties[DEF_DATA_INPUT_CHECK_HANDLER] = handle
+    End Method
+
+    Method GetFocusTransitionRequestedHandler(properties[])
+    Begin
+        Return (properties[DEF_FOCUS_TRANSITION_REQUESTED_HANDLER])
+    End Method
+    Method SetFocusTransitionRequestedHandler(properties[], handle)
+    Begin
+        properties[DEF_FOCUS_TRANSITION_REQUESTED_HANDLER] = handle
+    End Method
+
+    Method GetAfterResetHandler(properties[])
+    Begin
+        Return (properties[DEF_AFTER_RESET_HANDLER])
+    End Method
+    Method SetAfterResetHandler(properties[], handle)
+    Begin
+        properties[DEF_AFTER_RESET_HANDLER] = handle
+    End Method
+
+    Method GetComparisonValueCountUpdatedHandler(properties[])
+    Begin
+        Return (properties[DEF_COMPARISON_VALUE_COUNT_UPDATED_HANDLER])
+    End Method
+    Method SetComparisonValueCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[DEF_COMPARISON_VALUE_COUNT_UPDATED_HANDLER] = handle
+    End Method
+
+    Method GetCollationCountUpdatedHandler(properties[])
+    Begin
+        Return (properties[DEF_COLLATION_COUNT_UPDATED_HANDLER])
+    End Method
+    Method SetCollationCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[DEF_COLLATION_COUNT_UPDATED_HANDLER] = handle
+    End Method
+
+    Method GetMoveNextControlHandler(properties[])
+    Begin
+        Return (properties[DEF_MOVE_NEXT_CONTROL_HANDLER])
+    End Method
+    Method SetMoveNextControlHandler(properties[], handle)
+    Begin
+        properties[DEF_MOVE_NEXT_CONTROL_HANDLER] = handle
+    End Method
+
+    Method GetMovePreviousControlHandler(properties[])
+    Begin
+        Return (properties[DEF_MOVE_PREVIOUS_CONTROL_HANDLER])
+    End Method
+    Method SetMovePreviousControlHandler(properties[], handle)
+    Begin
+        properties[DEF_MOVE_PREVIOUS_CONTROL_HANDLER] = handle
+    End Method
+
+    Method GetHasSameControlValueHandler(properties[])
+    Begin
+        Return (properties[DEF_HAS_SAME_CONTROL_VALUE_HANDLER])
+    End Method
+    Method SetHasSameControlValueHandler(properties[], handle)
+    Begin
+        properties[DEF_HAS_SAME_CONTROL_VALUE_HANDLER] = handle
+    End Method
+
+    Method GetEditFocus(properties[])
+    Begin
+        Return(properties[DEF_EDIT_FOCUS])
+    End Method
+    Method SetEditFocus(properties[], value)
+    Begin
+        properties[DEF_EDIT_FOCUS] = value
+    End Method
+
+    Method GetDataUpdatedHandler(properties[])
+    Begin
+        Return(properties[DEF_DATA_UPDATED_HANDLER])
+    End Method
+    Method SetDataUpdatedHandler(properties[], handler)
+    Begin
+        properties[DEF_DATA_UPDATED_HANDLER] = handler
+    End Method
+
+#insert "\Lib\Utilities\IControlInvokeCommon"
+#insert "\Lib\Utilities\IBtInputControlInvokeCommon"
+#insert "\Lib\Utilities\ISharedParameterInputToolInvokeCommon"
+#insert "\Lib\Utilities\ILogItemControlInvokeCommon"
+#insert "\Lib\Utilities\IBtInputComponentInvokeCommon"
+#insert "\Lib\Utilities\ICollationTargetInvokeCommon"
+#insert "\Lib\Utilities\ISearchViewDisplayControlInvokeCommon"
+#insert "\Lib\Utilities\ISearchViewConditionControlInvokeCommon"
+#insert "\Lib\Utilities\IFilterControlInvokeCommon"
+#insert "\Lib\Utilities\ILookUpBoxInputToolInvokeCommon"
+#insert "\Lib\Utilities\IInputItemToolInvokeCommon"
+#insert "\Lib\Utilities\IInputQuantityToolInvokeCommon"
+
+    Method New(properties[], ocrFormatRegistrationNumbers[], fullDetectionCode[], fullDetectionColumnParam[], fullDetectionColumnString[])
+        index
+    Begin
+        properties[DEF_INITIAL_TEXT_PROPERTY] = ""
+        properties[DEF_TEMP_TEXT_PROPERTY] = nil
+        SetForeColor(properties, DEFAULT_FORE_COLOR)
+        SetBackColor(properties, DEFAULT_BACK_COLOR)
+        SetFontSize(properties, "large")
+        TextField<properties[DEF_NAME_PROPERTY]>:inFocusTextColor = DEFAULT_FOCUSED_FORE_COLOR
+        TextField<properties[DEF_NAME_PROPERTY]>:inFocusBackColor = DEFAULT_FOCUSED_BACK_COLOR
+        SetIsShared(properties, false)
+        SetSharedParameterKey(properties, "")
+        SetSharedParameterClearTiming(properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+
+        SetInputMode(properties, INPUT_MODE_SCAN_AND_KEY_ALPHANUMERIC)
+        SetIsEditOnF2(properties, false)
+        SetMaxLength(properties, MAX_SINGLE_BYTE_CHARACTER_LIMIT)
+        SetIsEmptyProhibited(properties, false)
+        SetMinimum(properties, MIN_NUMBER_LIMIT)
+        SetMaximum(properties, MAX_NUMBER_LIMIT)
+        SetDecimalPlaces(properties, 0)
+        SetIsShowOutOfRangeError(properties, false)
+        SetIsCheckRepdigit(properties, false)
+        SetPreventDuplicateReading(properties, false)
+        SetInputRestriction(properties, "")
+
+        SetOcrEnableType(properties, OCR_ENABLE_TYPE_DISABLE)
+        SetScanEnableCodeType(properties, SCAN_ENABLE_CODE_TYPE_JAN + SCAN_ENABLE_CODE_TYPE_C39 + SCAN_ENABLE_CODE_TYPE_C128 +
+                                          SCAN_ENABLE_CODE_TYPE_GS128 + SCAN_ENABLE_CODE_TYPE_NW7 + SCAN_ENABLE_CODE_TYPE_ITF +
+                                          SCAN_ENABLE_CODE_TYPE_C93 + SCAN_ENABLE_CODE_TYPE_TOF + SCAN_ENABLE_CODE_TYPE_COOP +
+                                          SCAN_ENABLE_CODE_TYPE_QR + SCAN_ENABLE_CODE_TYPE_PDF + SCAN_ENABLE_CODE_TYPE_DM +
+                                          SCAN_ENABLE_CODE_TYPE_GS_DB + SCAN_ENABLE_CODE_TYPE_COMPOSITE + SCAN_ENABLE_CODE_TYPE_ALL)
+        SetScanRangeType(properties, SCAN_RANGE_TYPE_FIRST)
+        SetScanInverseType(properties, SCAN_INVERSE_TYPE_POSITIVE)
+        SetScanMirrorType(properties, SCAN_MIRROR_TYPE_UN_MIRROR)
+        SetLightingEnabled(properties, true)
+        SetCoaxialLightingEnabled(properties, true)
+        SetCoaxialLightingTargetValue(properties, 128)
+        SetMultiAngleLightingEnabled(properties, true)
+        SetMultiAngleLightingTargetValue(properties, 128)
+        SetLowAngleLightingEnabled(properties, true)
+        SetLowAngleLightingTargetValue(properties, 180)
+        SetThreeDCharacterLightingEnabled(properties, false)
+        SetThreeDCharacterLightingTargetValue(properties, 80)
+        SetTargetArea(properties, TARGET_AREA_MIDDLE)
+        SetScan3D(properties, SCAN3D_CONCAVE_AND_CONVEX)
+        SetLiveViewEnabled(properties, true)
+        SetDistanceLedEnabled(properties, true)
+        SetFullDetectionCount(properties, 1)
+        For index = 0 To 3
+            SetFullDetectionCode(fullDetectionCode, index, "")
+            SetFullDetectionColumnParam(fullDetectionColumnString, index, "")
+            SetFullDetectionColumnString(fullDetectionColumnString, index, "")
+        Next
+        SetFullDetectionCode(fullDetectionCode, 0, "QR")
+        SetFullDetectionColumnParam(fullDetectionColumnString, 0, "1,7089|1,7089")
+        SetFullDetectionColumnString(fullDetectionColumnString, 0, "")
+        SetEnableOcrSettingsFile(properties, false)
+        SetOcrSettingsFileName(properties, "")
+        SetStorageDestination(properties, STORAGE_DESTINATION_DRIVE1)
+        SetEnableOcrFormatRegistrationNumbers(properties, false)
+        For index = 0 to ocrFormatRegistrationNumbers.size - 1
+            ocrFormatRegistrationNumbers[index] = true
+        Next
+        SetTriggerMode(properties, TRIGGER_MODE_AUTO_OFF)
+
+        SetBorderStyle(properties, "thin")
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BTW" Then
+            SetFontName(properties, TERMINAL_SETTING_DEFAULT_FONT_NAME)
+            SetBold(properties, false)
+        End If
+
+        TextField<properties[DEF_NAME_PROPERTY]>:textVAlign = "center"
+        TextField<properties[DEF_NAME_PROPERTY]>:focusColor = TERMINAL_SETTING_FRAME_COLOR
+
+        properties[DEF_TAB_STOP_PROPERTY] = true
+        properties[DEF_TAB_INDEX_PROPERTY] = 0
+        properties[DEF_IS_PART_OF_CONTROL_PROPERTY] = false
+        properties[DEF_KEY_OPERATION_TYPE_PROPERTY] = KEY_OPERATION_TYPE_TAB_TRANSITION
+        properties[DEF_EDIT_FOCUS] = true
+        properties[DEF_KEY_INPUT_MODE_SWITCHING_F3_PROPERTY] = true
+    End Method
+
+    Method Create(properties[], parentName, ocrFormatRegistrationNumbers[])
+    Begin
+        properties[DEF_TYPE_PROPERTY] = "BtTextBox"
+
+        properties[DEF_IS_GOT_FOCUSED] = false
+        properties[DEF_IS_LOST_FOCUSED] = false
+        With TextField<properties[DEF_NAME_PROPERTY]>
+            :Create(parentName)
+            :enable = true
+        End With
+    End Method
+
+    Method SetHandler(properties[], gotFocusExtensionHandler, lostFocusExtensionHandler, dataInputHandler,
+                      dataInputCheckHandler, focusTransitionRequestedHandler, afterResetHandler, comparisonValueCountUpdatedHandler,
+                      collationCountUpdatedHandler, moveNextControlHandler, movePreviousControlHandler, hasSameControlValueHandler, dataUpdatedHandler)
+    Begin
+        SetGotFocusExtensionHandler(properties, gotFocusExtensionHandler)
+        SetLostFocusExtensionHandler(properties, lostFocusExtensionHandler)
+        SetDataInputHandler(properties, dataInputHandler)
+        SetDataInputCheckHandler(properties, dataInputCheckHandler)
+        SetFocusTransitionRequestedHandler(properties, focusTransitionRequestedHandler)
+        SetAfterResetHandler(properties, afterResetHandler)
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountUpdatedHandler(properties, collationCountUpdatedHandler)
+        SetMoveNextControlHandler(properties, moveNextControlHandler)
+        SetMovePreviousControlHandler(properties, movePreviousControlHandler)
+        SetHasSameControlValueHandler(properties, hasSameControlValueHandler)
+        SetDataUpdatedHandler(properties, dataUpdatedHandler)
+    End Method
+
+    Method SetEventHandler(properties[], onFocusIn, onFocusOut, onEditStart, onEditEnd, onScanComplete, onTouchOut, onOverflow)
+    Begin
+        With TextField<properties[DEF_NAME_PROPERTY]>
+            :onFocusIn = onFocusIn
+            :onFocusOut = onFocusOut
+            :onEditStart = onEditStart
+            :onEditEnd = onEditEnd
+            :onScanComplete = onScanComplete
+            :onTouchOut = onTouchOut
+            :onOverflow = onOverflow
+        End With
+    End Method
+
+#ifndef DEF_INHERITS_BT_TEXTBOX
+    Method Reset(properties[])
+#else
+    Method BaseReset(properties[])
+#endif
+        parameter[1]
+    Begin
+        ChangeMode(properties, KEY_OPERATION_TYPE_TAB_TRANSITION, false)
+        RestoreSharedParameter(properties)
+
+        EventUtility:Exec(GetAfterResetHandler(properties), GetName(properties), parameter)
+        ComparisonValueCountUpdated(properties)
+        CollationCountInitialized(properties)
+    End Method
+
+    Method RestoreSharedParameter(properties[]) /*Implements ISharedParameterInputTool.RestoreSharedParameter*/
+        displayText
+        parameter[1]
+    Begin
+        displayText = properties[DEF_INITIAL_TEXT_PROPERTY]
+
+        If (properties[DEF_IS_SHARED_PROPERTY] is true) Then
+            If (SharedParameterUtility:IsExistKey(properties[DEF_SHARED_PARAMETER_KEY_PROPERTY])) Then
+                displayText = SharedParameterUtility:GetSharedParameter(properties[DEF_SHARED_PARAMETER_KEY_PROPERTY])
+            End If
+        End If
+
+        If (IsInputModeNumeric(properties) And MathUtility:IsNumeric(displayText)) Then
+            displayText = MathUtility:AdjustDecimalPlaces(properties[DEF_DECIMAL_PLACES_PROPERTY], displayText)
+        End If
+
+        TextField<properties[DEF_NAME_PROPERTY]>:text = displayText
+        properties[DEF_LAST_INPUT_TEXT_PROPERTY] = displayText
+        EventUtility:Exec(GetDataUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method OccuredError(properties[], isShownMessage)
+        errorMessage
+    Begin
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage eq MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        If (isShownMessage) Then
+            ShowMessageBox(errorMessage)
+        End If
+        Return (true)
+    End Method
+
+    Method SetFullDetectionSetting(
+        index,
+        codeType,
+        columnParam,
+        columnString,
+        properties[],
+        fullDetectionCode[],
+        fullDetectionColumnParam[],
+        fullDetectionColumnString[])
+    Begin
+        If (properties[DEF_FULL_DETECTION_COUNT_PROPERTY] <= index) Then
+            Return (nil)
+        End If
+        fullDetectionCode[index] = codeType
+        fullDetectionColumnParam[index] = columnParam
+        fullDetectionColumnString[index] = columnString
+    End Method
+
+    Method SetCodeReadSettings(properties[], fullDetectionCode[], fullDetectionColumnParam[], fullDetectionColumnString[])
+        fullDetectionIndex
+		coaxial
+        multi
+        low
+        threeD
+		brightness
+    Begin
+        ReadableCodeSettings:SetReadingParameter(GetScanEnableCodeType(properties))
+        If (OccuredError(properties, SHOW_ERROR)) Then
+            Return (nil)
+        End If
+
+        CodeReadDetailSettings:SetScanInverse(properties[DEF_SCAN_INVERSE_TYPE_PROPERTY])
+        CodeReadDetailSettings:SetScanMirror(properties[DEF_SCAN_MIRROR_TYPE_PROPERTY])
+        If (OccuredError(properties, Not SHOW_ERROR)) Then
+            Return (nil)
+        End If
+
+        CodeReadDetailSettings:SetScanRange(properties[DEF_SCAN_RANGE_TYPE_PROPERTY])
+        If (OccuredError(properties, Not SHOW_ERROR)) Then
+            Return (nil)
+        End If
+
+        ReadResultProcessor:Initialize()
+        If (properties[DEF_SCAN_RANGE_TYPE_PROPERTY] eq SCAN_RANGE_TYPE_FULL) Then
+            For fullDetectionIndex = 0 to properties[DEF_FULL_DETECTION_COUNT_PROPERTY] - 1
+                CodeReadDetailSettings:SetFullDetectionSetting(fullDetectionIndex,
+                                                               fullDetectionCode[fullDetectionIndex],
+                                                               fullDetectionColumnParam[fullDetectionIndex])
+                ReadResultProcessor:SetFullDetectionCondition(fullDetectionIndex, fullDetectionCode[fullDetectionIndex],
+                                            fullDetectionColumnParam[fullDetectionIndex], fullDetectionColumnString[fullDetectionIndex])
+                If (OccuredError(properties, Not SHOW_ERROR)) Then
+                    Return (nil)
+                End If
+            Next
+        End If
+
+        CodeReadDetailSettings:SetGS1128Separator(TERMINAL_SETTING_SEPARATOR_EAN128)
+        If (OccuredError(properties, Not SHOW_ERROR)) Then
+            Return (nil)
+        End If
+
+        CodeReadDetailSettings:SetCompositeSeparator(TERMINAL_SETTING_SEPARATOR_COMPOSITE)
+        If (OccuredError(properties, Not SHOW_ERROR)) Then
+            Return (nil)
+        End If
+
+        CodeReadDetailSettings:SetIllumination(properties[DEF_LIGHTING_ENABLED_PROPERTY])
+        If (OccuredError(properties, Not SHOW_ERROR)) Then
+            Return (nil)
+        End If
+
+        If (SystemParameterUtility:GetModel() weq BT_W370_TYPE_NAME) Then
+            if(properties[DEF_COAXIAL_LIGHTING_ENABLED_PROPERTY]) Then
+                coaxial = "1"
+            Else
+                coaxial = "0"
+            End If
+            if(properties[DEF_MULTI_ANGLE_LIGHTING_ENABLED_PROPERTY]) Then
+                multi = "1"
+            Else
+                multi = "0"
+            End If
+            if(properties[DEF_LOW_ANGLE_LIGHTING_ENABLED_PROPERTY]) Then
+                low = "1"            
+			Else
+                low = "0"
+            End If
+            if(properties[DEF_THREE_D_CHARACTER_LIGHTING_ENABLED_PROPERTY]) Then
+                threeD = "1"
+            Else
+                threeD = "0"
+            End If
+
+            CodeReadDetailSettings:SetScanExtIllumination(coaxial & "|" & multi & "|" & low & "|" & threeD)
+            If (OccuredError(properties, Not SHOW_ERROR)) Then
+                Return (nil)
+            End If
+            brightness = properties[DEF_COAXIAL_LIGHTING_TARGET_VALUE_PROPERTY] & "|" & properties[DEF_MULTI_ANGLE_LIGHTING_TARGET_VALUE_PROPERTY] & "|" & properties[DEF_LOW_ANGLE_LIGHTING_TARGET_VALUE_PROPERTY] & "|" & properties[DEF_THREE_D_CHARACTER_LIGHTING_TARGET_VALUE_PROPERTY] & "|" & properties[DEF_TARGET_AREA_PROPERTY]
+            CodeReadDetailSettings:SetScanExtTargetBrightness(brightness)
+            If (OccuredError(properties, Not SHOW_ERROR)) Then
+                Return (nil)
+            End If
+            
+            CodeReadDetailSettings:SetLiveViewEnabled(properties[DEF_LIVE_VIEW_ENABLED_PROPERTY])
+            If (OccuredError(properties, Not SHOW_ERROR)) Then
+                Return (nil)
+            End If
+            
+            CodeReadDetailSettings:SetDistanceLedEnabled(properties[DEF_DISTANCE_LED_ENABLED_PROPERTY])
+            If (OccuredError(properties, Not SHOW_ERROR)) Then
+                Return (nil)
+            End If
+            
+            CodeReadDetailSettings:SetThreeDMode(properties[DEF_SCAN3D_PROPERTY])
+            If (OccuredError(properties, Not SHOW_ERROR)) Then
+                Return (nil)
+            End If
+            
+        End If
+        
+        
+    End Method
+
+    Method SetOcrSettings(properties[], ocrFormatRegistrationNumbers[])
+        storagePath
+        ocrFilePath
+    Begin
+        If properties[DEF_ENABLE_OCR_SETTINGS_FILE_PROPERTY] Then
+            storagePath = PathUtility:StorageTypeToPath(properties[DEF_STORAGE_DESTINATION_PROPERTY])
+            ocrFilePath = PathUtility:Combine(storagePath, properties[DEF_OCR_SETTINGS_FILE_NAME_PROPERTY])
+            If (PathUtility:IsFileExist(ocrFilePath)) Then
+                OcrSettings:LoadConfigFile(ocrFilePath)
+                OccuredError(properties, SHOW_ERROR)
+            End If
+        End If
+
+        If properties[DEF_ENABLE_OCR_FORMAT_REGISTRATION_NUMBERS_PROPERTY] Then
+            OcrSettings:SetOcrEnableFormat(ocrFormatRegistrationNumbers)
+            OccuredError(properties, SHOW_ERROR)
+        End If
+
+        OcrSettings:SetOcrEnable(properties[DEF_OCR_ENABLE_TYPE_PROPERTY])
+        If (OccuredError(properties, SHOW_ERROR)) Then
+            Return (nil)
+        End If
+    End Method
+
+    Method ResetOcrSettings(properties[])
+    Begin
+        If (Not PathUtility:IsFileExist(TERMINAL_SETTING_DEFAULT_OCR_SETTING_INI_FILE)) Then
+            Return (nil)
+        End If
+
+        If (properties[DEF_ENABLE_OCR_SETTINGS_FILE_PROPERTY]) Or (properties[DEF_ENABLE_OCR_FORMAT_REGISTRATION_NUMBERS_PROPERTY]) Then
+            OcrSettings:LoadConfigFile(TERMINAL_SETTING_DEFAULT_OCR_SETTING_INI_FILE)
+            If (OccuredError(properties, SHOW_ERROR)) Then
+                Return (nil)
+            End If
+        End If
+    End Method
+
+    Method GetControlName(properties[], index) /* Implements ILogItemControl */
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method GetLogTableFieldType(properties[], index) /* Implements ILogItemControl */
+    Begin
+        If (Not IsInputModeNumeric(properties)) Then
+            Return (SQ_LITE_FIELD_TYPE_TEXT)
+        End If
+        If (properties[DEF_DECIMAL_PLACES_PROPERTY] == 0) Then
+            Return (SQ_LITE_FIELD_TYPE_INTEGER_NUMBER)
+        End If
+        Return (SQ_LITE_FIELD_TYPE_REAL_NUMBER)
+    End Method
+
+    Method GetLogData(properties[], index) /* Implements ILogItemControl */
+    Begin
+        Return (GetText(properties))
+    End Method
+
+    Method CheckAndFixDisplayText(properties[])
+        convertedString
+    Begin
+        If (IsInputModeNumeric(properties)) Then
+            If (Not IsValidNumeric(TextField<properties[DEF_NAME_PROPERTY]>:text)) Then
+                Return (false)
+            End If
+        End If
+
+        If (Not CheckRepdigit(properties)) Then
+            Return (false)
+        End If
+
+        If (IsInputModeNumeric(properties)) Then
+            convertedString = MathUtility:AdjustDecimalPlaces(properties[DEF_DECIMAL_PLACES_PROPERTY], TextField<properties[DEF_NAME_PROPERTY]>:text)
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                Return (false)
+            End If
+
+            If TextField<properties[DEF_NAME_PROPERTY]>:text ne convertedString Then
+                TextField<properties[DEF_NAME_PROPERTY]>:text = convertedString
+            End If
+        End If
+
+        If (Not CheckValidInput(properties, GetText(properties), 0)) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget, index) /* Implements ILogItemControl */
+        decimalValue
+        parameter[1]
+    Begin
+        If (checkTarget is nil) Then
+            Return (false)
+        End If
+
+        If (Not StringUtility:IsSatisfiedInputRestriction(checkTarget, GetInputRestriction(properties))) Then
+            Return (false)
+        End If
+
+        If (IsInputModeNumeric(properties)) Then
+            If (Not IsValidNumeric(checkTarget)) Then
+                Return (false)
+            End If
+
+            decimalValue = MathUtility:ParseToDecimal(checkTarget)
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                Return (false)
+            End If
+
+            If Not CheckRange(properties, decimalValue) Then
+                Return (false)
+            End If
+        Else
+            If (GetMaxLength(properties) < StringUtility:GetByteCount(checkTarget)) Then
+                Return (false)
+            End If
+
+            If (properties[DEF_IS_EMPTY_PROHIBITED_PROPERTY]) Then
+                If (checkTarget eq "") Then
+                    Return (false)
+                End If
+            End If
+        End If
+
+        If (Not IsInputModeNumeric(properties)) Then
+            If Not EventUtility:Exec(GetDataInputCheckHandler(properties), GetName(properties), parameter) Then
+                Return (false)
+            End If
+        End If
+
+        Return (true)
+    End Method
+
+    Method IsValidNumeric(checkTarget)
+    Begin
+        If (checkTarget is nil) Then
+            Return (false)
+        End If
+
+        If (Not MathUtility:IsNumeric(checkTarget)) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method CheckRange(properties[], checkTarget)
+    Begin
+        If (MathUtility:InRange(checkTarget,
+                                GetMinimum(properties),
+                                GetMaximum(properties))) Then
+            Return (true)
+        End If
+
+        If (properties[DEF_IS_SHOW_OUT_OF_RANGE_ERROR_PROPERTY]) Then
+            ShowCustomMessageBox(MESSAGE_WARNING_INPUT_NUMBER_OUT_OF_RANGE,
+                                 MESSAGE_WARNING,
+                                 MESSAGE_BOX_BUTTONS_OK,
+                                 MESSAGE_BOX_ICON_EXCLAMATION,
+                                 MESSAGE_BOX_DEFAULT_BUTTON_BUTTON1)
+        End If
+        Return (false)
+    End Method
+
+    Method CheckRepdigit(properties[])
+    Begin
+        If (Not IsInputModeNumeric(properties)) Then
+            Return (true)
+        End If
+        If (Not properties[DEF_IS_CHECK_REPDIGIT_PROPERTY]) Then
+            Return (true)
+        End If
+
+        If (Not StringUtility:ValidateNumericRepdigit(TextField<properties[DEF_NAME_PROPERTY]>:text)) Then
+            Return (true)
+        End If
+
+        If (ShowCustomMessageBox(MESSAGE_WARNING_REPDIGIT_CHECK,
+                                 MESSAGE_WARNING,
+                                 "yesno",
+                                 MESSAGE_BOX_ICON_EXCLAMATION,
+                                 MESSAGE_BOX_DEFAULT_BUTTON_BUTTON2) == DIALOG_RESULT_NO) Then
+            Return (false)
+        End If
+        Return (true)
+    End Method
+
+    Method GetLogTableInputControl(properties[])
+    Begin
+        If (Not IsInputModeNumeric(properties)) Then
+            Return (INPUT_CONTROL_STRING_TEXT_BOX)
+        End If
+        If (properties[DEF_DECIMAL_PLACES_PROPERTY] == 0) Then
+            Return (INPUT_CONTROL_INTEGER_TEXT_BOX)
+        End If
+        Return (INPUT_CONTROL_REAL_TEXT_BOX)
+    End Method
+
+    Method RegisterSharedParameter(properties[])
+    Begin
+        If (Not GetIsShared(properties)) Then
+            Return (nil)
+        End If
+
+        SharedParameterUtility:UpdateSharedParameter(properties[DEF_SHARED_PARAMETER_KEY_PROPERTY], TextField<properties[DEF_NAME_PROPERTY]>:text, TextField<properties[DEF_NAME_PROPERTY]>:text)
+
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            ShowMessageBox(MESSAGE_ERROR_UPDATE_SHARED_PARAMETER)
+        End If
+    End Method
+
+    Method ShowMessageBox(message)
+    Begin
+        ShowCustomMessageBox(message,
+                             "",
+                             MESSAGE_BOX_BUTTONS_OK,
+                             MESSAGE_BOX_ICON_NONE,
+                             MESSAGE_BOX_DEFAULT_BUTTON_BUTTON1)
+    End Method
+
+    Method ShowCustomMessageBox(message, title, buttonType, icon, defaultButton)
+    Begin
+        Return (MessageUtility:ShowMessage(message,
+                                            title,
+                                            buttonType,
+                                            icon,
+                                            defaultButton))
+    End Method
+
+    Method ChangeMode(properties[], changedType, updateState)
+    Begin
+        If (changedType == KEY_OPERATION_TYPE_EDIT_MODE) Then
+            If (updateState) Then
+                TextField<properties[DEF_NAME_PROPERTY]>:SetEditMode("on")
+            End If
+        Else
+            If (updateState) Then
+                TextField<properties[DEF_NAME_PROPERTY]>:SetEditMode("off")
+            End If
+        End If
+        properties[DEF_KEY_OPERATION_TYPE_PROPERTY] = changedType
+    End Method
+
+    Method EnterData(properties[])
+    Begin
+        PreprocessEnterData(properties)
+
+        Return (DataInput(properties, true))
+    End Method
+
+    Method PreprocessEnterData(properties[])
+    Begin
+        RegisterSharedParameter(properties)
+
+        properties[DEF_LAST_INPUT_TEXT_PROPERTY] = TextField<properties[DEF_NAME_PROPERTY]>:text
+    End Method
+
+    Method GetCollationValue(properties[], dataIndex, index)
+        value
+    Begin
+        If dataIndex is nil Then Return (GetLogData(properties, dataIndex)) End If
+
+        value = DB_DAT:Get_Offset(GetName(properties), "Collation", dataIndex)
+        If value is nil Then
+            If dataIndex == 0 Then Return (GetLogData(properties, dataIndex)) End If
+            Return("")
+        End If
+        Return(value)
+    End Method
+
+    Method GetAllCollationValues(properties[], index)
+    Begin
+        Return (DB_DAT:Count(GetName(properties), "Collation"))
+    End Method
+
+    Method AddCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Add(GetName(properties), "Collation", GetCollationValue(properties, nil, 0))
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method RemoveCollationValue(properties[], rowIndex)
+        parameter[1]
+    Begin
+        DB_DAT:Delete_Offset(GetName(properties), "Collation", rowIndex)
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method ClearCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Delete_All(GetName(properties), "Collation")
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method GetCollationInputControl(properties[], index)
+    Begin
+        Return (GetName(properties))
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex)
+        displayText
+    Begin
+        If (listId_SearchResult == INVALID_LIST_TABLE_ID) Or (ListTable:Count(listId_SearchResult) == 0) Then
+            Return()
+        End If
+        displayText = ListTable:Get(listId_SearchResult, 0, "val")
+
+        If (IsInputModeNumeric(properties) And MathUtility:IsNumeric(displayText)) Then
+            SetText(properties, MathUtility:AdjustDecimalPlaces(properties[DEF_DECIMAL_PLACES_PROPERTY], displayText))
+        Else
+            SetText(properties, displayText)
+        End If
+
+        If ICollationTarget:IsImplemented(GetName(properties)) Then
+            AddCollationValue(properties)
+        EndIf
+    End Method
+
+    Method IsInputModeNumeric(properties[])
+    Begin
+        If ((properties[DEF_INPUT_MODE_PROPERTY] == INPUT_MODE_KEY_NUMERIC) Or
+            (properties[DEF_INPUT_MODE_PROPERTY] == INPUT_MODE_SCAN_AND_KEY_NUMERIC)) Then
+            Return (true)
+        End If
+        Return (false)
+    End Method
+
+    Method IsInputModeKey(properties[])
+    Begin
+        If ((properties[DEF_INPUT_MODE_PROPERTY] == INPUT_MODE_KEY_ALPHANUMERIC) Or
+            (properties[DEF_INPUT_MODE_PROPERTY] == INPUT_MODE_KEY_NUMERIC)) Then
+            Return (true)
+        End If
+        Return (false)
+    End Method
+
+    Method UpdateData(properties[], data)
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:text = data
+        properties[DEF_LAST_INPUT_TEXT_PROPERTY] = data
+    End Method
+
+    Method Focus(properties[])
+    Begin
+        FocusTransitionUtilityCommon:SetFocus(properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+        focusHandler
+        parameter[1]
+    Begin
+        If isFocused Then
+            focusHandler = TextField<properties[DEF_NAME_PROPERTY]>:onFocusIn
+        Else
+            focusHandler = TextField<properties[DEF_NAME_PROPERTY]>:onFocusOut
+        End If
+        If Not focusHandler is nil Then
+            EventUtility:Exec(focusHandler, properties[DEF_NAME_PROPERTY], parameter)
+        End If
+    End Method
+
+    Method IsExistDuplicateData(properties[])
+        hasSameValue
+        errorMessage
+        parameter[1]
+    Begin
+        If (Not GetPreventDuplicateReading(properties)) Then
+            Return (false)
+        End If
+
+        hasSameValue = EventUtility:Exec(GetHasSameControlValueHandler(properties), GetName(properties), parameter)
+
+        errorMessage = ErrorManager:GetError()
+        If ((errorMessage eq MESSAGE_ERROR_NONE) And (Not hasSameValue)) Then
+            Return (false)
+        End If
+
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            ShowCustomMessageBox(errorMessage,
+                                 MESSAGE_WARNING,
+                                 MESSAGE_BOX_BUTTONS_OK,
+                                 MESSAGE_BOX_ICON_EXCLAMATION,
+                                 DIALOG_RESULT_OK)
+        ElseIf hasSameValue Then
+            ShowCustomMessageBox(MESSAGE_ERROR_DUPLICATE_DATA,
+                                 MESSAGE_WARNING,
+                                 MESSAGE_BOX_BUTTONS_OK,
+                                 MESSAGE_BOX_ICON_EXCLAMATION,
+                                 DIALOG_RESULT_OK)
+        End If
+
+        Return (true)
+    End Method
+
+    Method ResetInvalidInput(properties[])
+        orgDisableMessage
+    Begin
+        orgDisableMessage = MessageUtility:GetDisableMessage()
+        MessageUtility:SetDisableMessage(true)
+
+        If Not CheckAndFixDisplayText(properties) Then
+            SetText(properties, properties[DEF_LAST_INPUT_TEXT_PROPERTY])
+        End If
+
+        MessageUtility:SetDisableMessage(orgDisableMessage)
+    End Method
+
+    Method ExecuteIrregularFocusTransition(properties[])
+    Begin
+        Return (FocusTransitionRequested(properties))
+    End Method
+
+    Method TransitFocus(properties[])
+        parameter[1]
+    Begin
+        ResetInvalidInput(properties)
+
+        If Not (ExecuteIrregularFocusTransition(properties)) Then
+            SetFocus(
+                TextField<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+        End If
+    End Method
+
+    Method SetFocus(focusControlId, controlId)
+    Begin
+        If focusControlId.isString And controlId.isString Then
+            If focusControlId ne controlId Then
+                FocusTransitionUtilityCommon:SetFocus(controlId)
+            End If
+        End If
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:visible = false
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        TextField<properties[DEF_NAME_PROPERTY]>:Delete()
+    End Method
+
+    Method Focused(properties[])
+    Begin
+        If (TextField<properties[DEF_NAME_PROPERTY]>:GetFocus() eq properties[DEF_NAME_PROPERTY]) Then
+            Return (true)
+        End If
+        Return (false)
+    End Method
+
+
+    Method OnScanned(properties[], sender, onScanComplete)
+    Begin
+        TextField<GetName(properties)>:onScanComplete = nil
+        OnScannedCore(properties)
+        TextField<GetName(properties)>:onScanComplete = onScanComplete
+    End Method
+
+    Method OnScannedCore(properties[])
+        readScanData = ""
+    Begin
+        BCR:GetData(0)
+        If (BCR:count == 0) Then
+            SetText(properties, properties[DEF_LAST_INPUT_TEXT_PROPERTY])
+            SetEditFocus(properties, false)
+            Return (nil)
+        End If
+
+        readScanData = ReadScanData(properties)
+        SetText(properties, readScanData)
+
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            ChangeMode(properties, KEY_OPERATION_TYPE_EDIT_MODE, true)
+            SetEditFocus(properties, false)
+            Return (nil)
+        End If
+    End Method
+
+    Method ReadScanData(properties[])
+        scanData = ""
+    Begin
+        scanData = ReadResultProcessor:Exec()
+        Return (ExtractScanData(scanData))
+    End Method
+
+#ifndef DEF_INHERITS_BT_TEXTBOX
+    Method ExtractScanData(data)
+    Begin
+        Return (data)
+    End Method
+#endif
+
+    Method GotFocus(properties[], fullDetectionCode[], fullDetectionColumnParam[], fullDetectionColumnString[], ocrFormatRegistrationNumbers[], onKeyDownHandler, onFocusInHandler)
+        orgDisableMessage
+        parameter[1]
+    Begin
+        Key:onPress = onKeyDownHandler
+
+        properties[DEF_IS_LOST_FOCUSED] = false
+        If properties[DEF_IS_GOT_FOCUSED] Then
+            Return()
+        End If
+        If FocusTransitionUtilityCommon:ForceLostFocus(properties[DEF_NAME_PROPERTY]) Then
+            Key:onPress = onKeyDownHandler
+        End If
+        properties[DEF_IS_GOT_FOCUSED] = true
+
+        TextField<GetName(properties)>:onFocusIn = nil
+
+        orgDisableMessage = MessageUtility:GetDisableMessage()
+        MessageUtility:SetDisableMessage(true)
+
+        EventUtility:Exec(GetGotFocusExtensionHandler(properties), GetName(properties), parameter)
+
+        SetKeyOperationType(properties, KEY_OPERATION_TYPE_TAB_TRANSITION)
+        SetEditFocus(properties, true)
+
+        SetCodeReadSettings(properties,
+                            fullDetectionCode,
+                            fullDetectionColumnParam,
+                            fullDetectionColumnString)
+        SetOcrSettings(properties, ocrFormatRegistrationNumbers)
+
+        If (GetInputMode(properties) <> INPUT_MODE_SCAN_ALPHANUMERIC) Then
+            TextField<GetName(properties)>:inputOption = 8
+        End If
+
+        If TextField<GetName(properties)>:GetFocus() eq GetName(properties) Then
+            TextField<GetName(properties)>:foreColor = GetFocusedForeColor(properties)
+            TextField<GetName(properties)>:backColor = GetFocusedBackColor(properties)
+        End If
+
+        MessageUtility:SetDisableMessage(orgDisableMessage)
+        TextField<GetName(properties)>:onFocusIn = onFocusInHandler
+    Catch
+        MessageUtility:SetDisableMessage(orgDisableMessage)
+        TextField<GetName(properties)>:onFocusIn = onFocusInHandler
+    End Method
+
+    Method LostFocus(properties[], onFormKeyDownHandler, onFocusOutHandler)
+        orgDisableMessage
+        parameter[1]
+    Begin
+        Key:onPress = onFormKeyDownHandler
+
+        properties[DEF_IS_GOT_FOCUSED] = false
+        If properties[DEF_IS_LOST_FOCUSED] Then
+            Return()
+        End If
+        properties[DEF_IS_LOST_FOCUSED] = true
+
+        TextField<properties[DEF_NAME_PROPERTY]>:onFocusOut = nil
+
+        orgDisableMessage = MessageUtility:GetDisableMessage()
+
+        MessageUtility:SetDisableMessage(true)
+
+        SetKeyOperationType(properties, KEY_OPERATION_TYPE_TAB_TRANSITION)
+
+        If TextField<GetName(properties)>:GetFocus() ne GetName(properties) Then
+            TextField<GetName(properties)>:foreColor = GetForeColor(properties)
+            TextField<GetName(properties)>:backColor = GetBackColor(properties)
+        End If
+
+        ResetOcrSettings(properties)
+
+        EventUtility:Exec(GetLostFocusExtensionHandler(properties), GetName(properties), parameter)
+
+        MessageUtility:SetDisableMessage(orgDisableMessage)
+        TextField<GetName(properties)>:onFocusOut = onFocusOutHandler
+    Catch
+        EventUtility:Exec(GetLostFocusExtensionHandler(properties), GetName(properties), parameter)
+
+        MessageUtility:SetDisableMessage(orgDisableMessage)
+        TextField<GetName(properties)>:onFocusOut = onFocusOutHandler
+    End Method
+
+    Method OnEditStart(properties[], onEditStartHandler)
+    Begin
+        TextField<GetName(properties)>:onEditStart = nil
+        OnEditStartCore(properties)
+        TextField<GetName(properties)>:onEditStart = onEditStartHandler
+    End Method
+
+    Method OnEditStartCore(properties[])
+    Begin
+        If (GetKeyOperationType(properties) == KEY_OPERATION_TYPE_INVALID_MODE) Then
+            ChangeMode(properties, KEY_OPERATION_TYPE_TAB_TRANSITION, true)
+            Return (nil)
+        End If
+
+        SetKeyOperationType(properties, KEY_OPERATION_TYPE_EDIT_MODE)
+    End Method
+
+    Method OnEditEnd(properties[], onEditEndHandler)
+    Begin
+        TextField<GetName(properties)>:onEditEnd = nil
+        OnEditEndCore(properties)
+        TextField<GetName(properties)>:onEditEnd = onEditEndHandler
+    End Method
+
+    Method OnEditEndCore(properties[])
+    Begin
+        If (Not Focused(properties)) Then
+            Return (nil)
+        End If
+
+        If (GetKeyOperationType(properties) == KEY_OPERATION_TYPE_TAB_TRANSITION) Then
+            Return (nil)
+        End If
+
+        If Not GetEditFocus(properties) Then
+            SetEditFocus(properties, true)
+            Return (nil)
+        End If
+
+        If (Not CheckAndFixDisplayText(properties)) Then
+            ChangeMode(properties, KEY_OPERATION_TYPE_EDIT_MODE, true)
+            Return (nil)
+        End If
+
+        If (Not EnterData(properties)) Then
+            Return (nil)
+        End If
+
+        TransitFocus(properties)
+
+        SetKeyOperationType(properties, KEY_OPERATION_TYPE_TAB_TRANSITION)
+    End Method
+
+    Method KeyDown(properties[], sender)
+        parameter[1]
+    Begin
+        Select Case sender
+            Case KEYS_ENTER
+                If (GetKeyOperationType(properties) == KEY_OPERATION_TYPE_TAB_TRANSITION) Then
+                    SetKeyOperationType(properties, KEY_OPERATION_TYPE_EDIT_MODE)
+                    Return (nil)
+                End If
+
+            Case KEYS_UP
+                ResetInvalidInput(properties)
+                SetFocus(
+                    TextField<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMovePreviousControlHandler(properties), GetName(properties), parameter))
+
+            Case KEYS_DOWN
+                ResetInvalidInput(properties)
+                SetFocus(
+                    TextField<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+
+            Case KEYS_LEFT
+                If (GetKeyOperationType(properties) == KEY_OPERATION_TYPE_EDIT_MODE) Then
+                    Return (nil)
+                End If
+                ResetInvalidInput(properties)
+                SetFocus(
+                    TextField<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMovePreviousControlHandler(properties), GetName(properties), parameter))
+
+            Case KEYS_RIGHT
+                If (GetKeyOperationType(properties) == KEY_OPERATION_TYPE_EDIT_MODE) Then
+                    Return (nil)
+                End If
+                ResetInvalidInput(properties)
+                SetFocus(
+                    TextField<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+
+            Case KEYS_C
+                If (GetKeyOperationType(properties) == KEY_OPERATION_TYPE_EDIT_MODE) Then
+                    Return (nil)
+                End If
+                SetText(properties, "")
+                ChangeMode(properties, KEY_OPERATION_TYPE_EDIT_MODE, true)
+
+            Case KEYS_F1
+                SetKeyOperationType(properties, KEY_OPERATION_TYPE_INVALID_MODE)
+
+            Case KEYS_F2
+                If Not (GetIsEditOnF2(properties)) Then
+                    If (GetKeyOperationType(properties) == KEY_OPERATION_TYPE_TAB_TRANSITION) Then
+                        SetKeyOperationType(properties, KEY_OPERATION_TYPE_INVALID_MODE)
+                    End If
+                    Return (nil)
+                End If
+                If (GetKeyOperationType(properties) == KEY_OPERATION_TYPE_TAB_TRANSITION) Then
+                    ChangeMode(properties, KEY_OPERATION_TYPE_EDIT_MODE, true)
+                Else
+                    ChangeMode(properties, KEY_OPERATION_TYPE_TAB_TRANSITION, true)
+                End If
+
+            Case KEYS_F3
+                If Not GetKeyInputModeSwitchingF3(properties) And (GetInputMode(properties) <> INPUT_MODE_SCAN_ALPHANUMERIC) Then
+                    TextField<GetName(properties)>:inputOption = 8
+                End If
+        End Select
+    End Method
+
+    Method TouchOut(properties[], onTouchOutHandler)
+    Begin
+        TextField<GetName(properties)>:onTouchOut = nil
+        ResetInvalidInput(properties)
+        TextField<GetName(properties)>:onTouchOut = onTouchOutHandler
+    End Method
+
+    Method Overflow(properties[], onOverflowHandler)
+    Begin
+        TextField<GetName(properties)>:onOverflow = nil
+        SetEditFocus(properties, false)
+        TextField<GetName(properties)>:onOverflow = onOverflowHandler
+    End Method
+
+    Method ComparisonValueCountUpdated(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CollationCountInitialized(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method DataInput(properties[], result)
+        parameter[1]
+        ret
+    Begin
+        StoreTemporaryText(properties)
+        parameter[0] = result
+        ret = EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), parameter)
+        ResetTemporaryText(properties)
+        Return (ret)
+    End Method
+
+    Method FocusTransitionRequested(properties[])
+        parameter[1]
+    Begin
+        Return (EventUtility:Exec(GetFocusTransitionRequestedHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method StoreTemporaryText(properties[])
+    Begin
+        properties[DEF_TEMP_TEXT_PROPERTY] = TextField<properties[DEF_NAME_PROPERTY]>:text
+    End Method
+
+    Method ResetTemporaryText(properties[])
+    Begin
+        properties[DEF_TEMP_TEXT_PROPERTY] = nil
+    End Method
+    
+
+#ifndef DEF_INHERITS_BT_TEXTBOX
+End Package
+#endif
+
+#popdefine

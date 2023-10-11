@@ -1,0 +1,100 @@
+#pushdefine
+
+#insert "\Lib\Utilities\BtLr1BdAddressManagerConstants"
+
+Package BtLr1BdAddressManager
+
+    Method GetBdAddress()
+        id_fieldValuePairs
+        id_parameter
+        errormessage
+        data
+    Begin
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, BDADDRESS_FIELD_NAME_TYPE, BDADDRESS_FIELD_KEY)
+
+        id_parameter = DbAccess:SelectValue(GetDbPath(), BDADDRESS_TABLE_NAME, BDADDRESS_FIELD_NAME_DISPLAY_VALUE, id_fieldValuePairs, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        errormessage = ErrorManager:GetError()
+        If id_parameter < 1 Then
+            Return(TERMINAL_SETTING_BLUETOOTH_BD_ADDRESS)
+        End If
+
+        data = ListTable:GetValue(id_parameter, BDADDRESS_FIELD_NAME_DISPLAY_VALUE)
+        ListTable:DeleteList(id_parameter)
+
+        Return(data)
+    End Method
+
+    Method SetBdAddress(address)
+        id_tableFieldTypePairs
+        id_fieldValuePairs
+        id_insertFiledValuePair
+        id_newvalueFiledValuePair
+        errormessage
+        ret
+        dataCount
+    Begin
+        id_tableFieldTypePairs = GetTableItemTypes()
+        DbAccess:CreateTable(GetDbPath(), BDADDRESS_TABLE_NAME, id_tableFieldTypePairs)
+        ListTable:DeleteList(id_tableFieldTypePairs)
+        errormessage = ErrorManager:GetError()
+        If errormessage ne MESSAGE_ERROR_NONE Then
+            ErrorManager:SetError(MESSAGE_ERROR_UPDATE_SHARED_PARAMETER)
+            Return()
+        End If
+
+        id_fieldValuePairs = ListTable:CreateList()
+        ListTable:Add(id_fieldValuePairs, BDADDRESS_FIELD_NAME_TYPE, BDADDRESS_FIELD_KEY)
+
+        dataCount = DbAccess:SelectCount(GetDbPath(), BDADDRESS_TABLE_NAME, id_fieldValuePairs, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        errormessage = ErrorManager:GetError()
+        If dataCount == -1 Then
+            ErrorManager:SetError(MESSAGE_ERROR_UPDATE_SHARED_PARAMETER)
+            ListTable:DeleteList(id_fieldValuePairs)
+            Return()
+        End If
+
+        If dataCount == 0 Then
+            id_insertFiledValuePair = ListTable:CreateList()
+            ListTable:Add(id_insertFiledValuePair, BDADDRESS_FIELD_NAME_TYPE, BDADDRESS_FIELD_KEY)
+            ListTable:Add(id_insertFiledValuePair, BDADDRESS_FIELD_NAME_DISPLAY_VALUE, address)
+            ret = DbAccess:InsertRecord(GetDbPath(), BDADDRESS_TABLE_NAME, id_insertFiledValuePair)
+            ListTable:DeleteList(id_insertFiledValuePair)
+        Else
+            id_newvalueFiledValuePair = ListTable:CreateList()
+            ListTable:Add(id_newvalueFiledValuePair, BDADDRESS_FIELD_NAME_DISPLAY_VALUE, address)
+            ret = DbAccess:UpdateValue(GetDbPath(), BDADDRESS_TABLE_NAME, id_fieldValuePairs, id_newvalueFiledValuePair)
+            ListTable:DeleteList(id_newvalueFiledValuePair)
+        End If
+        ListTable:DeleteList(id_fieldValuePairs)
+
+        errormessage = ErrorManager:GetError()
+        If ret is false Then
+            ErrorManager:SetError(MESSAGE_ERROR_UPDATE_SHARED_PARAMETER)
+            Return()
+        End If
+    End Method
+
+    Method GetTableItemTypes()
+        id_tableFieldTypePairs
+    Begin
+        id_tableFieldTypePairs = ListTable:CreateList()
+        ListTable:Add(id_tableFieldTypePairs, BDADDRESS_FIELD_NAME_TYPE, "text primary key")
+        ListTable:Add(id_tableFieldTypePairs, BDADDRESS_FIELD_NAME_DISPLAY_VALUE, "text")
+        Return (id_tableFieldTypePairs)
+    End Method
+
+    Method ClearBdAddress()
+    Begin
+        DbAccess:DropTable(GetDbPath(), BDADDRESS_TABLE_NAME)
+    End Method
+
+    Method GetDbPath()
+    Begin
+        Return(PathUtility:Combine(TERMINAL_SETTING_PATH_DRIVE_NO_1, BDADDRESS_DB_NAME))
+    End Method
+End Package
+
+#popdefine

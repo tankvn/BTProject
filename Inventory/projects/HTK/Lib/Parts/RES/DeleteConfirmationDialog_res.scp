@@ -1,0 +1,128 @@
+#pushdefine
+
+#define DEF_FOCUS_TRANSITION_UTILITY DeleteConfirmationDialog_FocusTransitionUtility
+
+#pushdefine
+#define DEF_PACKAGE_NAME DeleteConfirmationDialog_FocusTransitionUtility
+#include "\Lib\Utilities\FocusTransitionUtility" "..\Lib\Utilities\DeleteConfirmationDialog_FocusTransitionUtility"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DeleteConfirmationDialog_BtLabel1
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\DeleteConfirmationDialog_BtLabel1"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DeleteConfirmationDialog_cancelButton
+#define DEF_EVENT_DATA_INPUT DeleteConfirmationDialog:_cancelButton_Click
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\DeleteConfirmationDialog_cancelButton"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DeleteConfirmationDialog_deletionAllRecordsButton
+#define DEF_EVENT_DATA_INPUT DeleteConfirmationDialog:_deletionAllRecordsButton_Click
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\DeleteConfirmationDialog_deletionAllRecordsButton"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DeleteConfirmationDialog_deletionOneRecordButton
+#define DEF_EVENT_DATA_INPUT DeleteConfirmationDialog:_deletionOneRecordButton_Click
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\DeleteConfirmationDialog_deletionOneRecordButton"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME DeleteConfirmationDialog_messageLabel
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\DeleteConfirmationDialog_messageLabel"
+#popdefine
+
+Package DeleteConfirmationDialog_res
+#defineexpand DEF_CONTROL DeleteConfirmationDialog_BtLabel1|DeleteConfirmationDialog_cancelButton|DeleteConfirmationDialog_deletionOneRecordButton|DeleteConfirmationDialog_deletionAllRecordsButton|DeleteConfirmationDialog_messageLabel
+#define DEF_PACKAGE_NAME DeleteConfirmationDialog
+#insert "\Lib\Parts\BtForm"
+
+    Method InitializeComponent()    
+    Begin
+        New()
+        DeleteConfirmationDialog_BtLabel1:Create(BtFormCommon:GetName(Properties))
+        DeleteConfirmationDialog_cancelButton:Create(BtFormCommon:GetName(Properties))
+        DeleteConfirmationDialog_deletionAllRecordsButton:Create(BtFormCommon:GetName(Properties))
+        DeleteConfirmationDialog_deletionOneRecordButton:Create(BtFormCommon:GetName(Properties))
+        DeleteConfirmationDialog_messageLabel:Create(BtFormCommon:GetName(Properties))
+        With DeleteConfirmationDialog_BtLabel1
+            BtLabelCommon:SetText(:Properties, "Warning")
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetLeft(:Properties, 2)
+            BtLabelCommon:SetTop(:Properties, 2)
+            BtLabelCommon:SetWidth(:Properties, 223)
+            BtLabelCommon:SetHeight(:Properties, 30)
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:SetTabIndex(:Properties, 0)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With DeleteConfirmationDialog_cancelButton
+            BtButtonCommon:SetText(:Properties, "Cancel")
+            BtButtonCommon:SetWidth(:Properties, 193)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetLeft(:Properties, 13)
+            BtButtonCommon:SetTop(:Properties, 210)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetTabIndex(:Properties, 3)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        With DeleteConfirmationDialog_deletionAllRecordsButton
+            BtButtonCommon:SetLeft(:Properties, 13)
+            BtButtonCommon:SetTop(:Properties, 160)
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetText(:Properties, "Delete all entries")
+            BtButtonCommon:SetWidth(:Properties, 193)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetTabIndex(:Properties, 2)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        With DeleteConfirmationDialog_deletionOneRecordButton
+            BtButtonCommon:SetWidth(:Properties, 193)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetText(:Properties, "Delete one entry")
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetLeft(:Properties, 13)
+            BtButtonCommon:SetTop(:Properties, 110)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetTabIndex(:Properties, 1)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        With DeleteConfirmationDialog_messageLabel
+            BtLabelCommon:SetText(:Properties, "Data will be deleted.")
+            BtLabelCommon:SetLeft(:Properties, 13)
+            BtLabelCommon:SetTop(:Properties, 20)
+            BtLabelCommon:SetWidth(:Properties, 193)
+            BtLabelCommon:SetHeight(:Properties, 80)
+            BtLabelCommon:SetFontSize(:Properties, 18)
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:SetTabIndex(:Properties, 4)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        BtFormCommon:SetLeft(Properties, 0)
+        BtFormCommon:SetTop(Properties, 0)
+        BtFormCommon:SetWidth(Properties, 230)
+        BtFormCommon:SetHeight(Properties, 255)
+        BtFormCommon:SetFormBorderStyle(Properties, "thin")
+    End Method
+End Package
+#popdefine

@@ -1,0 +1,19 @@
+    Method IBtCombinationComponentInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetMinTabIndex"
+                InterfaceCommon:Result = GetMinTabIndex(properties)
+            Case "SetMinTabIndex"
+                InterfaceCommon:Result = SetMinTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetMaxTabIndex"
+                InterfaceCommon:Result = GetMaxTabIndex(properties)
+            Case "SetMaxTabIndex"
+                InterfaceCommon:Result = SetMaxTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                InterfaceCommon:Result = SetVisible(properties, UserObj<this>:Get(2))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+        End Select
+    End Method

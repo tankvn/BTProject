@@ -1,0 +1,92 @@
+
+Package BtWindow_Inventory_BtInputItemCountControl_1
+
+    Properties[24]
+
+    _scannedEventAttatched = false
+
+    Method OutputLogEvent(this)
+    Begin
+        Return (BtWindow_Inventory:BtTextBox_Quantity_DataInput(Properties[0], true))
+    End Method
+
+    Method ILogItemControlInvoke(this)
+    Begin
+        BtInputItemCountControlCommon:ILogItemControlInvokeCommon(this, Properties)
+    End Method
+
+    Method New()
+    Begin
+        Properties[0] = "BtWindow_Inventory_BtInputItemCountControl_1"
+        BtInputItemCountControlCommon:New(Properties)
+        BtInputItemCountControlCommon:SetOutputLogEventHandler(Properties, OutputLogEvent)
+        BtInputItemCountControlCommon:SetInputItemToolName(Properties, "BtWindow_Inventory_BtTextBox_ItemNo")
+        BtInputItemCountControlCommon:SetIsExistInputItemTool(Properties, true)
+        BtInputItemCountControlCommon:SetFirstInputQuantityToolName(Properties, "BtWindow_Inventory_BtTextBox_Quantity")
+        BtInputItemCountControlCommon:SetIsExistFirstInputQuantityTool(Properties, true)
+        BtInputItemCountControlCommon:SetIsExistSecondInputQuantityTool(Properties, false)
+        BtInputItemCountControlCommon:SetIsExistThirdInputQuantityTool(Properties, false)
+        BtInputItemCountControlCommon:SetIsExistSumOfQuantityValueLabel(Properties, false)
+    End Method
+
+    Method Create(parentName)
+    Begin
+        New()
+    End Method
+
+    Method Initialize()
+    Begin
+        CountNumberInput()
+        SetEventHandler()
+    End Method
+
+    Method CountNumberInput()
+    Begin
+        BtInputItemCountControlCommon:SetInputQuantityCount(Properties, 0)
+
+        BtInputItemCountControlCommon:SetInputQuantityCount(Properties, BtInputItemCountControlCommon:GetInputQuantityCount(Properties) + 1)
+    End Method
+
+    Method SetEventHandler()
+    Begin
+        If (BtInputItemCountControlCommon:GetQuantityEntryType(Properties) == 0) Then
+            TextField<BtTextBoxCommon:GetName(BtWindow_Inventory_BtTextBox_Quantity:Properties)>:onScanComplete = OnScannedInInputQuantity
+        End If
+    End Method
+
+    Method UpdateAmountLabel()
+    Begin
+        BtInputItemCountControlCommon:UpdateAmountLabel(Properties)
+    End Method
+
+    Method OnInputtedItemBySingleInput(sender, result)
+    Begin
+        BtInputItemCountControlCommon:OnInputtedItemBySingleInput(Properties, sender, result)
+    End Method
+
+    Method OnScannedInInputQuantity(sender)
+    Begin
+        BtInputItemCountControlCommon:OnScannedInInputQuantity(Properties, sender)
+    End Method
+
+    Method AfterItemToolReset(sender)
+    Begin
+        BtInputItemCountControlCommon:SetFixedItemData(Properties, "")
+    End Method
+
+    Method AfterSumOfInputQuantityValueLabellReset(sender)
+    Begin
+        UpdateAmountLabel()
+    End Method
+
+    Method NumberInputOnTabTranslation_GotFocus(sender)
+    Begin
+    End Method
+
+    Method LostFocusNumericInput(sender)
+    Begin
+        UpdateAmountLabel()
+    End Method
+
+End Package
+

@@ -1,0 +1,45 @@
+
+Package IInputQuantityTool
+
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_Inventory_BtTextBox_Quantity"
+        ICommons[0] = BtWindow_Inventory_BtTextBox_Quantity:IInputQuantityToolInvoke
+    End Method
+
+    Method IsImplemented(toolName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(toolName, Names))
+    End Method
+
+    Method CheckAndFixDisplayText(toolName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(toolName, Names, "CheckAndFixDisplayText", args, ICommons))
+    End Method
+
+    Method ChangeMode(toolName, mode, updateState)
+        args[2]
+    Begin
+        args[0] = mode
+        args[1] = updateState
+        Return(InterfaceCommon:Call(toolName, Names, "ChangeMode", args, ICommons))
+    End Method
+
+    Method PreprocessEnterData(toolName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(toolName, Names, "PreprocessEnterData", args, ICommons))
+    End Method
+
+    Method ReadScanData(toolName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(toolName, Names, "ReadScanData", args, ICommons))
+    End Method
+
+End Package
+

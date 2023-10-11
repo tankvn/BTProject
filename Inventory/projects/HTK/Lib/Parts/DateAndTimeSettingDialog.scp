@@ -1,0 +1,133 @@
+
+#pushdefine
+#include "\Lib\Parts\RES\DateAndTimeSettingDialog_res" "..\Lib\Parts\RES\DateAndTimeSettingDialog_res"
+#popdefine
+
+/*Public*/ Package DateAndTimeSettingDialog
+
+
+    #define MIN_SYSTEM_DATE_TIME "2010/01/01" 
+
+    #define MAX_SYSTEM_DATE_TIME "2079/12/31" 
+
+
+    Method New()
+    Begin
+        DateAndTimeSettingDialog_res:InitializeComponent()
+
+        BtInputDateBoxCommon:SetOutputPattern(DateAndTimeSettingDialog_InputDateBox:Properties, TERMINAL_SETTING_SYSTEM_DATE_PATTERN)
+        BtInputDateBoxCommon:SetOutputSeparator(DateAndTimeSettingDialog_InputDateBox:Properties, TERMINAL_SETTING_SYSTEM_DATE_SEPARATOR)
+
+        DateAndTimeSettingDialog_FocusTransitionUtility:SetControl("DateAndTimeSettingDialog_InputDateBox")
+        DateAndTimeSettingDialog_FocusTransitionUtility:SetControl("DateAndTimeSettingDialog_HourTextBox")
+        DateAndTimeSettingDialog_FocusTransitionUtility:SetControl("DateAndTimeSettingDialog_MinuteTextBox")
+        DateAndTimeSettingDialog_FocusTransitionUtility:SetControl("DateAndTimeSettingDialog_cancelButton")
+        DateAndTimeSettingDialog_FocusTransitionUtility:SetControl("DateAndTimeSettingDialog_okButton")
+
+        DateAndTimeSettingDialog_cancelButton:Invalidate()
+        DateAndTimeSettingDialog_okButton:Invalidate()
+    End Method
+
+    Method ShowDialog()
+    Begin
+        EditDateAndTimeDialog_Load("DateAndTimeSettingDialog", "")
+
+        Key:onPress = EditDateAndTimeDialog_KeyDown
+
+        DateAndTimeSettingDialog_res:Show(true)
+        BtInputDateBoxCommon:Focus(DateAndTimeSettingDialog_InputDateBox:Properties)
+
+        Window<"ROOT_WINDOW">:Update()
+
+        Event:Wait()
+    End Method
+
+    Method CloseDialog()
+    Begin
+#ifdef DEF_EVENT_FORM_KEY_DOWN
+        Key:onPress = DEF_EVENT_FORM_KEY_DOWN
+#else
+        Key:onPress = nil
+#endif
+        DateAndTimeSettingDialog_res:Close()
+        DateAndTimeSettingDialog_res:Dispose()
+
+        Event:Exit()
+    End Method
+
+    Method KeyActionCancel(eventArgs)
+    Begin
+        DateAndTimeSettingDialog_res:ResetInvalidInput()
+        BtButtonCommon:Focus(DateAndTimeSettingDialog_cancelButton:Properties)
+        DateAndTimeSettingDialog_cancelButton:PerformClick()
+    End Method
+
+    Method KeyActionOk(eventArgs)
+    Begin
+        DateAndTimeSettingDialog_res:ResetInvalidInput()
+        BtButtonCommon:Focus(DateAndTimeSettingDialog_okButton:Properties)
+        DateAndTimeSettingDialog_okButton:PerformClick()
+    End Method
+
+
+
+    Method EditDateAndTimeDialog_Load(sender, e) /*Handles MyBase.Load*/
+        currentDate
+        currentTime
+    Begin
+        currentDate = Handy:date
+        currentTime = Handy:time
+
+        BtInputDateBoxCommon:SetText(DateAndTimeSettingDialog_InputDateBox:Properties,
+                                     DateUtility:FormatDate(currentDate,
+                                                            BtInputDateBoxCommon:GetOutputPattern(DateAndTimeSettingDialog_InputDateBox:Properties),
+                                                            BtInputDateBoxCommon:GetOutputSeparator(DateAndTimeSettingDialog_InputDateBox:Properties)))
+        ErrorManager:GetError()
+        BtTextBoxCommon:SetInitialText(DateAndTimeSettingDialog_HourTextBox:Properties,
+                                        currentTime.Mid(0,2))
+        BtTextBoxCommon:SetInitialText(DateAndTimeSettingDialog_MinuteTextBox:Properties,
+                                        currentTime.Mid(3,2))
+    End Method
+
+    Method EditDateAndTimeDialog_KeyDown(sender) /*Handles MyBase.KeyDown*/
+    Begin
+        DateAndTimeSettingDialog_res:KeyAssignedAction(sender)
+    End Method
+
+    Method OKButton_Click(sender, result) /*Handles _okButton.Click*/
+        setDate
+        setTime
+        hour
+        minute
+    Begin
+        setDate = BtInputDateBoxCommon:DisplayDate(DateAndTimeSettingDialog_InputDateBox:Properties)
+        setDate = DateUtility:ChangeHandyDate(setDate,
+            BtInputDateBoxCommon:GetOutputPattern(DateAndTimeSettingDialog_InputDateBox:Properties),
+            BtInputDateBoxCommon:GetOutputSeparator(DateAndTimeSettingDialog_InputDateBox:Properties))
+        setDate = DateUtility:RoundDate(setDate, MIN_SYSTEM_DATE_TIME, MAX_SYSTEM_DATE_TIME)
+
+        hour = BtTextBoxCommon:GetText(DateAndTimeSettingDialog_HourTextBox:Properties)
+        If (hour.length <> 2) Then
+            hour = "0" & hour
+        End If
+        minute = BtTextBoxCommon:GetText(DateAndTimeSettingDialog_MinuteTextBox:Properties)
+        If (minute.length <> 2) Then
+            minute = "0" & minute
+        End If
+        setTime = hour & ":" & minute & ":00"
+
+        Handy:date = setDate
+        Handy:time = setTime
+
+        CloseDialog()
+    Catch
+        MessageUtility:ShowMessageOk(MESSAGE_ERROR_INVALID_DATE)
+        CloseDialog()
+    End Method
+
+    Method CancelButton_Click(sender, result) /*Handles _cancelButton.Click*/
+    Begin
+        CloseDialog()
+    End Method
+
+End Package

@@ -1,0 +1,247 @@
+
+Include "Lib\Utilities\BtDataFormatControlCommon"
+Include "Lib\Utilities\LogItemCommon"
+Include "Lib\Utilities\LogItemFixedStringCommon"
+Include "Lib\Utilities\LogItemSharedParameterCommon"
+Include "Lib\Utilities\LogItemSystemParameterCommon"
+Include "Lib\Utilities\LogItemScreenDataCommon"
+Include "BtTopMenuWindow\Lib\Utilities\IDataFormatControl"
+Include "BtTopMenuWindow\Lib\Utilities\ILogItemScreenData"
+Include "BtTopMenuWindow\Lib\Utilities\ILogItem"
+Include "Lib\Parts\BtLabelCommon"
+Include "Lib\Parts\BtTextBoxCommon"
+Include "Lib\Utilities\ReadResultProcessor"
+Include "Lib\Parts\BtLogCountLabelCommon"
+Include "Lib\Parts\BtButtonCommon"
+Include "Lib\Parts\BtSendDataFileControl"
+Include "Lib\Parts\BtInputItemCountControlCommon"
+Include "Lib\Parts\BtScreenCommon"
+Include "Lib\Utilities\ErrorManager"
+Include "Lib\Utilities\MathUtility"
+Include "Lib\Utilities\StringUtility"
+Include "Lib\Utilities\PathUtility"
+Include "Lib\Utilities\DateUtility"
+Include "Lib\Utilities\TimeUtility"
+Include "Lib\Utilities\InterfaceCommon"
+Include "Lib\Utilities\EventUtility"
+Include "Lib\Utilities\Dispatcher"
+Include "Lib\Utilities\FocusTransitionUtilityCommon"
+Include "Lib\Utilities\LayoutUtility"
+Include "Lib\Utilities\SystemParameterUtility"
+Include "Lib\Utilities\SystemSettingFileUtility"
+Include "Lib\Utilities\SharedParameterUtility"
+Include "Lib\Utilities\OutputDataUtility"
+Include "Lib\Utilities\OcrSettings"
+Include "Lib\Utilities\ReadableCodeSettings"
+Include "Lib\Utilities\CodeReadDetailSettings"
+Include "Lib\Utilities\AiUtility"
+Include "Lib\Utilities\AiList"
+Include "Lib\Utilities\Ai"
+Include "Lib\Utilities\DbAccess"
+Include "Lib\Utilities\DBData"
+Include "Lib\Utilities\TransmissionController"
+Include "Lib\Utilities\TransmissionLogUtility"
+Include "Lib\Utilities\RealTimeConnectionController"
+Include "Lib\Utilities\IndicatorUtility"
+Include "Lib\Utilities\BtMasterCheckUtility"
+Include "Lib\Parts\MessageUtility"
+Include "Lib\Parts\BtPictureViewCommon"
+Include "Lib\Parts\BtFocusTransitionControllerCommon"
+Include "Lib\Parts\TransmittingForm"
+Include "Lib\Parts\RES\TransmittingForm_res"
+Include "Lib\Parts\BackGroundActionForm"
+Include "Lib\Parts\RES\BackGroundActionForm_res"
+Include "Lib\Parts\BtTableViewCommon"
+Include "Lib\Parts\BtHistoryDataViewCommon"
+Include "Lib\Parts\BtInputDateBoxCommon"
+Include "Lib\Parts\BtFormCommon"
+Include "BtJob_Inventory\ActiveForm"
+
+Include "BtJob_Inventory\BtJob_Inventory_partial"
+Include "BtJob_Inventory\RES\BtJob_Inventory_res"
+Include "BtTopMenuWindow\BtTopMenuWindowForm_partial"
+Include "BtJob_Inventory\BtWindow_Inventory"
+Include "BtJob_Inventory\BtHistoryDataView_Inventory"
+
+Method main()
+Begin
+    BackGroundActionForm:New("Processing", "Please wait ...")
+    BackGroundActionForm:Show()
+
+    IndicatorUtility:LoadSettings()
+    FileSystem:Mount(5)
+
+    While (1)
+        BtJob_Inventory:New()
+        BackGroundActionForm:Reflesh()
+        BtJob_Inventory:Initialize()
+        BackGroundActionForm:Close()
+        BtJob_Inventory:OnShown()
+    Wend
+Catch
+    Handy:ShowMessageBox("An error occred in the application." &"("&System:error&")", "ok" )
+End Method
+
+Package BtJob_Inventory
+    _isInitialized = false
+
+    Method New()
+    Begin
+        BtJob_Inventory_res:InitializeComponent()
+    End Method
+
+    Method Initialize()
+    Begin
+        BtJob_Inventory_partial:CreateLogFormat(false)
+        BtJob_Inventory_res:RegisterSharedParameter(true)
+        BtJob_Inventory_res:InitializeChildren()
+
+        BtWindow_Inventory:Initialize()
+        BtHistoryDataView_Inventory:Initialize()
+
+        BtJob_Inventory_partial:DeleteBackupLogData()
+
+        Dispatcher:AddScannedEvent()
+
+        _isInitialized = true
+    End Method
+
+    Method Finalized()
+    Begin
+        Dispatcher:RemoveScannedEvent()
+
+        BtWindow_Inventory:Finalized()
+        BtHistoryDataView_Inventory:Finalized()
+
+        BtJob_Inventory_res:Dispose()
+    End Method
+
+    Method Close(isTop)
+    Begin
+        BackGroundActionForm:New("Processing", "Please wait ...")
+        BackGroundActionForm:Show()
+
+        BtJob_Inventory_res:Close()
+        BtJob_Inventory_Closed()
+        BackGroundActionForm:Close()
+        System:Load("BtTopMenuWindowForm", "BtJob_Inventory", "BtTopMenuWindowForm", isTop, 0)
+    End Method
+
+    Method OnShown()
+        isShownScreen
+    Begin
+        Key:maskKey = 0x00000020+0x00000040+0x00000080+0x00000100+0x00000200+0x00000400+0x00000800+0x00001000+0x00002000+0x00004000+0x00000008+0x00000010+0x00000001+0x00000002+0x00000004+0x02000000+0x00200000+0x00400000+0x00010000+0x00020000+0x00040000+0x00080000+0x20008000+0x00800000+0x00100000+0x10000000
+        Key:onPress = OnKeyDown
+
+        isShownScreen = false
+        Select Case System:arg2
+        Case "BtWindow_Inventory"
+            ShowBtWindow_Inventory()
+            isShownScreen = true
+        Case "BtHistoryDataView_Inventory"
+            ShowBtHistoryDataView_Inventory()
+            isShownScreen = true
+        End Select
+        If (isShownScreen is false) Then
+            ShowBtWindow_Inventory()
+        End If
+
+        BtJob_Inventory_res:EventWait()
+    End Method
+
+    Method OnKeyDown(sender)
+    Begin
+        If (BtScreenCommon:GetVisible(BtWindow_Inventory_res:Properties)) Then
+            BtWindow_Inventory_res:KeyAssignedAction(sender)
+            Return()
+        End If
+        If (BtHistoryDataViewCommon:GetVisible(BtHistoryDataView_Inventory_res:Properties)) Then
+            BtHistoryDataView_Inventory_res:KeyAssignedAction(sender)
+            Return()
+        End If
+    End Method
+
+    Method OpenDatabase()
+    Begin
+        BtJob_Inventory_partial:OpenLogDatabase()
+    End Method
+
+    Method CloseDatabase()
+    Begin
+        BtJob_Inventory_partial:CloseLogDatabase()
+        BtWindow_Inventory_res:CloseDatabase()
+        BtHistoryDataView_Inventory_res:CloseDatabase()
+        DbAccess:Close(SharedParameterUtility:GetPathSharedParameterDataBase())
+    End Method
+
+    Method GetMasterFileNamePairs()
+        listId_ReceiveFileNamePairs
+    Begin
+        listId_ReceiveFileNamePairs = ListTable:CreateList()
+        Return (listId_ReceiveFileNamePairs)
+    End Method
+
+    Method ShowBtWindow_Inventory()
+    Begin
+        Handy:leftKey = "L"
+        Handy:rightKey = "TRG"
+        BtJob_Inventory_ScreenManager:ShowScreen(BtScreenCommon:GetName(BtWindow_Inventory_res:Properties))
+        BtWindow_Inventory_BtTextBox_Person:Focus()
+    End Method
+
+    Method ShowBtHistoryDataView_Inventory()
+    Begin
+        Handy:leftKey = "L"
+        Handy:rightKey = "R"
+        BtHistoryDataView_Inventory_res:BeforeShow()
+        BtHistoryDataView_Inventory_res:SetCurrentLogData()
+        BtJob_Inventory_ScreenManager:ShowScreen(BtHistoryDataViewCommon:GetName(BtHistoryDataView_Inventory_res:Properties))
+        BtHistoryDataView_Inventory_BtTableView_HistoryData:Focus()
+    End Method
+
+    Method ShowBtCommunicationErrorDialog_1()
+    Begin
+        BtFormCommon:SetEnable(BtJob_Inventory_res:Properties, false)
+        BtCommunicationErrorDialog_1:New()
+        BtCommunicationErrorDialog_1:ShowDialog()
+        BtFormCommon:SetEnable(BtJob_Inventory_res:Properties, true)
+    End Method
+
+    Method WriteLog()
+        writeJobDataResult
+        sentDataMaxRowId
+        errorMessage
+        writeLocation
+    Begin
+        writeJobDataResult = BtJob_Inventory_InventoryData:WriteJobData(ActiveForm:GetName())
+        sentDataMaxRowId = ListTable:GetValue(writeJobDataResult, "SentDataMaxRowId")
+        If (0 <= sentDataMaxRowId) Then
+            BtJob_Inventory_res:ReflectMasterCheckSentNum(sentDataMaxRowId)
+            BtDataFormatControlCommon:DeleteJobData(BtJob_Inventory_InventoryData:Properties, sentDataMaxRowId)
+        End If
+        errorMessage = ErrorManager:GetError()
+        If ErrorManager:GetCommunicationError() Then
+            ActiveForm:ShowBtCommunicationErrorDialog_1()
+        Else
+            If (errorMessage ne "") Then
+                MessageUtility:ShowMessageOk(errorMessage)
+            End If
+        End If
+        If Not ListTable:GetValue(writeJobDataResult, "IsSuccess") Then
+            ListTable:DeleteList(writeJobDataResult)
+            Return (false)
+        End If
+        writeLocation = ListTable:GetValue(writeJobDataResult, "WriteLocation")
+        If ((writeLocation eq 0) Or (0 <= sentDataMaxRowId)) Then
+            BtJob_Inventory_res:UpdateLogData(true)
+        End If
+        ListTable:DeleteList(writeJobDataResult)
+        Return (true)
+    End Method
+
+    Method BtJob_Inventory_Closed()
+    Begin
+        Finalized()
+        CloseDatabase()
+    End Method
+End Package

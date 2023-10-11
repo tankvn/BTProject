@@ -1,0 +1,6 @@
+#insert "\Lib\Utilities\Lr1DataItemConstants"
+
+    #define DEF_COMMON Lr1DataItemSystemParameterCommon
+
+    #define DEF_SYSTEMPARAMETER_PROPERTY DEF_LR1DATAITEM_PROPERTY_NUM+0
+    #define DEF_PROPERTY_NUM DEF_LR1DATAITEM_PROPERTY_NUM+1

@@ -1,0 +1,15 @@
+    Method ILogItemScreenDataInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetLogItemControlName"
+                InterfaceCommon:Result = GetLogItemControlName(properties)
+            Case "GetLogEditType"
+                InterfaceCommon:Result = GetLogEditType(properties)
+            Case "GetDecimalPlaces"
+                InterfaceCommon:Result = GetDecimalPlaces(properties)
+            Case "GetDateFormatType"
+                InterfaceCommon:Result = GetDateFormatType(properties)
+            Case "GetDateSeparatorType"
+                InterfaceCommon:Result = GetDateSeparatorType(properties)
+        End Select
+    End Method
