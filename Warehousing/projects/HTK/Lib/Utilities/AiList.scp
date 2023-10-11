@@ -1,0 +1,23 @@
+Package AiList
+    Name = "AiList"
+    _init = false
+
+    Method SetAi(idx, name_, number, text, dataLengthType, digit)
+    Begin
+        UserObj<Name>:Set(idx, name_)
+        Ai:New(name_, number, text, dataLengthType, digit)
+    End Method
+
+    Method Initialize()
+    Begin
+        If _init is true Then
+            Return()
+        End If
+        _init = true
+        UserObj<Name>:Open()
+        SetAi(0, "AI_01", "01", "Product number", AI_DATA_LENGTH_FORMAT_FIXED_LENGTH, 14)
+        SetAi(1, "AI_10", "10", "Lot number", AI_DATA_LENGTH_FORMAT_VARIABLE_LENGTH, 20)
+        SetAi(2, "AI_17", "17", "Expiration date", AI_DATA_LENGTH_FORMAT_FIXED_LENGTH, 6)
+        SetAi(3, "AI_30", "30", "Quantity", AI_DATA_LENGTH_FORMAT_VARIABLE_LENGTH, 8)
+    End Method
+End Package

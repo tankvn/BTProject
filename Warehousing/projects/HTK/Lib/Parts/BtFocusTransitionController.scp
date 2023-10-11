@@ -1,0 +1,53 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtFocusTransitionControllerConstants"
+
+Package DEF_PACKAGE_NAME
+
+Properties[DEF_PROPERTY_NUM]
+
+    Method Initialize() 
+    Begin
+        BtFocusTransitionControllerCommon:Initialize(Properties)
+    End Method
+
+    Method FocusTransitionRequested(sender) 
+        listId_Controls = INVALID_LIST_TABLE_ID
+        listId_Components = INVALID_LIST_TABLE_ID
+    Begin
+        If (0 < BtFocusTransitionControllerCommon:GetTransitionCount(Properties)) 
+        And (BtFocusTransitionControllerCommon:GetResetCount(Properties) <= 0) Then
+            BtFocusTransitionControllerCommon:ResetCount(Properties)
+            Return(false)
+        End If 
+
+        listId_Controls = ListTable:CreateList()
+#beginexpand DEF_RESET_TARGET
+        ListTable:Add(listId_Controls, "DEF_RESET_TARGET", "")
+#endexpand DEF_RESET_TARGET
+        listId_Components = ListTable:CreateList()
+#beginexpand DEF_INPUT_COMPONENT
+        ListTable:Add(listId_Components, "DEF_INPUT_COMPONENT", "")
+#endexpand DEF_INPUT_COMPONENT
+
+#ifdef DEF_TRANSITION_SOURCE_IS_CONTROL
+        DEF_FOCUS_TRANSITION_UTILITY:ResetTargetControls("DEF_TRANSITION_SOURCE_IS_CONTROL@0", "DEF_TRANSITION_DESTINATION@0", listId_Controls, listId_Components)
+#elif DEF_TRANSITION_SOURCE_IS_COMPONENT
+        DEF_FOCUS_TRANSITION_UTILITY:ResetTargetInputComponents("DEF_TRANSITION_SOURCE_IS_COMPONENT@0", "DEF_TRANSITION_DESTINATION@0", listId_Controls, listId_Components)
+#else
+        ListTable:DeleteList(listId_Controls)
+        ListTable:DeleteList(listId_Components)
+        Return(0)
+#endif
+    
+        ListTable:DeleteList(listId_Controls)
+        ListTable:DeleteList(listId_Components)
+        IControl:Focus("DEF_TRANSITION_DESTINATION@0")
+        BtFocusTransitionControllerCommon:SetResetCount(Properties, BtFocusTransitionControllerCommon:GetResetCount(Properties) - 1) 
+
+        Return (true)
+    End Method
+
+End Package 
+
+#popdefine

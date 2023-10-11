@@ -1,0 +1,7 @@
+    Method IFilterControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetInputValue"
+                InterfaceCommon:Result = GetInputValue(properties)
+        End Select
+    End Method

@@ -1,0 +1,13 @@
+
+    #insert "\Lib\Parts\BtLabelBaseConstants"
+    #undef DEF_COMMON
+
+    #define DEF_COMMON BtSystemParameterLabelCommon
+
+    #define DEF_SYSTEM_PARAMETER_TYPE_PROPERTY DEF_BASE_PROPERTY_NUM + 0
+    #define DEF_PROPERTY_NUM DEF_BASE_PROPERTY_NUM + 1
+
+
+    #define DATE_AND_TIME_UPDATING_INTERVAL 100
+
+

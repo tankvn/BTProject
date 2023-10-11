@@ -1,0 +1,4 @@
+    Method ICollationConditionSettingInvoke(this)
+    Begin
+        DEF_COMMON:ICollationConditionSettingInvokeCommon(this, Properties)
+    End Method

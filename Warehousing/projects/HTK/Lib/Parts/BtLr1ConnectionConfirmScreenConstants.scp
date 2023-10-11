@@ -1,0 +1,10 @@
+    #insert "\Lib\Parts\BtScreenConstants"
+
+    #define SEARCH_MAX 3
+
+    #define SEARCH_RESULT_TABLE_COLUMN_MAX 1
+
+    #define SEARCH_RESULT_COLUMN_ADDRESS_INDEX 0
+
+    #define DEF_BDADDRESSLIST_PROPERTY DEF_BASE_PROPERTY_NUM+0
+    #define DEF_PROPERTY_NUM DEF_BASE_PROPERTY_NUM+1

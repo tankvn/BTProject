@@ -1,0 +1,9 @@
+    #define BDADDRESS_DB_NAME "BtLr1BdAddress.dat"
+
+    #define BDADDRESS_TABLE_NAME "BtLr1BdAddress"
+
+    #define BDADDRESS_FIELD_NAME_TYPE "field1"
+
+    #define BDADDRESS_FIELD_NAME_DISPLAY_VALUE "field2"
+
+    #define BDADDRESS_FIELD_KEY "Address"

@@ -1,0 +1,73 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+
+Include "BtJob_Retrieval\RES\BtHistoryDataView_Retrieval_res"
+
+
+
+Package BtHistoryDataView_Retrieval
+    _isInitialized = false
+    
+    Method New()
+    Begin
+        BtHistoryDataView_Retrieval_res:InitializeComponent()
+        
+        BtHistoryDataView_Retrieval_FocusTransitionUtility:SetControl("BtHistoryDataView_Retrieval_BtTableView_HistoryData")
+        BtHistoryDataView_Retrieval_FocusTransitionUtility:SetControl("BtHistoryDataView_Retrieval_BtF1Key_Back")
+        BtHistoryDataView_Retrieval_FocusTransitionUtility:SetControl("BtHistoryDataView_Retrieval_BtF2Key_Previous")
+        BtHistoryDataView_Retrieval_FocusTransitionUtility:SetControl("BtHistoryDataView_Retrieval_BtF3Key_Next")
+        BtHistoryDataView_Retrieval_FocusTransitionUtility:SetControl("BtHistoryDataView_Retrieval_BtF4Key_Delete")
+        
+        With BtHistoryDataView_Retrieval_BtTableView_HistoryData
+            BtTableViewCommon:SetTableName(:Properties, TERMINAL_SETTING_MASTER_TABLE_NAME)
+        End With
+    End Method
+    
+    Method Initialize()
+    Begin
+        BtHistoryDataView_Retrieval_res:SetLogFormat(nil)
+        BtHistoryDataView_Retrieval_res:InitializeChildren()
+        
+        BtHistoryDataView_Retrieval_BtF1Key_Back:Invalidate()
+        BtHistoryDataView_Retrieval_BtF2Key_Previous:Invalidate()
+        BtHistoryDataView_Retrieval_BtF3Key_Next:Invalidate()
+        BtHistoryDataView_Retrieval_BtF4Key_Delete:Invalidate()
+        _isInitialized = true
+    End Method
+    
+    Method Finalized()
+    Begin
+        BtHistoryDataView_Retrieval_res:Dispose()
+    End Method
+    
+    Method UpdateDatabase()
+    Begin
+        BtHistoryDataView_Retrieval_res:SetCurrentLogData()
+    End Method
+    
+    Method OnCommunicationErrorOccurred()
+    Begin
+        ActiveForm:ShowBtCommunicationErrorDialog_1()
+    End Method
+    
+    Method F1KeyAction(sender)
+        result = true
+    Begin
+        BtHistoryDataView_Retrieval_res:ResetInvalidInput()
+        BtHistoryDataView_Retrieval_BtF1Key_Back:Focus()
+        BtHistoryDataView_Retrieval_BtF1Key_Back:PerformClick()
+        Return (result)
+    End Method
+    
+    Method BtF1Key_Back_DataInput(sender, result)
+    Begin
+        BtJob_Retrieval:ShowBtWindow_Retrieval()
+        Return (result)
+        Return (result)
+    End Method
+End Package

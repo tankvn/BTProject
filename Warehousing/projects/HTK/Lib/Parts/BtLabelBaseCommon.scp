@@ -1,0 +1,706 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtLabelBaseConstants"
+
+
+    Method GetType(properties[])
+    Begin
+        Return(properties[DEF_TYPE_PROPERTY])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method Focus(properties[])
+    Begin
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+    Begin
+    End Method
+
+    Method GetTabStop(properties[])     
+    Begin
+        Return (properties[DEF_TAB_STOP_PROPERTY])
+    End Method
+    Method SetTabStop(properties[], value)
+    Begin
+        properties[DEF_TAB_STOP_PROPERTY] = value
+    End Method
+
+    Method GetTabIndex(properties[])
+    Begin
+        Return (properties[DEF_TAB_INDEX_PROPERTY])
+    End Method
+    Method SetTabIndex(properties[], value)
+    Begin
+        properties[DEF_TAB_INDEX_PROPERTY] = value
+    End Method
+
+    Method GetVisible(properties[])     
+    Begin
+        Return (properties[DEF_VISIBLE_PROPERTY])
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        properties[DEF_VISIBLE_PROPERTY] = value
+    End Method
+
+    Method UpdateVisible(properties[])
+    Begin
+        properties[DEF_IS_TEMPORARY_HIDE_PROPERTY] = false
+        Invalidate(properties)
+    End Method
+
+    Method GetEnabled(properties[]) /* Implements IControl.GetEnabled */
+    Begin
+        Return (properties[DEF_ENABLE_PROPERTY])
+    End Method
+    Method SetEnabled(properties[], value) /* Implements IControl.SetEnabled */
+    Begin
+        properties[DEF_ENABLE_PROPERTY] = value
+    End Method
+
+    Method GetIsPartOfControl(properties[]) 
+    Begin
+        Return (properties[DEF_IS_PART_OF_CONTROL_PROPERTY])
+    End Method
+    Method SetIsPartOfControl(properties[], value)
+    Begin
+        properties[DEF_IS_PART_OF_CONTROL_PROPERTY] = value
+    End Method
+
+    Method GetCollationValue(properties[], dataIndex, index)
+        value
+    Begin
+        If dataIndex is nil Then Return (GetLogData(properties, dataIndex)) End If
+
+        value = DB_DAT:Get_Offset(GetName(properties), "Collation", dataIndex)
+        If value is nil Then
+            If dataIndex == 0 Then Return (GetLogData(properties, dataIndex)) End If
+            Return("")
+        End If
+        Return(value)
+    End Method
+
+    Method GetInitialText(properties[])
+    Begin
+        Return (properties[DEF_INITIAL_TEXT_PROPERTY])
+    End Method
+    Method SetInitialText(properties[], value)
+    Begin
+        properties[DEF_INITIAL_TEXT_PROPERTY] = value
+
+        SetText(properties, value)
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return(properties[DEF_WIDTH_PROPERTY])
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        properties[DEF_WIDTH_PROPERTY] = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return(properties[DEF_HEIGHT_PROPERTY])
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        properties[DEF_HEIGHT_PROPERTY] = value
+    End Method
+
+    Method GetBorderStyle(properties[])
+    Begin
+        Return (properties[DEF_BORDER_STYLE_PROPERTY])
+    End Method
+    Method SetBorderStyle(properties[], value)
+    Begin
+        properties[DEF_BORDER_STYLE_PROPERTY] = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (properties[DEF_BACK_COLOR_PROPERTY]) 
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        properties[DEF_BACK_COLOR_PROPERTY] = value
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+        Return (properties[DEF_FORE_COLOR_PROPERTY])
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+        properties[DEF_FORE_COLOR_PROPERTY] = value
+    End Method
+
+    Method GetText(properties[]) 
+    Begin
+        Return (GetDisplayText(properties, properties[DEF_TEXT_PROPERTY]))
+    End Method
+    Method SetText(properties[], value) 
+    Begin
+        If properties[DEF_TEXT_PROPERTY] eq value Then
+            Return()
+        End If
+        properties[DEF_TEXT_PROPERTY] = value
+
+        If GetVisible(properties) Then
+            Invalidate(properties)
+        End If
+    End Method
+
+    Method GetImaging(properties[])
+    Begin
+        Return (properties[DEF_IMAGING_PROPERTY])
+    End Method
+    Method SetImaging(properties[], value)
+    Begin
+        properties[DEF_IMAGING_PROPERTY] = value
+    End Method
+
+    Method GetImageFileName(properties[])
+    Begin
+        Return (properties[DEF_IMAGE_FILE_NAME_PROPERTY])
+    End Method
+    Method SetImageFileName(properties[], value )
+    Begin
+        properties[DEF_IMAGE_FILE_NAME_PROPERTY] = value
+    End Method
+
+    Method GetStorageDestination(properties[])
+    Begin
+        Return (properties[DEF_STORAGE_DESTINATION_PROPERTY])
+    End Method
+    Method SetStorageDestination(properties[], value)
+    Begin
+        properties[DEF_STORAGE_DESTINATION_PROPERTY] = value
+    End Method
+
+    Method GetFontSize(properties[])
+    Begin
+        Return (properties[DEF_FONT_SIZE_PROPERTY])
+    End Method
+    Method SetFontSize(properties[], value)
+    Begin
+        properties[DEF_FONT_SIZE_PROPERTY] = value
+    End Method
+
+    Method GetFontName(properties[])
+    Begin
+        Return (properties[DEF_FONT_NAME_PROPERTY])
+    End Method
+    Method SetFontName(properties[], value)
+    Begin
+        properties[DEF_FONT_NAME_PROPERTY] = value
+    End Method
+
+    Method GetBold(properties[])
+    Begin
+        Return (properties[DEF_BOLD_PROPERTY])
+    End Method
+    Method SetBold(properties[], value)
+    Begin
+        properties[DEF_BOLD_PROPERTY] = value
+    End Method
+
+    Method GetAlignment(properties[])
+    Begin
+        Return (properties[DEF_ALIGNMENT_PROPERTY])
+    End Method
+    Method SetAlignment(properties[], value )
+    Begin
+        properties[DEF_ALIGNMENT_PROPERTY] = value
+    End Method
+
+    _useNumberGroupSeparator = False
+    Method GetUseNumberGroupSeparator(properties[])
+    Begin
+        Return (properties[DEF_USE_NUMBER_GROUP_SEPARATOR_PROPERTY])
+    End Method
+    Method SetUseNumberGroupSeparator(properties[], value)
+    Begin
+        properties[DEF_USE_NUMBER_GROUP_SEPARATOR_PROPERTY] = value
+    End Method
+
+    Method GetParent(properties[])
+    Begin
+        Return(properties[DEF_PARENT_NAME_PROPERTY])
+    End Method
+    Method SetParent(properties[], value)
+    Begin
+        properties[DEF_PARENT_NAME_PROPERTY] = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return(properties[DEF_LEFT_PROPERTY])
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        properties[DEF_LEFT_PROPERTY] = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return(properties[DEF_TOP_PROPERTY])
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        properties[DEF_TOP_PROPERTY] = value
+    End Method
+
+    Method GetLogEditType(properties[], index) 
+    Begin
+        Return (0) 
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index)  
+    Begin
+        Return (0)
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index)    
+    Begin
+        Return (False)
+    End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl)    
+    Begin
+        Return (properties[DEF_NAME_PROPERTY] eq targetLogItemControl)
+    End Method
+
+    Method GetInputValue(properties[])     
+    Begin
+        Return (GetText(properties))
+    End Method
+
+    Method SetAutoInvalidate(properties[])
+    Begin
+        Invalidate(properties)
+    End Method
+
+    Method GetMagnificate(properties[])
+    Begin
+        Return (properties[DEF_MAGNIFICATE_PROPERTY])
+    End Method
+    Method SetMagnificate(properties[], value)
+    Begin
+        properties[DEF_MAGNIFICATE_PROPERTY] = value
+    End Method
+
+    Method GetAfterResetHandler(properties[])
+    Begin
+        Return(properties[DEF_AFTER_RESET_HANDLER])
+    End Method
+    Method SetAfterResetHandler(properties[], handle)
+    Begin
+        properties[DEF_AFTER_RESET_HANDLER] = handle
+    End Method
+
+    Method GetComparisonValueCountUpdatedHandler(properties[])
+    Begin
+        Return(properties[DEF_COMPARISON_VALUE_COUNT_UPDATED_HANDLER])
+    End Method
+    Method SetComparisonValueCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[DEF_COMPARISON_VALUE_COUNT_UPDATED_HANDLER] = handle
+    End Method
+
+    Method GetCollationCountUpdatedHandler(properties[])
+    Begin
+        Return(properties[DEF_COLLATION_COUNT_UPDATED_HANDLER])
+    End Method
+    Method SetCollationCountUpdatedHandler(properties[], handle)
+    Begin
+        properties[DEF_COLLATION_COUNT_UPDATED_HANDLER] = handle
+    End Method
+
+    Method GetDataUpdatedHandler(properties[])
+    Begin
+        Return(properties[DEF_DATA_UPDATED_HANDLER])
+    End Method
+    Method SetDataUpdatedHandler(properties[], handler)
+    Begin
+        properties[DEF_DATA_UPDATED_HANDLER] = handler
+    End Method
+
+
+#insert "\Lib\Utilities\IControlInvokeCommon"
+#insert "\Lib\Utilities\IBtInputControlInvokeCommon"
+#insert "\Lib\Utilities\ILogItemControlInvokeCommon"
+#insert "\Lib\Utilities\ICollationTargetInvokeCommon"
+#insert "\Lib\Utilities\ISearchViewDisplayControlInvokeCommon"
+#insert "\Lib\Utilities\IFilterControlInvokeCommon"
+#insert "\Lib\Utilities\ILookUpBoxDisplayToolInvokeCommon"
+
+    Method GetControlName(properties[], index) 
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method GetLogTableFieldType(properties[], index) 
+    Begin
+        Return (SQ_LITE_FIELD_TYPE_TEXT) 
+    End Method
+
+    Method GetDisplayText(properties[], value)
+        displayText
+    Begin
+        displayText = value 
+
+        If (GetUseNumberGroupSeparator(properties)) Then
+            displayText = MathUtility:GetDegitGroupingText(displayText)
+        End If
+
+        Return (displayText)
+    End Method
+
+    Method Initialize(properties[])
+    Begin
+        properties[DEF_IS_TEMPORARY_HIDE_PROPERTY] = false
+        properties[DEF_IS_CREATED_CANVAS_PROPERTY] = false
+        properties[DEF_INITIAL_TEXT_PROPERTY] = ""
+        properties[DEF_TEXT_PROPERTY] = ""
+        SetType(properties, "BtLabel")
+        SetTabStop(properties, false)
+        SetTabIndex(properties, nil)
+        SetIsPartOfControl(properties, false)
+        SetWidth(properties, 100)
+        SetHeight(properties, 100)
+        SetBorderStyle(properties, "none")
+        SetBackColor(properties, "255|255|255")
+        SetForeColor(properties, "0|0|0")
+        SetImaging(properties, false)
+        SetImageFileName(properties, nil)
+        SetStorageDestination(properties, "1")
+        SetFontSize(properties, 12)
+        SetFontName(properties, TERMINAL_SETTING_DEFAULT_FONT_NAME)
+        SetBold(properties, false)
+        SetAlignment(properties, "left")
+        SetUseNumberGroupSeparator(properties, false)
+        SetParent(properties, nil)
+        SetLeft(properties, 0)
+        SetTop(properties, 0)
+        SetMagnificate(properties, 1)
+        SetVisible(properties, false)
+        SetEnabled(properties, true)
+    End Method
+
+    Method GetAllCollationValues(properties[], index) 
+    Begin
+        Return (DB_DAT:Count(GetName(properties), "Collation"))
+    End Method
+
+    Method AddCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Add(GetName(properties), "Collation", GetCollationValue(properties, nil, 0))
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method RemoveCollationValue(properties[], rowIndex)
+        parameter[1]
+    Begin
+        DB_DAT:Delete_Offset(GetName(properties), "Collation", rowIndex)
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method ClearCollationValue(properties[])
+        parameter[1]
+    Begin
+        DB_DAT:Delete_All(GetName(properties), "Collation")
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method GetCollationInputControl(properties[], index)
+    Begin
+        Return (GetName(properties)) 
+    End Method
+
+    Method Create(properties[], parentName)
+    Begin
+        Initialize(properties)
+        SetParent(properties, parentName)
+    End Method
+
+    Method Invalidate(properties[])
+    Begin
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BT" Or GetImaging(properties) Then
+            DrawCanvas(properties)
+            DrawString(properties)
+        Else
+            DrawLabel(properties)
+        End If
+    End Method
+
+    Method DrawLabel(properties[])
+    Begin
+        If properties[DEF_IS_TEMPORARY_HIDE_PROPERTY] Then
+            Return()
+        End If
+
+        With Label<properties[DEF_NAME_PROPERTY]>
+            If Not properties[DEF_IS_CREATED_CANVAS_PROPERTY] Then
+                :Create(GetParent(properties))
+                :enable = GetEnabled(properties)
+                :textVAlign = "center"
+                properties[DEF_IS_CREATED_CANVAS_PROPERTY] = true
+            End If
+
+            :backColor = GetBackColor(properties)
+            :left = GetLeft(properties)
+            :top = GetTop(properties)
+            :width = GetWidth(properties)
+            :height = GetHeight(properties)
+            :frame = GetBorderStyle(properties)
+
+            :foreColor = GetForeColor(properties)
+            :fontSize = GetFontSize(properties)
+            :fontName = GetFontName(properties)
+            :fontBold = GetBold(properties)
+            :textAlign = GetAlignment(properties)
+            :text = GetText(properties)
+
+            :visible = GetVisible(properties)
+        End With
+    End Method
+
+    Method DrawCanvas(properties[])
+    Begin
+        If properties[DEF_IS_TEMPORARY_HIDE_PROPERTY] Then
+            Return()
+        End If
+
+        With Canvas<properties[DEF_NAME_PROPERTY]>
+            If Not properties[DEF_IS_CREATED_CANVAS_PROPERTY] Then
+                :Create(GetParent(properties))
+                :enable = false
+                properties[DEF_IS_CREATED_CANVAS_PROPERTY] = true
+            End If
+
+            :backColor = GetBackColor(properties)
+            :left = GetLeft(properties)
+            :top = GetTop(properties)
+            :width = GetWidth(properties)
+            :height = GetHeight(properties)
+            If GetImaging(properties) Then
+                :frame = "none"
+                :SetImage(GetStorageDestination(properties) & ":" & GetImageFileName(properties))
+            Else
+                :frame = GetBorderStyle(properties)
+            End If
+
+            :visible = GetVisible(properties)
+        End With
+    End Method
+
+    Method DrawString(properties[])
+        Const marginX = 2
+        drawY
+        calcMargin
+        charCount
+        alignment
+    Begin
+        If properties[DEF_IS_TEMPORARY_HIDE_PROPERTY] Or GetImaging(properties) Then
+            Return()
+        End If
+
+        If Not properties[DEF_IS_CREATED_CANVAS_PROPERTY] Then
+            Return()
+        End If
+
+        With Drawing
+            :Initialize()
+            :targetCanvas = properties[DEF_NAME_PROPERTY]
+            If GetEnabled(properties) Then
+                :lineColor = GetForeColor(properties)
+            Else
+                :lineColor = "192|192|192"
+            End If
+            :fillColor = GetBackColor(properties)
+            :fontSize = GetFontSize(properties)
+            :magnificate = GetMagnificate(properties)
+            :multiColumn = 2    
+
+            If GetBold(properties) Then
+                If Drawing:fontGapx == 0 Then
+                    Drawing:fontGapx = 1
+                End If
+                :bold = true
+            End If
+
+            drawY = (GetHeight(properties) - GetConvertFontToPoint(GetFontSize(properties)) * AdjustmentMagnificate(properties)) / 2
+            If (drawY < 0) Then
+                drawY = 0
+            End If
+
+            If GetText(properties).length > 0 Then
+                alignment = GetAlignment(properties)
+                Select Case alignment
+                Case "left"
+                    :String(GetText(properties), marginX, drawY)
+                Case "center","right"
+                    calcMargin = GetWidth(properties) - (GetText(properties).length * (GetConvertFontToPoint(GetFontSize(properties)) * AdjustmentMagnificate(properties)/ 2))
+                    charCount = StringUtility:GetCharCount(GetText(properties))
+                    If charCount > 0 Then
+                        calcMargin = calcMargin - (Drawing:fontGapx * (charCount - 1))
+                    End If
+                    calcMargin = calcMargin - marginX * 2
+                    If alignment eq "center" Then
+                        calcMargin = calcMargin / 2
+                    Else
+                        calcMargin = calcMargin - AdjustmentBold(properties)
+                    End If
+                    If calcMargin < 0 Then
+                        calcMargin = 0
+                    End If
+                    :String(GetText(properties), calcMargin, drawY)
+                End Select
+            End If
+        End With
+    End Method
+
+    Method GetConvertFontToPoint(value)
+        result = value
+    Begin
+        Select Case value
+            Case "small"
+                result = TERMINAL_SETTING_FONT_SIZE_SMALL
+            Case "middle"
+                result = TERMINAL_SETTING_FONT_SIZE_MIDDLE
+            Case "large"
+                result = TERMINAL_SETTING_FONT_SIZE_LARGE
+        End Select
+
+        Return(result)
+    End Method
+
+    Method AdjustmentMagnificate(properties[])
+    Begin
+        Select Case GetMagnificate(properties)
+            Case 1
+                Return(1)
+            Case 2
+                Return(2)
+            Case 3
+                Return(1)
+            Case 4
+                Return(2)
+            Case 9
+                Return(3)
+            Case 16
+                Return(4)
+            Case 25
+                Return(5)
+        End Select
+    End Method
+
+    Method AdjustmentBold(properties[])
+    Begin
+        If GetBold(properties) Then
+            Return(GetText(properties).length * (AdjustmentMagnificate(properties) / 2))
+        Else
+            Return(0)
+        End If
+    End Method
+
+    Method ComparisonValueCountUpdated(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CollationCountUpdated(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget , index)
+    Begin
+        Return (True)
+    End Method
+
+    Method GetForeBrushColor(properties[])
+    Begin
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BT" Or GetImaging(properties) Then
+            If Not Canvas<GetControlName(properties, 0)>:enable Then
+                Return ("211|211|211") 
+            End If
+        Else
+            If Not Label<GetControlName(properties, 0)>:enable Then
+                Return ("211|211|211") 
+            End If
+        End If
+        Return (GetForeColor(properties))
+    End Method
+
+    Method DataInput(properties[], result)
+    Begin
+        Return (true)
+    End Method
+
+    Method FocusTransitionRequested(properties[])
+    Begin
+        Return (true)
+    End Method
+
+    Method BaseSetSearchResult(properties[], listId_SearchResult, columnIndex)
+        displayText
+    Begin
+        If (listId_SearchResult == INVALID_LIST_TABLE_ID) Or (ListTable:Count(listId_SearchResult) == 0) Then
+            Return (0)
+        End If
+
+        displayText = ListTable:Get(listId_SearchResult, 0, "val")
+        SetText(properties, displayText)
+
+        If ICollationTarget:IsImplemented(GetName(properties)) Then
+            AddCollationValue(properties)
+        EndIf
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        properties[DEF_IS_TEMPORARY_HIDE_PROPERTY] = true
+
+        If properties[DEF_IS_CREATED_CANVAS_PROPERTY] Then
+            If TERMINAL_SETTING_TERMINAL_KIND eq "BT" Or GetImaging(properties) Then
+                Canvas<properties[DEF_NAME_PROPERTY]>:Delete()
+            Else
+                Label<properties[DEF_NAME_PROPERTY]>:Delete()
+            End If
+            properties[DEF_IS_CREATED_CANVAS_PROPERTY] = false
+        End If
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BT" Or GetImaging(properties) Then
+            Canvas<properties[DEF_NAME_PROPERTY]>:Delete()
+        Else
+            Label<properties[DEF_NAME_PROPERTY]>:Delete()
+        End If
+    End Method
+
+    Method StoreTemporaryText(properties[])
+    Begin
+    End Method
+
+    Method ResetTemporaryText(properties[])
+    Begin
+    End Method
+
+#popdefine

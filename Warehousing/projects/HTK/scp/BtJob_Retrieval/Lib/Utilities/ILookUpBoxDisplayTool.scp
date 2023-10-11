@@ -1,0 +1,23 @@
+
+Package ILookUpBoxDisplayTool
+
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(toolName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(toolName, Names))
+    End Method
+
+    Method GetInitialText(toolName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(toolName, Names, "GetInitialText", args, ICommons))
+    End Method
+
+End Package
+

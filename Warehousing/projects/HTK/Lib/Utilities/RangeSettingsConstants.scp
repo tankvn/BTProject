@@ -1,0 +1,13 @@
+#define DEF_COMMON RangeSettingsCommon
+
+    #define DEFAULT_RANGE_END 8192
+
+    #define DEF_NAME_PROPERTY 0
+    #define DEF_RANGETYPE_PROPERTY 1
+    #define DEF_RANGESTART_PROPERTY 2
+    #define DEF_RANGEEND_PROPERTY 3
+    #define DEF_AITYPE_PROPERTY 4
+    #define DEF_NEW_1_HANDLER 5
+    #define DEF_NEW_3_HANDLER 6
+    #define DEF_NEW_4_HANDLER 7
+    #define DEF_PROPERTY_NUM 8

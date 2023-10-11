@@ -1,0 +1,322 @@
+Include "BtJob_Storage\Lib\Parts\DeleteConfirmationDialog"
+Include "BtJob_Storage\Lib\Parts\RES\DeleteConfirmationDialog_res"
+Include "BtJob_Storage\Lib\Parts\DeleteConfirmationDialog_messageLabel"
+Include "BtJob_Storage\Lib\Parts\DeleteConfirmationDialog_deletionOneRecordButton"
+Include "BtJob_Storage\Lib\Parts\DeleteConfirmationDialog_deletionAllRecordsButton"
+Include "BtJob_Storage\Lib\Parts\DeleteConfirmationDialog_cancelButton"
+Include "BtJob_Storage\Lib\Parts\DeleteConfirmationDialog_BtLabel1"
+Include "BtJob_Storage\Lib\Utilities\DeleteConfirmationDialog_FocusTransitionUtility"
+Include "BtJob_Storage\Lib\Parts\HistoryDataEditDialog"
+Include "BtJob_Storage\Lib\Parts\RES\HistoryDataEditDialog_res"
+Include "BtJob_Storage\Lib\Parts\HistoryDataEditDialog_fieldStringLabel"
+Include "BtJob_Storage\Lib\Parts\HistoryDataEditDialog_dataStringLabel"
+Include "BtJob_Storage\Lib\Parts\HistoryDataEditDialog_labelFieldName"
+Include "BtJob_Storage\Lib\Parts\HistoryDataEditDialog_okButton"
+Include "BtJob_Storage\Lib\Parts\HistoryDataEditDialog_cancelButton"
+Include "BtJob_Storage\Lib\Parts\HistoryDataEditDialog_textBox"
+Include "BtJob_Storage\Lib\Parts\HistoryDataEditDialog_inputDateBox"
+Include "BtJob_Storage\Lib\Parts\HistoryDataEditDialog_labelTitle"
+Include "BtJob_Storage\Lib\Utilities\HistoryDataEditDialog_FocusTransitionUtility"
+Include "BtJob_Storage\Lib\Utilities\BtJob_Storage_StorageData"
+Include "BtJob_Storage\Lib\Utilities\ILogItemControl"
+Include "BtJob_Storage\Lib\Utilities\ILogItemSystemParameter"
+Include "BtJob_Storage\Lib\Utilities\BtJob_Storage_LogItem_6"
+Include "BtJob_Storage\Lib\Utilities\BtJob_Storage_LogItem_5"
+Include "BtJob_Storage\Lib\Utilities\BtJob_Storage_LogItem_4"
+Include "BtJob_Storage\Lib\Utilities\BtJob_Storage_LogItem_3"
+Include "BtJob_Storage\Lib\Utilities\BtJob_Storage_LogItem_2"
+Include "BtJob_Storage\Lib\Utilities\BtJob_Storage_LogItem_1"
+Include "BtJob_Storage\Lib\Utilities\BtJob_Storage_LogItem_0"
+Include "BtJob_Storage\Lib\Utilities\IBtMasterCheckControl"
+Include "BtJob_Storage\Lib\Utilities\ILr1DataItemSendDataSize"
+Include "BtJob_Storage\Lib\Utilities\ILr1DataItemScreenData"
+Include "BtJob_Storage\Lib\Utilities\ILr1DataItem"
+Include "BtJob_Storage\Lib\Utilities\IBtLr1OutputDataControl"
+Include "BtJob_Storage\Lib\Utilities\IBtCombinationComponent"
+Include "BtJob_Storage\Lib\Utilities\ICollationConditionSetting"
+Include "BtJob_Storage\Lib\Utilities\ICollationComparisonItem"
+Include "BtJob_Storage\Lib\Utilities\ICollationTarget"
+Include "BtJob_Storage\Lib\Utilities\IRangeSettings"
+Include "BtJob_Storage\Lib\Utilities\IBtCollationControl"
+Include "BtJob_Storage\Lib\Utilities\ISearchViewDisplayItem"
+Include "BtJob_Storage\Lib\Utilities\ISearchViewConditionItem"
+Include "BtJob_Storage\Lib\Utilities\ISearchViewDisplayControl"
+Include "BtJob_Storage\Lib\Utilities\ISearchViewConditionControl"
+Include "BtJob_Storage\Lib\Utilities\IInputQuantityTool"
+Include "BtJob_Storage\Lib\Utilities\IInputItemTool"
+Include "BtJob_Storage\Lib\Utilities\IBtStopWatch"
+Include "BtJob_Storage\Lib\Utilities\ILookUpBoxDisplayTool"
+Include "BtJob_Storage\Lib\Utilities\ILookUpBoxInputTool"
+Include "BtJob_Storage\Lib\Utilities\ITableView"
+Include "BtJob_Storage\Lib\Utilities\IBtInputDateControl"
+Include "BtJob_Storage\Lib\Parts\ScreenManager"
+Include "BtJob_Storage\Lib\Utilities\IBtSharedParameterLabel"
+Include "BtJob_Storage\Lib\Utilities\ISharedParameterInputTool"
+Include "BtJob_Storage\Lib\Utilities\IBtInputComponent"
+Include "BtJob_Storage\Lib\Utilities\IMasterCheckDataOwnerControl"
+Include "BtJob_Storage\Lib\Utilities\IMasterDataOwnerControl"
+Include "BtJob_Storage\Lib\Utilities\IFilterControl"
+Include "BtJob_Storage\Lib\Utilities\IBtInputControl"
+Include "BtJob_Storage\Lib\Utilities\IControl"
+
+Package BtJob_Storage_res
+
+Properties[11]
+
+_ctrl[1]
+_components[1]
+
+    Method New()
+    Begin
+
+        Properties[0] = "BtJob_Storage"
+        BtFormCommon:New(Properties)
+    End Method
+
+    Method InitializeChildren()
+    Begin
+        UpdateChildren(False)
+    End Method
+
+    Method UpdateChildren(updateScreen)
+    Begin
+        BtFormCommon:UpdateChildren(_ctrl, _components)
+
+        If updateScreen Then
+            BtWindow_Storage_res:UpdateChildren()
+            BtHistoryDataView_Storage_res:UpdateChildren()
+        End If
+    End Method
+
+    Method UpdateLogData(updateScreen)
+    Begin
+        If updateScreen Then
+            BtWindow_Storage_res:UpdateLogData()
+            BtHistoryDataView_Storage_res:UpdateLogData()
+        End If
+    End Method
+
+    Method UpdateMasterData(updateScreen)
+    Begin
+    End Method
+
+    Method ReflectMasterCheckSentNum(logDataMaxRowId)
+    Begin
+        BtWindow_Storage_res:ReflectMasterCheckSentNum(logDataMaxRowId)
+        BtHistoryDataView_Storage_res:ReflectMasterCheckSentNum(logDataMaxRowId)
+    End Method
+
+    Method ReflectMasterCheckSentNumByRealTime()
+    Begin
+        BtWindow_Storage_res:ReflectMasterCheckSentNumByRealTime()
+        BtHistoryDataView_Storage_res:ReflectMasterCheckSentNumByRealTime()
+    End Method
+
+    Method RegisterSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:RegisterSharedParameter(_ctrl)
+
+        If updateScreen Then
+            BtWindow_Storage_res:RegisterSharedParameter()
+            BtHistoryDataView_Storage_res:RegisterSharedParameter()
+        End If
+    End Method
+
+    Method UpdateSharedParameterInputTool(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameterInputTool(_ctrl, _components)
+
+        If updateScreen Then
+            BtWindow_Storage_res:UpdateSharedParameterInputTool()
+            BtHistoryDataView_Storage_res:UpdateSharedParameterInputTool()
+        End If
+    End Method
+
+    Method UpdateSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameter(_ctrl)
+
+        If updateScreen Then
+            BtWindow_Storage_res:UpdateSharedParameter()
+            BtHistoryDataView_Storage_res:UpdateSharedParameter()
+        End If
+
+        UpdateSharedParameterInputTool(updateScreen)
+    End Method
+
+    Method ClearSharedParameterWhenWroteLog()
+    Begin
+
+            BtWindow_Storage_res:ClearSharedParameter(0x1)
+            BtHistoryDataView_Storage_res:ClearSharedParameter(0x1)
+
+        RegisterSharedParameter(true)
+        UpdateSharedParameter(true)
+    End Method
+
+    Method ClearSharedParameterWhenJobClose()
+    Begin
+            BtWindow_Storage_res:ClearSharedParameter(0x2)
+            BtHistoryDataView_Storage_res:ClearSharedParameter(0x2)
+
+        RegisterSharedParameter(true)
+    End Method
+
+    Method CloseDatabase()
+    Begin
+        BtFormCommon:CloseDatabase(_ctrl, _components)
+    End Method
+
+    Method KeyAssignedAction(sender)
+    Begin
+        Select Case sender
+            Case 0x00000001
+            Case 0x00000002
+            Case 0x00000004
+            Case 0x02000000
+            Case 0x00200000
+            Case 0x00400000
+        End Select
+    End Method
+
+    Method GetActiveControl(checkControl)
+    Begin
+        Return (Window<Properties[0]>:GetFocus())
+    End Method
+
+    Method ResetInvalidInput()
+    Begin
+    End Method
+
+    Method OnShown(e)
+    Begin
+            BtWindow_Storage_res:OnFormShown()
+            BtHistoryDataView_Storage_res:OnFormShown()
+    End Method
+
+    Method Close()
+    Begin
+        BtFormCommon:Close(Properties)
+    End Method
+
+    Method Dispose()
+    Begin
+        BtFormCommon:Dispose(_ctrl)
+        BtWindow_Storage_res:Dispose()
+        BtHistoryDataView_Storage_res:Dispose()
+    End Method
+
+    Method Show(value)
+    Begin
+        BtFormCommon:ShowDisplay(Properties, _ctrl, value)
+    End Method
+
+    Method EventWait()
+    Begin
+        BtFormCommon:EventWait(Properties)
+    End Method
+
+    Method KeyAssignedActionForBtScreen(controlId, sender)
+    Begin
+        Select Case controlId
+            Case "BtWindow_Storage_res"
+                BtWindow_Storage_res:KeyAssignedAction(sender)
+            Case "BtHistoryDataView_Storage_res"
+                BtHistoryDataView_Storage_res:KeyAssignedAction(sender)
+        End Select
+    End Method
+
+    _inputKeysList[4]
+    Method AddInputKeysList(value)
+    Begin
+        BtFormCommon:AddInputKeysList(_inputKeysList, value)
+    End Method
+    Method CheckFullInputKeysList()
+    Begin
+        Return(_inputKeysList[3] is nil)
+    End Method
+    Method CheckJudgeInputKeyList()
+    Begin
+        Return(BtFormCommon:CheckJudgeInputKeyList(_inputKeysList))
+    End Method
+
+    Method Focus()
+    Begin
+        Window<Properties[0]>:SetFocus()
+    End Method
+    Method SetEnable(value)
+    Begin
+        Window<Properties[0]>:enable = value
+    End Method
+
+    Method InitializeTimer()
+    Begin
+        BtFormCommon:StartTimer(Properties, OnTimeUp)
+    End Method
+
+    Method TerminateTimer()
+    Begin
+        BtFormCommon:StopTimer(Properties)
+    End Method
+
+    Method OnTimeUp(sender)
+        currentTime
+    Begin
+        currentTime = Handy:GetTickCount1()
+
+        If currentTime < BtFormCommon:GetLastTime(Properties) Then
+            BtFormCommon:SetLastTime(Properties, -1 * 50)
+        End If
+
+        If currentTime < (BtFormCommon:GetLastTime(Properties) + 50) Then Return() End If
+        BtWindow_Storage_res:OnTimeUp(sender)
+        BtHistoryDataView_Storage_res:OnTimeUp(sender)
+        BtFormCommon:SetLastTime(Properties, Handy:GetTickCount1())
+    End Method
+
+    Method InvertControlColor(sender)
+    Begin
+        If Not Window<Properties[0]>:visible Then
+            Return()
+        End If
+
+        Window<"__UPDATE_OFF__">:Update()
+        Window<"ROOT_WINDOW">:Update()
+    End Method
+
+    Method InitializeComponent()
+    Begin
+        IControl:New()
+        IBtInputControl:New()
+        IFilterControl:New()
+        ICollationTarget:New()
+        IMasterDataOwnerControl:New()
+        IMasterCheckDataOwnerControl:New()
+        IBtInputComponent:New()
+        ISharedParameterInputTool:New()
+        IBtSharedParameterLabel:New()
+        IDataFormatControl:New()
+        ILogItemSystemParameter:New()
+        ILogItemScreenData:New()
+        ILogItemControl:New()
+        IInputItemTool:New()
+        IInputQuantityTool:New()
+        ITableView:New()
+
+        New()
+        InitializeTimer()
+        BtWindow_Storage:New()
+        BtHistoryDataView_Storage:New()
+        With BtJob_Storage_res
+        End With
+
+        With BtJob_Storage_res
+            BtFormCommon:SetWidth(:Properties, 240)
+            BtFormCommon:SetHeight(:Properties, 320)
+            BtFormCommon:SetFormBorderStyle(:Properties, "none")
+            BtFormCommon:SetVisible(:Properties, true)
+            BtFormCommon:UpdateVisible(:Properties)
+        End With
+
+    End Method
+End Package

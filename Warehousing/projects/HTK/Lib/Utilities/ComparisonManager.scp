@@ -1,0 +1,100 @@
+#insert "\Lib\Utilities\ComparisonManagerConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+    _comparisonItems[16]           
+    _comparisonItem_src[16]        
+    _comparisonItem_dst[16]        
+    _comparisonItem_dstIndex[16]   
+
+    Method New(conditionsEvaluation)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+
+        Properties[DEF_GET_OUTPUT_PATTERN_HANDLER] = GetOutputPattern
+        Properties[DEF_GET_OUTPUT_SEPARATOR_HANDLER] = GetOutputSeparator
+        Properties[DEF_DISPLAY_DATE_HANDLER] = DisplayDate
+        Properties[DEF_GET_LOG_DATA_HANDLER] = GetLogData
+        Properties[DEF_GET_TYPE_HANDLER] = GetType
+
+        ComparisonManagerCommon:New(Properties, conditionsEvaluation)
+    End Method
+
+    Method AddCondition(source, destination, destinationIndex, judgeKind, calculationType, calculationTarget, calculationValue)
+    Begin
+        Return(ComparisonManagerCommon:AddCondition(
+            Properties,
+            _comparisonItems,
+            _comparisonItem_src,
+            _comparisonItem_dst,
+            _comparisonItem_dstIndex,
+            source,
+            destination,
+            destinationIndex,
+            judgeKind,
+            calculationType,
+            calculationTarget,
+            calculationValue))
+    End Method
+    Method DoJudge()
+    Begin
+        Return(ComparisonManagerCommon:DoJudge(Properties,
+            _comparisonItems,
+            _comparisonItem_src,
+            _comparisonItem_dst,
+            _comparisonItem_dstIndex))
+    End Method
+
+    Method GetOutputPattern(this)
+        controlName
+    Begin
+        controlName = UserObj<this>:Get(1)
+        If IBtInputDateControl:IsImplemented(controlName) Then
+            Return (IBtInputDateControl:GetOutputPattern(controlName))
+        End If
+        Return (TERMINAL_SETTING_DEFAULT_DATE_PATTERN)
+    End Method
+
+    Method GetOutputSeparator(this)
+        controlName
+    Begin
+        controlName = UserObj<this>:Get(1)
+        If IBtInputDateControl:IsImplemented(controlName) Then
+            Return (IBtInputDateControl:GetOutputSeparator(controlName))
+        End If
+        Return (TERMINAL_SETTING_DEFAULT_DATE_SEPARATOR)
+    End Method
+
+    Method DisplayDate(this)
+        controlName
+    Begin
+        controlName = UserObj<this>:Get(1)
+        If IBtInputDateControl:IsImplemented(controlName) Then
+            Return (IBtInputDateControl:DisplayDate(controlName))
+        End If
+        Return ("")
+    End Method
+
+    Method GetLogData(this)
+    Begin
+        Return (ILogItemControl:GetLogData(
+            UserObj<this>:Get(1),
+            UserObj<this>:Get(2)))
+    End Method
+
+    Method GetType(this)
+        componentName
+        type
+    Begin
+        componentName = UserObj<this>:Get(1)
+        If IBtInputComponent:IsImplemented(componentName) Then
+            type = IBtInputComponent:GetType(componentName)
+            If Not (type is nil) Then
+                Return (type)
+            End If
+        End If
+        Return(IControl:GetType(componentName))
+    End Method
+End Package

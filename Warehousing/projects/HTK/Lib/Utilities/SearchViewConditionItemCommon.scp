@@ -1,0 +1,32 @@
+
+#insert "\Lib\Utilities\SearchViewConditionItemConstants"
+
+Package SearchViewConditionItemCommon
+    Method GetInputControl(properties[]) Begin Return(properties[DEF_INPUT_CONTROL_PROPERTY]) End Method
+
+    Method GetName(properties[]) Begin Return(properties[DEF_NAME_PROPERTY]) End Method
+    Method GetRangeExtractedStringHandler(properties[]) Begin Return(properties[DEF_RANGE_EXTRACTED_STRING_HANDLER]) End Method
+    Method SetRangeExtractedStringHandler(properties[], value) Begin properties[DEF_RANGE_EXTRACTED_STRING_HANDLER] = value End Method
+    Method GetTableFieldNameHandler(properties[]) Begin Return(properties[DEF_TABLE_FIELD_NAME_HANDLER]) End Method
+    Method SetTableFieldNameHandler(properties[], value) Begin properties[DEF_TABLE_FIELD_NAME_HANDLER] = value End Method
+
+#insert "\Lib\Utilities\ISearchViewConditionItemInvokeCommon"
+
+    Method GetInputValue(properties[])
+    Begin
+        Return(ISearchViewConditionControl:GetInputValue(properties[DEF_INPUT_CONTROL_PROPERTY]))
+    End Method
+
+    Method GetRangeExtractedString(properties[], value)
+        parameter[1]
+    Begin
+        parameter[0] = value
+        Return(EventUtility:Exec(GetRangeExtractedStringHandler(properties), GetName(properties), parameter))
+    End Method
+
+    Method GetTableFieldName(properties[])
+        parameter[1]
+    Begin
+        Return(EventUtility:Exec(GetTableFieldNameHandler(properties), GetName(properties), parameter))
+    End Method
+End Package 

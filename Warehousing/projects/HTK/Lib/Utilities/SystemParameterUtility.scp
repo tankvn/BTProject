@@ -1,0 +1,197 @@
+#insert "\Lib\Utilities\SystemSettingFileUtilityConstants"
+
+#pushdefine
+#include "\Lib\Utilities\SystemSettingFileUtility" "Lib\Utilities\SystemSettingFileUtility"
+#popdefine
+
+Package SystemParameterUtility
+
+    Method GetSystemParameter(parameterType)
+        parameter
+    Begin
+        If parameterType == SYSTEM_PARAMETER_TYPE_FIRMWARE_VERSION Then
+            parameter = GetFirmwareVersion()
+        ElseIf parameterType == SYSTEM_PARAMETER_TYPE_TERMINAL_NAME Then
+            parameter = GetTerminalName()
+        ElseIf parameterType == SYSTEM_PARAMETER_TYPE_TERMINAL_ID Then
+            parameter = GetTerminalId()
+        ElseIf parameterType == SYSTEM_PARAMETER_TYPE_SERIAL_NUMBER Then
+            parameter = GetSerialNumber()
+        ElseIf parameterType == SYSTEM_PARAMETER_TYPE_APPLICATION_VERSION Then
+            parameter = GetApplicationVersion()
+        ElseIf parameterType == SYSTEM_PARAMETER_TYPE_SYSTEM_DATE Then
+            parameter = GetSystemDate()
+        ElseIf parameterType == SYSTEM_PARAMETER_TYPE_SYSTEM_TIME Then
+            parameter = GetSystemTime()
+        ElseIf parameterType == SYSTEM_PARAMETER_TYPE_TERMINAL_IP_ADDRESS Then
+            parameter = GetIpAddress()
+        End If
+        Return(parameter)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_GET_SYSTEM_PARAMETER)
+    End Method
+
+    Method GetCurrentSystemDate()
+    Begin
+        Return(Handy:date & " " & Handy:time)
+    End Method
+
+    Method GetCurrentSystemTime()
+    Begin
+        Return(Handy:time)
+    End Method
+
+    Method GetFirmwareVersion()
+    Begin
+        Return(Handy:systemVersion)
+    End Method
+
+    Method IsSupportBtDesignTool()
+        version
+        intVersion
+    Begin
+        version = GetFirmwareVersion()
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BT" Then
+            intVersion = version.Mid(1, version.length - 1)
+            Return(intVersion >= 2.000)
+        End If
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BTW" Then
+            Return(version >= 4.300)
+        End If
+        Return(true)
+    End Method
+
+    Method GetTerminalName()
+    Begin
+        Return(Network:terminalName)
+    End Method
+
+    Method GetTerminalId()
+    Begin
+        Return(Handy:id)
+    End Method
+
+    Method GetSerialNumber()
+    Begin
+        If Handy:model.Mid(0, 6) eq "BT-600" Then
+            Return(Handy:serialChar)
+        Else
+            Return(Handy:serialId)
+        End If
+    End Method
+
+    Method GetApplicationVersion()
+    Begin
+        Return(TERMINAL_SETTING_APPLICATION_VERSION)
+    End Method
+
+    Method GetSystemDate()
+    Begin
+        Return(DateUtility:FormatDate(
+            Handy:date,
+            TERMINAL_SETTING_DEFAULT_DATE_PATTERN,
+            TERMINAL_SETTING_DEFAULT_DATE_SEPARATOR))
+    End Method
+
+    Method GetSystemTime()
+    Begin
+        Return(Handy:time)
+    End Method
+
+    Method GetIpAddress()
+    Begin
+        Return(Network:localIp)
+    End Method
+
+    Method GetBackLightData(value[])
+    Begin
+        value[0] = LCD:backLightMode    
+        value[1] = LCD:backLightNormal    
+        value[2] = LCD:backLightStandby    
+        value[3] = LCD:backLightTimer    
+        Return()
+    End Method
+
+    Method GetBackLightLevelWhenStandby()
+    Begin
+        Return(LCD:backLightStandby)    
+    End Method
+
+    Method GetBackLightLevelWhenNormal()
+    Begin
+        Return(LCD:backLightNormal)    
+    End Method
+
+    Method SetBackLightLevel(backLightLevel)
+    Begin
+        LCD:backLightNormal = backLightLevel
+        Return()
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_BACKLIGHT_SETTINGS)
+    End Method
+
+    Method SetBackLightTime(backLightTime)
+    Begin
+        LCD:backLightTimer = backLightTime
+        Return()
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_BACKLIGHT_TIME)
+    End Method
+
+    Method GetBackLightTime()
+    Begin
+        Return(LCD:backLightTimer)
+    End Method
+
+    Method SetResume(enable)
+    Begin
+        Handy:resumeOn = enable
+        Return()
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_RESUME)
+    End Method
+
+    Method SetAutoPowerOffTime(autoPowerOffTime)
+    Begin
+        Handy:autoPowerOff = autoPowerOffTime
+        Return()
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_AUTOPOWEROFF)
+    End Method
+
+    Method GetAutoPowerOffTime()
+    Begin
+        Return(Handy:autoPowerOff)
+    End Method
+
+    Method GetBuzzerLevelWhenScanningSucceed()
+    Begin
+        Return (SystemSettingFileUtility:GetBuzzerLevelWhenScanningSucceed())
+    End Method
+
+    Method SetScanningSuccessSoundLevel(soundLevel)
+    Begin
+        SystemSettingFileUtility:SetScanningSuccessSoundLevel(soundLevel)
+    End Method
+
+    Method SetScanningErrorSoundLevel(soundLevel)
+    Begin
+        SystemSettingFileUtility:SetScanningErrorSoundLevel(soundLevel)
+    End Method
+
+    Method GetOperationSoundSettings()
+    Begin
+        Return(SystemSettingFileUtility:GetKeyOperationSoundData())
+    End Method
+
+    Method SetOperationSoundLevel(soundLevel)
+    Begin
+        SystemSettingFileUtility:SetKeyOperationSoundData(soundLevel)
+    End Method
+    
+    Method GetModel()
+    Begin
+        Return(Handy:model)
+    End Method
+
+End Package

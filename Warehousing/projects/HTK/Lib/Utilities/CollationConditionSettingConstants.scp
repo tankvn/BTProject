@@ -1,0 +1,11 @@
+#define DEF_COMMON CollationConditionSettingCommon
+
+    #define DEF_NAME_PROPERTY 0
+    #define DEF_JUDGE_KIND_PROPERTY 1
+    #define DEF_CALCULATION_KIND_PROPERTY 2
+    #define DEF_CALCULATION_VALUE_PROPERTY 3
+    #define DEF_CALCULATION_TARGET_PROPERTY 4
+    #define DEF_NEW_1_HANDLER 5
+    #define DEF_NEW_2_HANDLER 6
+    #define DEF_NEW_3_HANDLER 7
+    #define DEF_PROPERTY_NUM 8

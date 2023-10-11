@@ -1,0 +1,40 @@
+
+Package BtWindow_Storage_BtFocusTransitionController1
+
+Properties[2]
+
+    Method Initialize()
+    Begin
+        BtFocusTransitionControllerCommon:Initialize(Properties)
+    End Method
+
+    Method FocusTransitionRequested(sender)
+        listId_Controls = 0
+        listId_Components = 0
+    Begin
+        If (0 < BtFocusTransitionControllerCommon:GetTransitionCount(Properties))
+        And (BtFocusTransitionControllerCommon:GetResetCount(Properties) <= 0) Then
+            BtFocusTransitionControllerCommon:ResetCount(Properties)
+            Return(false)
+        End If
+
+        listId_Controls = ListTable:CreateList()
+        ListTable:Add(listId_Controls, "BtWindow_Storage_BtTextBox_Location", "")
+        ListTable:Add(listId_Controls, "BtWindow_Storage_BtLabel_ItemNo", "")
+        ListTable:Add(listId_Controls, "BtWindow_Storage_BtTextBox_ItemNo", "")
+        ListTable:Add(listId_Controls, "BtWindow_Storage_BtLabel_Quantity", "")
+        ListTable:Add(listId_Controls, "BtWindow_Storage_BtTextBox_Quantity", "")
+        listId_Components = ListTable:CreateList()
+
+        BtWindow_Storage_FocusTransitionUtility:ResetTargetControls("BtWindow_Storage_BtTextBox_Quantity", "BtWindow_Storage_BtTextBox_Location", listId_Controls, listId_Components)
+
+        ListTable:DeleteList(listId_Controls)
+        ListTable:DeleteList(listId_Components)
+        IControl:Focus("BtWindow_Storage_BtTextBox_Location")
+        BtFocusTransitionControllerCommon:SetResetCount(Properties, BtFocusTransitionControllerCommon:GetResetCount(Properties) - 1)
+
+        Return (true)
+    End Method
+
+End Package
+

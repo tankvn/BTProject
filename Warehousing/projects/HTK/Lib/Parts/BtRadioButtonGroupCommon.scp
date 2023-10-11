@@ -1,0 +1,139 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtRadioButtonGroupConstants"
+
+Package BtRadioButtonGroupCommon
+    /*Inherits Component*/
+    /*Implements IBtInputComponent, ILogItemControl, IFocusTransitionTarget*/
+
+
+    Method GetName(properties[])  /* Implements IBtInputComponent.GetName */
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+    Method SetName(properties[], value)
+    Begin
+        properties[DEF_NAME_PROPERTY] = value
+    End Method
+
+    Method GetType(properties[]) /* Implements IBtInputComponent.GetType */
+    Begin
+        Return (properties[DEF_TYPE_PROPERTY])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetTabIndex(properties[]) /* Implements IBtInputComponent.TabIndex */
+    Begin
+        Return (properties[DEF_TAB_INDEX_PROPERTY])
+    End Method
+    Method SetTabIndex(properties[], value) /* Implements IBtInputComponent.TabIndex */
+    Begin
+        properties[DEF_TAB_INDEX_PROPERTY] = value
+    End Method
+
+    Method GetLogEditType(properties[], index) /* Implements ILogItemControl.LogEditType */
+    Begin
+        Return (INPUT_CONTROL_RADIO_BUTTON)
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index) /* Implements ILogItemControl.DecimalPlaces */
+    Begin
+        Return (0)
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index) /* Implements ILogItemControl.CheckDuplicateReading */
+    Begin
+        Return (false)
+    End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl) /*Implements ILogItemControl.IsSameLogItem*/
+    Begin
+        Return (properties[DEF_NAME_PROPERTY] eq targetLogItemControl)
+    End Method
+
+    Method GetVisible(properties[]) /* Implements IBtInputComponent.Visible */
+    Begin
+        Return (properties[DEF_VISIBLE_PROPERTY])
+    End Method
+    Method SetVisible(properties[], value) /* Implements IBtInputComponent.Visible */
+    Begin
+        properties[DEF_VISIBLE_PROPERTY] = value
+    End Method
+    
+    Method GetSelectedId(properties[])
+    Begin
+        Return (properties[DEF_SELECTED_ID])
+    End Method
+    Method SetSelectedId(properties[], value)
+    Begin
+        properties[DEF_SELECTED_ID] = value
+    End Method
+    
+    Method GetInitialCheckedItemNumber(properties[])
+    Begin
+        Return (properties[DEF_INITIAL_CHECKED_ITEM_NUMBER])
+    End Method
+    Method SetInitialCheckedItemNumber(properties[], value)
+    Begin
+        properties[DEF_INITIAL_CHECKED_ITEM_NUMBER] = value
+    End Method
+    
+    Method GetResetChildrenHandler(properties[])
+    Begin
+        Return (properties[DEF_RESET_CHILDREN_HANDLER])
+    End Method
+    Method SetResetChildrenHandler(properties[], handle)
+    Begin
+        properties[DEF_RESET_CHILDREN_HANDLER] = handle
+    End Method
+
+
+#insert "\Lib\Utilities\IBtInputComponentInvokeCommon"
+#insert "\Lib\Utilities\ILogItemControlInvokeCommon"
+
+
+    Method Create(properties[])
+    Begin
+        SetType(properties, "BtRadioButtonGroup")
+    End Method
+    
+    Method SetHandler(properties[], resetChildrenHandler)
+    Begin
+        SetResetChildrenHandler(properties, resetChildrenHandler)
+    End Method
+
+    Method Reset(properties[]) /* Implements IBtInputComponent.Reset */
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetResetChildrenHandler(properties), GetName(properties), parameter)
+        SetSelectedId(properties, GetInitialCheckedItemNumber(properties))
+    End Method
+
+    Method GetControlName(properties[], index) /* Implements ILogItemControl.GetControlName */
+    Begin
+        Return (BtRadioButtonGroupCommon:GetName(properties))
+    End Method
+
+    Method GetLogTableFieldType(properties[], index) /* Implements ILogItemControl.GetLogTableFieldType */
+    Begin
+        Return (SQ_LITE_FIELD_TYPE_INTEGER_NUMBER)
+    End Method
+
+    Method GetLogData(properties[], index) /* Implements ILogItemControl.GetLogData */
+    Begin
+        Return (GetSelectedId(properties))
+    End Method
+    
+    Method CheckValidInput(properties[], checkTarget, index) /* Implements ILogItemControl.CheckValidInput */
+    Begin
+        Return (true)
+    End Method
+
+
+End Package 
+
+#popdefine

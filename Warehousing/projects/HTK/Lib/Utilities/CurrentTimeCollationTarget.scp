@@ -1,0 +1,38 @@
+Package CurrentTimeCollationTarget
+
+    #define DEF_TAB_STOP_PROPERTY 0
+    #define DEF_PROPERTY_NUM 1
+    _properties[DEF_PROPERTY_NUM]
+
+    Method GetTabStop() Begin Return (_properties[DEF_TAB_STOP_PROPERTY]) End Method
+    Method SetTabStop(value) Begin _properties[DEF_TAB_STOP_PROPERTY] = value End Method
+
+
+
+
+
+    Method New()
+    Begin
+    End Method
+
+    Method GetCollationValue(index)
+    Begin
+        Return (Handy:time)
+    End Method
+
+    Method GetAllCollationValues(index)
+    Begin
+        Return (1)
+    End Method
+
+    Method GetCollationInputControl(index)
+    Begin
+        Return (nil)
+    End Method
+
+    Method GetType()
+    Begin
+        Return ("CurrentTimeCollationTarget")
+    End Method
+
+End Package

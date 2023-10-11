@@ -1,0 +1,423 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtRadioButtonConstants"
+
+Package BtRadioButtonCommon
+
+    Method GetType(properties[]) /* Implements IControl.GetType */
+    Begin
+        Return (properties[DEF_TYPE_PROPERTY])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetName(properties[]) /* Implements IControl.GetName */
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:foreColor)
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:foreColor = value
+        RadioButton<properties[DEF_NAME_PROPERTY]>:inFocusTextColor = value
+        RadioButton<properties[DEF_NAME_PROPERTY]>:outFocusTextColor = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:outFocusBackColor)
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:inFocusBackColor = value
+        RadioButton<properties[DEF_NAME_PROPERTY]>:outFocusBackColor = value
+    End Method
+
+    Method GetFontSize(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:fontSize)
+    End Method
+    Method SetFontSize(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:fontSize = value
+    End Method
+
+    Method GetFontName(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:fontName)
+    End Method
+    Method SetFontName(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:fontName = value
+    End Method
+
+    Method GetBold(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:fontBold)
+    End Method
+    Method SetBold(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:fontBold = value
+    End Method
+
+    Method GetText(properties[]) /* Implements IControl.GetText */
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:text)
+    End Method
+    Method SetText(properties[], value) /* Implements IControl.SetText */
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:text = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:top = value
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:width = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:height = value
+    End Method
+
+    Method SetFocusColor(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:focusColor = value
+    End Method
+
+    Method GetGroupId(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:groupId)
+    End Method
+    Method SetGroupId(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:groupId = value
+    End Method
+
+    Method GetPersonalIdInGroup(properties[])
+    Begin
+        Return (properties[DEF_PERSONAL_ID_IN_GROUP])
+    End Method
+    Method SetPersonalIdInGroup(properties[], value)
+    Begin
+        properties[DEF_PERSONAL_ID_IN_GROUP] = value
+    End Method
+
+    Method GetInitialChecked(properties[])
+    Begin
+        Return (properties[DEF_INITIAL_CHECKED_PROPERTY])
+    End Method
+    Method SetInitialChecked(properties[], value)
+    Begin
+        properties[DEF_INITIAL_CHECKED_PROPERTY] = value
+        RadioButton<properties[DEF_NAME_PROPERTY]>:checked = value
+    End Method
+
+    Method GetChecked(properties[])
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:checked)
+    End Method
+    Method SetChecked(properties[], value)
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:checked = value
+    End Method
+
+    Method GetTabIndex(properties[])
+    Begin
+        Return (properties[DEF_TAB_INDEX_PROPERTY])
+    End Method
+    Method SetTabIndex(properties[], value)
+    Begin
+        properties[DEF_TAB_INDEX_PROPERTY] = value
+    End Method
+
+    Method GetVisible(properties[]) /* Implements IControl.GetVisible */
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:visible)
+    End Method
+    Method SetVisible(properties[], value) /* Implements IControl.SetVisible */
+    Begin
+        properties[DEF_VISIBLE_PROPERTY] = value
+    End Method
+
+    Method UpdateVisible(properties[]) /* Implements IControl.Visible */ /* Implements IBtInputControl.Visible */
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:visible = properties[DEF_VISIBLE_PROPERTY]
+    End Method
+
+    Method GetEnabled(properties[]) /* Implements IControl.GetEnabled */
+    Begin
+        Return (RadioButton<properties[DEF_NAME_PROPERTY]>:enable)
+    End Method
+    Method SetEnabled(properties[], value) /* Implements IControl.SetEnabled */
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:enable = value
+    End Method
+
+    Method GetCanFixDataOnCheckChange(properties[])
+    Begin
+        Return (properties[DEF_CAN_FIX_DATA_ON_CHECK_CHANGE_PROPERTY])
+    End Method
+    Method SetCanFixDataOnCheckChange(properties[], value)
+    Begin
+        properties[DEF_CAN_FIX_DATA_ON_CHECK_CHANGE_PROPERTY] = value
+    End Method
+
+    Method GetDataInputHandler(properties[])
+    Begin
+        Return (properties[DEF_DATA_INPUT_HANDLER])
+    End Method
+    Method SetDataInputHandler(properties[], handle)
+    Begin
+        properties[DEF_DATA_INPUT_HANDLER] = handle
+    End Method
+
+    Method GetFocusTransitionRequestedHandler(properties[])
+    Begin
+        Return (properties[DEF_FOCUS_TRANSITION_REQUESTED_HANDLER])
+    End Method
+    Method SetFocusTransitionRequestedHandler(properties[], handle)
+    Begin
+        properties[DEF_FOCUS_TRANSITION_REQUESTED_HANDLER] = handle
+    End Method
+
+    Method GetMoveNextControlHandler(properties[])
+    Begin
+        Return (properties[DEF_MOVE_NEXT_CONTROL_HANDLER])
+    End Method
+    Method SetMoveNextControlHandler(properties[], handle)
+    Begin
+        properties[DEF_MOVE_NEXT_CONTROL_HANDLER] = handle
+    End Method
+
+    Method GetMovePreviousControlHandler(properties[])
+    Begin
+        Return (properties[DEF_MOVE_PREVIOUS_CONTROL_HANDLER])
+    End Method
+    Method SetMovePreviousControlHandler(properties[], handle)
+    Begin
+        properties[DEF_MOVE_PREVIOUS_CONTROL_HANDLER] = handle
+    End Method
+
+    Method GetNotifyCheckStateHandler(properties[])
+    Begin
+        Return (properties[DEF_NOTIFY_CHECK_STATE_HANDLER])
+    End Method
+    Method SetNotifyCheckStateHandler(properties[], handle)
+    Begin
+        properties[DEF_NOTIFY_CHECK_STATE_HANDLER] = handle
+    End Method
+
+
+
+#insert "\Lib\Utilities\IControlInvokeCommon"
+
+    Method New(properties[])
+    Begin
+        SetBackColor(properties, DEFAULT_BACK_COLOR)
+        SetInitialChecked(properties, false)
+        SetFontSize(properties, "large")
+        If TERMINAL_SETTING_TERMINAL_KIND eq "BTW" Then
+            SetFontName(properties, TERMINAL_SETTING_DEFAULT_FONT_NAME)
+            SetBold(properties, false)
+        End If
+
+        SetGroupId(properties, 0)
+        SetPersonalIdInGroup(properties, 0)
+        SetCanFixDataOnCheckChange(properties, false)
+
+        SetTabIndex(properties, 0)
+        SetFocusColor(properties, TERMINAL_SETTING_FRAME_COLOR)
+    End Method
+
+    Method SetHandler(properties[], dataInputHandler, focusTransitionRequestedHandler, moveNextControlHandler, movePreviousControlHandler, notifyCheckStateHandler)
+    Begin
+        SetDataInputHandler(properties, dataInputHandler)
+        SetFocusTransitionRequestedHandler(properties, focusTransitionRequestedHandler)
+        SetMoveNextControlHandler(properties, moveNextControlHandler)
+        SetMovePreviousControlHandler(properties, movePreviousControlHandler)
+        SetNotifyCheckStateHandler(properties, notifyCheckStateHandler)
+    End Method
+
+    Method SetEventHandler(properties[], onFocusIn, onFocusOut, onCheckChange)
+    Begin
+        With RadioButton<properties[DEF_NAME_PROPERTY]>
+            :onFocusIn = onFocusIn
+            :onFocusOut = onFocusOut
+            :onCheckChange = onCheckChange
+        End With
+    End Method
+
+    Method Create(properties[], parentName)
+    Begin
+        SetType(properties, "BtRadioButton")
+
+        properties[DEF_IS_GOT_FOCUSED] = false
+        properties[DEF_IS_LOST_FOCUSED] = false
+        With RadioButton<properties[DEF_NAME_PROPERTY]>
+            :Create(parentName)
+            :enable = True
+        End With
+    End Method
+
+    Method Reset(properties[])
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:checked = GetInitialChecked(properties)
+
+        SetCanFixDataOnCheckChange(properties, false)
+    End Method
+
+    Method Focus(properties[]) /* Implements IControl.Focus */
+    Begin
+        FocusTransitionUtilityCommon:SetFocus(properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+        focusHandler
+        parameter[1]
+    Begin
+        If isFocused Then
+            focusHandler = RadioButton<properties[DEF_NAME_PROPERTY]>:onFocusIn
+        Else
+            focusHandler = RadioButton<properties[DEF_NAME_PROPERTY]>:onFocusOut
+        End If
+        If Not focusHandler is nil Then
+            EventUtility:Exec(focusHandler, properties[DEF_NAME_PROPERTY], parameter)
+        End If
+    End Method
+
+    Method FixData(properties[])
+        dataInputParameter[1]
+        focusTransitionRequestedParameter[1]
+    Begin
+        dataInputParameter[0] = true
+        If (Not EventUtility:Exec(GetDataInputHandler(properties), GetName(properties), dataInputParameter)) Then
+            Return (nil)
+        End If
+        EventUtility:Exec(GetFocusTransitionRequestedHandler(properties), GetName(properties), focusTransitionRequestedParameter)
+    End Method
+
+    Method KeyDown(properties[], sender)
+        parameter[1]
+    Begin
+        Select Case sender
+            Case KEYS_ENTER
+                EventUtility:Exec(GetNotifyCheckStateHandler(properties), GetName(properties), parameter)
+                FixData(properties)
+
+                SetCanFixDataOnCheckChange(properties, false)
+            Case KEYS_UP, KEYS_LEFT
+                SetFocus(
+                    RadioButton<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMovePreviousControlHandler(properties), GetName(properties), parameter))
+            Case KEYS_DOWN, KEYS_RIGHT
+                SetFocus(
+                    RadioButton<properties[DEF_NAME_PROPERTY]>:GetFocus(),
+                    EventUtility:Exec(GetMoveNextControlHandler(properties), GetName(properties), parameter))
+        End Select
+    End Method
+
+    Method GotFocus(properties[], onKeyDownHandler, onFocusInHandler)
+    Begin
+        Key:onPress = onKeyDownHandler
+
+        properties[DEF_IS_LOST_FOCUSED] = false
+        If properties[DEF_IS_GOT_FOCUSED] Then
+            Return()
+        End If
+        If FocusTransitionUtilityCommon:ForceLostFocus(properties[DEF_NAME_PROPERTY]) Then
+            Key:onPress = onKeyDownHandler
+        End If
+        properties[DEF_IS_GOT_FOCUSED] = true
+
+        RadioButton<GetName(properties)>:onFocusIn = nil
+
+        SetCanFixDataOnCheckChange(properties, Not GetChecked(properties))
+
+        RadioButton<GetName(properties)>:onFocusIn = onFocusInHandler
+    End Method
+
+    Method LostFocus(properties[], onFormKeyDownHandler)
+    Begin
+        Key:onPress = onFormKeyDownHandler
+
+        properties[DEF_IS_GOT_FOCUSED] = false
+        If properties[DEF_IS_LOST_FOCUSED] Then
+            Return()
+        End If
+        properties[DEF_IS_LOST_FOCUSED] = true
+    End Method
+
+    Method OnCheckChange(properties[], onCheckChangeHandler)
+        parameter[1]
+    Begin
+        RadioButton<GetName(properties)>:onCheckChange = nil
+
+        If (GetChecked(properties)) Then
+            EventUtility:Exec(GetNotifyCheckStateHandler(properties), GetName(properties), parameter)
+        End If
+
+        If (GetCanFixDataOnCheckChange(properties)) Then
+            FixData(properties)
+        Else
+            SetCanFixDataOnCheckChange(properties, true)
+        End If
+
+        RadioButton<GetName(properties)>:onCheckChange = onCheckChangeHandler
+    End Method
+
+    Method SetFocus(focusControlId, controlId)
+    Begin
+        If focusControlId.isString And controlId.isString Then
+            If focusControlId ne controlId Then
+                FocusTransitionUtilityCommon:SetFocus(controlId)
+            End If
+        End If
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:visible = false
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        RadioButton<properties[DEF_NAME_PROPERTY]>:Delete()
+    End Method
+
+End Package
+
+#popdefine
+

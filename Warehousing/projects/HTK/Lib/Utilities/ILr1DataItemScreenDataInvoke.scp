@@ -1,0 +1,4 @@
+    Method ILr1DataItemScreenDataInvoke(this)
+    Begin
+        DEF_COMMON:ILr1DataItemScreenDataInvokeCommon(this, Properties)
+    End Method

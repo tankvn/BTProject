@@ -1,0 +1,87 @@
+
+#insert "\Lib\Utilities\LogItemConstants"
+
+Package LogItemCommon
+
+    Method GetLogItemTableItemTypes() /*As List(Of FieldTypePair)*/
+        listId_TableFieldTypePairs
+    Begin
+        listId_TableFieldTypePairs = ListTable:CreateList()
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_LOG_INDEX_FIELD, TYPE_LOG_INDEX_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_FIELD_NAME_FIELD, TYPE_FIELD_NAME_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_SQL_FIELD_TYPE_FIELD, TYPE_SQL_FIELD_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_IS_DATE_FIELD, TYPE_IS_DATE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_IS_TIME_FIELD, TYPE_IS_TIME_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_EXCLUSION_CHARACTERS_FIELD, TYPE_EXCLUSION_CHARACTERS_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_OUTPUT_DOUBLE_QUOTATION_FIELD, TYPE_OUTPUT_DOUBLE_QUOTATION_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_PADDING_TYPE_FIELD, TYPE_PADDING_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_DATA_ALIGN_TYPE_FIELD, TYPE_DATA_ALIGN_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_DATE_FORMAT_TYPE_FIELD, TYPE_DATE_FORMAT_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_DATE_SEPARATOR_TYPE_FIELD, TYPE_DATE_SEPARATOR_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_TIME_FORMAT_TYPE_FIELD, TYPE_TIME_FORMAT_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_CALCULATION_TYPE_FIELD, TYPE_CALCULATION_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_CALCULATION_PARAMETER_FIELD, TYPE_CALCULATION_PARAMETER_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_DATE_CALCULATION_UNIT_TYPE_FIELD, TYPE_DATE_CALCULATION_UNIT_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_OUTPUT_RANGE_TYPE_FIELD, TYPE_OUTPUT_RANGE_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_OUTPUT_RANGE_START_FIELD, TYPE_OUTPUT_RANGE_START_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_OUTPUT_RANGE_END_FIELD, TYPE_OUTPUT_RANGE_END_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_OUTPUT_DIGIT_FIELD, TYPE_OUTPUT_DIGIT_FIELD)
+
+        Return (listId_TableFieldTypePairs)
+    End Method
+
+    Method HasLogItemTable(databaseName)
+    Begin
+        If (DbAccess:HasTable(databaseName, TABLE_NAME_LOG_ITEM_INFO) is false) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method CreateLogItemInfoTable(databaseName) /*As Boolean*/
+        listId_TableFieldTypePairs
+    Begin
+
+        listId_TableFieldTypePairs = GetLogItemTableItemTypes()
+        DbAccess:CreateTable(databaseName, TABLE_NAME_LOG_ITEM_INFO, listId_TableFieldTypePairs)
+        ListTable:DeleteList(listId_TableFieldTypePairs)    
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If 
+
+        Return (true)
+    End Method
+
+    Method DeleteLogItemInfoTable(databaseName) /*As Boolean*/
+    Begin
+
+        DbAccess:DropTable(databaseName, TABLE_NAME_LOG_ITEM_INFO)
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If 
+
+        Return (true)
+    End Method
+
+
+End Package 

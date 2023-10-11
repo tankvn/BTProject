@@ -1,0 +1,19 @@
+
+#insert "\Lib\Utilities\CollationConditionSettingConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+#insert "\Lib\Utilities\ICollationConditionSettingInvoke"
+
+    Method New(judgeKind, calculationKind, calculationValue, calculationTarget)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        CollationConditionSettingCommon:SetJudgeKind(Properties, judgeKind)
+        CollationConditionSettingCommon:SetCalculationKind(Properties, calculationKind)
+        CollationConditionSettingCommon:SetCalculationValue(Properties, calculationValue)
+        CollationConditionSettingCommon:SetCalculationTarget(Properties, calculationTarget)
+    End Method
+
+End Package 

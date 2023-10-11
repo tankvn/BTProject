@@ -1,0 +1,76 @@
+
+ Package TransmittingForm
+
+    _properties[3 + 1]
+
+    Method GetInfomationLabelText()
+    Begin
+        Return (TransmittingForm_res:GetStatusLabelText())
+    End Method
+
+    Method SetInfomationLabelText(value)
+    Begin
+        TransmittingForm_res:SetStatusLabelText(value)
+    End Method
+
+    Method GetEnableCancel()
+    Begin
+        Return (TransmittingForm_res:GetEnableCancel())
+    End Method
+
+    Method SetEnableCancel(value)
+    Begin
+        TransmittingForm_res:SetEnableCancel(value)
+    End Method
+
+    Method GetErrorMessage()
+    Begin
+        Return (_properties[0])
+    End Method
+
+    Method GetCommunicationError()
+    Begin
+            Return (_properties[1])
+    End Method
+
+    Method GetIsActive()
+    Begin
+            Return (_properties[2])
+    End Method
+
+    Method New(title, status)
+    Begin
+        TransmittingForm_res:InitializeComponent()
+
+        TransmittingForm_res:SetTitleLabelText(title)
+        TransmittingForm_res:SetStatusLabelText(status)
+        _properties[1] = false
+        _properties[0] = ""
+
+        TransmittingForm_res:LayoutSetting()
+    End Method
+
+    Method Show()
+    Begin
+        _properties[2] = true
+
+        TransmittingForm_res:Show()
+    End Method
+
+    Method Close()
+    Begin
+        _properties[1] = ErrorManager:GetCommunicationError()
+        _properties[0] = ErrorManager:GetError()
+        _properties[2] = false
+
+        TransmittingForm_res:Close()
+
+        Event:Clear()
+    End Method
+
+    Method Reflesh()
+    Begin
+        TransmittingForm_res:Reflesh()
+    End Method
+
+End Package

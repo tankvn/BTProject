@@ -1,0 +1,13 @@
+    Method ILogItemSystemParameterInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetSystemParameter"
+                InterfaceCommon:Result = GetSystemParameter(properties)
+            Case "GetDateFormatType"
+                InterfaceCommon:Result = GetDateFormatType(properties)
+            Case "GetDateSeparatorType"
+                InterfaceCommon:Result = GetDateSeparatorType(properties)
+            Case "GetTimeFormatType"
+                InterfaceCommon:Result = GetTimeFormatType(properties)
+        End Select
+    End Method

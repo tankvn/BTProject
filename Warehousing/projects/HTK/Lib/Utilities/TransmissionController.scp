@@ -1,0 +1,307 @@
+
+/*Public*/ Package TransmissionController
+    /*Implements IConnectionCanceller*/
+
+    #define DEF_PROCESSING_ID_PROPERTY 0            
+    #define DEF_CURRENT_PROCESSING_ID_PROPERTY 1    
+    #define DEF_IS_ENABLED_PROPERTY 2               
+    #define DEF_IS_TRANSMITTING_PROPERTY 3          
+    #define DEF_IS_CONNECTED_PROPERTY 4             
+    #define DEF_IS_CANCELLED_PROPERTY 5             
+    #define DEF_PROPERTY_NUM 6
+    _properties[DEF_PROPERTY_NUM + 1]
+
+
+    Method Create()
+    Begin
+        If (_properties[DEF_PROCESSING_ID_PROPERTY] is nil) Then
+            _properties[DEF_PROCESSING_ID_PROPERTY] = 0
+        Else
+            _properties[DEF_PROCESSING_ID_PROPERTY] = _properties[DEF_PROCESSING_ID_PROPERTY] + 1
+        End If
+        Return (_properties[DEF_PROCESSING_ID_PROPERTY])
+    End Method
+
+    Method GetIsCancelled() /*As Boolean*/
+    Begin
+            Return (_properties[DEF_IS_CANCELLED_PROPERTY])
+    End Method
+
+
+
+    Method StartTransmitting(processingId) /*As Boolean*/
+    Begin
+        If _properties[DEF_IS_TRANSMITTING_PROPERTY] Then
+            Return (false)
+        End If
+
+        _properties[DEF_CURRENT_PROCESSING_ID_PROPERTY] = processingId
+        _properties[DEF_IS_TRANSMITTING_PROPERTY] = true
+        _properties[DEF_IS_ENABLED_PROPERTY] = true
+
+        Return (true)
+
+    End Method
+
+    Method FinishTransmitting(processingId)
+    Begin
+        If (_properties[DEF_IS_ENABLED_PROPERTY] is false) Then
+            Return (nil)
+        End If
+        If (_properties[DEF_CURRENT_PROCESSING_ID_PROPERTY] <> processingId) Then
+            Return (nil)
+        End If
+        _properties[DEF_IS_TRANSMITTING_PROPERTY] = false
+        _properties[DEF_IS_ENABLED_PROPERTY] = false
+        _properties[DEF_CURRENT_PROCESSING_ID_PROPERTY] = nil
+    End Method
+
+    Method Connect(transmissionRoute, timeout, retryCount) /*As Boolean*/
+        connectResult
+        count
+        retryWLanOpen = false
+    Begin
+
+        If (_properties[DEF_IS_ENABLED_PROPERTY] is false) Then
+            Return (false)
+        End If
+
+        _properties[DEF_IS_CANCELLED_PROPERTY] = false
+
+        If (WLAN:isOpen is true) Then
+            retryWLanOpen = true
+        End If
+
+        connectResult = false
+        For count = 0 to retryCount - 1
+
+            If (_properties[DEF_IS_CANCELLED_PROPERTY] is true) Then
+               Fbreak
+            End If
+
+            If (ConnectCore(transmissionRoute, timeout) is true) Then
+                _properties[DEF_IS_CONNECTED_PROPERTY] = true
+                connectResult = true
+                Fbreak
+            End If
+
+            If (retryWLanOpen is true) Then
+                WLAN:Close()
+                WLAN:Open("sync")
+                retryWLanOpen = false
+            End If
+        Next
+
+        Return (connectResult)
+
+    End Method
+
+    Method ConnectCore(transmissionRoute, timeout) /*As Boolean*/
+        useRoute
+        route
+        connectRet
+    Begin
+
+        useRoute = transmissionRoute
+
+        If (transmissionRoute == TRANSMISSION_ROUTE_TYPE_TERMINAL_SETTING) Then
+            useRoute = TERMINAL_SETTING_DEFAULT_ROUTE_TYPE
+        End If
+
+        Select Case useRoute
+            Case TRANSMISSION_ROUTE_TYPE_USB_COM
+                route = "CRADLE"
+            Case TRANSMISSION_ROUTE_TYPE_LAN
+                If (TERMINAL_SETTING_IS_PASSIVE_MODE is true) Then
+                    route = "SOCK_PASSIVE"
+                Else
+                    route = "SOCK_COMPATIBLE"
+                End If
+                If (Network:IsOpen("LanCradle") is false) Then
+                    Network:Open("sync", "LanCradle")
+                End If
+            Case TRANSMISSION_ROUTE_TYPE_WIRELESS_LAN
+                If (TERMINAL_SETTING_IS_PASSIVE_MODE is true) Then
+                    route = "SOCK_PASSIVE"
+                Else
+                    route = "SOCK_COMPATIBLE"
+                End If
+                If (WLAN:isOpen is false) Then
+                    WLAN:Open("sync")
+                End If
+        End Select
+
+        With Comm
+            :Initialize()
+            :cancelKey = "C"
+            :deviceId = route
+            :timeOut = timeout
+            connectRet = :Connect()
+            If (connectRet is false) Then
+                WriteErrorLog("Connect(false)")
+                If (:error eq "CANCELED") Then
+                    _properties[DEF_IS_CANCELLED_PROPERTY] = true
+                End If
+                Return (false)
+            End If
+            :cancelKey = nil
+        End With
+
+        Return (true)
+
+    Catch
+        Return (false)
+    End Method
+
+    Method Disconnect(timeout, retryCount) /*As Boolean*/
+        count
+        disconnectResult
+    Begin
+
+        If (_properties[DEF_IS_ENABLED_PROPERTY] is false) Then
+            Return (false)
+        End If
+
+        disconnectResult = false
+        For count = 0 to retryCount - 1
+
+            If (_properties[DEF_IS_CANCELLED_PROPERTY] is true) Then
+                Fbreak
+            End If
+
+            If (DisconnectCore(timeout) is true) Then
+                _properties[DEF_IS_CONNECTED_PROPERTY] = false
+                disconnectResult = true
+                Fbreak
+            End If
+        Next
+
+        Return (disconnectResult)
+    End Method
+
+    Method DisconnectCore(timeout) /*As Boolean*/
+        disconnectRet
+    Begin
+
+        With Comm
+            :timeOut = timeout
+            disconnectRet = :Disconnect()
+            If (disconnectRet is false) Then
+                WriteErrorLog("Disconnect(false)")
+                If (:error eq "CANCELED") Then
+                    _properties[DEF_IS_CANCELLED_PROPERTY] = true
+                End If
+                Return (false)
+            End If
+        End With
+
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+
+    Method PutFile(localFileName, remoteFileName, timeout, retryCount) /*As Boolean*/
+        count
+        putFileResult
+    Begin
+
+        If (_properties[DEF_IS_ENABLED_PROPERTY] is false) Then
+            Return (false)
+        End If
+
+        putFileResult = false
+        For count = 0 to retryCount - 1
+
+            If (_properties[DEF_IS_CANCELLED_PROPERTY] is true) Then
+                Fbreak
+            End If
+
+            If (PutFileCore(localFileName, remoteFileName, timeout) is true) Then
+                putFileResult = true
+                Fbreak
+            End If
+        Next
+
+        Return (putFileResult)
+    End Method
+
+    Method PutFileCore(localFileName, remoteFileName, timeout) /*As Boolean*/
+        putFileRet
+    Begin
+
+        If (_properties[DEF_IS_CANCELLED_PROPERTY] is true) Then
+            Return (false)
+        End If
+
+        With Comm
+            :timeOut = timeout
+            putFileRet = :PutFile(localFileName, remoteFileName)
+            If (putFileRet is false) Then
+                WriteErrorLog("PutFile(false)")
+                If (:error eq "CANCELED") Then
+                    _properties[DEF_IS_CANCELLED_PROPERTY] = true
+                End If
+                Return (false)
+            End If
+        End With
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+
+    Method GetFile(localFileName, remoteFileName, timeout, retryCount) /*As Boolean*/
+        count
+        getFileResult
+    Begin
+
+        If (_properties[DEF_IS_ENABLED_PROPERTY] is false) Then
+            Return (false)
+        End If
+
+        getFileResult = false
+        For count = 0 to retryCount - 1
+
+            If (_properties[DEF_IS_CANCELLED_PROPERTY] is true) Then
+                Fbreak
+            End If
+
+            If (GetFileCore(localFileName, remoteFileName, timeout) is true) Then
+                getFileResult = true
+                Fbreak
+            End If
+        Next
+
+        Return (getFileResult)
+    End Method
+
+    Method GetFileCore(localFileName, remoteFileName, timeout) /*As Boolean*/
+        getFileRet
+    Begin
+
+        If (_properties[DEF_IS_CANCELLED_PROPERTY] is true) Then
+            Return (false)
+        End If
+
+
+        With Comm
+            :timeOut = timeout
+            getFileRet = :GetFile(remoteFileName, localFileName)
+            If (getFileRet is false) Then
+                WriteErrorLog("GetFile(false)")
+                If (:error eq "CANCELED") Then
+                    _properties[DEF_IS_CANCELLED_PROPERTY] = true
+                End If
+                Return (false)
+            End If
+        End With
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+
+    Method WriteErrorLog(log)
+    Begin
+        TransmissionLogUtility:WriteLog("_log_CommunicationError.txt", log)
+    End Method
+
+End Package

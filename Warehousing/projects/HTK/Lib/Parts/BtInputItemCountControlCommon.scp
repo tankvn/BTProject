@@ -1,0 +1,564 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtInputItemCountControlConstants"
+
+Package BtInputItemCountControlCommon
+
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+    Method SetName(properties[], value)
+    Begin
+        properties[DEF_NAME_PROPERTY] = value
+    End Method
+
+    Method GetFirstInputQuantityUnit(properties[])
+    Begin
+        Return (properties[DEF_FIRST_INPUT_QUANTITY_UNIT_PROPERTY])
+    End Method
+    Method SetFirstInputQuantityUnit(properties[], value)
+    Begin
+        properties[DEF_FIRST_INPUT_QUANTITY_UNIT_PROPERTY] = value
+    End Method
+
+    Method GetSecondInputQuantityUnit(properties[])
+    Begin
+        Return (properties[DEF_SECOND_INPUT_QUANTITY_UNIT_PROPERTY])
+    End Method
+    Method SetSecondInputQuantityUnit(properties[], value)
+    Begin
+        properties[DEF_SECOND_INPUT_QUANTITY_UNIT_PROPERTY] = value
+    End Method
+
+    Method GetThirdInputQuantityUnit(properties[])
+    Begin
+        Return (properties[DEF_THIRD_INPUT_QUANTITY_UNIT_PROPERTY])
+    End Method
+    Method SetThirdInputQuantityUnit(properties[], value)
+    Begin
+        properties[DEF_THIRD_INPUT_QUANTITY_UNIT_PROPERTY] = value
+    End Method
+
+    Method GetInputItemToolName(properties[])
+    Begin
+        Return (properties[DEF_INPUT_ITEM_TOOL_NAME_PROPERTY])
+    End Method
+    Method SetInputItemToolName(properties[], value)
+    Begin
+        properties[DEF_INPUT_ITEM_TOOL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetFirstInputQuantityToolName(properties[])
+    Begin
+        Return (properties[DEF_FIRST_INPUT_QUANTITY_TOOL_NAME_PROPERTY])
+    End Method
+    Method SetFirstInputQuantityToolName(properties[], value)
+    Begin
+        properties[DEF_FIRST_INPUT_QUANTITY_TOOL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetSecondInputQuantityToolName(properties[])
+    Begin
+        Return (properties[DEF_SECOND_INPUT_QUANTITY_TOOL_NAME_PROPERTY])
+    End Method
+    Method SetSecondInputQuantityToolName(properties[], value)
+    Begin
+        properties[DEF_SECOND_INPUT_QUANTITY_TOOL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetThirdInputQuantityToolName(properties[])
+    Begin
+        Return (properties[DEF_THIRD_INPUT_QUANTITY_TOOL_NAME_PROPERTY])
+    End Method
+    Method SetThirdInputQuantityToolName(properties[], value)
+    Begin
+        properties[DEF_THIRD_INPUT_QUANTITY_TOOL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetSumOfQuantityValueLabelName(properties[])
+    Begin
+        Return (properties[DEF_SUM_OF_QUANTITY_VALUE_LABEL_NAME_PROPERTY])
+    End Method
+    Method SetSumOfQuantityValueLabelName(properties[], value)
+    Begin
+        properties[DEF_SUM_OF_QUANTITY_VALUE_LABEL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetIsExistInputItemTool(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_INPUT_ITEM_TOOL_PROPERTY])
+    End Method
+    Method SetIsExistInputItemTool(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_INPUT_ITEM_TOOL_PROPERTY] = value
+    End Method
+
+    Method GetIsExistFirstInputQuantityTool(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_FIRST_INPUT_QUANTITY_TOOL_PROPERTY])
+    End Method
+    Method SetIsExistFirstInputQuantityTool(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_FIRST_INPUT_QUANTITY_TOOL_PROPERTY] = value
+    End Method
+
+    Method GetIsExistSecondInputQuantityTool(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_SECOND_INPUT_QUANTITY_TOOL_PROPERTY])
+    End Method
+    Method SetIsExistSecondInputQuantityTool(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_SECOND_INPUT_QUANTITY_TOOL_PROPERTY] = value
+    End Method
+
+    Method GetIsExistThirdInputQuantityTool(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_THIRD_INPUT_QUANTITY_TOOL_PROPERTY])
+    End Method
+    Method SetIsExistThirdInputQuantityTool(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_THIRD_INPUT_QUANTITY_TOOL_PROPERTY] = value
+    End Method
+
+    Method GetIsExistSumOfQuantityValueLabel(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_SUM_OF_QUANTITY_VALUE_LABEL_PROPERTY])
+    End Method
+    Method SetIsExistSumOfQuantityValueLabel(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_SUM_OF_QUANTITY_VALUE_LABEL_PROPERTY] = value
+    End Method
+
+    Method GetQuantityEntryType(properties[])
+    Begin
+        Return (properties[DEF_QUANTITY_ENTRY_TYPE_PROPERTY])
+    End Method
+    Method SetQuantityEntryType(properties[], value)
+    Begin
+        properties[DEF_QUANTITY_ENTRY_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetFixedItemData(properties[])
+    Begin
+        Return (properties[DEF_FIXED_ITEM_DATA_PROPERTY])
+    End Method
+    Method SetFixedItemData(properties[], value)
+    Begin
+        properties[DEF_FIXED_ITEM_DATA_PROPERTY] = value
+    End Method
+
+    Method GetInputQuantityCount(properties[])
+    Begin
+        Return (properties[DEF_INPUT_QUANTITY_COUNT_PROPERTY])
+    End Method
+    Method SetInputQuantityCount(properties[], value)
+    Begin
+        properties[DEF_INPUT_QUANTITY_COUNT_PROPERTY] = value
+    End Method
+
+    Method GetItemCount(properties[])
+    Begin
+        Return (properties[DEF_ITEM_COUNT_PROPERTY])
+    End Method
+    Method SetItemCount(properties[], value)
+    Begin
+        properties[DEF_ITEM_COUNT_PROPERTY] = value
+    End Method
+
+    _scannedEventAttatched = false
+
+    Method GetLogEditType(properties[], index) /* Implements ILogItemControl.GetLogEditType */
+    Begin
+        Select Case index
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1
+                Return (GetChildLogEditType(GetIsExistFirstInputQuantityTool(properties),
+                                            GetFirstInputQuantityToolName(properties)))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX2
+                Return (GetChildLogEditType(GetIsExistSecondInputQuantityTool(properties),
+                                            GetSecondInputQuantityToolName(properties)))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX3
+                Return (GetChildLogEditType(GetIsExistThirdInputQuantityTool(properties),
+                                            GetThirdInputQuantityToolName(properties)))
+            Case Else
+                Return (INPUT_CONTROL_REAL_TEXT_BOX)
+        End Select
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index) /* Implements ILogItemControl.GetDecimalPlaces */
+    Begin
+         Select Case index
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1
+                Return (GetChildDecimalPlacesIndex(GetIsExistFirstInputQuantityTool(properties),
+                                                   GetFirstInputQuantityToolName(properties)))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX2
+                Return (GetChildDecimalPlacesIndex(GetIsExistSecondInputQuantityTool(properties),
+                                                   GetSecondInputQuantityToolName(properties)))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX3
+                Return (GetChildDecimalPlacesIndex(GetIsExistThirdInputQuantityTool(properties),
+                                                   GetThirdInputQuantityToolName(properties)))
+            Case Else
+                Return (0)
+        End Select
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index) /* Implements ILogItemControl.CheckDuplicateReading */
+    Begin
+        Return (false)
+    End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl) /* Implements ILogItemControl.IsSameLogItem */
+    Begin
+        Select Case index
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1
+                Return (GetChildIsSameLogItem(GetIsExistFirstInputQuantityTool(properties),
+                                              GetFirstInputQuantityToolName(properties),
+                                              targetLogItemControl))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX2
+                Return (GetChildIsSameLogItem(GetIsExistSecondInputQuantityTool(properties),
+                                              GetSecondInputQuantityToolName(properties),
+                                              targetLogItemControl))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX3
+                Return (GetChildIsSameLogItem(GetIsExistThirdInputQuantityTool(properties),
+                                              GetThirdInputQuantityToolName(properties),
+                                              targetLogItemControl))
+            Case Else
+                Return (false)
+        End Select
+    End Method
+
+    Method GetLogTableFieldType(properties[], index) /* Implements ILogItemControl.GetLogTableFieldType */
+    Begin
+        Select Case index
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1
+                Return (GetChildLogTableFieldType(GetIsExistFirstInputQuantityTool(properties),
+                                                  GetFirstInputQuantityToolName(properties)))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX2
+                Return (GetChildLogTableFieldType(GetIsExistSecondInputQuantityTool(properties),
+                                                  GetSecondInputQuantityToolName(properties)))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX3
+                Return (GetChildLogTableFieldType(GetIsExistThirdInputQuantityTool(properties),
+                                                  GetThirdInputQuantityToolName(properties)))
+            Case Else
+                Return (SQ_LITE_FIELD_TYPE_REAL_NUMBER)
+        End Select
+    End Method
+
+    Method GetLogData(properties[], index) /* Implements ILogItemControl.GetLogData */
+    Begin
+        Select Case index
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1
+                Return (GetChildLogData(GetIsExistFirstInputQuantityTool(properties),
+                                        GetFirstInputQuantityToolName(properties),
+                                        properties[DEF_FIRST_INPUT_QUANTITY_UNIT_PROPERTY]))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX2
+                Return (GetChildLogData(GetIsExistSecondInputQuantityTool(properties),
+                                        GetSecondInputQuantityToolName(properties),
+                                        properties[DEF_SECOND_INPUT_QUANTITY_UNIT_PROPERTY]))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX3
+                Return (GetChildLogData(GetIsExistThirdInputQuantityTool(properties),
+                                        GetThirdInputQuantityToolName(properties),
+                                        properties[DEF_THIRD_INPUT_QUANTITY_UNIT_PROPERTY]))
+            Case Else
+                Return ("")
+        End Select
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget, index) /* Implements ILogItemControl.CheckValidInput */
+    Begin
+        Select Case index
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1
+                Return (CheckChildValidInput(GetIsExistFirstInputQuantityTool(properties),
+                                             GetFirstInputQuantityToolName(properties),
+                                             checkTarget))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX2
+                Return (CheckChildValidInput(GetIsExistSecondInputQuantityTool(properties),
+                                             GetSecondInputQuantityToolName(properties),
+                                             checkTarget))
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX3
+                Return (CheckChildValidInput(GetIsExistThirdInputQuantityTool(properties),
+                                             GetThirdInputQuantityToolName(properties),
+                                             checkTarget))
+            Case Else
+                Return (true)
+        End Select
+    End Method
+
+    Method GetChildLogEditType(isExist, childName)
+    Begin
+        If (isExist) Then
+            Return (ILogItemControl:GetLogEditType(childName, 0))
+        End If
+        Return (INPUT_CONTROL_REAL_TEXT_BOX)
+    End Method
+
+    Method GetChildDecimalPlacesIndex(isExist, childName) /* ILogItemControl.GetDecimalPlaces */
+    Begin
+        If (isExist) Then
+            Return (ILogItemControl:GetDecimalPlaces(childName, 0))
+        End If
+        Return (0)
+    End Method
+
+    Method GetChildIsSameLogItem(isExist, childName, targetLogItemControl)
+    Begin
+        If (isExist) Then
+            Return (ILogItemControl:GetIsSameLogItem(childName, 0, targetLogItemControl))
+        End If
+        Return (false)
+    End Method
+
+    Method GetChildLogTableFieldType(isExist, childName)
+    Begin
+        If (isExist) Then
+            Return (ILogItemControl:GetLogTableFieldType(childName, 0))
+        End If
+        Return (SQ_LITE_FIELD_TYPE_REAL_NUMBER)
+    End Method
+
+    Method GetChildLogData(isExist, childName, unit)
+        targetValue
+        result
+    Begin
+        If (Not isExist) Then
+            Return ("")
+        End If
+        targetValue = MathUtility:ParseToDecimal(ILogItemControl:GetLogData(childName, 0))
+        result = MathUtility:CalculateByOperator(targetValue, OPERATION_KIND_MULTIPLICATION, unit)
+        ErrorManager:GetError()
+        Return (result)
+    End Method
+
+    Method CheckChildValidInput(isExist, childName, checkTarget)
+    Begin
+        If (isExist) Then
+            Return (ILogItemControl:CheckValidInput(childName, checkTarget, 0))
+        End If
+        Return (true)
+    End Method
+
+    Method GetOutputLogEventHandler(properties[])
+    Begin
+        Return (properties[DEF_OUTPUT_LOG_EVENT_HANDLER])
+    End Method
+    Method SetOutputLogEventHandler(properties[], handle)
+    Begin
+        properties[DEF_OUTPUT_LOG_EVENT_HANDLER] = handle
+    End Method
+
+
+
+#insert "\Lib\Utilities\ILogItemControlInvokeCommon"
+
+    Method New(properties[])
+    Begin
+        SetFirstInputQuantityUnit(properties, 1)
+        SetSecondInputQuantityUnit(properties, 1)
+        SetThirdInputQuantityUnit(properties, 1)
+        SetFixedItemData(properties, "")
+        SetItemCount(properties, "0")
+    End Method
+
+    Method CanCountUp(properties[])
+    Begin
+        Return ((GetQuantityEntryType(properties) == QUANTITY_ENTRY_TYPE_SINGLE_INPUT) And
+                 (GetInputQuantityCount(properties) == 1))
+    End Method
+
+    Method CountUp(number)
+    Begin
+        If ((Not number.isDigit) Or (number is nil)) Then
+            Return ("1")
+        End If
+
+        If (number == INTEGER_MAX) Then
+            Return ("1")
+        End If
+
+        Return (number + 1)
+    End Method
+
+    Method GetControlName(properties[], index) /* Implements ILogItemControl.GetControlName */
+    Begin
+        Select Case index
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1
+                Return ("Quantity1")
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX2
+                Return ("Quantity2")
+            Case INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX3
+                Return ("Quantity3")
+            Case Else
+                Return ("InvalidQuantity")
+        End Select
+    End Method
+
+    Method GetQuantityLogData(value, unit)
+        targetValue
+        result
+    Begin
+        targetValue = MathUtility:ParseToDecimal(value)
+        result = MathUtility:CalculateByOperator(targetValue, OPERATION_KIND_MULTIPLICATION, unit)
+
+        ErrorManager:GetError()
+
+        Return (result)
+    End Method
+
+    Method UpdateNumberInput(properties[], newValue)
+        formattedText
+    Begin
+        IControl:SetText(GetFirstInputQuantityToolName(properties), newValue)
+        formattedText = MathUtility:AdjustDecimalPlaces(ILogItemControl:GetDecimalPlaces(GetName(properties), INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1),
+                                                        newValue)
+        IControl:SetText(GetFirstInputQuantityToolName(properties), formattedText)
+    End Method
+
+    Method UpdateAmountLabel(properties[])
+        amount = 0
+        maxDecimalPlaces
+    Begin
+        If (Not GetIsExistSumOfQuantityValueLabel(properties)) Then
+            Return (nil)
+        End If
+        amount = SumQuantity(properties)
+        maxDecimalPlaces = GetMaxDecimalPlaces(properties)
+        IControl:SetText(GetSumOfQuantityValueLabelName(properties),
+                         MathUtility:AdjustDecimalPlaces(maxDecimalPlaces, amount))
+    End Method
+
+    Method SumQuantity(properties[])
+        amount = 0
+    Begin
+        If (GetIsExistFirstInputQuantityTool(properties)) Then
+            amount = CalculateAmount(IControl:GetText(GetFirstInputQuantityToolName(properties)),
+                                     GetFirstInputQuantityUnit(properties), amount)
+        End If
+        If (GetIsExistSecondInputQuantityTool(properties)) Then
+            amount = CalculateAmount(IControl:GetText(GetSecondInputQuantityToolName(properties)),
+                                     GetSecondInputQuantityUnit(properties), amount)
+        End If
+        If (GetIsExistThirdInputQuantityTool(properties)) Then
+            amount = CalculateAmount(IControl:GetText(GetThirdInputQuantityToolName(properties)),
+                                     GetThirdInputQuantityUnit(properties), amount)
+        End If
+        Return (amount)
+    End Method
+
+    Method CalculateAmount(value, unit, amount)
+    Begin
+        If (value.isDigit) Then
+            amount = amount + value * unit
+        End If
+        Return (amount)
+    End Method
+
+    Method GetMaxDecimalPlaces(properties[])
+        maxDecimalPlaces = 0
+    Begin
+        If (GetIsExistFirstInputQuantityTool(properties)) Then
+            maxDecimalPlaces = GetLargerDecimalPlaces(maxDecimalPlaces,
+                                                      ILogItemControl:GetDecimalPlaces(GetName(properties),
+                                                                                       INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1))
+        End If
+        If (GetIsExistSecondInputQuantityTool(properties)) Then
+            maxDecimalPlaces = GetLargerDecimalPlaces(maxDecimalPlaces,
+                                                      ILogItemControl:GetDecimalPlaces(GetName(properties),
+                                                      INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX2))
+        End If
+        If (GetIsExistThirdInputQuantityTool(properties)) Then
+            maxDecimalPlaces = GetLargerDecimalPlaces(maxDecimalPlaces,
+                                                      ILogItemControl:GetDecimalPlaces(GetName(properties),
+                                                      INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX3))
+        End If
+        Return (maxDecimalPlaces)
+    End Method
+
+    Method GetLargerDecimalPlaces(decimalPlaces, comparisonTarget)
+    Begin
+        If (decimalPlaces < comparisonTarget) Then
+            Return (comparisonTarget)
+        End If
+        Return (decimalPlaces)
+    End Method
+
+    Method ProcessOnInputSameOrElseItem(properties[], inputData)
+        parameter[1]
+    Begin
+        Event:Clear()
+
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (nil)
+        End If
+
+        If (GetInputQuantityCount(properties) <> 1) Then
+            Return (nil)
+        End If
+
+        If (inputData eq IControl:GetText(GetInputItemToolName(properties))) And CanCountUp(properties) Then
+            SetItemCount(properties, CountUp(GetItemCount(properties)))
+            UpdateNumberInput(properties, GetItemCount(properties))
+            IInputQuantityTool:ChangeMode(GetFirstInputQuantityToolName(properties), KEY_OPERATION_TYPE_EDIT_MODE, true)
+            Return (nil)
+        End If
+
+        IControl:SetText(GetFirstInputQuantityToolName(properties), GetItemCount(properties))
+        If (Not IInputQuantityTool:CheckAndFixDisplayText(GetFirstInputQuantityToolName(properties))) Then
+            Return (nil)
+        End If
+        IInputQuantityTool:PreprocessEnterData(GetFirstInputQuantityToolName(properties))
+        IBtInputControl:StoreTemporaryText(GetFirstInputQuantityToolName(properties))
+        parameter[0] = true
+        If (EventUtility:Exec(GetOutputLogEventHandler(properties), GetName(properties), parameter) is false) Then
+            Return (nil)
+        End If
+        IBtInputControl:ResetTemporaryText(GetFirstInputQuantityToolName(properties))
+        SetItemCount(properties, "")
+
+        IControl:SetText(GetInputItemToolName(properties), inputData)
+        IBtInputControl:Reset(GetFirstInputQuantityToolName(properties))
+
+        If (Not IInputItemTool:CheckAndFixDisplayText(GetInputItemToolName(properties))) Then
+            IControl:Focus(GetInputItemToolName(properties))
+            Return (nil)
+        End If
+
+        If (Not IInputItemTool:EnterData(GetInputItemToolName(properties))) Then
+            IControl:Focus(GetInputItemToolName(properties))
+            Return (nil)
+        End If
+
+        SetFixedItemData(properties, inputData)
+        SetItemCount(properties, "1")
+        UpdateNumberInput(properties, "1")
+    End Method
+
+
+
+    Method OnInputtedItemBySingleInput(properties[], sender, result)
+    Begin
+        If result is false Then
+            Return (false)
+        End If
+
+        If CanCountUp(properties) And (GetFixedItemData(properties) eq IControl:GetText(GetInputItemToolName(properties))) Then
+            SetItemCount(properties, CountUp(GetItemCount(properties)))
+            UpdateNumberInput(properties, GetItemCount(properties))
+        Else
+            SetItemCount(properties, "1")
+            UpdateNumberInput(properties, "1")
+        End If
+        SetFixedItemData(properties, IControl:GetText(GetInputItemToolName(properties)))
+        Return (true)
+    End Method
+
+    Method OnScannedInInputQuantity(properties[], sender)
+    Begin
+        ProcessOnInputSameOrElseItem(properties, IInputQuantityTool:ReadScanData(sender))
+    End Method
+
+
+End Package
+
+#popdefine

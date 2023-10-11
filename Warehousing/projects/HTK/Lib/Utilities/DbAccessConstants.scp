@@ -1,0 +1,7 @@
+
+    #define DB_ACCESS_SQLITE_DATA_TYPE_TEXT    "text"
+    #define DB_ACCESS_SQLITE_DATA_TYPE_INTEGER    "integer"
+    #define DB_ACCESS_SQLITE_DATA_TYPE_REAL   "real"
+
+    #define ROWID_FIELD_NAME "ROWID"
+ 

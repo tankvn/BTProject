@@ -1,0 +1,22 @@
+
+Package IBtCollationControl
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method Reset(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "Reset", args, ICommons))
+    End Method
+
+End Package
+

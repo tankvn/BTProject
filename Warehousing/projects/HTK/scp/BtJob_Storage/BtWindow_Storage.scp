@@ -1,0 +1,218 @@
+
+Include "BtJob_Storage\RES\BtWindow_Storage_res"
+
+Package BtWindow_Storage
+    _isInitialized = false
+
+    Method New()
+    Begin
+        BtWindow_Storage_res:InitializeComponent()
+
+        BtWindow_Storage_FocusTransitionUtility:SetControl("BtWindow_Storage_BtTextBox_Person")
+        BtWindow_Storage_FocusTransitionUtility:SetControl("BtWindow_Storage_BtTextBox_Location")
+        BtWindow_Storage_FocusTransitionUtility:SetControl("BtWindow_Storage_BtTextBox_ItemNo")
+        BtWindow_Storage_FocusTransitionUtility:SetControl("BtWindow_Storage_BtTextBox_Quantity")
+        BtWindow_Storage_FocusTransitionUtility:SetControl("BtWindow_Storage_BtF1Key_Back")
+        BtWindow_Storage_FocusTransitionUtility:SetControl("BtWindow_Storage_BtF2Key_SendDataFile")
+        BtWindow_Storage_FocusTransitionUtility:SetControl("BtWindow_Storage_BtF3Key_HistoryDataView")
+
+        BtWindow_Storage_BtFocusTransitionController1:Initialize()
+    End Method
+
+    Method Initialize()
+    Begin
+        With BtWindow_Storage_BtLabel_DataCountDisplay
+            BtLogCountLabelCommon:SetLogFormat(:Properties, "BtJob_Storage_StorageData")
+        End With
+
+        BtWindow_Storage_res:InitializeChildren()
+
+        BtWindow_Storage_BtInputItemCountControl_1:Initialize()
+        BtWindow_Storage_BtF1Key_Back:Invalidate()
+        BtWindow_Storage_BtF2Key_SendDataFile:Invalidate()
+        BtWindow_Storage_BtF3Key_HistoryDataView:Invalidate()
+        _isInitialized = true
+    End Method
+
+    Method Finalized()
+    Begin
+        BtWindow_Storage_res:Dispose()
+    End Method
+
+    Method SendBtSendDataFileControl_1()
+        processingId
+        hasUnsentData
+        listId_BtDataFormatControls
+        listId_SendFileNamePairs
+        listId_SentFiles
+        errorMessage
+        formatIndex
+        dataFileName
+        dataFormatControlName
+        fileIndex
+        sentFileName
+        communicationErrorMessage
+        result
+    Begin
+        processingId = BtSendDataFileControl:New(0, 5, 30)
+        hasUnsentData = false
+        listId_BtDataFormatControls = ListTable:CreateList()
+        If (IsValidLog("BtJob_Storage_StorageData") is true) Then
+            ListTable:Add(listId_BtDataFormatControls, "BtJob_Storage_StorageData", IDataFormatControl:GetPathDriveLogDataBase("BtJob_Storage_StorageData"))
+            hasUnsentData = true
+        End If
+
+        listId_SendFileNamePairs = ListTable:CreateList()
+        If hasUnsentData Then
+            For formatIndex = 0 to ListTable:Count(listId_BtDataFormatControls) - 1
+                ListTable:Add(listId_SendFileNamePairs, ListTable:Get(listId_BtDataFormatControls, formatIndex, "val"), "")
+            Next
+        End If
+
+        listId_SentFiles = BtSendDataFileControl:Execute(processingId, listId_SendFileNamePairs, true, ActiveForm:GetName())
+        If (listId_SentFiles == 0) Then
+            errorMessage = ErrorManager:GetError()
+            If (errorMessage ne "") Then
+                MessageUtility:ShowMessageOk(errorMessage)
+            End If
+            BtSendDataFileControl:Close(processingId)
+            ListTable:DeleteList(listId_BtDataFormatControls)
+            ListTable:DeleteList(listId_SendFileNamePairs)
+            Return (false)
+        End If
+
+        Window<ActiveForm:GetName()>:enable = false
+        BackGroundActionForm:New("Processing", "Please wait ...")
+        BackGroundActionForm:Show()
+
+        If (0 < ListTable:Count(listId_SentFiles)) Then
+            ActiveForm:ReflectMasterCheckSentNum(-1)
+        End If
+
+        For formatIndex = 0 to ListTable:Count(listId_BtDataFormatControls) - 1
+            dataFileName = ListTable:Get(listId_BtDataFormatControls, formatIndex, "val")
+            dataFormatControlName = ListTable:Get(listId_BtDataFormatControls, formatIndex, "key")
+            For fileIndex = 0 to ListTable:Count(listId_SentFiles) - 1
+                sentFileName = ListTable:Get(listId_SentFiles, fileIndex, "key")
+                If (dataFileName eq sentFileName) Then
+                    IDataFormatControl:BackupLogData(dataFormatControlName)
+                    Fbreak
+                End If
+            Next
+        Next
+
+        BackGroundActionForm:Close()
+        Window<ActiveForm:GetName()>:enable = true
+
+        communicationErrorMessage = ErrorManager:GetError()
+        If (ErrorManager:GetCommunicationError() is true) Then
+            ActiveForm:ShowBtCommunicationErrorDialog_1()
+        Else
+            If (communicationErrorMessage ne "") Then
+                MessageUtility:ShowMessageOk(communicationErrorMessage)
+            ElseIf (ListTable:Count(listId_SendFileNamePairs) == ListTable:Count(listId_SentFiles)) Then
+                MessageUtility:ShowMessageOk("File Transfer complete.")
+            End If
+        End If
+
+        If (0 < ListTable:Count(listId_SentFiles)) Then
+            ActiveForm:UpdateLogData()
+        End If
+
+        BtSendDataFileControl:Close(processingId)
+        result = ListTable:Count(listId_SendFileNamePairs) == ListTable:Count(listId_SentFiles)
+        ListTable:DeleteList(listId_SendFileNamePairs)
+        ListTable:DeleteList(listId_SentFiles)
+        ListTable:DeleteList(listId_BtDataFormatControls)
+
+        Return (result)
+    End Method
+
+    Method IsValidLog(btDataFormatControl)
+        isValid = false
+        errorMessage
+    Begin
+        If (IDataFormatControl:PrepareForSendLog(btDataFormatControl) is true) Then
+            isValid = true
+        End If
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne "") Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            isValid = false
+        End If
+        Return (isValid)
+    End Method
+
+    Method BtTextBox_Quantity_GotFocusExtension(sender)
+    Begin
+        BtWindow_Storage_BtInputItemCountControl_1:NumberInputOnTabTranslation_GotFocus(sender)
+    End Method
+
+    Method BtTextBox_Quantity_LostFocusExtension(sender)
+    Begin
+        BtWindow_Storage_BtInputItemCountControl_1:LostFocusNumericInput(sender)
+    End Method
+
+    Method F1KeyAction(sender)
+        result = true
+    Begin
+        BtWindow_Storage_res:ResetInvalidInput()
+        BtWindow_Storage_BtF1Key_Back:Focus()
+        BtWindow_Storage_BtF1Key_Back:PerformClick()
+        Return (result)
+    End Method
+
+    Method F2KeyAction(sender)
+        result = true
+    Begin
+        BtWindow_Storage_res:ResetInvalidInput()
+        BtWindow_Storage_BtF2Key_SendDataFile:Focus()
+        BtWindow_Storage_BtF2Key_SendDataFile:PerformClick()
+        Return (result)
+    End Method
+
+    Method F3KeyAction(sender)
+        result = true
+    Begin
+        BtWindow_Storage_res:ResetInvalidInput()
+        BtWindow_Storage_BtF3Key_HistoryDataView:Focus()
+        BtWindow_Storage_BtF3Key_HistoryDataView:PerformClick()
+        Return (result)
+    End Method
+
+    Method BtF1Key_Back_DataInput(sender, result)
+    Begin
+        BtJob_Storage:Close(0)
+        Return (result)
+    End Method
+
+    Method BtF2Key_SendDataFile_DataInput(sender, result)
+    Begin
+        SendBtSendDataFileControl_1()
+        Return (result)
+    End Method
+
+    Method BtF3Key_HistoryDataView_DataInput(sender, result)
+    Begin
+        BtJob_Storage:ShowBtHistoryDataView_Storage()
+        Return (result)
+        Return (result)
+    End Method
+
+    Method BtTextBox_Quantity_DataInput(sender, result)
+    Begin
+        result = result And BtJob_Storage:WriteLog()
+        Return (result)
+    End Method
+
+    Method BtTextBox_ItemNo_DataInput(sender, result)
+    Begin
+        BtWindow_Storage_BtInputItemCountControl_1:OnInputtedItemBySingleInput(sender, result)
+        Return (result)
+    End Method
+
+    Method BtTextBox_ItemNo_AfterReset(sender)
+    Begin
+        BtWindow_Storage_BtInputItemCountControl_1:AfterItemToolReset(sender)
+    End Method
+End Package

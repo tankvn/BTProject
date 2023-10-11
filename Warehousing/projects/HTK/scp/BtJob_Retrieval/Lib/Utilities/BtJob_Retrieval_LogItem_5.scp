@@ -1,0 +1,20 @@
+
+ Package BtJob_Retrieval_LogItem_5
+
+    Properties[19 + 7 + 1]
+
+    Method ILogItemScreenDataInvoke(this)
+    Begin
+        LogItemScreenDataCommon:ILogItemScreenDataInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemInvoke(this)
+    Begin
+        LogItemScreenDataCommon:ILogItemInvokeCommon(this, Properties)
+    End Method
+
+    Method New(displayName, jobName, screenName, logItemControlName, isDate, isTime, tableItemTypes, index)
+    Begin
+        LogItemScreenDataCommon:New(Properties, "BtJob_Retrieval_LogItem_5", displayName, jobName, screenName, logItemControlName, isDate, isTime, tableItemTypes, index)
+    End Method
+
+End Package

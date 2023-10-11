@@ -1,0 +1,123 @@
+Package ReadableCodeSettings
+
+    Method SetReadingParameter(codeScanEnableValue)
+        i
+        sw[16]
+    Begin
+        For i = 0 to 15 sw[i] = false Next
+        If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_ALL).toInt == 1) Then
+            For i = 0 to 15 sw[i] = true Next
+        Else
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_COMPOSITE).toInt == 1) Then
+                sw[14] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_COMPOSITE
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_MC).toInt == 1) Then
+                sw[13] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_MC
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_DM).toInt == 1) Then
+                sw[12] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_DM
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_PDF).toInt == 1) Then
+                sw[11] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_PDF
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_QR).toInt == 1) Then
+                sw[10] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_QR
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_GS_DB).toInt == 1) Then
+                sw[9] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_GS_DB
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_COOP).toInt == 1) Then
+                sw[8] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_COOP
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_TOF).toInt == 1) Then
+                sw[7] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_TOF
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_C93).toInt == 1) Then
+                sw[6] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_C93
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_NW7).toInt == 1) Then
+                sw[5] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_NW7
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_ITF).toInt == 1) Then
+                sw[4] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_ITF
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_C128).toInt == 1) Then
+                sw[3] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_C128
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_GS128).toInt == 1) Then
+                sw[2] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_GS128
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_C39).toInt == 1) Then
+                sw[1] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_C39
+            End If
+            If ((codeScanEnableValue / SCAN_ENABLE_CODE_TYPE_JAN).toInt == 1) Then
+                sw[0] = true
+                codeScanEnableValue = codeScanEnableValue - SCAN_ENABLE_CODE_TYPE_JAN
+            End If
+        End If
+
+        JAN:enable = sw[0]
+        CODE39:enable = sw[1]
+        EAN128:enable = sw[2]
+        CODE128:enable = sw[3]
+        ITF:enable = sw[4]
+        NW7:enable = sw[5]
+        CODE93:enable = sw[6]
+        TOF:enable = sw[7]
+        COOP:enable = sw[8]
+        RSS:enable = sw[9]
+        QR:enable = sw[10]
+        PDF417:enable = sw[11]
+        DataMatrix:enable = sw[12]
+        Maxi:enable = sw[13]
+        Composite:enable = sw[14]
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_GET_ENABLE_SYMBOLS)
+    End Method
+
+    Method GetReadingParameter()
+        val = 0
+    Begin
+        If JAN:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_JAN End If
+        If CODE39:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_C39 End If
+        If EAN128:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_GS128 End If
+        If CODE128:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_C128 End If
+        If ITF:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_ITF End If
+        If NW7:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_NW7 End If
+        If CODE93:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_C93 End If
+        If TOF:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_TOF End If
+        If COOP:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_COOP End If
+        If RSS:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_GS_DB End If
+        If QR:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_QR End If
+        If PDF417:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_PDF End If
+        If DataMatrix:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_DM End If
+        If Maxi:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_MC End If
+        If Composite:enable is true Then val = val + SCAN_ENABLE_CODE_TYPE_COMPOSITE End If
+        Return(val)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_SET_ENABLE_SYMBOLS)
+        Return(val)
+    End Method
+
+    Method ReadScanData(data)
+    Begin
+        If (data is nil) Then
+            Return("")
+        End If
+        Return (StringUtility:ConvertControlCharacter(data))
+    End Method
+End Package 

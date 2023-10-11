@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BuilderProject FileVersion="2.3.1.0" ApplicationVersion="2.3.3.0" TerminalAppGuid="BAA99FA0-9440-4AA4-8D12-938DA17A2655" ServerAppGuid="FCD6C9F4-B29B-4241-A8A5-9C2CCDB3F075">
+  <CodeDataId>BaseCodeData</CodeDataId>
+  <Template Id="DepositoryTemplate">
+    <TemplateJob Id="Depository">
+      <TerminalJobKey>360fe24e-8071-4efa-aba9-43d6dfd4565b</TerminalJobKey>
+      <TerminalJobKey>ae793fc9-1081-489c-bb92-25b0d2931201</TerminalJobKey>
+      <ServerWindowKey>dfaeb856-5466-4b4f-acc3-132c8360640c</ServerWindowKey>
+    </TemplateJob>
+  </Template>
+</BuilderProject>

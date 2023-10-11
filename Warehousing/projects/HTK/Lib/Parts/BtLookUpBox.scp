@@ -1,0 +1,100 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtLookUpBoxConstants"
+
+
+Package DEF_PACKAGE_NAME
+    /*Implements ICollationTarget, IMasterDataOwnerControl, ILogItemControl, IBtInputComponent, ISharedParameterInputTool*/
+
+    Properties[DEF_PROPERTY_NUM]
+
+
+    Method DataInput(this)
+    Begin
+#ifdef DEF_EVENT_DATA_INPUT
+        Return (DEF_EVENT_DATA_INPUT(Properties[DEF_NAME_PROPERTY], EventUtility:GetParameter(this, 0)))
+#else
+        Return (true)
+#endif
+    End Method
+
+    Method FocusTransitionRequested(this) /*Implements ICollationTarget.FocusTransitionRequested*/
+        result = false
+    Begin
+#ifdef DEF_FOCUS_TRANSITION_CONTROL
+#beginexpand DEF_FOCUS_TRANSITION_CONTROL
+        If (Not result) Then
+            result = result Or DEF_FOCUS_TRANSITION_CONTROL:FocusTransitionRequested(Properties[DEF_NAME_PROPERTY])
+        End If
+#endexpand DEF_FOCUS_TRANSITION_CONTROL
+#endif
+        Return (result)
+    End Method
+
+    Method ComparisonValueCountUpdated(this) /*Implements ICollationTarget.ComparisonValueCountUpdated*/
+    Begin
+#ifdef DEF_EVENT_COMPARISON_VALUE_COUNT_UPDATED
+        DEF_EVENT_COMPARISON_VALUE_COUNT_UPDATED(Properties[DEF_NAME_PROPERTY])
+#endif
+    End Method
+
+    Method CollationCountUpdated(this) /*Implements ICollationTarget.CollationCountInitialized*/
+    Begin
+#ifdef DEF_EVENT_COLLATION_COUNT_UPDATED
+        DEF_EVENT_COLLATION_COUNT_UPDATED(Properties[DEF_NAME_PROPERTY])
+#endif
+    End Method
+
+
+
+#insert "\Lib\Utilities\ICollationTargetInvoke"
+#insert "\Lib\Utilities\IMasterDataOwnerControlInvoke"
+#insert "\Lib\Utilities\ILogItemControlInvoke"
+#insert "\Lib\Utilities\IBtInputComponentInvoke"
+#insert "\Lib\Utilities\ISharedParameterInputToolInvoke"
+
+    Method Create(parent)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        BtLookUpBoxCommon:SetType(Properties, "BtLookUpBox")
+        New()
+    End Method
+
+    Method New()
+    Begin
+#ifdef DEF_TEXTBOX_INPUT_TOOL
+        BtLookUpBoxCommon:SetIsExistInputTool(Properties, true)
+        BtLookUpBoxCommon:SetInputToolName(Properties, "DEF_TEXTBOX_INPUT_TOOL")
+#else
+        BtLookUpBoxCommon:SetIsExistInputTool(Properties, false)
+#endif
+#ifdef DEF_LABEL_REPLACEMENT_TOOL
+        BtLookUpBoxCommon:SetIsExistDisplayTool(Properties, true)
+        BtLookUpBoxCommon:SetDisplayToolName(Properties, "DEF_LABEL_REPLACEMENT_TOOL")
+#else
+        BtLookUpBoxCommon:SetIsExistDisplayTool(Properties, false)
+#endif
+        BtLookUpBoxCommon:New(Properties)
+        BtLookUpBoxCommon:SetHandler(Properties, DataInput, FocusTransitionRequested, ComparisonValueCountUpdated, CollationCountUpdated)
+    End Method
+
+    Method ReplaceInput()
+    Begin
+        Return (BtLookUpBoxCommon:Replace(Properties))
+    End Method
+
+    Method InputTextBoxInputted(result)
+    Begin
+        Return (BtLookUpBoxCommon:InputTextBoxInputted(Properties, result))
+    End Method
+
+    Method InputTextBoxFocusTransitionRequested(sender)
+    Begin
+        Return (FocusTransitionRequested(Properties[DEF_NAME_PROPERTY]))
+    End Method
+
+
+End Package
+
+#popdefine

@@ -1,0 +1,145 @@
+
+Package HistoryDataEditDialog_inputDateBox
+
+    Properties[37]
+
+    Method DataInput(this)
+    Begin
+        Return (true)
+    End Method
+
+    Method FocusTransitionRequested(this)
+        result = false
+    Begin
+        Return (result)
+    End Method
+
+    Method ComparisonValueCountUpdated(this)
+    Begin
+    End Method
+
+    Method CollationCountUpdated(this)
+    Begin
+    End Method
+
+    Method MoveNextControl(this)
+    Begin
+        Return(HistoryDataEditDialog_FocusTransitionUtility:GetMoveNextControlId(Properties[0]))
+    End Method
+
+    Method MovePreviousControl(this)
+    Begin
+        Return(HistoryDataEditDialog_FocusTransitionUtility:GetMovePreviousControlId(Properties[0]))
+    End Method
+
+    Method New()
+    Begin
+        BtInputDateBoxCommon:New(Properties)
+        BtInputDateBoxCommon:SetHandler(Properties, ComparisonValueCountUpdated, CollationCountUpdated, DataInput, FocusTransitionRequested, MoveNextControl, MovePreviousControl)
+    End Method
+
+    Method IControlInvoke(this)
+    Begin
+        BtInputDateBoxCommon:IControlInvokeCommon(this, Properties)
+    End Method
+    Method IBtInputControlInvoke(this)
+    Begin
+        BtInputDateBoxCommon:IBtInputControlInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemControlInvoke(this)
+    Begin
+        BtInputDateBoxCommon:ILogItemControlInvokeCommon(this, Properties)
+    End Method
+    Method ICollationTargetInvoke(this)
+    Begin
+        BtInputDateBoxCommon:ICollationTargetInvokeCommon(this, Properties)
+    End Method
+    Method ISearchViewDisplayControlInvoke(this)
+    Begin
+        BtInputDateBoxCommon:ISearchViewDisplayControlInvokeCommon(this, Properties)
+    End Method
+    Method ISharedParameterInputToolInvoke(this)
+    Begin
+        BtInputDateBoxCommon:ISharedParameterInputToolInvokeCommon(this, Properties)
+    End Method
+    Method IBtInputDateControlInvoke(this)
+    Begin
+        BtInputDateBoxCommon:IBtInputDateControlInvokeCommon(this, Properties)
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[0] = "HistoryDataEditDialog_inputDateBox"
+        BtInputDateBoxCommon:Create(Properties, parentName)
+        BtInputDateBoxCommon:SetEventHandler(Properties, My_GotFocus, My_LostFocus, My_onEditStart, My_onEditEnd, My_onEditCancel, My_onScanComplete, My_onTouchOut)
+        New()
+    End Method
+
+    Method Focus()
+    Begin
+        BtInputDateBoxCommon:Focus(Properties)
+    End Method
+
+    Method Invalidate()
+    Begin
+    End Method
+
+    Method ResetInvalidInput()
+    Begin
+        BtInputDateBoxCommon:ResetInvalidInput(Properties)
+    End Method
+
+    Method My_onPress(sender)
+    Begin
+        If Not BtScreenCommon:IsEnabledControl(Properties[0]) Then
+            Return()
+        End If
+
+        Key:onPress = nil
+
+        HistoryDataEditDialog:LogEditDialog_KeyDown(sender)
+
+        BtInputDateBoxCommon:OnPress(Properties, sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = My_onPress
+        End If
+    End Method
+
+    Method My_onEditStart(sender)
+    Begin
+        BtInputDateBoxCommon:OnEditStart(Properties, My_onEditStart)
+    End Method
+
+    Method My_onEditEnd(sender)
+    Begin
+        BtInputDateBoxCommon:OnEditEnd(Properties, My_onEditEnd)
+    End Method
+
+    Method My_onEditCancel(sender)
+    Begin
+        BtInputDateBoxCommon:OnEditCancel(Properties, My_onEditCancel)
+    End Method
+
+    Method My_GotFocus(sender)
+    Begin
+        BtInputDateBoxCommon:GotFocus(Properties, My_onPress, My_GotFocus)
+    End Method
+
+    Method My_LostFocus(sender)
+    Begin
+        BtInputDateBoxCommon:LostFocus(Properties, HistoryDataEditDialog:LogEditDialog_KeyDown, My_LostFocus)
+    End Method
+
+    Method My_onScanComplete(sender)
+    Begin
+        BtInputDateBoxCommon:OnScanned(Properties, My_onScanComplete)
+    End Method
+
+    Method My_onTouchOut(sender)
+    Begin
+        BtInputDateBoxCommon:TouchOut(Properties, My_onTouchOut)
+    End Method
+
+End Package
+

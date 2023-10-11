@@ -1,0 +1,340 @@
+        #define DATA_LOCATION_LOCAL 0
+        #define DATA_LOCATION_REMOTE 1
+
+        #define COMMUNICATION_ERROR_DISPLAY_MODE_TERMINAL_SETTING 0     
+        #define COMMUNICATION_ERROR_DISPLAY_MODE_ALWAYS 1               
+        #define COMMUNICATION_ERROR_DISPLAY_MODE_WITHOUT_LINK_LOST 2    
+        #define COMMUNICATION_ERROR_DISPLAY_MODE_NEVER 3                
+
+        #define BUTTON_TYPE_TEXT 0        
+        #define BUTTON_TYPE_IMAGE 1       
+
+        #define INPUT_MODE_SCAN_AND_KEY_ALPHANUMERIC 0  
+        #define INPUT_MODE_SCAN_AND_KEY_NUMERIC 1       
+        #define INPUT_MODE_SCAN_ALPHANUMERIC 2        
+        #define INPUT_MODE_KEY_ALPHANUMERIC 3         
+        #define INPUT_MODE_KEY_NUMERIC 4              
+
+        #define TRIGGER_MODE_OFF 0                  
+        #define TRIGGER_MODE_AUTO_OFF 1             
+        #define TRIGGER_MODE_CONTINUOUS 2           
+        #define TRIGGER_MODE_MOMENTARY 3            
+        #define TRIGGER_MODE_SOFTWARE_TRIGGER 4     
+        #define TRIGGER_MODE_RELEASE 5              
+        #define TRIGGER_MODE_DOUBLE_CLICK 6         
+
+        #define DATE_PATTERN_YYYYMMDD 1    
+        #define DATE_PATTERN_YYYYMM 2      
+        #define DATE_PATTERN_YYMMDD 3      
+        #define DATE_PATTERN_YYMM 4        
+        #define DATE_PATTERN_MMDDYYYY 5    
+        #define DATE_PATTERN_MMYYYY 6      
+        #define DATE_PATTERN_MMDDYY 7      
+        #define DATE_PATTERN_MMYY 8        
+        #define DATE_PATTERN_DDMMYYYY 9    
+        #define DATE_PATTERN_DDMMYY 10     
+
+        #define DATE_SEPARATOR_NONE 0          
+        #define DATE_SEPARATOR_SLASH 1         
+        #define DATE_SEPARATOR_PERIOD 2        
+        #define DATE_SEPARATOR_HYPHEN 3        
+        #define DATE_SEPARATOR_SPACE 4         
+
+        #define TIME_FORMAT_HOURS_COLON_MINUTES_COLON_SECONDS 0   
+        #define TIME_FORMAT_HOURS_MINUTES_SECONDS 1             
+
+        #define OCR_DATE_OUTPUT_PATTERN_YYYYMMDD 1    
+        #define OCR_DATE_OUTPUT_PATTERN_YYYYMM 2      
+        #define OCR_DATE_OUTPUT_PATTERN_YYMMDD 3      
+        #define OCR_DATE_OUTPUT_PATTERN_YYMM 4        
+
+        #define AI_DATA_LENGTH_FORMAT_FIXED_LENGTH 0
+        #define AI_DATA_LENGTH_FORMAT_VARIABLE_LENGTH 1
+
+        #define SYSTEM_PARAMETER_TYPE_APPLICATION_VERSION 0  
+        #define SYSTEM_PARAMETER_TYPE_FIRMWARE_VERSION 1     
+        #define SYSTEM_PARAMETER_TYPE_TERMINAL_ID 2          
+        #define SYSTEM_PARAMETER_TYPE_TERMINAL_NAME 3        
+        #define SYSTEM_PARAMETER_TYPE_TERMINAL_IP_ADDRESS 4   
+        #define SYSTEM_PARAMETER_TYPE_SERIAL_NUMBER 5        
+        #define SYSTEM_PARAMETER_TYPE_SYSTEM_DATE 6          
+        #define SYSTEM_PARAMETER_TYPE_SYSTEM_TIME 7          
+
+        #define DATA_LENGTH_FIXED 0     
+        #define DATA_LENGTH_VARIABLE 1  
+
+        #define LOG_SEPARATOR_TYPE_COMMA 0   
+        #define LOG_SEPARATOR_TYPE_TAB 1     
+        #define LOG_SEPARATOR_TYPE_SPACE 2   
+
+        #define LOG_DATA_PROCESS_PRIORITY_TYPE_SPEED 0   
+        #define LOG_DATA_PROCESS_PRIORITY_TYPE_SIZE 1    
+
+        #define EXCLUSION_CHARACTERS_NONE 0x0      
+        #define EXCLUSION_CHARACTERS_HYPHEN 0x1    
+        #define EXCLUSION_CHARACTERS_SPACE 0x2     
+        #define EXCLUSION_CHARACTERS_SLASH 0x4     
+        #define EXCLUSION_CHARACTERS_COMMA 0x8     
+
+        #define LOG_PADDING_TYPE_ZERO 0    
+        #define LOG_PADDING_TYPE_SPACE 1   
+
+        #define DATA_ALIGN_LEFT 0    
+        #define DATA_ALIGN_RIGHT 1   
+
+        #define OUTPUT_RANGE_TYPE_NONE 0    
+        #define OUTPUT_RANGE_TYPE_RANGE 1   
+        #define OUTPUT_RANGE_TYPE_AI 2      
+
+        #define LR1OUTPUT_NONE 0    
+        #define LR1OUTPUT_TERMINAL_OUTPUT_STATUS1OK 1 
+        #define LR1OUTPUT_TERMINAL_OUTPUT_STATUS2NG 2 
+        #define LR1OUTPUT_TERMINAL_OUTPUT_STATUS3 4   
+
+        #define SQ_LITE_FIELD_TYPE_INTEGER_NUMBER 0   
+        #define SQ_LITE_FIELD_TYPE_REAL_NUMBER 1      
+        #define SQ_LITE_FIELD_TYPE_TEXT 2            
+
+        #define FILTER_DETERMINATION_MODE_ALL 0     
+        #define FILTER_DETERMINATION_MODE_EITHER 1     
+
+        #define GRID_BOX_CELL_BACK_COLOR_LIGHT_GRAY 0   
+        #define GRID_BOX_CELL_BACK_COLOR_DARK_GRAY 1    
+        #define GRID_BOX_CELL_BACK_COLOR_BLUE 2        
+        #define GRID_BOX_CELL_BACK_COLOR_RED 3         
+        #define GRID_BOX_CELL_BACK_COLOR_GREEN 4       
+        #define GRID_BOX_CELL_BACK_COLOR_ORANGE 5      
+
+        #define DATE_INPUT_TYPE_NUMERIC_KEYPAD 0         
+        #define DATE_INPUT_TYPE_NUMERIC_KEYPAD_AND_READ 1  
+        #define DATE_INPUT_TYPE_ARROW_KEY 2                
+        #define DATE_INPUT_TYPE_ARROW_KEY_AND_READ 3         
+
+        #define OCR_DATE_SCAN_ANNO_DOMINI_DIGIT_TWO_DIGITS_ONLY 1       
+        #define OCR_DATE_SCAN_ANNO_DOMINI_DIGIT_FOUR_DIGITS_ONLY 2      
+        #define OCR_DATE_SCAN_ANNO_DOMINI_DIGIT_DOUBLE_OR_FOUR_DIGITS 3  
+
+        #define OCR_DATE_SCAN_NOTATION_DATE_EXIST_ONLY 1       
+        #define OCR_DATE_SCAN_NOTATION_DATE_NOT_EXIST_ONLY 2    
+        #define OCR_DATE_SCAN_NOTATION_DATE_EXIST_OR_NOT_EXIST 3 
+
+        #define SCAN_ENABLE_CODE_TYPE_JAN 0x1
+        #define SCAN_ENABLE_CODE_TYPE_C39 0x2
+        #define SCAN_ENABLE_CODE_TYPE_GS128 0x4
+        #define SCAN_ENABLE_CODE_TYPE_C128 0x8
+        #define SCAN_ENABLE_CODE_TYPE_ITF 0x10
+        #define SCAN_ENABLE_CODE_TYPE_NW7 0x20
+        #define SCAN_ENABLE_CODE_TYPE_C93 0x40
+        #define SCAN_ENABLE_CODE_TYPE_TOF 0x80
+        #define SCAN_ENABLE_CODE_TYPE_COOP 0x100
+        #define SCAN_ENABLE_CODE_TYPE_GS_DB 0x200
+        #define SCAN_ENABLE_CODE_TYPE_QR 0x400
+        #define SCAN_ENABLE_CODE_TYPE_PDF 0x800
+        #define SCAN_ENABLE_CODE_TYPE_DM 0x1000
+        #define SCAN_ENABLE_CODE_TYPE_MC 0x2000
+        #define SCAN_ENABLE_CODE_TYPE_COMPOSITE 0x8000
+        #define SCAN_ENABLE_CODE_TYPE_ALL 0xBFFF
+
+        #define SCAN_INVERSE_TYPE_POSITIVE "positive"   
+        #define SCAN_INVERSE_TYPE_NEGATIVE "negative"   
+        #define SCAN_INVERSE_TYPE_NEGA_POSI "both"      
+
+        #define SCAN_MIRROR_TYPE_UN_MIRROR "normal"     
+        #define SCAN_MIRROR_TYPE_MIRROR "mirror"        
+
+        #define SCAN_RANGE_TYPE_FIRST "first"       
+        #define SCAN_RANGE_TYPE_CENTER "center"     
+        #define SCAN_RANGE_TYPE_LINE "line"			
+        #define SCAN_RANGE_TYPE_FULL "full"         
+    
+        #define SCAN3D_CONCAVE "recessed"               
+        #define SCAN3D_CONVEX "raised"                
+        #define SCAN3D_CONCAVE_AND_CONVEX "both"    
+
+        #define TARGET_AREA_SMALL 0   
+        #define TARGET_AREA_MIDDLE 1  
+        #define TARGET_AREA_LARGE 2   
+
+        #define FULL_DETECTION_CODE_TYPE_JAN 1         
+        #define FULL_DETECTION_CODE_TYPE_C39 2         
+        #define FULL_DETECTION_CODE_TYPE_GS128 3       
+        #define FULL_DETECTION_CODE_TYPE_C128 4        
+        #define FULL_DETECTION_CODE_TYPE_ITF 5         
+        #define FULL_DETECTION_CODE_TYPE_NW7 6         
+        #define FULL_DETECTION_CODE_TYPE_C93 7         
+        #define FULL_DETECTION_CODE_TYPE_GS_DB 10       
+        #define FULL_DETECTION_CODE_TYPE_QR 11         
+
+        #define OCR_ENABLE_TYPE_BOTH_OCR_AND_CODE 1      
+        #define OCR_ENABLE_TYPE_ONLY_OCR 2             
+        #define OCR_ENABLE_TYPE_DISABLE 3             
+
+        #define OCR_PATTERN_TYPE_FREE_MODE 1        
+        #define OCR_PATTERN_TYPE_DATE_MODE 2        
+
+        #define OCR_OUT_DISP_CHECK_TYPE_NONE 0            
+        #define OCR_OUT_DISP_CHECK_TYPE_EVERY_TIME 1       
+        #define OCR_OUT_DISP_CHECK_TYPE_ON_ALERT 2         
+
+        #define TRANSMISSION_ROUTE_TYPE_TERMINAL_SETTING 0 
+        #define TRANSMISSION_ROUTE_TYPE_USB_COM 1          
+        #define TRANSMISSION_ROUTE_TYPE_LAN 2             
+        #define TRANSMISSION_ROUTE_TYPE_WIRELESS_LAN 3     
+
+        #define QUANTITY_ENTRY_TYPE_SINGLE_INPUT 0
+        #define QUANTITY_ENTRY_TYPE_MULTIPLE_INPUT 1
+
+        #define LOG_DELETE_TYPE_CANCEL 0
+        #define LOG_DELETE_TYPE_ONE_RECORD 1
+        #define LOG_DELETE_TYPE_ALL_RECORDS 2
+
+        #define LOG_EDIT_TYPE_TEXT_BOX 0
+        #define LOG_EDIT_TYPE_DATE_BOX 1
+
+        #define PRESS_KEY_TYPE_RIGHT 0
+        #define PRESS_KEY_TYPE_LEFT 1
+
+        #define KEY_OPERATION_TYPE_TAB_TRANSITION 0   
+        #define KEY_OPERATION_TYPE_EDIT_MODE 1        
+        #define KEY_OPERATION_TYPE_INVALID_MODE 2     
+
+        #define OPERATION_KIND_NONE 0            
+        #define OPERATION_KIND_ADDITION 1        
+        #define OPERATION_KIND_SUBTRACTION 2     
+        #define OPERATION_KIND_MULTIPLICATION 3  
+        #define OPERATION_KIND_DIVISION 4        
+
+        #define JUDGE_KIND_MATCH 0      
+        #define JUDGE_KIND_MISMATCH 1  
+        #define JUDGE_KIND_EQUAL 2      
+        #define JUDGE_KIND_NOT_EQUAL 3   
+        #define JUDGE_KIND_INCLUDED 4    
+        #define JUDGE_KIND_GREATER 5    
+        #define JUDGE_KIND_LESS 6       
+        #define JUDGE_KIND_GREATER_OR_EQUAL 7  
+        #define JUDGE_KIND_LESS_OR_EQUAL 8   
+
+        #define CONDITIONS_EVALUATION_ALL 0 
+        #define CONDITIONS_EVALUATION_ANY 1 
+
+        #define IMAGE_DISPLAY_SIZE_ORIGINAL 0
+        #define IMAGE_DISPLAY_SIZE_UNIFORM 1
+        #define IMAGE_DISPLAY_SIZE_FILL 2
+
+        #define OPERATION_UNIT_YEAR 0        
+        #define OPERATION_UNIT_MONTH 1       
+        #define OPERATION_UNIT_DAY 2         
+
+        #define STORAGE_DESTINATION_DRIVE1 1
+        #define STORAGE_DESTINATION_DRIVE2 2
+        #define STORAGE_DESTINATION_SD_CARD 5
+        #define STORAGE_DESTINATION_FULL_PATH 0
+
+        #define INDICATOR_COLOR_OFF 0
+        #define INDICATOR_COLOR_RED 1
+        #define INDICATOR_COLOR_GREEN 2
+
+        #define BUZZER_VOLUME_OFF 0
+        #define BUZZER_VOLUME_SMALL 1
+        #define BUZZER_VOLUME_MEDIUM 2
+        #define BUZZER_VOLUME_BIG 3
+
+        #define MUSICAL_SCALE_LOW 1
+        #define MUSICAL_SCALE_MIDDLE 8
+        #define MUSICAL_SCALE_HIGH 16
+
+        #define INPUT_CONTROL_STRING_TEXT_BOX 0       
+        #define INPUT_CONTROL_INTEGER_TEXT_BOX 1      
+        #define INPUT_CONTROL_REAL_TEXT_BOX 2         
+        #define INPUT_CONTROL_RADIO_BUTTON 3         
+        #define INPUT_CONTROL_CHECK_BOX 4            
+        #define INPUT_CONTROL_DATE_BOX 5             
+
+        #define COLLATION_PATTERN_ONE_TO_ONE 0    
+        #define COLLATION_PATTERN_ONE_TO_N 1      
+        #define COLLATION_PATTERN_NTO_N 2        
+
+        #define LOOKUP_BOX_DATA_INPUT 0
+        #define LOOKUP_BOX_DATA_REPLACE 1
+
+        #define STOPWATCH_DATA_START_TIME 0           
+        #define STOPWATCH_DATA_END_TIME 1             
+        #define STOPWATCH_DATA_DIFFERENTIAL_TIME 2    
+
+        #define INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1 0
+        #define INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX2 1
+        #define INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX3 2
+
+        #define FILTERING_MATCH_TYPE_EXACT_MATCH 0
+        #define FILTERING_MATCH_TYPE_FORWARD_MATCH 1
+        #define FILTERING_MATCH_TYPE_BACKWARD_MATCH 2
+        #define FILTERING_MATCH_TYPE_PARTIAL_MATCH 3
+
+        #define SHARED_PARAMETER_CLEAR_TIMING_NONE 0x0
+        #define SHARED_PARAMETER_CLEAR_TIMING_DATA_OUTPUT 0x1
+        #define SHARED_PARAMETER_CLEAR_TIMING_JOB_CLOSE 0x2
+
+        #define MASTER_CHECK_ITEM_LIST_DISPLAY_MODE_ITEMS_IN_VOUCHER 0
+        #define MASTER_CHECK_ITEM_LIST_DISPLAY_MODE_ALL_ITEMS 1
+
+        #define RESTART_MODE_CONTINUE_INPUT 0
+        #define RESTART_MODE_CLEAR_ITEM 1
+        #define RESTART_MODE_CLEAR_VOUCHER 2
+        #define RESTART_MODE_CLEAR_ALL 3
+
+        #define EXECUTE_APPLICATION_KIND_EXE 0
+        #define EXECUTE_APPLICATION_KIND_SB3 1
+
+#define KEYS_0 0x00000020
+#define KEYS_1 0x00000040
+#define KEYS_2 0x00000080
+#define KEYS_3 0x00000100
+#define KEYS_4 0x00000200
+#define KEYS_5 0x00000400
+#define KEYS_6 0x00000800
+#define KEYS_7 0x00001000
+#define KEYS_8 0x00002000
+#define KEYS_9 0x00004000
+#define KEYS_DOT 0x00000008
+#define KEYS_UNDERBER 0x00000010
+#define KEYS_F1 0x00000001
+#define KEYS_F2 0x00000002
+#define KEYS_F3 0x00000004
+#define KEYS_F4 0x02000000
+#define KEYS_L 0x00200000
+#define KEYS_R 0x00400000
+#define KEYS_UP 0x00010000
+#define KEYS_DOWN 0x00020000
+#define KEYS_LEFT 0x00040000
+#define KEYS_RIGHT 0x00080000
+#define KEYS_CLONG 0x20008000
+#define KEYS_C 0x00008000
+#define KEYS_ENTER 0x00800000
+#define KEYS_TRG 0x00100000
+#define KEYS_SCAN 0x10000000
+#define KEYS_ALL KEYS_0+KEYS_1+KEYS_2+KEYS_3+KEYS_4+KEYS_5+KEYS_6+KEYS_7+KEYS_8+KEYS_9+KEYS_DOT+KEYS_UNDERBER+KEYS_F1+KEYS_F2+KEYS_F3+KEYS_F4+KEYS_L+KEYS_R+KEYS_UP+KEYS_DOWN+KEYS_LEFT+KEYS_RIGHT+KEYS_CLONG+KEYS_ENTER+KEYS_TRG+KEYS_SCAN
+
+#define MESSAGE_BOX_BUTTONS_OK "ok"
+#define MESSAGE_BOX_BUTTONS_OKCANCEL "okcancel"
+#define MESSAGE_BOX_BUTTONS_YES_NO "yesno"
+#define MESSAGE_BOX_DEFAULT_BUTTON_BUTTON1 0
+#define MESSAGE_BOX_DEFAULT_BUTTON_BUTTON2 256
+#define MESSAGE_BOX_DEFAULT_BUTTON_BUTTON3 512
+
+#define MESSAGE_BOX_ICON_ASTERISK "information"
+#define MESSAGE_BOX_ICON_NONE "information"
+#define MESSAGE_BOX_ICON_EXCLAMATION "exclamation"
+#define MESSAGE_BOX_ICON_HAND "stop"
+#define MESSAGE_BOX_ICON_QUESTION "question"
+
+#define DIALOG_RESULT_NONE 0
+#define DIALOG_RESULT_OK 1
+#define DIALOG_RESULT_CANCEL 2
+#define DIALOG_RESULT_ABORT 3
+#define DIALOG_RESULT_RETRY 4
+#define DIALOG_RESULT_IGNORE 5
+#define DIALOG_RESULT_YES 6
+#define DIALOG_RESULT_NO 7
+
+#define DEF_TAG_PROPERTIES _properties
+#define DEF_TAG_INVOKE_METHOD _tmp

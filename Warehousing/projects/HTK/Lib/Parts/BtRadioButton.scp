@@ -1,0 +1,123 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtRadioButtonConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+
+    Method DataInput(this)
+    Begin
+#ifdef DEF_GROUP_OWNER
+        Return (DEF_GROUP_OWNER:DataInput(this))
+#else
+        Return (true)
+#endif
+    End Method
+
+    Method FocusTransitionRequested(this)
+    Begin
+#ifdef DEF_GROUP_OWNER
+        Return (DEF_GROUP_OWNER:FocusTransitionRequested(this))
+#else
+        Return (false)
+#endif
+    End Method
+
+
+
+#insert "\Lib\Utilities\IControlInvoke"
+
+    Method New()
+    Begin
+        BtRadioButtonCommon:New(Properties)
+        BtRadioButtonCommon:SetHandler(Properties, DataInput, FocusTransitionRequested, MoveNextControl, MovePreviousControl, NotifyCheckState)
+        NotifyCheckState(Properties[DEF_NAME_PROPERTY])
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        BtRadioButtonCommon:Create(Properties, parentName)
+        BtRadioButtonCommon:SetEventHandler(Properties, GotFocus, LostFocus, OnCheckChange)
+        New()
+    End Method
+
+    Method NotifyCheckState(this)
+    Begin
+#ifdef DEF_GROUP_OWNER
+        If (RadioButton<Properties[DEF_NAME_PROPERTY]>:checked) Then
+            BtRadioButtonGroupCommon:SetSelectedId(DEF_GROUP_OWNER:Properties,
+                                                   BtRadioButtonCommon:GetPersonalIdInGroup(Properties))
+        End If
+#endif
+    End Method
+
+    Method MoveNextControl(this)
+    Begin
+#ifdef DEF_FOCUS_TRANSITION_UTILITY
+        Return(DEF_FOCUS_TRANSITION_UTILITY:GetMoveNextControlId(Properties[DEF_NAME_PROPERTY]))
+#endif
+    End Method
+
+    Method MovePreviousControl(this)
+    Begin
+#ifdef DEF_FOCUS_TRANSITION_UTILITY
+        Return(DEF_FOCUS_TRANSITION_UTILITY:GetMovePreviousControlId(Properties[DEF_NAME_PROPERTY]))
+#endif
+    End Method
+
+    Method Focus() 
+    Begin
+        BtRadioButtonCommon:Focus(Properties)
+    End Method
+
+    Method Invalidate()
+    Begin
+    End Method
+
+
+
+    Method GotFocus(sender)
+    Begin
+        BtRadioButtonCommon:GotFocus(Properties, OnKeyDown, GotFocus)
+    End Method
+
+    Method LostFocus(sender)
+    Begin
+#ifdef DEF_EVENT_FORM_KEY_DOWN
+        BtRadioButtonCommon:LostFocus(Properties, DEF_EVENT_FORM_KEY_DOWN)
+#else
+        BtRadioButtonCommon:LostFocus(Properties, nil)
+#endif
+    End Method
+
+    Method OnKeyDown(sender)
+    Begin
+        If Not BtScreenCommon:IsEnabledControl(Properties[DEF_NAME_PROPERTY]) Then
+            Return()
+        End If
+
+        Key:onPress = nil
+
+#ifdef DEF_EVENT_FORM_KEY_DOWN
+        DEF_EVENT_FORM_KEY_DOWN(sender)
+#endif
+        BtRadioButtonCommon:KeyDown(Properties, sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = OnKeyDown
+        End If
+    End Method
+
+    Method OnCheckChange(sender)
+    Begin
+        BtRadioButtonCommon:OnCheckChange(Properties, OnCheckChange)
+    End Method
+
+
+End Package 
+
+#popdefine

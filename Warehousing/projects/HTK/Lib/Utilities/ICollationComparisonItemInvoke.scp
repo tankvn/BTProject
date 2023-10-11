@@ -1,0 +1,4 @@
+    Method ICollationComparisonItemInvoke(this)
+    Begin
+        DEF_COMMON:ICollationComparisonItemInvokeCommon(this, Properties)
+    End Method

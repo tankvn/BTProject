@@ -1,0 +1,22 @@
+#pushdefine
+
+#insert "\Lib\Utilities\Lr1DataItemSendDataSizeConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+#insert "\Lib\Utilities\ILr1DataItemInvoke"
+#insert "\Lib\Utilities\ILr1DataItemSendDataSizeInvoke"
+
+    Method New()
+    Begin
+        Lr1DataItemSendDataSizeCommon:New(Properties)
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        Properties[DEF_TYPE_PROPERTY] = "Lr1DataItemSendDataSize"
+        Properties[DEF_DATASIZE_PROPERTY] = 0
+    End Method
+
+End Package
+
+#popdefine

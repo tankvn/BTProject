@@ -1,0 +1,14 @@
+Package LayoutUtility
+
+    Const ANTIALIASED_FONT_LIST[4] = {"TT Hira UD Sans Rd Mono StdN W4", "TT Hira UD Sans F Mono StdN W4", "TT Hira Sans GB Mono W3", "SimSun"}
+
+    Const CLEARTYPE_FONT_LIST[5] = {"MS Gothic", "MS PGothic", "MS UI Gothic", "Meiryo", "Meiryo UI"}
+
+    _dummyControl
+
+    Method CalculateDisplayLocation(displaySize[], outSize[])
+    Begin
+        outSize[0] = (240 / 2) - (displaySize[0] / 2)
+        outSize[1] = (320 / 2) - (displaySize[1] / 2)
+    End Method
+End Package

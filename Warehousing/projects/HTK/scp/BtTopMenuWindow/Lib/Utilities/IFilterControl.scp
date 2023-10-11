@@ -1,0 +1,34 @@
+
+Package IFilterControl
+    Names[6]
+    ICommons[6]
+
+    Method New()
+    Begin
+        Names[0] = "BtTopMenuWindow_BtLabel_Version"
+        ICommons[0] = BtTopMenuWindow_BtLabel_Version:IFilterControlInvoke
+        Names[1] = "BtTopMenuWindow_BtSystemParameter_Version"
+        ICommons[1] = BtTopMenuWindow_BtSystemParameter_Version:IFilterControlInvoke
+        Names[2] = "BtTopMenuWindow_BtLabel_Title"
+        ICommons[2] = BtTopMenuWindow_BtLabel_Title:IFilterControlInvoke
+        Names[3] = "BtCommunicationErrorDialog_1_BtLabel_Title"
+        ICommons[3] = BtCommunicationErrorDialog_1_BtLabel_Title:IFilterControlInvoke
+        Names[4] = "BtCommunicationErrorDialog_1_BtLabel_Message1"
+        ICommons[4] = BtCommunicationErrorDialog_1_BtLabel_Message1:IFilterControlInvoke
+        Names[5] = "BtCommunicationErrorDialog_1_BtLabel_Message2"
+        ICommons[5] = BtCommunicationErrorDialog_1_BtLabel_Message2:IFilterControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetInputValue(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetInputValue", args, ICommons))
+    End Method
+
+End Package
+

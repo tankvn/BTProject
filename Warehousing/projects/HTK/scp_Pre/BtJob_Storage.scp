@@ -1,0 +1,265 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+Include "Lib\Utilities\BtDataFormatControlCommon"
+Include "Lib\Utilities\LogItemCommon"
+Include "Lib\Utilities\LogItemFixedStringCommon"
+Include "Lib\Utilities\LogItemSharedParameterCommon"
+Include "Lib\Utilities\LogItemSystemParameterCommon"
+Include "Lib\Utilities\LogItemScreenDataCommon"
+Include "BtTopMenuWindow\Lib\Utilities\IDataFormatControl"
+Include "BtTopMenuWindow\Lib\Utilities\ILogItemScreenData"
+Include "BtTopMenuWindow\Lib\Utilities\ILogItem"
+Include "BtJob_Retrieval\Lib\Utilities\BtJob_Retrieval_LogItem_0"
+Include "BtJob_Retrieval\Lib\Utilities\BtJob_Retrieval_LogItem_1"
+Include "BtJob_Retrieval\Lib\Utilities\BtJob_Retrieval_LogItem_2"
+Include "BtJob_Retrieval\Lib\Utilities\BtJob_Retrieval_LogItem_3"
+Include "BtJob_Retrieval\Lib\Utilities\BtJob_Retrieval_LogItem_4"
+Include "BtJob_Retrieval\Lib\Utilities\BtJob_Retrieval_LogItem_5"
+Include "BtJob_Retrieval\Lib\Utilities\BtJob_Retrieval_LogItem_6"
+Include "BtJob_Retrieval\Lib\Utilities\BtJob_Retrieval_RetrievalData"
+Include "Lib\Parts\BtLabelCommon"
+Include "Lib\Parts\BtTextBoxCommon"
+Include "Lib\Utilities\ReadResultProcessor"
+Include "Lib\Parts\BtLogCountLabelCommon"
+Include "Lib\Parts\BtButtonCommon"
+Include "Lib\Parts\BtSendDataFileControl"
+Include "Lib\Parts\BtInputItemCountControlCommon"
+Include "Lib\Parts\BtScreenCommon"
+Include "Lib\Utilities\ErrorManager"
+Include "Lib\Utilities\MathUtility"
+Include "Lib\Utilities\StringUtility"
+Include "Lib\Utilities\PathUtility"
+Include "Lib\Utilities\DateUtility"
+Include "Lib\Utilities\TimeUtility"
+Include "Lib\Utilities\InterfaceCommon"
+Include "Lib\Utilities\EventUtility"
+Include "Lib\Utilities\Dispatcher"
+Include "Lib\Utilities\FocusTransitionUtilityCommon"
+Include "Lib\Utilities\LayoutUtility"
+Include "Lib\Utilities\SystemParameterUtility"
+Include "Lib\Utilities\SystemSettingFileUtility"
+Include "Lib\Utilities\SharedParameterUtility"
+Include "Lib\Utilities\OutputDataUtility"
+Include "Lib\Utilities\OcrSettings"
+Include "Lib\Utilities\ReadableCodeSettings"
+Include "Lib\Utilities\CodeReadDetailSettings"
+Include "Lib\Utilities\AiUtility"
+Include "Lib\Utilities\AiList"
+Include "Lib\Utilities\Ai"
+Include "Lib\Utilities\DbAccess"
+Include "Lib\Utilities\DBData"
+Include "Lib\Utilities\TransmissionController"
+Include "Lib\Utilities\TransmissionLogUtility"
+Include "Lib\Utilities\RealTimeConnectionController"
+Include "Lib\Utilities\IndicatorUtility"
+Include "Lib\Utilities\BtMasterCheckUtility"
+Include "Lib\Parts\MessageUtility"
+Include "Lib\Parts\BtPictureViewCommon"
+Include "Lib\Parts\BtFocusTransitionControllerCommon"
+Include "Lib\Parts\TransmittingForm"
+Include "Lib\Parts\RES\TransmittingForm_res"
+Include "Lib\Parts\BackGroundActionForm"
+Include "Lib\Parts\RES\BackGroundActionForm_res"
+Include "Lib\Parts\BtTableViewCommon"
+Include "Lib\Parts\BtHistoryDataViewCommon"
+Include "Lib\Parts\BtInputDateBoxCommon"
+Include "Lib\Parts\BtFormCommon"
+Include "BtJob_Storage\ActiveForm"
+
+Include "BtJob_Storage\BtJob_Storage_partial"
+Include "BtJob_Storage\RES\BtJob_Storage_res"
+Include "BtTopMenuWindow\BtTopMenuWindowForm_partial"
+Include "BtJob_Retrieval\BtJob_Retrieval_partial"
+Include "BtJob_Storage\BtWindow_Storage"
+Include "BtJob_Storage\BtHistoryDataView_Storage"
+
+
+Method main()
+Begin
+    BackGroundActionForm:New(MESSAGE_LABEL_PROCESSING, MESSAGE_LABEL_IN_START_UP)
+    BackGroundActionForm:Show()
+    
+    IndicatorUtility:LoadSettings()
+    FileSystem:Mount(5)
+    
+    
+    While (1)
+        BtJob_Storage:New()
+        BackGroundActionForm:Reflesh()
+        BtJob_Storage:Initialize()
+        BackGroundActionForm:Close()
+        BtJob_Storage:OnShown()
+    Wend
+Catch
+    Handy:ShowMessageBox(MESSAGE_ERROR_APPLICATION_TROUBLE &"("&System:error&")", "ok" )
+End Method
+
+Package BtJob_Storage
+    _isInitialized = false
+    
+    Method New()
+    Begin
+        BtJob_Storage_res:InitializeComponent()
+    End Method
+    
+    Method Initialize()
+    Begin
+        BtJob_Storage_partial:CreateLogFormat(false)
+        BtJob_Storage_res:RegisterSharedParameter(true)
+        BtJob_Storage_res:InitializeChildren()
+        
+        BtWindow_Storage:Initialize()
+        BtHistoryDataView_Storage:Initialize()
+        
+        BtJob_Storage_partial:DeleteBackupLogData()
+        
+        Dispatcher:AddScannedEvent()
+        
+        _isInitialized = true
+    End Method
+    
+    Method Finalized()
+    Begin
+        Dispatcher:RemoveScannedEvent()
+        
+        BtWindow_Storage:Finalized()
+        BtHistoryDataView_Storage:Finalized()
+        
+        BtJob_Storage_res:Dispose()
+    End Method
+    
+    Method Close(isTop)
+    Begin
+        BackGroundActionForm:New(MESSAGE_LABEL_PROCESSING, MESSAGE_LABEL_IN_START_UP)
+        BackGroundActionForm:Show()
+        
+        
+        BtJob_Storage_res:Close()
+        BtJob_Storage_Closed()
+        BackGroundActionForm:Close()
+        System:Load("BtTopMenuWindowForm", "BtJob_Storage", "BtTopMenuWindowForm", isTop, 0)
+    End Method
+    
+    Method OnShown()
+        isShownScreen
+    Begin
+        Key:maskKey = KEYS_ALL
+        Key:onPress = OnKeyDown
+        
+        isShownScreen = false
+        Select Case System:arg2
+        Case "BtWindow_Storage"
+            ShowBtWindow_Storage()
+            isShownScreen = true
+        Case "BtHistoryDataView_Storage"
+            ShowBtHistoryDataView_Storage()
+            isShownScreen = true
+        End Select
+        If (isShownScreen is false) Then
+            ShowBtWindow_Storage()
+        End If
+        
+        BtJob_Storage_res:EventWait()
+    End Method
+    
+    Method OnKeyDown(sender)
+    Begin
+        If (BtScreenCommon:GetVisible(BtWindow_Storage_res:Properties)) Then
+            BtWindow_Storage_res:KeyAssignedAction(sender)
+            Return()
+        End If
+        If (BtHistoryDataViewCommon:GetVisible(BtHistoryDataView_Storage_res:Properties)) Then
+            BtHistoryDataView_Storage_res:KeyAssignedAction(sender)
+            Return()
+        End If
+    End Method
+    
+    Method OpenDatabase()
+    Begin
+        BtJob_Storage_partial:OpenLogDatabase()
+    End Method
+    
+    Method CloseDatabase()
+    Begin
+        BtJob_Storage_partial:CloseLogDatabase()
+        BtWindow_Storage_res:CloseDatabase()
+        BtHistoryDataView_Storage_res:CloseDatabase()
+        DbAccess:Close(SharedParameterUtility:GetPathSharedParameterDataBase())
+    End Method
+    
+    Method GetMasterFileNamePairs()
+        listId_ReceiveFileNamePairs
+    Begin
+        listId_ReceiveFileNamePairs = ListTable:CreateList()
+        Return (listId_ReceiveFileNamePairs)
+    End Method
+    
+    Method ShowBtWindow_Storage()
+    Begin
+        Handy:leftKey = "L"
+        Handy:rightKey = "TRG"
+        BtJob_Storage_ScreenManager:ShowScreen(BtScreenCommon:GetName(BtWindow_Storage_res:Properties))
+        BtWindow_Storage_BtTextBox_Person:Focus()
+    End Method
+    
+    Method ShowBtHistoryDataView_Storage()
+    Begin
+        Handy:leftKey = "L"
+        Handy:rightKey = "R"
+        BtHistoryDataView_Storage_res:BeforeShow()
+        BtHistoryDataView_Storage_res:SetCurrentLogData()
+        BtJob_Storage_ScreenManager:ShowScreen(BtHistoryDataViewCommon:GetName(BtHistoryDataView_Storage_res:Properties))
+        BtHistoryDataView_Storage_BtTableView_HistoryData:Focus()
+    End Method
+    
+    Method ShowBtCommunicationErrorDialog_1()
+    Begin
+        BtFormCommon:SetEnable(BtJob_Storage_res:Properties, false)
+        BtCommunicationErrorDialog_1:New()
+        BtCommunicationErrorDialog_1:ShowDialog()
+        BtFormCommon:SetEnable(BtJob_Storage_res:Properties, true)
+    End Method
+    
+    Method WriteLog()
+        writeJobDataResult
+        sentDataMaxRowId
+        errorMessage
+        writeLocation
+    Begin
+        writeJobDataResult = BtJob_Storage_StorageData:WriteJobData(ActiveForm:GetName())
+        sentDataMaxRowId = ListTable:GetValue(writeJobDataResult, "SentDataMaxRowId")
+        If (0 <= sentDataMaxRowId) Then
+            BtJob_Storage_res:ReflectMasterCheckSentNum(sentDataMaxRowId)
+            BtDataFormatControlCommon:DeleteJobData(BtJob_Storage_StorageData:Properties, sentDataMaxRowId)
+        End If
+        errorMessage = ErrorManager:GetError()
+        If ErrorManager:GetCommunicationError() Then
+            ActiveForm:ShowBtCommunicationErrorDialog_1()
+        Else
+            If (errorMessage ne MESSAGE_ERROR_NONE) Then
+                MessageUtility:ShowMessageOk(errorMessage)
+            End If
+        End If
+        If Not ListTable:GetValue(writeJobDataResult, "IsSuccess") Then
+            ListTable:DeleteList(writeJobDataResult)
+            Return (false)
+        End If
+        writeLocation = ListTable:GetValue(writeJobDataResult, "WriteLocation")
+        If ((writeLocation eq DATA_LOCATION_LOCAL) Or (0 <= sentDataMaxRowId)) Then
+            BtJob_Storage_res:UpdateLogData(true)
+        End If
+        ListTable:DeleteList(writeJobDataResult)
+        Return (true)
+    End Method
+    
+    Method BtJob_Storage_Closed()
+    Begin
+        Finalized()
+        CloseDatabase()
+    End Method
+End Package

@@ -1,0 +1,84 @@
+
+Package IBtMasterCheckControl
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetInputVoucher(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetInputVoucher", args, ICommons))
+    End Method
+
+    Method GetStorageDestination(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetStorageDestination", args, ICommons))
+    End Method
+
+    Method GetMasterFileName(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetMasterFileName", args, ICommons))
+    End Method
+
+    Method GetItemKeysCount(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetItemKeysCount", args, ICommons))
+    End Method
+
+    Method GetLogVoucherColumnNumber(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogVoucherColumnNumber", args, ICommons))
+    End Method
+
+    Method GetLogItemKeysColumnNumbers(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogItemKeysColumnNumbers", args, ICommons))
+    End Method
+
+    Method GetLogQuantityColumnNumber(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogQuantityColumnNumber", args, ICommons))
+    End Method
+
+    Method GetUserMasterDataInfo(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetUserMasterDataInfo", args, ICommons))
+    End Method
+
+    Method UpdateLogData(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "UpdateLogData", args, ICommons))
+    End Method
+
+    Method RefrectSentNumWithMaxRowId(controlName, logDataMaxRowId)
+        args[1]
+    Begin
+        args[0] = logDataMaxRowId
+        Return(InterfaceCommon:Call(controlName, Names, "RefrectSentNumWithMaxRowId", args, ICommons))
+    End Method
+
+    Method RefrectSentNumByRealTime(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "RefrectSentNumByRealTime", args, ICommons))
+    End Method
+
+End Package
+

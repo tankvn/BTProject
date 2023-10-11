@@ -1,0 +1,25 @@
+
+    #define BACK_LIGHT_VALUE_OFF "off" 
+
+    #define BACK_LIGHT_VALUE_NORMAL "low" 
+
+    #define BACK_LIGHT_VALUE_LIGHT "mid" 
+
+    #define BACK_LIGHT_VALUE_HIGH_LIGHT "high" 
+
+    #define OPERATION_SOUND_OFF 0 
+
+    #define OPERATION_SOUND_LOW 1 
+
+    #define OPERATION_SOUND_MEDIUM 2 
+
+    #define OPERATION_SOUND_HIGH 3 
+
+    #define SCAN_SOUND_OFF 0 
+
+    #define SCAN_SOUND_LOW 1 
+
+    #define SCAN_SOUND_MEDIUM 2 
+
+    #define SCAN_SOUND_HIGH 3 
+

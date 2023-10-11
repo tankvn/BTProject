@@ -1,0 +1,23 @@
+    Method IBtInputControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "SetTabIndex"
+                InterfaceCommon:Result = SetTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                InterfaceCommon:Result = SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetIsPartOfControl"
+                InterfaceCommon:Result = GetIsPartOfControl(properties)
+            Case "SetIsPartOfControl"
+                InterfaceCommon:Result = SetIsPartOfControl(properties, UserObj<this>:Get(2))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+            Case "StoreTemporaryText"
+                InterfaceCommon:Result = StoreTemporaryText(properties)
+            Case "ResetTemporaryText"
+                InterfaceCommon:Result = ResetTemporaryText(properties)
+        End Select
+    End Method

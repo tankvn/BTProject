@@ -1,0 +1,33 @@
+
+Package BtJob_Retrieval_ScreenManager
+
+    Method ShowScreen(targetScreen)
+    Begin
+        If Not(BtScreenCommon:GetName(BtWindow_Retrieval_res:Properties) eq targetScreen) Then
+            BtWindow_Retrieval_res:Show(false)
+        End If
+        If Not(BtScreenCommon:GetName(BtHistoryDataView_Retrieval_res:Properties) eq targetScreen) Then
+            BtHistoryDataView_Retrieval_res:Show(false)
+        End If
+        If BtScreenCommon:GetName(BtWindow_Retrieval_res:Properties) eq targetScreen Then
+            BtWindow_Retrieval_res:Show(true)
+            BtWindow_Retrieval_res:OnShown()
+        End If
+        If BtScreenCommon:GetName(BtHistoryDataView_Retrieval_res:Properties) eq targetScreen Then
+            BtHistoryDataView_Retrieval_res:Show(true)
+            BtHistoryDataView_Retrieval_res:OnShown()
+        End If
+    End Method
+
+    Method GetCurrentScreen()
+    Begin
+        If BtScreenCommon:GetVisible(BtWindow_Retrieval_res:Properties) Then
+            Return(BtScreenCommon:GetName(BtWindow_Retrieval_res:Properties))
+        End If
+        If BtScreenCommon:GetVisible(BtHistoryDataView_Retrieval_res:Properties) Then
+            Return(BtScreenCommon:GetName(BtHistoryDataView_Retrieval_res:Properties))
+        End If
+        Return(nil)
+    End Method
+
+End Package

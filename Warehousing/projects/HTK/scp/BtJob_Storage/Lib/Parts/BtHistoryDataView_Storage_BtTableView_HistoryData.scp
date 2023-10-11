@@ -1,0 +1,188 @@
+
+Package BtHistoryDataView_Storage_BtTableView_HistoryData
+
+    Properties[43]
+
+    Method DataInput(this)
+    Begin
+        Return (true)
+    End Method
+
+    Method FocusTransitionRequested(this)
+        result = false
+    Begin
+        Return (result)
+    End Method
+
+    Method ComparisonValueCountUpdated(this)
+    Begin
+    End Method
+
+    Method CollationCountUpdated(this)
+    Begin
+    End Method
+
+    Method IControlInvoke(this)
+    Begin
+        BtTableViewCommon:IControlInvokeCommon(this, Properties)
+    End Method
+    Method IBtInputControlInvoke(this)
+    Begin
+        BtTableViewCommon:IBtInputControlInvokeCommon(this, Properties)
+    End Method
+    Method IMasterDataOwnerControlInvoke(this)
+    Begin
+        BtTableViewCommon:IMasterDataOwnerControlInvokeCommon(this, Properties)
+    End Method
+    Method ILogItemControlInvoke(this)
+    Begin
+        BtTableViewCommon:ILogItemControlInvokeCommon(this, Properties)
+    End Method
+    Method ICollationTargetInvoke(this)
+    Begin
+        BtTableViewCommon:ICollationTargetInvokeCommon(this, Properties)
+    End Method
+    Method ISearchViewDisplayControlInvoke(this)
+    Begin
+        BtTableViewCommon:ISearchViewDisplayControlInvokeCommon(this, Properties)
+    End Method
+    Method ITableViewInvoke(this)
+    Begin
+        BtTableViewCommon:ITableViewInvokeCommon(this, Properties)
+    End Method
+
+    Method New()
+    Begin
+        BtTableViewCommon:New(Properties)
+        BtTableViewCommon:SetHandler(Properties, FocusTransitionRequested, MoveNextControl, MovePreviousControl, ComparisonValueCountUpdated,
+                                     CollationCountUpdated, DataInput, MakeFilterStringList, IdRemoveFieldNameList)
+    End Method
+
+    Method Create(parentName, row_num, col_num)
+    Begin
+        Properties[0] = "BtHistoryDataView_Storage_BtTableView_HistoryData"
+        BtTableViewCommon:Create(Properties, parentName, row_num, col_num)
+        BtTableViewCommon:SetEventHandler(Properties, BaseDataGrid_EditStart, BaseDataGrid_EditEnd, BaseDataGrid_GotFocus, BaseDataGrid_LostFocus)
+        New()
+    End Method
+
+    Method Focus()
+    Begin
+        FocusTransitionUtilityCommon:SetFocus(Properties[0])
+    End Method
+
+    Method Reset()
+    Begin
+        Return(BtTableViewCommon:Reset(Properties))
+    End Method
+
+    Method IdRemoveFieldNameList(this)
+    Begin
+        Return(BtDataFormatControlCommon:GetInnerDataFieldName())
+    End Method
+
+    Method UpdateData(needUpdateFilterdData)
+    Begin
+        BtTableViewCommon:UpdateData(Properties, needUpdateFilterdData)
+
+        ComparisonValueCountUpdated(nil)
+        ErrorManager:GetError()
+    Catch
+
+    End Method
+
+    Method MakeFilterStringList(this)
+    Begin
+        Return (BtTableViewCommon:MakeFilterStringList(Properties))
+    End Method
+
+    Method GetCellData(colIndex, rowIndex)
+    Begin
+        Return(BtTableViewCommon:GetCellData(Properties, colIndex, rowIndex))
+    End Method
+
+    Method GetControlName(index)
+    Begin
+        Return(BtTableViewCommon:GetControlName(Properties, index))
+    End Method
+
+    Method GetLogTableFieldType(index)
+    Begin
+        Return(BtTableViewCommon:GetLogTableFieldType(Properties, index))
+    End Method
+
+    Method GetLogData(index)
+    Begin
+        Return (BtTableViewCommon:GetLogData(Properties, index))
+    End Method
+
+    Method CheckValidInput(checkTarget, index)
+    Begin
+        Return(BtTableViewCommon:CheckValidInput(Properties, checkTarget, index))
+    End Method
+
+    Method ExecuteIrregularFocusTransition()
+    Begin
+        Return (FocusTransitionRequested(nil))
+    End Method
+
+    Method ChangeMode(nextMode)
+    Begin
+        DrawFocusFrame()
+    End Method
+
+    Method DrawFocusFrame()
+    Begin
+    End Method
+
+    Method Invalidate()
+    Begin
+    End Method
+
+    Method MoveNextControl(this)
+    Begin
+        Return(BtHistoryDataView_Storage_FocusTransitionUtility:GetMoveNextControlId(BtTableViewCommon:GetName(Properties)))
+    End Method
+
+    Method MovePreviousControl(this)
+    Begin
+        Return(BtHistoryDataView_Storage_FocusTransitionUtility:GetMovePreviousControlId(BtTableViewCommon:GetName(Properties)))
+    End Method
+
+    Method BaseDataGrid_KeyDown(sender)
+    Begin
+        If Not BtScreenCommon:IsEnabledControl(Properties[0]) Then
+            Return()
+        End If
+
+        Key:onPress = nil
+
+        ActiveForm:OnKeyDown(sender)
+        BtTableViewCommon:OnKeyDown(Properties, sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = BaseDataGrid_KeyDown
+        End If
+    End Method
+
+    Method BaseDataGrid_GotFocus(sender)
+    Begin
+        BtTableViewCommon:GotFocus(Properties, BaseDataGrid_KeyDown, BaseDataGrid_GotFocus)
+    End Method
+
+    Method BaseDataGrid_LostFocus(sender)
+    Begin
+        BtTableViewCommon:LostFocus(Properties, ActiveForm:OnKeyDown, BaseDataGrid_LostFocus)
+    End Method
+
+    Method BaseDataGrid_EditStart(sender)
+    Begin
+        BtTableViewCommon:EditStart(Properties, BaseDataGrid_EditStart)
+    End Method
+
+    Method BaseDataGrid_EditEnd(sender)
+    Begin
+        BtTableViewCommon:EditEnd(Properties, BaseDataGrid_KeyDown, BaseDataGrid_EditEnd)
+    End Method
+
+End Package

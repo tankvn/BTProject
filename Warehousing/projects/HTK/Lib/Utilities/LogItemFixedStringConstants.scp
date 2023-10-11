@@ -1,0 +1,12 @@
+#insert "\Lib\Utilities\LogItemConstants"
+
+#define DEF_COMMON LogItemFixedStringCommon
+
+    #define DEF_ID_PROPERTY DEF_BASE_PROPERTY_NUM + 0
+    #define DEF_LOG_DATA_PROPERTY DEF_BASE_PROPERTY_NUM + 1
+    #define DEF_PROPERTY_NUM DEF_BASE_PROPERTY_NUM + 2
+
+
+    #define FIELD_PREFIX "LogItemFixedString" 
+
+    

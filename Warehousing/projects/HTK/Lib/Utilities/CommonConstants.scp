@@ -1,0 +1,14 @@
+
+    #define INVALID_LIST_TABLE_ID   0
+
+    #define BT_DROP_DOWN_BOX_ITEM_INDEX_ALL   -1
+
+    #define LOG_ITEM_TYPE_FIXED_STRING      0   
+    #define LOG_ITEM_TYPE_SYSTEM_PARAMETER  1   
+    #define LOG_ITEM_TYPE_SHARED_PARAMETER  2   
+    #define LOG_ITEM_TYPE_SCREEN_DATA       3   
+    
+    #define INTEGER_MAX 2147483647
+    
+    #define DEF_MAX_LISTTABLE_DATA 200
+    

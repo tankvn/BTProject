@@ -1,0 +1,21 @@
+    Method ICollationConditionSettingInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetJudgeKind"
+                InterfaceCommon:Result = GetJudgeKind(properties)
+            Case "SetJudgeKind"
+                InterfaceCommon:Result = SetJudgeKind(properties, UserObj<this>:Get(2))
+            Case "GetCalculationKind"
+                InterfaceCommon:Result = GetCalculationKind(properties)
+            Case "SetCalculationKind"
+                InterfaceCommon:Result = SetCalculationKind(properties, UserObj<this>:Get(2))
+            Case "GetCalculationValue"
+                InterfaceCommon:Result = GetCalculationValue(properties)
+            Case "SetCalculationValue"
+                InterfaceCommon:Result = SetCalculationValue(properties, UserObj<this>:Get(2))
+            Case "GetCalculationTarget"
+                InterfaceCommon:Result = GetCalculationTarget(properties)
+            Case "SetCalculationTarget"
+                InterfaceCommon:Result = SetCalculationTarget(properties, UserObj<this>:Get(2))
+        End Select
+    End Method

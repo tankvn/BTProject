@@ -1,0 +1,11 @@
+
+    #define DEF_COMMON BtRadioButtonGroupCommon
+
+    #define DEF_NAME_PROPERTY 0
+    #define DEF_TYPE_PROPERTY 1
+    #define DEF_TAB_INDEX_PROPERTY 2
+    #define DEF_VISIBLE_PROPERTY 3
+    #define DEF_SELECTED_ID 4
+    #define DEF_INITIAL_CHECKED_ITEM_NUMBER 5
+    #define DEF_RESET_CHILDREN_HANDLER 6
+    #define DEF_PROPERTY_NUM 7

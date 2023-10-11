@@ -1,0 +1,19 @@
+    Method IBtInputComponentInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "SetTabIndex"
+                InterfaceCommon:Result = SetTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                InterfaceCommon:Result = SetVisible(properties, UserObj<this>:Get(2))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+            Case "GetName"
+                InterfaceCommon:Result = GetName(properties)
+        End Select
+    End Method

@@ -1,0 +1,90 @@
+Package WidgetCommon
+
+    Method sub_Proc(ctlType, ctlName, procType, value1, value2)
+    Begin
+        If ctlType eq "TextBox" Then
+            If procType eq "visible" Then
+                TextBox<ctlName>:visible = value1
+            ElseIf procType eq "SetText" Then
+                TextBox<ctlName>:text = value2
+            ElseIf procType eq "GetText" Then
+                Return(TextBox<ctlName>:text)
+
+
+
+
+            TextBox<name>:visible = sw
+        ElseIf ctlType eq "Button" Then
+            Button<name>:visible = sw
+        End If
+    End Method
+
+    Method SetText(type, name, text)
+    Begin
+        If type eq "TextBox" Then
+            TextBox<name>:text = text
+        ElseIf type eq "Button" Then
+            Button<name>:text = text
+        End If
+    End Method
+
+
+
+    Method SetForeColor(color)
+    Begin
+        Button<Name>:foreColor = color
+    End Method
+
+    Method SetBackColor(color)
+    Begin
+        Button<Name>:backColor = color
+    End Method
+
+    Method SetTextAlign(textAlign)
+    Begin
+        Button<Name>:textAlign = textAlign
+    End Method
+
+    Method SetFontSize(fontSize)
+    Begin
+        Button<Name>:fontSize = fontSize
+    End Method
+
+    Method SetLocation(leftPos, topPos)
+    Begin
+        With Button<Name>
+            :left = leftPos
+            :top = topPos
+        End With
+    End Method
+
+    Method SetSize(widthSize, heightSize)
+    Begin
+        With Button<Name>
+            :width= widthSize
+            :height= heightSize
+        End With
+    End Method
+
+    Method SetFocus()
+    Begin
+        Button<Name>:SetFocus()
+    End Method
+
+    Method Create(parentName)
+    Begin
+        With Button<Name>
+            :Create(parentName)
+            :visible = True
+            :enable = True
+        End With
+    End Method
+
+    Method SetOnButton(handler)
+    Begin
+        With Button<Name>
+            :onButton = handler
+        End With
+    End Method
+
+End Package

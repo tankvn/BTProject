@@ -1,0 +1,65 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+
+Include "CommonScreen\RES\BtCommunicationErrorDialog_1_res"
+
+
+
+Package BtCommunicationErrorDialog_1
+    _isInitialized = false
+    
+    Method New()
+    Begin
+        BtCommunicationErrorDialog_1_res:InitializeComponent()
+        
+        BtCommunicationErrorDialog_1_FocusTransitionUtility:SetControl("BtCommunicationErrorDialog_1_BtButton_Exit")
+    End Method
+    
+    Method Initialize()
+    Begin
+        BtCommunicationErrorDialog_1_res:InitializeChildren()
+        
+        BtCommunicationErrorDialog_1_BtButton_Exit:Invalidate()
+        _isInitialized = true
+    End Method
+    
+    Method Finalized()
+    Begin
+        BtCommunicationErrorDialog_1_res:Dispose()
+    End Method
+    
+    Method ShowDialog()
+    Begin
+        Key:onPress = BtCommunicationErrorDialog_1:OnKeyDown
+        BtCommunicationErrorDialog_1_res:Show(true)
+        BtCommunicationErrorDialog_1_BtButton_Exit:Focus()
+        IndicatorUtility:StartBVLAction(1, 2, BUZZER_VOLUME_BIG, MUSICAL_SCALE_LOW, True, INDICATOR_COLOR_RED)
+        
+        BtCommunicationErrorDialog_1_res:EventWait()
+    End Method
+    
+    Method CloseDialog(sender, result)
+    Begin
+        #ifdef DEF_EVENT_FORM_KEY_DOWN
+        Key:onPress = DEF_EVENT_FORM_KEY_DOWN
+        #else
+        Key:onPress = nil
+        #endif
+        BtCommunicationErrorDialog_1_res:Show(false)
+        IndicatorUtility:StopBVLAction()
+        BtCommunicationErrorDialog_1_res:TerminateTimer()
+        
+        Event:Exit()
+    End Method
+    
+    Method OnKeyDown(sender)
+    Begin
+        BtCommunicationErrorDialog_1_res:KeyAssignedAction(sender)
+    End Method
+    
+End Package

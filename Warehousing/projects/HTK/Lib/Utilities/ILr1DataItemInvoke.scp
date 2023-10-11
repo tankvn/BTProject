@@ -1,0 +1,4 @@
+    Method ILr1DataItemInvoke(this)
+    Begin
+        DEF_COMMON:ILr1DataItemInvokeCommon(this, Properties)
+    End Method

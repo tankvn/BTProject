@@ -1,0 +1,225 @@
+
+ Package OutputDataUtility
+
+    Method GetFormattedData(targetValue, dataLength, isDate, isTime, outputDoubleQuotation, outputDigit, dataAlignType, paddingType)
+        outputValue
+    Begin
+        outputValue = targetValue
+        If (outputValue.isString is false) Then
+            If (outputValue is nil) Then
+                outputValue = ""
+            End If
+        End If
+
+        If (dataLength == 0) And (isDate is false) And (isTime is false) Then
+            outputValue = AddPaddingData(outputValue, outputDigit, dataAlignType, paddingType)
+        End If
+
+        If (dataLength == 1) And (outputDoubleQuotation is true) Then
+            outputValue = "\"" & outputValue & "\""
+        End If
+
+        Return (outputValue)
+    End Method
+
+    Method GetFixedFormattedData(targetValue, dataLength, isDate, isTime, outputDigit, dataAlignType, paddingType)
+        outputValue
+    Begin
+        outputValue = targetValue
+        If (outputValue.isString is false) Then
+            If (outputValue is nil) Then
+                outputValue = ""
+            End If
+        End If
+
+        If (dataLength == 0) And (isDate is false) And (isTime is false) Then
+            outputValue = AddPaddingData(outputValue, outputDigit, dataAlignType, paddingType)
+        End If
+
+        Return (outputValue)
+    End Method
+
+    Method GetOutputData(targetValue, dataLength, tableItemType, isDate, isTime, exclusionCharacters, outputRangeType, outputRangeStart, outputRangeEnd, calculationType, parameterValue, dateCulculationUnit, decimalPlaces, dateFormat, dateSeparator, timeFormat)
+        formattedValue
+        subStringValue
+        errorMessage
+        dateData
+        timeData
+        errorValue
+    Begin
+        formattedValue = targetValue
+        If (formattedValue.isString is false) Then
+            If (formattedValue is nil) Then
+                Return (formattedValue)
+            End If
+        End If
+        If (formattedValue eq "") Then
+            Return (formattedValue)
+        End If
+
+        If (dataLength == 1) Then
+            formattedValue = StringUtility:DeleteCharacters(formattedValue, exclusionCharacters)
+        End If
+
+        If (isDate is false) And (isTime is false) Then
+            If (outputRangeType == 1) Then
+                subStringValue = StringUtility:SubstringByte(formattedValue, outputRangeStart - 1, outputRangeEnd - outputRangeStart + 1)
+                errorMessage = ErrorManager:GetError()
+                If (errorMessage ne "") Then
+                    Return ("")
+                End If
+                formattedValue = subStringValue
+            ElseIf (outputRangeType == 2) Then
+                ErrorManager:SetError("The operation to create the output data failed.")
+                Return (formattedValue)
+            End If
+        End If
+
+        If (isDate is true) Then
+            dateData = DateUtility:ToDateFromCommonFormat(formattedValue)
+            dateData = DateUtility:CalculateDate(dateData, calculationType, dateCulculationUnit, parameterValue.toInt)
+            formattedValue = DateUtility:FormatDate(dateData, dateFormat, dateSeparator)
+            If (formattedValue.isString is false) Then
+                If (formattedValue is nil) Then
+                    ErrorManager:SetError("The operation to create the output data failed.")
+                    Return (formattedValue)
+                End If
+            End If
+            If (formattedValue eq "") Then
+                ErrorManager:SetError("The operation to create the output data failed.")
+                Return (formattedValue)
+            End If
+        ElseIf (isTime is true) Then
+            timeData = TimeUtility:ToTimeFromCommonFormat(formattedValue)
+            formattedValue = TimeUtility:ConvertTimeFormat(timeData, 0, timeFormat)
+            If (formattedValue.isString is false) Then
+                If (formattedValue is nil) Then
+                    ErrorManager:SetError("The operation to create the output data failed.")
+                    Return (formattedValue)
+                End If
+            End If
+            If (formattedValue eq "") Then
+                ErrorManager:SetError("The operation to create the output data failed.")
+                Return (formattedValue)
+            End If
+        Else
+            formattedValue = CalculateNumericData(formattedValue, tableItemType, calculationType, parameterValue, decimalPlaces)
+            errorValue = ErrorManager:GetError()
+            If (errorValue ne "") Then
+                ErrorManager:SetError("The operation to create the output data failed.")
+                Return (formattedValue)
+            End If
+        End If
+
+        Return (formattedValue)
+    End Method
+
+    Method GetSeparatorString(separatorType)
+    Begin
+        If (separatorType == 0) Then
+            Return (",")
+        End If
+
+        If (separatorType == 2) Then
+            Return (" ")
+        End If
+
+        If (separatorType == 1) Then
+            Return ("\t")
+        End If
+
+        Return (",")
+    End Method
+
+    Method CalculateNumericData(targetValue, tableItemType, calculationType, parameterValue, decimalPlaces)
+        decimalValue
+        convertResult
+        calcResult
+        newValue
+    Begin
+
+        If (calculationType == 0) Then
+            Return (targetValue)
+        End If
+
+        decimalValue = MathUtility:ParseToDecimal(targetValue)
+        convertResult = (ErrorManager:GetError() eq "")
+        If (convertResult is false) Then
+            Return ("")
+        End If
+        decimalValue = MathUtility:CalculateByOperator(decimalValue, calculationType, parameterValue)
+        calcResult = (ErrorManager:GetError() eq "")
+        If (calcResult is false) Then
+            Return ("")
+        End If
+
+        decimalValue = RoundToOutputDigit(decimalValue, tableItemType, decimalPlaces)
+
+        newValue = decimalValue
+        Return (newValue)
+    Catch
+        ErrorManager:SetError("The calculation during data output failed.")
+        Return ("")
+    End Method
+
+    Method RoundToOutputDigit(roundTarget, tableItemType, decimalPlaces)
+    Begin
+        If (tableItemType eq "real") Then
+            Return (MathUtility:Round(roundTarget, decimalPlaces))
+        Else
+            Return (MathUtility:Round(roundTarget, 0))
+        End If
+    End Method
+
+    Method AddPaddingData(targetValue, outputDigit, dataAlignType, paddingType)
+        lengthDiff
+        workString
+        paddingNum
+        padString
+        index
+    Begin
+
+        lengthDiff = outputDigit - targetValue.Length
+
+        workString = targetValue
+
+        If (lengthDiff < 0) Then
+            workString = StringUtility:SubstringByte(workString, 0, outputDigit)
+            ErrorManager:GetError()
+
+            lengthDiff = outputDigit - workString.Length
+        End If
+
+        If 0 < lengthDiff Then
+            paddingNum = lengthDiff
+
+            padString = ""
+            For index = 0 to paddingNum - 1
+                padString = padString & GetPaddingChar(paddingType)
+            Next
+            If (dataAlignType == 1) Then
+                workString = padString & workString
+            ElseIf (dataAlignType == 0) Then
+                workString = workString & padString
+            End If
+
+        End If
+
+        Return (workString)
+
+    End Method
+
+    Method GetPaddingChar(padding)
+    Begin
+
+        If (padding == 1) Then
+            Return (" ")
+        ElseIf (padding == 0) Then
+            Return ("0")
+        End If
+
+        Return (" ")
+
+    End Method
+
+End Package

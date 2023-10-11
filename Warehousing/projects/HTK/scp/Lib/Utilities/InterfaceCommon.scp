@@ -1,0 +1,120 @@
+Package InterfaceCommon
+    Result
+
+    Const SMALL_COUNT = 64
+    _small[64]
+    Const LARGE_COUNT = 32
+    _large[32]
+
+    Method IsImplemented(name, names[])
+        i
+    Begin
+        If name is nil Then
+            Return(false)
+        End If
+
+        For i = 0 to names.size - 1
+            If names[i] is nil Then
+                Fbreak
+            End If
+
+            If names[i] eq name Then
+                Return(true)
+            End If
+        Next
+        Return(false)
+    End Method
+
+    Method Err(value)
+    Begin
+        Handy:ShowMessageBox("ERR:" & value, "ok")
+    End Method
+
+    Method Call(name, names[], methods, args[], commonInvoke[])
+        i
+        j
+        index
+        tagInvokeMethod
+    Begin
+        If name is nil Then
+            Return("")
+        End If
+
+        If _small[0] is nil Then
+            For i = 0 to SMALL_COUNT - 1
+                _small[i] = 0
+            Next
+            For i = 0 to LARGE_COUNT - 1
+                _large[i] = 0
+            Next
+        End If
+
+        If args.size < 3 Then
+            For i = 0 to SMALL_COUNT - 1
+                If _small[i] == 0 Or _small[i] == 1 Then
+                    index = i
+                    tagInvokeMethod = "TAG_SMALL" & i
+                    If _small[i] == 0 Then
+                        If Not UserObj<"__SMALL_OBJ__" & tagInvokeMethod>:Open() Then
+                            Err("Open")
+                        End If
+                    End If
+                    _small[i] = 2
+                    index = i
+                    Fbreak
+                End If
+            Next
+        Else
+            For i = 0 to LARGE_COUNT - 1
+                If _large[i] == 0 Or _large[i] == 1 Then
+                    tagInvokeMethod = "TAG_LARGE" & i
+                    If _large[i] == 0 Then
+                        If Not UserObj<tagInvokeMethod>:Open() Then
+                            Err("Open")
+                        End If
+                    End If
+                    _large[i] = 2
+                    index = i
+                    Fbreak
+                End If
+            Next
+        End If
+        If tagInvokeMethod is nil Then
+            Err("UserObj")
+        End If
+
+        Result = ""
+
+        For i = 0 to names.size - 1
+            If names[i] is nil Then
+                Fbreak
+            End If
+
+            If names[i] eq name Then
+                With UserObj<tagInvokeMethod>
+                    If Not :Set(0, commonInvoke[i]) Then
+                        Err("Set")
+                    End If
+                    If Not :Set(1, methods) Then
+                        Err("Set")
+                    End If
+                    For j = 0 to args.size - 1
+                        If Not :Set(j + 2, args[j]) Then
+                            Err("Set")
+                        End If
+                    Next
+                    :Exec(0)
+                End With
+                Fbreak
+            End If
+        Next
+
+        If args.size < 3 Then
+            _small[index] = 1
+        Else
+            _large[index] = 1
+        End If
+
+        Return(Result)
+    End Method
+End Package

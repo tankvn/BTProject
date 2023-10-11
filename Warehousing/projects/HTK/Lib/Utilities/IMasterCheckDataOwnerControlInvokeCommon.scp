@@ -1,0 +1,7 @@
+    Method IMasterCheckDataOwnerControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "CloseMasterCheckData"
+                InterfaceCommon:Result = CloseMasterCheckData(properties)
+        End Select
+    End Method

@@ -1,0 +1,9 @@
+    Method IMasterDataOwnerControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "UpdateMasterData"
+                InterfaceCommon:Result = UpdateMasterData(properties)
+            Case "CloseMasterData"
+                InterfaceCommon:Result = CloseMasterData(properties)
+        End Select
+    End Method

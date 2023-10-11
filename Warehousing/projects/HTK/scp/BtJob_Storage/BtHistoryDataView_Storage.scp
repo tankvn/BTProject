@@ -1,0 +1,64 @@
+
+Include "BtJob_Storage\RES\BtHistoryDataView_Storage_res"
+
+Package BtHistoryDataView_Storage
+    _isInitialized = false
+
+    Method New()
+    Begin
+        BtHistoryDataView_Storage_res:InitializeComponent()
+
+        BtHistoryDataView_Storage_FocusTransitionUtility:SetControl("BtHistoryDataView_Storage_BtTableView_HistoryData")
+        BtHistoryDataView_Storage_FocusTransitionUtility:SetControl("BtHistoryDataView_Storage_BtF1Key_Back")
+        BtHistoryDataView_Storage_FocusTransitionUtility:SetControl("BtHistoryDataView_Storage_BtF2Key_Previous")
+        BtHistoryDataView_Storage_FocusTransitionUtility:SetControl("BtHistoryDataView_Storage_BtF3Key_Next")
+        BtHistoryDataView_Storage_FocusTransitionUtility:SetControl("BtHistoryDataView_Storage_BtF4Key_Delete")
+
+        With BtHistoryDataView_Storage_BtTableView_HistoryData
+            BtTableViewCommon:SetTableName(:Properties, "htdat")
+        End With
+    End Method
+
+    Method Initialize()
+    Begin
+        BtHistoryDataView_Storage_res:SetLogFormat(nil)
+        BtHistoryDataView_Storage_res:InitializeChildren()
+
+        BtHistoryDataView_Storage_BtF1Key_Back:Invalidate()
+        BtHistoryDataView_Storage_BtF2Key_Previous:Invalidate()
+        BtHistoryDataView_Storage_BtF3Key_Next:Invalidate()
+        BtHistoryDataView_Storage_BtF4Key_Delete:Invalidate()
+        _isInitialized = true
+    End Method
+
+    Method Finalized()
+    Begin
+        BtHistoryDataView_Storage_res:Dispose()
+    End Method
+
+    Method UpdateDatabase()
+    Begin
+        BtHistoryDataView_Storage_res:SetCurrentLogData()
+    End Method
+
+    Method OnCommunicationErrorOccurred()
+    Begin
+        ActiveForm:ShowBtCommunicationErrorDialog_1()
+    End Method
+
+    Method F1KeyAction(sender)
+        result = true
+    Begin
+        BtHistoryDataView_Storage_res:ResetInvalidInput()
+        BtHistoryDataView_Storage_BtF1Key_Back:Focus()
+        BtHistoryDataView_Storage_BtF1Key_Back:PerformClick()
+        Return (result)
+    End Method
+
+    Method BtF1Key_Back_DataInput(sender, result)
+    Begin
+        BtJob_Storage:ShowBtWindow_Storage()
+        Return (result)
+        Return (result)
+    End Method
+End Package

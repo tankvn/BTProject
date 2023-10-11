@@ -1,0 +1,510 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtStopWatchConstants"
+
+Package BtStopWatchCommon
+
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[DEF_NAME_PROPERTY])
+    End Method
+    Method SetName(properties[], value)
+    Begin
+        properties[DEF_NAME_PROPERTY] = value
+    End Method
+
+    Method GetType(properties[])
+    Begin
+        Return (properties[DEF_TYPE_PROPERTY])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[DEF_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetIsStarted(properties[])
+    Begin
+        Return (properties[DEF_IS_STARTED_PROPERTY])
+    End Method
+    Method SetIsStarted(properties[], value)
+    Begin
+        properties[DEF_IS_STARTED_PROPERTY] = value
+    End Method
+
+    Method GetStartTime(properties[])
+    Begin
+        Return (properties[DEF_START_TIME_PROPERTY])
+    End Method
+    Method SetStartTime(properties[], value)
+    Begin
+        properties[DEF_START_TIME_PROPERTY] = value
+    End Method
+
+    Method GetStopTime(properties[])
+    Begin
+        Return (properties[DEF_STOP_TIME_PROPERTY])
+    End Method
+    Method SetStopTime(properties[], value)
+    Begin
+        properties[DEF_STOP_TIME_PROPERTY] = value
+    End Method
+
+    Method GetTotalSpan(properties[])
+    Begin
+        Return (properties[DEF_TOTAL_SPAN_PROPERTY])
+    End Method
+    Method SetTotalSpan(properties[], value)
+    Begin
+        properties[DEF_TOTAL_SPAN_PROPERTY] = value
+    End Method
+
+    Method GetStartDate(properties[])
+    Begin
+        Return (properties[DEF_START_DATE_PROPERTY])
+    End Method
+    Method SetStartDate(properties[], value)
+    Begin
+        properties[DEF_START_DATE_PROPERTY] = value
+    End Method
+
+    Method GetStopDate(properties[])
+    Begin
+        Return (properties[DEF_STOP_DATE_PROPERTY])
+    End Method
+    Method SetStopDate(properties[], value)
+    Begin
+        properties[DEF_STOP_DATE_PROPERTY] = value
+    End Method
+
+    Method GetStartTimeFirst(properties[])
+    Begin
+        Return (properties[DEF_START_TIME_FIRST_PROPERTY])
+    End Method
+    Method SetStartTimeFirst(properties[], value)
+    Begin
+        properties[DEF_START_TIME_FIRST_PROPERTY] = value
+    End Method
+
+    Method GetLogEditType(properties[], index) /* ILogItemControl.GetLogEditType */
+    Begin
+        Return (INPUT_CONTROL_STRING_TEXT_BOX)
+    End Method
+
+    Method GetDecimalPlacesIndex(properties[], index) /* ILogItemControl.GetDecimalPlacesIndex */
+    Begin
+        Return (0)
+    End Method
+
+    Method GetCheckDuplicateReading(properties[], index) /* ILogItemControl.GetCheckDuplicateReading */
+    Begin
+        Return (false)
+    End Method
+
+    Method GetIsSameLogItem(properties[], index, targetLogItemControl) /* ILogItemControl.GetIsSameLogItem */
+    Begin
+        Return (properties[DEF_NAME_PROPERTY] eq targetLogItemControl)
+    End Method
+
+    Method GetStartTimeLabelName(properties[])
+    Begin
+        Return (properties[DEF_START_TIME_LABEL_NAME_PROPERTY])
+    End Method
+    Method SetStartTimeLabelName(properties[], value)
+    Begin
+        properties[DEF_START_TIME_LABEL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetStopTimeLabelName(properties[])
+    Begin
+        Return (properties[DEF_STOP_TIME_LABEL_NAME_PROPERTY])
+    End Method
+    Method SetStopTimeLabelName(properties[], value)
+    Begin
+        properties[DEF_STOP_TIME_LABEL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetElapsedTimeLabelName(properties[])
+    Begin
+        Return (properties[DEF_ELAPSED_TIME_LABEL_NAME_PROPERTY])
+    End Method
+    Method SetElapsedTimeLabelName(properties[], value)
+    Begin
+        properties[DEF_ELAPSED_TIME_LABEL_NAME_PROPERTY] = value
+    End Method
+
+    Method GetStartStopButtonName(properties[])
+    Begin
+        Return (properties[DEF_START_STOP_BUTTON_NAME_PROPERTY])
+    End Method
+    Method SetStartStopButtonName(properties[], value)
+    Begin
+        properties[DEF_START_STOP_BUTTON_NAME_PROPERTY] = value
+    End Method
+
+    Method GetClearButtonName(properties[])
+    Begin
+        Return (properties[DEF_CLEAR_BUTTON_NAME_PROPERTY])
+    End Method
+    Method SetClearButtonName(properties[], value)
+    Begin
+        properties[DEF_CLEAR_BUTTON_NAME_PROPERTY] = value
+    End Method
+
+    Method GetIsExistStartTimeLabel(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_START_TIME_LABEL_PROPERTY])
+    End Method
+    Method SetIsExistStartTimeLabel(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_START_TIME_LABEL_PROPERTY] = value
+    End Method
+
+    Method GetIsExistStopTimeLabel(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_STOP_TIME_LABEL_PROPERTY])
+    End Method
+    Method SetIsExistStopTimeLabel(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_STOP_TIME_LABEL_PROPERTY] = value
+    End Method
+
+    Method GetIsExistElapsedTimeLabel(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_ELAPSED_TIME_LABEL_PROPERTY])
+    End Method
+    Method SetIsExistElapsedTimeLabel(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_ELAPSED_TIME_LABEL_PROPERTY] = value
+    End Method
+
+    Method GetIsExistClearButton(properties[])
+    Begin
+        Return (properties[DEF_IS_EXIST_CLEAR_BUTTON_PROPERTY])
+    End Method
+    Method SetIsExistClearButton(properties[], value)
+    Begin
+        properties[DEF_IS_EXIST_CLEAR_BUTTON_PROPERTY] = value
+    End Method
+
+
+#insert "\Lib\Utilities\ILogItemControlInvokeCommon"
+#insert "\Lib\Utilities\IBtStopWatchInvokeCommon"
+
+    Method New(properties[], name)
+    Begin
+        SetName(properties, name)
+        SetType(properties, "Stopwatch")
+        SetIsStarted(properties, false)
+        SetStartTime(properties, INITIAL_TIME)
+        SetStopTime(properties, INITIAL_TIME)
+        SetTotalSpan(properties, INITIAL_TIME)
+        SetStartTimeFirst(properties, INITIAL_TIME)
+        SetStartDate(properties, Handy:date)
+        SetStopDate(properties, Handy:date)
+    End Method
+
+    Method Start(properties[], onTimer)
+    Begin
+        If GetIsStarted(properties) Then
+            BtFormCommon:EventEffect(onTimer, false)
+            StopMeasurement(properties)
+        Else
+            StartMeasurement(properties)
+            BtFormCommon:EventEffect(onTimer, true)
+        End If
+    End Method
+
+    Method GetElapsedTimeString(properties[], stopUpperLimit)
+        totalSpan
+        elapsedHours[3]
+    Begin
+        totalSpan = CalculateTotalSpan(GetStartTime(properties),
+                                       GetStartDate(properties),
+                                       GetStopTime(properties),
+                                       GetStopDate(properties),
+                                       GetTotalSpan(properties))
+        elapsedHours = totalSpan.split(TIME_DELIMITER)
+
+        If (23 < elapsedHours[INDEX_HOUR]) Then
+            totalSpan = ELAPSED_TIME_UPPER_LIMIT
+            If stopUpperLimit Then
+                StopMeasurement(properties)
+            End If
+        End If
+
+        Return (totalSpan)
+    End Method
+
+    Method StartMeasurement(properties[])
+    Begin
+        StartTimer(properties)
+
+        If (GetIsExistClearButton(properties)) Then
+            IControl:SetEnabled(GetClearButtonName(properties), false)
+        End If
+        If (GetIsExistStartTimeLabel(properties)) Then
+            If (GetTotalSpan(properties) eq INITIAL_TIME) Then
+                IControl:SetText(GetStartTimeLabelName(properties), TimeUtility:FormatCommonTime(GetStartTimeFirst(properties)))
+            End If
+        End If
+        If (GetIsExistStopTimeLabel(properties)) Then
+            IControl:SetText(GetStopTimeLabelName(properties), TimeUtility:FormatCommonTime(GetStopTime(properties)))
+        End If
+    End Method
+
+    Method StopMeasurement(properties[])
+    Begin
+        StopTimer(properties)
+
+        If (GetIsExistStopTimeLabel(properties)) Then
+            IControl:SetText(GetStopTimeLabelName(properties), TimeUtility:FormatCommonTime(GetStopTime(properties)))
+        End If
+        If (GetIsExistElapsedTimeLabel(properties)) Then
+            IControl:SetText(GetElapsedTimeLabelName(properties), GetElapsedTimeString(properties, false))
+        End If
+        If (GetIsExistClearButton(properties)) Then
+            IControl:SetEnabled(GetClearButtonName(properties), true)
+        End If
+        SetTotalSpan(properties,
+                     CalculateTotalSpan(GetStartTime(properties), GetStartDate(properties),
+                                        GetStopTime(properties), GetStopDate(properties),
+                                        GetTotalSpan(properties)))
+    End Method
+
+    Method ClearMeasurement(properties[])
+    Begin
+        ClearDateTime(properties)
+
+        If (GetIsExistStartTimeLabel(properties)) Then
+            If (IControl:GetText(GetStartTimeLabelName(properties)) ne INITIAL_TIME) Then
+                IControl:SetText(GetStartTimeLabelName(properties), INITIAL_TIME)
+            End If
+        End If
+        If (GetIsExistStopTimeLabel(properties)) Then
+            If (IControl:GetText(GetStopTimeLabelName(properties)) ne INITIAL_TIME) Then
+                IControl:SetText(GetStopTimeLabelName(properties), INITIAL_TIME)
+            End If
+        End If
+        If (GetIsExistElapsedTimeLabel(properties)) Then
+            If (IControl:GetText(GetElapsedTimeLabelName(properties)) ne INITIAL_TIME) Then
+                IControl:SetText(GetElapsedTimeLabelName(properties), INITIAL_TIME)
+            End If
+        End If
+    End Method
+
+    Method StartTimer(properties[])
+    Begin
+        SetIsStarted(properties, true)
+        If (GetTotalSpan(properties) eq INITIAL_TIME) Then
+            SetStartTimeFirst(properties, Handy:time)
+        End If
+        SetStartTime(properties, Handy:time)
+        SetStartDate(properties, Handy:date)
+        SetStopTime(properties, Handy:time)
+        SetStopDate(properties, Handy:date)
+    End Method
+
+    Method StopTimer(properties[])
+    Begin
+        SetIsStarted(properties, false)
+        SetStopTime(properties, Handy:time)
+        SetStopDate(properties, Handy:date)
+    End Method
+
+    Method Clear(properties[])
+    Begin
+        If GetIsStarted(properties) Then
+            StopMeasurement(properties)
+        End If
+        ClearMeasurement(properties)
+    End Method
+
+    Method ClearDateTime(properties[])
+    Begin
+        SetTotalSpan(properties, INITIAL_TIME)
+        SetStartTimeFirst(properties, INITIAL_TIME)
+        SetStartTime(properties, INITIAL_TIME)
+        SetStartDate(properties, Handy:date)
+        SetStopTime(properties, INITIAL_TIME)
+        SetStopDate(properties, Handy:date)
+    End Method
+
+    Method GetControlName(properties[], index) /* ILogItemControl.GetControlName */
+        nameDataType
+    Begin
+        Select Case index
+            Case STOPWATCH_DATA_START_TIME
+                nameDataType = "_STOPWATCH_DATA_START_TIME"
+            Case STOPWATCH_DATA_END_TIME
+                nameDataType = "_STOPWATCH_DATA_END_TIME"
+            Case STOPWATCH_DATA_DIFFERENTIAL_TIME
+                nameDataType = "_STOPWATCH_DATA_DIFFERENTIAL_TIME"
+        End Select
+        Return (GetName(properties) & nameDataType)
+    End Method
+
+    Method GetLogTableFieldType(properties[], index) /* ILogItemControl.GetLogTableFieldType */
+    Begin
+        Return (SQ_LITE_FIELD_TYPE_TEXT)
+    End Method
+
+    Method GetLogData(properties[], index) /* ILogItemControl.GetLogData */
+        totalSpan
+        diffSpanString
+        diffSpanSeconds
+    Begin
+        Select Case index
+            Case STOPWATCH_DATA_START_TIME
+                If (properties[DEF_IS_STARTED_PROPERTY] Or (properties[DEF_TOTAL_SPAN_PROPERTY] ne INITIAL_TIME)) Then
+                    Return (TimeUtility:FormatCommonTime(properties[DEF_START_TIME_FIRST_PROPERTY]))
+                End If
+                Return (INITIAL_TIME)
+            Case STOPWATCH_DATA_END_TIME
+                If (properties[DEF_IS_STARTED_PROPERTY] Or (properties[DEF_TOTAL_SPAN_PROPERTY] ne INITIAL_TIME)) Then
+                    Return (TimeUtility:FormatCommonTime(properties[DEF_STOP_TIME_PROPERTY]))
+                End If
+                Return (INITIAL_TIME)
+            Case STOPWATCH_DATA_DIFFERENTIAL_TIME
+                totalSpan = properties[DEF_TOTAL_SPAN_PROPERTY]
+                If properties[DEF_IS_STARTED_PROPERTY] Then
+                    totalSpan = CalculateTotalSpan(properties[DEF_START_TIME_PROPERTY], properties[DEF_START_DATE_PROPERTY], Handy:time, Handy:date, totalSpan)
+                End If
+                diffSpanString = totalSpan
+                diffSpanSeconds = ConvertTimeToSeconds(diffSpanString)
+                If (diffSpanSeconds < 0) Then
+                    diffSpanString = INITIAL_TIME
+                End If
+                If IsPassedDay(diffSpanSeconds) Then
+                    diffSpanString = SecondsToTimeString(ConvertToLess24Hour(diffSpanSeconds))
+                End If
+
+                Return (diffSpanString)
+        End Select
+        Return (nil)
+    End Method
+
+    Method ConvertToLess24Hour(seconds)
+        converted = seconds
+    Begin
+        While (true)
+            If IsPassedDay(converted) Then
+                converted = converted - SECONDS_PER_HOUR * HOURS_PER_DAY
+            Else
+                Wbreak
+            End If
+        Wend
+        Return (converted)
+    End Method
+
+    Method IsPassedDay(seconds)
+    Begin
+        Return (SECONDS_PER_HOUR * HOURS_PER_DAY <= seconds)
+    End Method
+
+    Method CheckValidInput(properties[], checkTarget, index) /* ILogItemControl.CheckValidInput */
+    Begin
+        Return (true)
+    End Method
+
+    Method ConvertTimeToSeconds(target)
+        separated[3]
+    Begin
+        separated = target.split(":")
+        Return (separated[INDEX_SECOND] +
+                separated[INDEX_MINUTE] * MINUTES_PER_HOUR +
+                separated[INDEX_HOUR] * SECONDS_PER_HOUR)
+    End Method
+
+    Method CalculateTotalSpan(startTime, startDate, stopTime, stopDate, totalSpan)
+        elapsedTime
+        diffTime
+        hours
+        minutes
+        seconds
+    Begin
+        elapsedTime = GetElapsedTime(startDate, startTime, stopDate, stopTime)
+        diffTime = ConvertTimeToSeconds(totalSpan) + elapsedTime
+
+        hours = (diffTime / SECONDS_PER_HOUR).toInt
+        diffTime = diffTime - (hours * SECONDS_PER_HOUR)
+        minutes = (diffTime / MINUTES_PER_HOUR).toInt
+        seconds = diffTime - minutes * MINUTES_PER_HOUR
+        Return (FormatTime(hours & TIME_DELIMITER & minutes & TIME_DELIMITER & seconds))
+    End Method
+
+    Method GetElapsedTime(startDateString, startTimeString, stopDateString, stopTimeString)
+        elapsedDaySeconds
+        startTimeSeconds
+        stopTimeSeconds
+    Begin
+        startTimeSeconds = ConvertTimeToSeconds(startTimeString)
+        stopTimeSeconds = ConvertTimeToSeconds(stopTimeString)
+        elapsedDaySeconds = Utility:DiffDate(stopDateString, startDateString) * SECONDS_PER_HOUR * HOURS_PER_DAY
+
+        Return (elapsedDaySeconds + (stopTimeSeconds - startTimeSeconds))
+    End Method
+
+    Method SecondsToTimeString(totalSeconds)
+        days
+        time
+        hours
+        minutes
+        seconds
+    Begin
+        days = (totalSeconds / (SECONDS_PER_HOUR * HOURS_PER_DAY)).toInt
+        time = (totalSeconds - days * SECONDS_PER_HOUR * HOURS_PER_DAY)
+
+        hours = (time / (SECONDS_PER_MINUTE * MINUTES_PER_HOUR)).toInt
+        minutes = ((time - hours * SECONDS_PER_MINUTE * MINUTES_PER_HOUR) / SECONDS_PER_MINUTE).toInt
+        seconds = time - (hours * SECONDS_PER_MINUTE * MINUTES_PER_HOUR + minutes * SECONDS_PER_MINUTE)
+
+        Return (FormatTime(hours & TIME_DELIMITER & minutes & TIME_DELIMITER & seconds))
+    End Method
+
+    Method FormatTime(timeString)
+        time[3]
+    Begin
+        time = timeString.split(TIME_DELIMITER)
+        If (time[INDEX_HOUR].length < 2) Then
+            time[INDEX_HOUR] = "0" & time[INDEX_HOUR]
+        End If
+        If (time[INDEX_MINUTE].length < 2) Then
+            time[INDEX_MINUTE] = "0" & time[INDEX_MINUTE]
+        End If
+        If (time[INDEX_SECOND].length < 2) Then
+            time[INDEX_SECOND] = "0" & time[INDEX_SECOND]
+        End If
+
+        Return (time[INDEX_HOUR] & TIME_DELIMITER &
+                time[INDEX_MINUTE] & TIME_DELIMITER &
+                time[INDEX_SECOND])
+    End Method
+
+    Method OnTimer(properties[])
+        elapsedTimeString
+    Begin
+        If (Not GetIsStarted(properties)) Then
+            Return (nil)
+        End If
+
+        SetStopTime(properties, Handy:time)
+        SetStopDate(properties, Handy:date)
+
+        If (GetIsExistElapsedTimeLabel(properties)) Then
+            elapsedTimeString = GetElapsedTimeString(properties, true)
+            If (elapsedTimeString ne IControl:GetText(GetElapsedTimeLabelName(properties))) Then
+                IControl:SetText(GetElapsedTimeLabelName(properties), elapsedTimeString)
+            End If
+        End If
+        If (GetIsExistStopTimeLabel(properties)) Then
+            If (GetStopTime(properties) ne IControl:GetText(GetStopTimeLabelName(properties))) Then
+                IControl:SetText(GetStopTimeLabelName(properties), TimeUtility:FormatCommonTime(GetStopTime(properties)))
+            End If
+        End If
+    End Method
+
+End Package
+
+#popdefine

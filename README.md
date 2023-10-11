@@ -1,10 +1,10 @@
 # BTProject
 Keyence Barcode Scanners Program Template
 
-## 
+## PokaYoke
 
 ```
-D:.
+BTProject
 ├───applications
 │   └───HTK
 │       └───emu

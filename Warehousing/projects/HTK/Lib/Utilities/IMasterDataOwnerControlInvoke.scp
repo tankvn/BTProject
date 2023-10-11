@@ -1,0 +1,4 @@
+    Method IMasterDataOwnerControlInvoke(this)
+    Begin
+        DEF_COMMON:IMasterDataOwnerControlInvokeCommon(this, Properties)
+    End Method

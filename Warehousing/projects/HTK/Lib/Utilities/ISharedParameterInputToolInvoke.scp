@@ -1,0 +1,4 @@
+    Method ISharedParameterInputToolInvoke(this)
+    Begin
+        DEF_COMMON:ISharedParameterInputToolInvokeCommon(this, Properties)
+    End Method

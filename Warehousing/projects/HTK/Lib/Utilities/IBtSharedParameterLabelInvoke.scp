@@ -1,0 +1,4 @@
+    Method IBtSharedParameterLabelInvoke(this)
+    Begin
+        DEF_COMMON:IBtSharedParameterLabelInvokeCommon(this, Properties)
+    End Method

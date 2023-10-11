@@ -1,0 +1,263 @@
+
+/*Public*/ Package LogFileOutput
+
+
+    #define DEFAULT_OUTPUT_FOLDER TERMINAL_SETTING_PATH_DRIVE_NO_5 
+
+    #define MAX_SELECT_ROW_COUNT 1000 
+
+    #define DRIVE_NO_SD 5 
+
+    Const LINE_FEED = "\r\n"
+
+
+
+    Method WriteCsv(listId_BtDataFormatControls, outputFolderPath, parentWindow) /*As List(Of String)*/
+        listId_OutputFiles
+    Begin
+        Window<parentWindow>:enable = false
+        BackGroundActionForm:New(MESSAGE_LABEL_CSV_OUTPUT, MESSAGE_LABEL_CSV_IN_THE_OUTPUT)
+        BackGroundActionForm:Show()
+
+        If (outputFolderPath eq "") Then
+            outputFolderPath = DEFAULT_OUTPUT_FOLDER
+        End If
+        listId_OutputFiles = WriteCsvCore(listId_BtDataFormatControls, outputFolderPath)
+
+        BackGroundActionForm:Close()
+        Window<parentWindow>:enable = true
+
+        If (BackGroundActionForm:GetErrorMessage() ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(BackGroundActionForm:GetErrorMessage())
+        End If
+
+        Return (listId_OutputFiles)
+    End Method
+
+    Method WriteCsvCore(listId_BtDataFormatControls, outputFolderPath) /*As Object*/
+        listId_OutputFiles = INVALID_LIST_TABLE_ID
+        ret
+        offset
+        formatIndex
+        dataFormatControlName
+        outputFileName
+        today
+        outputFilePath = ""
+        backupFilePath = ""
+        existFile = false
+        isError = false
+        listId_Data = INVALID_LIST_TABLE_ID
+        errorMessage
+    Begin
+        listId_OutputFiles = ListTable:CreateList()
+
+        If (1 < outputFolderPath.length) Then
+            If (outputFolderPath.Mid(0,2) eq TERMINAL_SETTING_PATH_DRIVE_NO_5) Then
+                ret = FileSystem:IsMount(DRIVE_NO_SD)
+                If (ret is false) Or (ret ne "ON") Then
+                    ErrorManager:SetError(MESSAGE_ERROR_CSV_FILE_WRITE)
+                    Return (listId_OutputFiles)
+                End If
+            End If
+        End If
+
+        If (outputFolderPath ne TERMINAL_SETTING_PATH_DRIVE_NO_5) Then
+            If (PathUtility:IsFileExist(outputFolderPath) is false) Then
+                ret = FileSystem:CreateDirectory(outputFolderPath)
+                If (ret is false) Then
+                    ErrorManager:SetError(MESSAGE_ERROR_CSV_FILE_WRITE)
+                    Return (listId_OutputFiles)
+                End If
+            End If
+        End If
+
+        For formatIndex = 0 to ListTable:Count(listId_BtDataFormatControls) - 1
+            offset = 0
+
+            dataFormatControlName = ListTable:Get(listId_BtDataFormatControls, formatIndex, "key")
+            outputFileName = IDataFormatControl:GetOutputTargetName(dataFormatControlName)
+
+            If IDataFormatControl:GetAddDateForFileName(dataFormatControlName) Then
+                today = GetFileNameDate(dataFormatControlName)
+                outputFileName = today & "_" & outputFileName
+            End If
+
+            outputFilePath = PathUtility:Combine(outputFolderPath, outputFileName)
+
+            existFile = PathUtility:IsFileExist(outputFilePath)
+            isError = false
+
+            If (existFile is false) Then
+                ret = FileStream<outputFilePath>:Open("w")
+            Else
+                backupFilePath = outputFilePath & ".tmp"
+                FileSystem:Copy(outputFilePath, backupFilePath, true)
+                ret = FileStream<outputFilePath>:Open("a")
+            End If
+            If ret is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_CSV_FILE_OPEN)
+                Return (listId_OutputFiles)
+            End If
+
+            While(true)
+                listId_Data = DbAccess:SelectValues(IDataFormatControl:GetPathDriveLogDataBase(dataFormatControlName), IDataFormatControl:GetTableName(dataFormatControlName), INVALID_LIST_TABLE_ID, INVALID_LIST_TABLE_ID, false, FILTERING_MATCH_TYPE_EXACT_MATCH, false, INVALID_LIST_TABLE_ID, MAX_SELECT_ROW_COUNT, offset)
+
+                errorMessage = ErrorManager:GetError()
+                If (errorMessage ne MESSAGE_ERROR_NONE) Then
+                    ErrorManager:SetError(errorMessage)
+                    isError = true
+                    If (listId_Data <> INVALID_LIST_TABLE_ID) Then
+                        ListTable:DeleteList(listId_Data)
+                    End If
+                    Wbreak
+                End If
+
+                If (ListTable:Count(listId_Data) == 0) Then
+                    ListTable:DeleteList(listId_Data)
+                    Wbreak
+                End If
+
+                WriteDataTableToCsv(listId_Data, dataFormatControlName, outputFilePath)
+
+                offset = offset + ListTable:Count(listId_Data)
+                ListTable:DeleteList(listId_Data)
+            Wend
+
+            FileStream<outputFilePath>:Close()
+
+            If (isError is true) Then
+                If (existFile is true) Then
+                    FileSystem:Copy(backupFilePath, outputFilePath, true)
+                Else
+                    FileSystem:Delete(outputFilePath)
+                End If
+            End If
+            If (existFile is true) Then
+                FileSystem:Delete(backupFilePath)
+            End If
+
+            If (isError is false) Then
+                ListTable:Add(listId_OutputFiles, IDataFormatControl:GetPathDriveLogDataBase(dataFormatControlName), "")
+            End If
+        Next
+        Return (listId_OutputFiles)
+    Catch
+        isError = true
+        FileStream<outputFilePath>:Close()
+        If (existFile is true) Then
+            If (backupFilePath ne "") Then
+                FileSystem:Copy(backupFilePath, outputFilePath, true)
+                FileSystem:Delete(backupFilePath)
+            End If
+        Else
+            If (outputFilePath ne "") Then
+                FileSystem:Delete(outputFilePath)
+            End If
+        End If
+        ErrorManager:SetError(MESSAGE_ERROR_CSV_FILE_WRITE)
+        Return (listId_OutputFiles)
+    End Method
+
+    Method GetFileNameDate(dataFormatControlName) /*As DateTime*/
+        today
+        nowTime
+        nowTimeHour
+        nowTimeMinute
+        limitTime
+        limitTimeHour
+        limitTimeMinute
+    Begin
+
+        today = Handy:date
+        nowTime = Handy:time
+        nowTimeHour = nowTime.Mid(0,2)
+        nowTimeMinute = nowTime.Mid(3,2)
+        nowTime = nowTimeHour * 60 * 60 + nowTimeMinute * 60
+        limitTimeHour = IDataFormatControl:GetUpdateDateLimitTimeHour(dataFormatControlName)
+        limitTimeMinute = IDataFormatControl:GetUpdateDateLimitTimeMinute(dataFormatControlName)
+        limitTime = limitTimeHour * 60 * 60 + limitTimeMinute * 60
+
+        If (limitTime < (12 * 60 * 60)) Then
+            If (nowTime < limitTime) Then
+                today = Utility:AddDate(today, -1)
+            End If
+        Else
+            If (limitTime <= nowTime) Then
+                today = Utility:AddDate(today, 1)
+            End If
+        End If
+
+        Return (today.Mid(0,4) & today.Mid(5,2) & today.Mid(8,2))
+    End Method
+
+    Method WriteDataTableToCsv(listId_Data, dataFormatControlName, outputFilePath)
+        listId_Col
+        separator
+        csvStrings
+        logFormatIndex
+        value
+        formatedValue
+        row
+        col
+        fieldName
+        fieldValue
+        result
+    Begin
+        separator = OutputDataUtility:GetSeparatorString(IDataFormatControl:GetSeparatorType(dataFormatControlName))
+
+        For row = 0 to ListTable:Count(listId_Data) - 1
+            listId_Col = ListTable:Get(listId_Data, row, "val")
+
+            logFormatIndex = 0
+            csvStrings = ""
+            For col = 0 to ListTable:Count(listId_Col) - 1
+                fieldName = ListTable:Get(listId_Col, col, "key")
+                If (IsNotOutputField(dataFormatControlName, fieldName) is true) Then
+                    Fcontinue
+                End If
+
+                If (IDataFormatControl:GetRecordType(dataFormatControlName) == DATA_LENGTH_VARIABLE) And (logFormatIndex <> 0) Then
+                    csvStrings = csvStrings & separator
+                End If
+
+                fieldValue = ListTable:Get(listId_Col, col, "val")
+                If (fieldValue Is nil) Then
+                    value = ""
+                Else
+                    value = fieldValue
+                End If
+
+                formatedValue = IDataFormatControl:GetFormattedLogDataCsv(dataFormatControlName, logFormatIndex, value)
+                csvStrings = csvStrings & formatedValue
+
+                logFormatIndex = logFormatIndex + 1
+            Next
+
+            csvStrings = csvStrings & LINE_FEED
+            result = FileStream<outputFilePath>:Puts(csvStrings)
+            If (result is false) Then
+                Fbreak
+            End If
+        Next
+
+    End Method
+
+    Method IsNotOutputField(dataFormatControlName, fieldName) /*As Boolean*/
+        listId_NotOutputFields
+        index
+        noOutputFieldName
+    Begin
+        listId_NotOutputFields = IDataFormatControl:GetNotOutputFields(dataFormatControlName)
+        For index = 0 to ListTable:Count(listId_NotOutputFields) - 1
+            noOutputFieldName = ListTable:Get(listId_NotOutputFields, index, "key")
+            If (noOutputFieldName eq fieldName) Then
+                ListTable:DeleteList(listId_NotOutputFields)
+                Return (true)
+            End If
+        Next
+        ListTable:DeleteList(listId_NotOutputFields)
+        Return (false)
+    End Method
+
+
+End Package

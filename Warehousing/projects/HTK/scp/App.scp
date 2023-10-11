@@ -1,0 +1,37 @@
+
+Include "Lib\Utilities\ErrorManager"
+Include "Lib\Utilities\DateUtility"
+Include "Lib\Utilities\SystemParameterUtility"
+Include "Lib\Utilities\SystemSettingFileUtility"
+Include "Lib\Utilities\PathUtility"
+Include "Lib\Utilities\TransmissionLogUtility"
+Include "Lib\Utilities\OCRSettings"
+Include "Lib\Parts\MessageUtility"
+
+Method main()
+Begin
+    If Not SystemParameterUtility:IsSupportBtDesignTool() Then
+        MessageUtility:ShowMessageOk("This version does not support the BT-H1A.")
+        If "BTW" eq "BTW" Then
+            Utility:StartExe("__Terminate_BTEmu__", "", 0)
+        End If
+        Handy:Reset()
+    End If
+
+    Handy:LoadConfig("1:___CommonSetting___.bin")
+    SystemSettingFileUtility:LoadSystemSettingFile()
+    OcrSettings:SaveConfigFile("1:DefaultOCRSetting.ini")
+
+    LCD:status = false
+    LCD:backLightMode = "now"
+
+    Handy:focusMoveMode = 1
+
+    System:Load("BtTopMenuWindowForm", "App", "BtTopMenuWindowForm", 0, 0)
+Catch
+    Handy:ShowMessageBox("An error occred in the application." &"("&System:error&")", "ok" )
+End Method
+
+Package App
+
+End Package

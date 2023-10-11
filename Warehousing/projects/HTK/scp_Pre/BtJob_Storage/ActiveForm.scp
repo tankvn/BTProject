@@ -1,0 +1,55 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+
+Include "CommonScreen\BtCommunicationErrorDialog_1"
+
+
+
+Package ActiveForm
+    Method GetName()
+    Begin
+        Return (BtFormCommon:GetName(BtJob_Storage_res:Properties))
+    End Method
+    
+    Method ReflectMasterCheckSentNum(logDataMaxRowId)
+    Begin
+        BtJob_Storage_res:ReflectMasterCheckSentNum(logDataMaxRowId)
+    End Method
+    
+    Method UpdateLogData()
+    Begin
+        BtJob_Storage_res:UpdateLogData(true)
+    End Method
+    
+    Method UpdateChildren()
+    Begin
+        BtJob_Storage_res:UpdateChildren(true)
+    End Method
+    
+    Method ShowBtCommunicationErrorDialog_1()
+    Begin
+        BtFormCommon:SetEnable(BtJob_Storage_res:Properties, false)
+        BtJob_Storage_res:Show(false)
+        BtCommunicationErrorDialog_1:New()
+        BtCommunicationErrorDialog_1:Initialize()
+        BtCommunicationErrorDialog_1:ShowDialog()
+        BtJob_Storage_res:Show(true)
+        BtFormCommon:SetEnable(BtJob_Storage_res:Properties, true)
+    End Method
+    
+    Method OnKeyDown(sender)
+    Begin
+        BtJob_Storage:OnKeyDown(sender)
+    End Method
+    
+    Method CloseDatabase()
+    Begin
+        BtJob_Storage:CloseDatabase()
+    End Method
+    
+End Package

@@ -1,0 +1,1258 @@
+Include "BtJob_Storage\Lib\Parts\BtHistoryDataView_Storage_BtF4Key_Delete"
+Include "BtJob_Storage\Lib\Parts\BtHistoryDataView_Storage_BtF3Key_Next"
+Include "BtJob_Storage\Lib\Parts\BtHistoryDataView_Storage_BtF2Key_Previous"
+Include "BtJob_Storage\Lib\Parts\BtHistoryDataView_Storage_BtTableView_HistoryData"
+Include "BtJob_Storage\Lib\Parts\BtHistoryDataView_Storage_BtLabel_DataCountDisplay"
+Include "BtJob_Storage\Lib\Parts\BtHistoryDataView_Storage_BtF1Key_Back"
+Include "BtJob_Storage\Lib\Parts\BtHistoryDataView_Storage_BtLabel_Title"
+Include "BtJob_Storage\Lib\Utilities\BtHistoryDataView_Storage_FocusTransitionUtility"
+
+Package BtHistoryDataView_Storage_res
+
+_ctrl[7]
+_components[1]
+
+    Method New(parentName)
+    Begin
+        _ctrl[0] = "BtHistoryDataView_Storage_BtLabel_Title"
+        _ctrl[1] = "BtHistoryDataView_Storage_BtLabel_DataCountDisplay"
+        _ctrl[2] = "BtHistoryDataView_Storage_BtTableView_HistoryData"
+        _ctrl[3] = "BtHistoryDataView_Storage_BtF1Key_Back"
+        _ctrl[4] = "BtHistoryDataView_Storage_BtF2Key_Previous"
+        _ctrl[5] = "BtHistoryDataView_Storage_BtF3Key_Next"
+        _ctrl[6] = "BtHistoryDataView_Storage_BtF4Key_Delete"
+
+        Properties[0] = "BtHistoryDataView_Storage"
+        BtScreenCommon:New(Properties, parentName)
+    End Method
+
+    Method InitializeChildren()
+    Begin
+        UpdateChildren()
+    End Method
+
+    Method UpdateChildren()
+    Begin
+        BtFormCommon:UpdateChildren(_ctrl, _components)
+    End Method
+
+    Method UpdateLogData()
+        i
+    Begin
+        If Not _ctrl[0] is nil Then
+            For i = 0 To _ctrl.size - 1
+                If ITableView:IsImplemented(_ctrl[i]) Then
+                    ITableView:UpdateLogData(_ctrl[i])
+                End If
+            Next
+        End If
+        If Not _components[0] is nil Then
+            For i = 0 To _components.size - 1
+                If IBtMasterCheckControl:IsImplemented(_components[i]) Then
+                    IBtMasterCheckControl:UpdateLogData(_components[i])
+                End If
+            Next
+        End If
+    End Method
+
+    Method UpdateMasterData()
+    Begin
+        BtScreenCommon:UpdateMasterData(_ctrl, _components)
+    End Method
+
+    Method ReflectMasterCheckSentNum(logDataMaxRowId)
+    Begin
+        BtScreenCommon:ReflectMasterCheckSentNum(_components, logDataMaxRowId)
+    End Method
+
+    Method ReflectMasterCheckSentNumByRealTime()
+    Begin
+        BtScreenCommon:ReflectMasterCheckSentNumByRealTime(_components)
+    End Method
+
+    Method ClearSharedParameter(clearTiming)
+    Begin
+        BtScreenCommon:ClearSharedParameter(_ctrl, _components, clearTiming)
+    End Method
+
+    Method RegisterSharedParameter()
+    Begin
+        BtScreenCommon:RegisterSharedParameter(_ctrl, _components)
+    End Method
+
+    Method UpdateSharedParameterInputTool()
+    Begin
+        BtFormCommon:UpdateSharedParameterInputTool(_ctrl, _components)
+    End Method
+
+    Method UpdateSharedParameter()
+    Begin
+        BtFormCommon:UpdateSharedParameter(_ctrl)
+    End Method
+
+    Method CloseDatabase()
+        i
+    Begin
+
+        If Not _ctrl[0] is nil Then
+            For i = 0 To _ctrl.size - 1
+                If IMasterDataOwnerControl:IsImplemented(_ctrl[i]) Then
+                    IMasterDataOwnerControl:CloseMasterData(_ctrl[i])
+                End If
+                If IMasterCheckDataOwnerControl:IsImplemented(_ctrl[i]) Then
+                    IMasterCheckDataOwnerControl:CloseMasterCheckData(_ctrl[i])
+                End If
+            Next
+        End If
+        If Not _components[0] is nil Then
+            For i = 0 To _components.size - 1
+                If IMasterDataOwnerControl:IsImplemented(_components[i]) Then
+                    IMasterDataOwnerControl:CloseMasterData(_components[i])
+                End If
+                If IMasterCheckDataOwnerControl:IsImplemented(_components[i]) Then
+                    IMasterCheckDataOwnerControl:CloseMasterCheckData(_components[i])
+                End If
+            Next
+        End If
+    End Method
+
+    Method MoveFocus(transitionSource, transitionDestination)
+        listId_Controls = 0
+        listId_Components = 0
+        i
+    Begin
+        listId_Controls = ListTable:CreateList()
+        If Not _ctrl[0] is nil Then
+            For i = 0 To _ctrl.size - 1
+                ListTable:Add(listId_Controls, _ctrl[i], "")
+            Next
+        End If
+        listId_Components = ListTable:CreateList()
+        If Not _components[0] is nil Then
+            For i = 0 To _components.size - 1
+                ListTable:Add(listId_Components, _components[i], "")
+            Next
+        End If
+
+        If IControl:IsImplemented(transitionSource) Then
+            BtHistoryDataView_Storage_FocusTransitionUtility:ResetTargetControls(transitionSource, transitionDestination, listId_Controls, listId_Components)
+        ElseIf IBtInputComponent:IsImplemented(transitionSource) Then
+            BtHistoryDataView_Storage_FocusTransitionUtility:ResetTargetInputComponents(transitionSource, transitionDestination, listId_Controls, listId_Components)
+        End If
+
+        ListTable:DeleteList(listId_Controls)
+        ListTable:DeleteList(listId_Components)
+        IControl:Focus(transitionDestination)
+
+    End Method
+
+    Method KeyAssignedAction(sender)
+        name
+    Begin
+        name = Properties[0]
+        If Not Window<name>:visible Or Not Window<name>:enable Then
+            Return()
+        End If
+
+        Select Case sender
+            Case 0x00000001
+                BtHistoryDataView_Storage:F1KeyAction(sender)
+            Case 0x00000002
+                F2KeyAction(sender)
+            Case 0x00000004
+                F3KeyAction(sender)
+            Case 0x02000000
+                F4KeyAction(sender)
+            Case 0x00200000
+                LKeyAction(sender)
+            Case 0x00400000
+                RKeyAction(sender)
+        End Select
+    End Method
+
+    Method F1KeyAction(eventArgs)
+    Begin
+    End Method
+
+    Method RKeyAction(eventArgs)
+    Begin
+    End Method
+
+    Method ResetInvalidInput()
+    Begin
+    End Method
+
+    Method OnShown()
+    Begin
+    End Method
+
+    Method OnFormShown()
+    Begin
+    End Method
+
+    Method OnHiding()
+    Begin
+    End Method
+
+    Method Dispose()
+    Begin
+        BtFormCommon:Dispose(_ctrl)
+    End Method
+
+    Method Show(value)
+    Begin
+        BtFormCommon:ShowDisplay(Properties, _ctrl, value)
+    End Method
+
+    Method Focus()
+    Begin
+        BtScreenCommon:Focus(Properties)
+    End Method
+
+    Method InitializeTimer()
+    Begin
+        UserObj<"__SMALL_OBJ__" & StringUtility:GetHandleTagNameEraseSymbol(BtHistoryDataView_Storage_res:OnTimer)>:Open()
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtHistoryDataView_Storage_res:OnTimer)>:Set(0, BtHistoryDataView_Storage_res:OnTimer)
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtHistoryDataView_Storage_res:OnTimer)>:Set(1, false)
+    End Method
+    Method TerminateTimer()
+    Begin
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtHistoryDataView_Storage_res:OnTimer)>:Close()
+    End Method
+    Method OnTimeUp(sender)
+    Begin
+        If UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtHistoryDataView_Storage_res:OnTimer)>:Get(1) Then
+            UserObj<StringUtility:GetHandleTagNameEraseSymbol(BtHistoryDataView_Storage_res:OnTimer)>:Exec(0)
+        End If
+    End Method
+
+    Properties[1 + 15]
+
+    Method BeforeShow()
+        recordCount
+        errorMessage
+    Begin
+        If (BtDataFormatControlCommon:GetOutputDestination(BtJob_Storage_StorageData:Properties) == 1) Then
+
+            BtHistoryDataViewCommon:SetReferenceSource(Properties, 1)
+
+            recordCount = DbAccess:SelectCount(BtDataFormatControlCommon:GetPathWindowsLogDataBase(BtJob_Storage_StorageData:Properties), BtDataFormatControlCommon:GetTableName(BtJob_Storage_StorageData:Properties), 0, false, 0)
+            errorMessage = ErrorManager:GetError()
+            If (errorMessage ne "") Then
+                MessageUtility:ShowMessageOk(errorMessage)
+            End If
+
+            If 0 < recordCount Then
+                If (MessageUtility:ShowMessage("Unsent data exists. Do you want to display the unsent data? " & "\n" & "Yes: Unsent data" & "\n" & "No: Sent data", "", "yesno", "information", 0) == 6) Then
+                    BtHistoryDataViewCommon:SetReferenceSource(Properties, 0)
+                End If
+            End If
+        Else
+            BtHistoryDataViewCommon:SetReferenceSource(Properties, 0)
+        End If
+
+        If (BtHistoryDataViewCommon:GetDataRemovingEnabled(Properties)) Then
+            BtButtonCommon:SetVisible(BtHistoryDataView_Storage_BtF4Key_Delete:Properties, (BtHistoryDataViewCommon:GetReferenceSource(Properties) == 0))
+        End If
+
+    End Method
+
+    Method SetLogFormat(btDataFormatControl)
+    Begin
+        BtHistoryDataViewCommon:SetRecordNo(Properties, 0)
+        BtHistoryDataViewCommon:SetDataRemovingEnabled(Properties, true)
+        BtHistoryDataViewCommon:SetReferenceSource(Properties, 0)
+        BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, 0)
+        BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+
+        BtHistoryDataViewCommon:SetLogDbName(Properties, PathUtility:Combine("1:", BtDataFormatControlCommon:GetDataBaseName(BtJob_Storage_StorageData:Properties)))
+        BtHistoryDataViewCommon:SetLogTableName(Properties, BtDataFormatControlCommon:GetTableName(BtJob_Storage_StorageData:Properties))
+
+        BtTableViewCommon:SetRowNumberVisible(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties , false)
+        BtTableViewCommon:SetDisplayColumnCount(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, 2)
+        BtTableViewCommon:SetColumnWidth(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, 0, (BtTableViewCommon:GetTableWidth(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties) * 50) / 100)
+        BtTableViewCommon:SetColumnName(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, 0, "Field")
+        BtTableViewCommon:SetColumnWidth(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, 1, (BtTableViewCommon:GetTableWidth(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties) * 50) / 100)
+        BtTableViewCommon:SetColumnName(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, 1, "Data")
+
+        BtFormCommon:EventEffect(OnTimer, true)
+
+        SetEventHandler()
+    End Method
+
+    Method SetCurrentLogData()
+    Begin
+        UpdateAllRecordCount()
+
+        DisplayRecord()
+
+        SetGrayOutInfo()
+    End Method
+
+    Method SetEventHandler()
+    Begin
+        With BtTableViewCommon
+            :SetOnFocusIn(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, LogDisplayTableView_GotFocus)
+            :SetOnEditStart(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, LogDisplayTableView_OnEditStart)
+            :SetOnEditEnd(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, LogDisplayTableView_OnEditEnd)
+            :SetOnFocusOut(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, LogDisplayTableView_OnFocusTransition)
+        End With
+    End Method
+
+    Method LogDisplayTableView_OnEditStart(sender)
+    Begin
+        Key:onPress = LogDisplayTableView_KeyDown
+    End Method
+
+    Method LogDisplayTableView_OnEditEnd(sender)
+    Begin
+        Key:onPress = LogDisplayTableView_OnScroll
+    End Method
+
+    Method DisplayRecord()
+        displayData
+        i
+        listId_SelectFieldIndexes = 0
+        listId_Conditions = 0
+        listId_ConditionCollection = 0
+        serialNumberItemIndex
+        listId_IndexValues = 0
+        listId_IndexValuePair = 0
+        currentEditMode
+        listId_Data = 0
+    Begin
+        If (BtHistoryDataViewCommon:GetAllRecCount(Properties) <= 0) Then
+            UpdateLabel()
+            BtTableViewCommon:SetOriginalDataSource(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, nil)
+            BtHistoryDataView_Storage_BtTableView_HistoryData:UpdateData(true)
+            Return (nil)
+        End If
+
+        BtHistoryDataViewCommon:SetRecordNo(Properties, BtHistoryDataViewCommon:ValidateRecordNo(Properties, BtHistoryDataViewCommon:GetRecordNo(Properties)))
+        UpdateLabel()
+
+        If (BtHistoryDataViewCommon:GetReferenceSource(Properties) == 0) Then
+            If Not BtHistoryDataViewCommon:GetRecordData(Properties) is nil Then
+                ListTable:DeleteList(BtHistoryDataViewCommon:GetRecordData(Properties))
+            End If
+            BtHistoryDataViewCommon:SetRecordData(Properties, DbAccess:SelectValues(
+                BtHistoryDataViewCommon:GetLogDbName(Properties),
+                BtHistoryDataViewCommon:GetLogTableName(Properties),
+                0,
+                0,
+                false,
+                0,
+                true,
+                0,
+                1,
+                BtHistoryDataViewCommon:GetRecordNo(Properties))
+            )
+            displayData = ConvertDisplayFormat()
+        Else
+            RealTimeConnectionController:New()
+
+            listId_SelectFieldIndexes = ListTable:CreateList()
+            For i = 0 to BtDataFormatControlCommon:GetCount(BtJob_Storage_StorageData:Properties) - 1
+                ListTable:Add(listId_SelectFieldIndexes, i, "")
+            Next
+
+            listId_Conditions = ListTable:CreateList()
+
+            serialNumberItemIndex = BtDataFormatControlCommon:GetSerialNumberItemIndex(BtJob_Storage_StorageData:Properties)
+            If 0 <= serialNumberItemIndex Then
+                listId_IndexValuePair = ListTable:CreateList()
+                ListTable:Add(listId_IndexValuePair, "Index", serialNumberItemIndex)
+                ListTable:Add(listId_IndexValuePair, "Value", SystemParameterUtility:GetSystemParameter(5))
+                ListTable:Add(listId_IndexValuePair, "MatchType", 0)
+                listId_IndexValues = ListTable:CreateList()
+                ListTable:AddList(listId_IndexValues, "0", listId_IndexValuePair)
+                listId_ConditionCollection = ListTable:CreateList()
+                ListTable:Add(listId_ConditionCollection, "IsOrCondition", false)
+                ListTable:AddList(listId_ConditionCollection, "IndexValueList", listId_IndexValues)
+                ListTable:AddList(listId_Conditions, "0", listId_ConditionCollection)
+            End If
+
+            currentEditMode = BtTableViewCommon:GetKeyOperationType(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties)
+            listId_Data = RealTimeConnectionController:SelectOne(
+                "",
+                BtDataFormatControlCommon:GetOutputTargetName(BtJob_Storage_StorageData:Properties),
+                listId_SelectFieldIndexes,
+                listId_Conditions,
+                BtHistoryDataViewCommon:GetRealTimeMaxRecordId(Properties),
+                BtHistoryDataViewCommon:GetRecordNo(Properties),
+                Window<Properties[0]>:parent)
+
+            If Not BtHistoryDataViewCommon:GetRecordData(Properties) is nil Then
+                ListTable:DeleteList(BtHistoryDataViewCommon:GetRecordData(Properties))
+            End If
+            BtHistoryDataViewCommon:SetRecordData(Properties, ListTable:Get(listId_Data, 0, "val"))
+            ListTable:DeleteList(listId_SelectFieldIndexes)
+            ListTable:DeleteList(listId_Conditions)
+            ListTable:Remove(listId_Data, 0)
+            ListTable:DeleteList(listId_Data)
+
+            If ErrorManager:GetCommunicationError() Then
+                BtHistoryDataView_Storage:OnCommunicationErrorOccurred()
+                BtTableViewCommon:SetOriginalDataSource(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, nil)
+                BtHistoryDataView_Storage_BtTableView_HistoryData:UpdateData(true)
+                Return (nil)
+            End If
+
+            displayData = ConvertDisplayFormat()
+
+            BtTableViewCommon:ChangeMode(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, currentEditMode)
+        End If
+
+        If Not BtTableViewCommon:GetOriginalDataSource(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties) is nil Then
+            ListTable:DeleteList(BtTableViewCommon:GetOriginalDataSource(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties))
+        End If
+        BtTableViewCommon:SetOriginalDataSource(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, displayData)
+        BtHistoryDataView_Storage_BtTableView_HistoryData:UpdateData(true)
+    End Method
+
+    Method SetGrayOutInfo()
+        logItem
+        logFormatIndex
+    Begin
+        For logFormatIndex = 0 to BtDataFormatControlCommon:GetCount(BtJob_Storage_StorageData:Properties) - 1
+            logItem = BtDataFormatControlCommon:GetLogItem(BtJob_Storage_StorageData:Properties, logFormatIndex)
+            If ILogItem:GetLogItemType(logItem) == 1 Then
+                BtTableViewCommon:SetGrayoutRowList(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, logFormatIndex)
+            End If
+        Next
+    End Method
+
+    Method ConvertDisplayFormat()
+        displayData
+        rowId
+        logFormatIndex
+        fieldIndex
+        logItemName
+        displayName
+    Begin
+        displayData = ListTable:CreateList()
+
+        If (ListTable:Count(BtHistoryDataViewCommon:GetRecordData(Properties)) <= 0) Then
+            Return (displayData)
+        End If
+
+        logFormatIndex = 0
+
+        For fieldIndex = 0 to ListTable:Count(BtHistoryDataViewCommon:GetRecordData(Properties)) - 1
+            If (IsHiddenColumn(ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), fieldIndex, "key"))) Then
+                fcontinue
+            End If
+
+            rowId = ListTable:CreateList()
+
+            logItemName = BtDataFormatControlCommon:GetLogItem(BtJob_Storage_StorageData:Properties, logFormatIndex)
+            displayName = ILogItem:GetDisplayName(logItemName)
+            ListTable:Add(rowId, "DisplayName", displayName)
+            ListTable:Add(rowId, "DisplayItem", ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), fieldIndex, "val"))
+
+            ListTable:AddList(displayData, "rec" & fieldIndex, rowId)
+
+            logFormatIndex = logFormatIndex + 1
+        Next
+
+        Return (displayData)
+    Catch
+        MessageUtility:ShowMessageOk("The operation to display the data failed.")
+        Return (displayData)
+    End Method
+
+    Method IsHiddenColumn(caption)
+        i
+        listId_NotOutputFields
+        ret = false
+    Begin
+        listId_NotOutputFields = BtDataFormatControlCommon:GetNotOutputFields(BtJob_Storage_StorageData:Properties)
+        For i = 0 to ListTable:Count(listId_NotOutputFields) - 1
+            If caption eq ListTable:Get(listId_NotOutputFields, i, "key") Then
+                ret = true
+                fbreak
+            End If
+        Next
+
+        ListTable:DeleteList(listId_NotOutputFields)
+        Return(ret)
+    End Method
+
+    Method UpdateAllRecordCount()
+        errorMessage
+
+        listId_Conditions = 0
+        listId_ConditionCollection = 0
+        serialNumberItemIndex
+        listId_IndexValues = 0
+        listId_IndexValuePair = 0
+        currentEditMode
+        listId_SelectCountResult
+        allRecordCount
+        realTimeMaxRecordId
+    Begin
+
+        If (BtHistoryDataViewCommon:GetReferenceSource(Properties) == 0) Then
+            BtHistoryDataViewCommon:SetAllRecCount(Properties, DbAccess:SelectCount(BtHistoryDataViewCommon:GetLogDbName(Properties), BtHistoryDataViewCommon:GetLogTableName(Properties), 0, false, 0))
+            errorMessage = ErrorManager:GetError()
+            If (errorMessage ne "") Then
+                MessageUtility:ShowMessageOk("The operation to acquire the number of data entries failed.")
+                BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+                Return (nil)
+            End If
+        Else
+            RealTimeConnectionController:New()
+
+            listId_Conditions = ListTable:CreateList()
+
+            serialNumberItemIndex = BtDataFormatControlCommon:GetSerialNumberItemIndex(BtJob_Storage_StorageData:Properties)
+            If 0 <= serialNumberItemIndex Then
+                listId_IndexValuePair = ListTable:CreateList()
+                ListTable:Add(listId_IndexValuePair, "Index", serialNumberItemIndex)
+                ListTable:Add(listId_IndexValuePair, "Value", SystemParameterUtility:GetSystemParameter(5))
+                ListTable:Add(listId_IndexValuePair, "MatchType", 0)
+                listId_IndexValues = ListTable:CreateList()
+                ListTable:AddList(listId_IndexValues, "0", listId_IndexValuePair)
+                listId_ConditionCollection = ListTable:CreateList()
+                ListTable:Add(listId_ConditionCollection, "IsOrCondition", false)
+                ListTable:AddList(listId_ConditionCollection, "IndexValueList", listId_IndexValues)
+                ListTable:AddList(listId_Conditions, "0", listId_ConditionCollection)
+            End If
+
+            currentEditMode = BtTableViewCommon:GetKeyOperationType(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties)
+            listId_SelectCountResult = RealTimeConnectionController:SelectCount(
+                "",
+                BtDataFormatControlCommon:GetOutputTargetName(BtJob_Storage_StorageData:Properties),
+                0,
+                listId_Conditions,
+                Window<Properties[0]>:parent)
+
+            ListTable:DeleteList(listId_Conditions)
+
+            BtTableViewCommon:ChangeMode(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, currentEditMode)
+
+            If (ErrorManager:GetCommunicationError()) Then
+                BtHistoryDataView_Storage:OnCommunicationErrorOccurred()
+                BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+                BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, 0)
+                If listId_SelectCountResult <> 0 Then
+                    ListTable:DeleteList(listId_SelectCountResult)
+                End If
+                Return (nil)
+            End If
+
+            If (listId_SelectCountResult == 0) Then
+                MessageUtility:ShowMessageOk("The operation to acquire the number of data entries failed.")
+                BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+                BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, 0)
+                Return (nil)
+            End If
+
+            If (ErrorManager:GetError() ne "") Then
+                MessageUtility:ShowMessageOk("The operation to acquire the number of data entries failed.")
+                BtHistoryDataViewCommon:SetAllRecCount(Properties, 0)
+                BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, 0)
+                If listId_SelectCountResult <> 0 Then
+                    ListTable:DeleteList(listId_SelectCountResult)
+                End If
+                Return (nil)
+            End If
+
+            allRecordCount = ListTable:GetValue(listId_SelectCountResult, "Count")
+            realTimeMaxRecordId = ListTable:GetValue(listId_SelectCountResult, "MaxRecordId")
+            BtHistoryDataViewCommon:SetAllRecCount(Properties, allRecordCount)
+            BtHistoryDataViewCommon:SetRealTimeMaxRecordId(Properties, realTimeMaxRecordId)
+            ListTable:DeleteList(listId_SelectCountResult)
+
+        End If
+
+    End Method
+
+    Method UpdateLabel()
+    Begin
+        If (BtHistoryDataViewCommon:GetAllRecCount(Properties) == 0) Then
+            BtLabelCommon:SetText(BtHistoryDataView_Storage_BtLabel_DataCountDisplay:Properties, "(0" & "/" & BtHistoryDataViewCommon:GetAllRecCount(Properties) & ")")
+            Return(0)
+        End If
+
+        BtLabelCommon:SetText(BtHistoryDataView_Storage_BtLabel_DataCountDisplay:Properties, "(" & BtHistoryDataViewCommon:GetRecordNo(Properties) + 1 & "/" & BtHistoryDataViewCommon:GetAllRecCount(Properties) & ")")
+    End Method
+
+    Method CreateEditDialog(logItem, displayField, value)
+        screenData
+    Begin
+        If ILogItem:GetLogItemType(logItem) == 3 Then
+            screenData = logItem
+            Return (SetDialogConfigForScreenData(displayField, value, screenData))
+        Else
+            Return (SetDialogConfig(displayField, value))
+        End If
+    End Method
+
+    Method SetDialogConfigForScreenData(field, value, screenData)
+        historyDataEditDialog
+    Begin
+        HistoryDataEditDialog:SetFieldNameText(field)
+        HistoryDataEditDialog:CreateEditArea(value, screenData)
+        Return (historyDataEditDialog)
+    End Method
+
+    Method SetDialogConfig(field, value)
+        historyDataEditDialog
+    Begin
+        HistoryDataEditDialog:SetFieldNameText(field)
+        HistoryDataEditDialog:CreateTextEditArea(value)
+        Return (historyDataEditDialog)
+    End Method
+
+    Method SetNewData(field, value)
+        idColumnNo
+        valueFieldValuePairs
+        errorMessage
+        item
+        dateData
+        timeData
+        conditionFieldValuePairs
+        tableFieldValuePairs
+        targetField
+        targetValue
+        index
+    Begin
+        idColumnNo = ListTable:Find(BtHistoryDataViewCommon:GetRecordData(Properties), "key", "id")
+
+        valueFieldValuePairs = ListTable:CreateList()
+        ListTable:Add(valueFieldValuePairs, field, value)
+
+        For index = 0 to BtDataFormatControlCommon:GetCount(BtJob_Storage_StorageData:Properties) - 1
+            item = BtDataFormatControlCommon:GetLogItem(BtJob_Storage_StorageData:Properties, index)
+
+            If ILogItem:GetLogItemType(item) <> 1 Then
+                Fcontinue
+            End If
+
+            If (ILogItemSystemParameter:GetSystemParameter(item) == 6) Then
+                dateData = DateUtility:ToDateFromCommonFormat(ILogItem:GetLogData(item))
+                ListTable:Add(
+                    valueFieldValuePairs,
+                    ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), index + 1, "key"),
+                    DateUtility:FormatDate(dateData, ILogItemSystemParameter:GetDateFormatType(item), ILogItemSystemParameter:GetDateSeparatorType(item)))
+                errorMessage = ErrorManager:GetError()
+                If (errorMessage ne "") Then
+                    MessageUtility:ShowMessageOk(errorMessage)
+                    ListTable:DeleteList(valueFieldValuePairs)
+                    Return(0)
+                End If
+            End If
+
+            If (ILogItemSystemParameter:GetSystemParameter(item) == 7) Then
+
+                timeData = TimeUtility:ToTimeFromCommonFormat(ILogItem:GetLogData(item))
+                ListTable:Add(
+                    valueFieldValuePairs,
+                    ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), index + 1, "key"),
+                    TimeUtility:FormatTime(timeData, ILogItemSystemParameter:GetTimeFormatType(item)))
+                errorMessage = ErrorManager:GetError()
+                If (errorMessage ne "") Then
+                    MessageUtility:ShowMessageOk(errorMessage)
+                    ListTable:DeleteList(valueFieldValuePairs)
+                    Return(0)
+                End If
+            End If
+        Next
+
+        conditionFieldValuePairs = ListTable:CreateList()
+        ListTable:Add(conditionFieldValuePairs, "id", ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), idColumnNo, "val"))
+
+        tableFieldValuePairs = ListTable:CreateList()
+
+        For index = 0 to BtDataFormatControlCommon:GetCount(BtJob_Storage_StorageData:Properties) - 1
+            targetField = ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), index + 1, "key")
+            targetValue = ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), index + 1, "val")
+
+            If (field eq targetField) Then
+                targetValue = value
+            End If
+
+            ListTable:Add(tableFieldValuePairs, targetField, targetValue)
+        Next
+
+        If (BtDataFormatControlCommon:IsRecordDataSizeOver(BtJob_Storage_StorageData:Properties, tableFieldValuePairs)) Then
+            MessageUtility:ShowMessageOk("The maximum size of the output data has been exceeded.")
+            ListTable:DeleteList(conditionFieldValuePairs)
+            ListTable:DeleteList(valueFieldValuePairs)
+            ListTable:DeleteList(tableFieldValuePairs)
+            Return(0)
+        End If
+
+        ListTable:DeleteList(tableFieldValuePairs)
+
+        DbAccess:UpdateValue(
+            BtHistoryDataViewCommon:GetLogDbName(Properties),
+            BtHistoryDataViewCommon:GetLogTableName(Properties),
+            conditionFieldValuePairs,
+            valueFieldValuePairs)
+
+        ListTable:DeleteList(conditionFieldValuePairs)
+        ListTable:DeleteList(valueFieldValuePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne "" Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return(0)
+        End If
+        UpdateLogData()
+    End Method
+
+    Method ShowNextRecord()
+    Begin
+        BtHistoryDataViewCommon:SetRecordNo(
+            Properties,
+            BtHistoryDataViewCommon:ValidateRecordNo(Properties, BtHistoryDataViewCommon:GetRecordNo(Properties) + 1))
+        DisplayRecord()
+    End Method
+
+    Method ShowPreviousRecord()
+    Begin
+        BtHistoryDataViewCommon:SetRecordNo(
+            Properties,
+            BtHistoryDataViewCommon:ValidateRecordNo(Properties, BtHistoryDataViewCommon:GetRecordNo(Properties) - 1))
+        DisplayRecord()
+    End Method
+
+    Method StartTimer(keyType)
+    Begin
+        BtHistoryDataViewCommon:SetPressedKey(Properties, keyType)
+    End Method
+
+    Method StopTimer()
+        isPressAndHold
+    Begin
+        If (isPressAndHold) Then
+            DisplayRecord()
+            Return(0)
+        End If
+
+        Select Case BtHistoryDataViewCommon:GetPressedKey(Properties)
+            Case 0
+                ShowNextRecord()
+            Case 1
+                ShowPreviousRecord()
+        End Select
+    End Method
+
+    Method UpdateOwnerLogData()
+    Begin
+        ActiveForm:UpdateLogData()
+    End Method
+
+    Method F2KeyAction(eventArgs)
+    Begin
+        If BtButtonCommon:GetVisible(BtHistoryDataView_Storage_BtF2Key_Previous:Properties) is false Then
+            Return (nil)
+        End If
+        BtHistoryDataView_Storage_BtF2Key_Previous:Focus()
+        BtHistoryDataView_Storage_BtF2Key_Previous:PerformClick()
+    End Method
+
+    Method F3KeyAction(eventArgs)
+    Begin
+        If BtButtonCommon:GetVisible(BtHistoryDataView_Storage_BtF3Key_Next:Properties) is false Then
+            Return (nil)
+        End If
+        BtHistoryDataView_Storage_BtF3Key_Next:Focus()
+        BtHistoryDataView_Storage_BtF3Key_Next:PerformClick()
+    End Method
+
+    Method F4KeyAction(eventArgs)
+    Begin
+        If BtButtonCommon:GetVisible(BtHistoryDataView_Storage_BtF4Key_Delete:Properties) is false Then
+            Return (nil)
+        End If
+        BtHistoryDataView_Storage_BtF4Key_Delete:Focus()
+        BtHistoryDataView_Storage_BtF4Key_Delete:PerformClick()
+    End Method
+
+    Method LKeyAction(eventArgs)
+    Begin
+        If BtButtonCommon:GetVisible(BtHistoryDataView_Storage_BtF4Key_Delete:Properties) is false Then
+            Return (nil)
+        End If
+        BtHistoryDataView_Storage_BtF4Key_Delete:Focus()
+        BtHistoryDataView_Storage_BtF4Key_Delete:PerformClick()
+    End Method
+
+    Method ExecuteTableViewIrregularFocusTransition()
+    Begin
+        If BtHistoryDataView_Storage_BtTableView_HistoryData:ExecuteIrregularFocusTransition() Then
+            DisplayRecord()
+        End If
+    End Method
+
+    Method LogDisplayGirdBoxInTabTransition_KeyUp(sender)
+    Begin
+        Select Case sender
+            Case 0x00080000, 0x00040000
+                StopTimer()
+        End Select
+    End Method
+
+    Method LogDisplayGridBoxInTabTransition_KeyDown(sender)
+    Begin
+        Select Case sender
+            Case 0x00800000
+                If (BtHistoryDataViewCommon:GetAllRecCount(Properties) == 0) Then
+                    Return(0)
+                End If
+
+                StopTimer()
+                BtHistoryDataView_Storage_BtTableView_HistoryData:ChangeMode(1)
+            Case Else
+                StopTimer()
+        End Select
+    End Method
+
+    Method LogDisplayTableView_OnScroll(sender)
+    Begin
+        Key:onPress = nil
+
+        OnScroll(sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = LogDisplayTableView_OnScroll
+        End If
+    End Method
+
+    Method OnScroll(sender)
+    Begin
+        Select Case sender
+            Case 0x00080000
+                StartTimer(0)
+
+                LogDisplayGirdBoxInTabTransition_KeyUp(sender)
+
+                BtTableViewCommon:GridFocus(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties)
+            Case 0x00040000
+                StartTimer(1)
+
+                LogDisplayGirdBoxInTabTransition_KeyUp(sender)
+
+                BtTableViewCommon:GridFocus(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties)
+            Case 0x00000001
+                BtHistoryDataView_Storage:F1KeyAction(sender)
+            Case 0x00000002
+                F2KeyAction(sender)
+            Case 0x00000004
+                F3KeyAction(sender)
+            Case 0x02000000
+                F4KeyAction(sender)
+            Case 0x00400000
+            Case 0x00200000
+                LKeyAction(sender)
+            Case 0x00010000, 0x00020000
+                LogDisplayTableView_OnFocusTransition(sender)
+        End Select
+    End Method
+
+    Method LogDisplayTableView_OnFocusTransition(sender)
+        Handled = false
+    Begin
+        Select Case sender
+            Case 0x00010000
+                Handled = true
+
+                BtHistoryDataView_Storage_FocusTransitionUtility:MovePreviousControl(BtTableViewCommon:GetName(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties))
+            Case 0x00020000
+                Handled = true
+
+                BtHistoryDataView_Storage_FocusTransitionUtility:MoveNextControl(BtTableViewCommon:GetName(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties))
+        End Select
+
+        Key:onPress = ActiveForm:OnKeyDown
+
+        BtHistoryDataView_Storage_BtTableView_HistoryData:BaseDataGrid_LostFocus(sender)
+
+        Return(Handled)
+    End Method
+
+    Method GetDisplayField(cellData[])
+        rowIndex
+        displayField
+    Begin
+        rowIndex = BtTableViewCommon:GetCurrentRowIndex(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties)
+        displayField = BtTableViewCommon:GetCell(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, rowIndex, 0)
+        cellData[0] = ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), rowIndex + 1, "key")
+        cellData[1] = ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), rowIndex + 1, "val")
+        Return(displayField)
+    Catch
+        Return(nil)
+    End Method
+
+    Method LogDisplayGridBoxInEditMode_KeyDown(sender)
+        displayField
+        cellData[2]
+        logItem
+    Begin
+        Select Case sender
+            Case 0x00800000
+                If BtHistoryDataViewCommon:GetAllRecCount(Properties) == 0 Then
+                    Return(0)
+                End If
+
+                If (BtHistoryDataViewCommon:GetReferenceSource(Properties) == 1) Then
+                    BtTableViewCommon:ChangeMode(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties, 0)
+                    ExecuteTableViewIrregularFocusTransition()
+                    Return(0)
+                End If
+
+                If (Not BtHistoryDataViewCommon:GetDataEditingEnabled(Properties)) Then
+                    BtHistoryDataView_Storage_BtTableView_HistoryData:ChangeMode(0)
+                    ExecuteTableViewIrregularFocusTransition()
+                    Return(0)
+                End If
+
+                displayField = GetDisplayField(cellData)
+                If displayField is nil Then
+                    Return(0)
+                End If
+
+                logItem = BtDataFormatControlCommon:GetLogItem(BtJob_Storage_StorageData:Properties, BtTableViewCommon:GetCurrentRowIndex(BtHistoryDataView_Storage_BtTableView_HistoryData:Properties))
+                If ILogItem:GetLogItemType(logItem) == 1 Then
+                    BtHistoryDataView_Storage_BtTableView_HistoryData:ChangeMode(0)
+                    ExecuteTableViewIrregularFocusTransition()
+                    Return(0)
+                End If
+
+                BtFormCommon:SetVisible(BtJob_Storage_res:Properties, false)
+
+                HistoryDataEditDialog:New()
+
+                CreateEditDialog(logItem, displayField, cellData[1])
+
+                HistoryDataEditDialog:OnShown(nil)
+                If (HistoryDataEditDialog:DialogResult == 1) Then
+                    SetNewData(cellData[0], HistoryDataEditDialog:GetNewValue())
+                End If
+
+                BtFormCommon:SetVisible(BtJob_Storage_res:Properties, true)
+                Window<"ROOT_WINDOW">:Update()
+
+                BtHistoryDataView_Storage_BtTableView_HistoryData:Focus()
+
+                DisplayRecord()
+                UpdateOwnerLogData()
+
+                GridBox<"BtHistoryDataView_Storage_BtTableView_HistoryData">:SetEditMode("off")
+                ExecuteTableViewIrregularFocusTransition()
+                Return(true)
+            Case 0x00080000, 0x00040000
+                OnScroll(sender)
+            Case 0x00000001
+                BtHistoryDataView_Storage:F1KeyAction(sender)
+            Case 0x00000002
+                F2KeyAction(sender)
+            Case 0x00000004
+                F3KeyAction(sender)
+            Case 0x02000000
+                F4KeyAction(sender)
+            Case 0x00400000
+            Case 0x00200000
+                LKeyAction(sender)
+        End Select
+    End Method
+
+    Method GetSelData()
+    Begin
+
+    End Method
+
+    Method LogDisplayTableView_KeyDown(sender)
+    Begin
+        Key:onPress = nil
+
+        LogDisplayGridBoxInEditMode_KeyDown(sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = LogDisplayTableView_KeyDown
+        End If
+    End Method
+
+    Method PreviousRecordButton_Click(sender, result)
+    Begin
+        ShowPreviousRecord()
+    End Method
+
+    Method NextRecordButton_Click(sender, result)
+    Begin
+        ShowNextRecord()
+    End Method
+
+    Method OnTimer(sender)
+    Begin
+        If Handy:KeySense() == 0x00800000 Then
+            Select Case BtScreenCommon:GetFocus(Properties)
+                Case "BtHistoryDataView_Storage_BtF2Key_Previous"
+                    ShowPreviousRecord()
+                Case "BtHistoryDataView_Storage_BtF3Key_Next"
+                    ShowNextRecord()
+            End Select
+        Else
+        End If
+    End Method
+
+    Method DeleteButton_Click(sender, result)
+        deleteType
+        dialogResult
+        errormessage
+        idColumnNo
+        conditionFieldValuePairs
+    Begin
+        If (BtHistoryDataViewCommon:GetReferenceSource(Properties) == 1) Then
+            Return(0)
+        End If
+
+        If (Not BtHistoryDataViewCommon:GetDataRemovingEnabled(Properties)) Then
+            Return(0)
+        End If
+
+        BtFormCommon:SetVisible(BtJob_Storage_res:Properties, false)
+
+        DeleteConfirmationDialog:New()
+
+        Event:Wait()
+
+        BtFormCommon:SetVisible(BtJob_Storage_res:Properties, true)
+        Window<"ROOT_WINDOW">:Update()
+        BtHistoryDataView_Storage_BtF4Key_Delete:Focus()
+
+        deleteType = DeleteConfirmationDialog:GetLogDeleteType()
+
+        If (BtHistoryDataViewCommon:GetAllRecCount(Properties) == 0) Then
+            Return(0)
+        End If
+
+        If (deleteType == 0) Then
+            Return(0)
+        End If
+
+        dialogResult = MessageUtility:ShowMessage(
+            "Do you want to delete the log data?",
+            "Warning",
+            "yesno",
+            "exclamation",
+            256)
+
+        If (dialogResult == 7) Then
+            Return(0)
+        End If
+
+        Select Case deleteType
+            Case 1
+                idColumnNo = ListTable:Find(BtHistoryDataViewCommon:GetRecordData(Properties), "key", "id")
+
+                conditionFieldValuePairs = ListTable:CreateList()
+                ListTable:Add(conditionFieldValuePairs, "id", ListTable:Get(BtHistoryDataViewCommon:GetRecordData(Properties), idColumnNo, "val"))
+
+                DbAccess:DeleteRecord(
+                    BtHistoryDataViewCommon:GetLogDbName(Properties),
+                    BtHistoryDataViewCommon:GetLogTableName(Properties),
+                    conditionFieldValuePairs)
+                ListTable:DeleteList(conditionFieldValuePairs)
+            Case 2
+                DbAccess:DeleteRecord(
+                    BtHistoryDataViewCommon:GetLogDbName(Properties),
+                    BtHistoryDataViewCommon:GetLogTableName(Properties),
+                    0)
+        End Select
+
+        errormessage = ErrorManager:GetError()
+        If (errormessage ne "") Then
+            MessageUtility:ShowMessageOk(errormessage)
+        End If
+
+        UpdateAllRecordCount()
+        DisplayRecord()
+        UpdateOwnerLogData()
+    End Method
+
+    Method DisplayTableView()
+    Begin
+        MessageUtility:SetDisableMessage(true)
+
+        SetCurrentLogData()
+        Show(true)
+    Catch
+    End Method
+
+    Method LogDisplayTableView_GotFocus(sender)
+    Begin
+        Key:onPress = LogDisplayTableView_OnScroll
+    End Method
+
+    Method InitializeComponent()
+    Begin
+        New(BtFormCommon:GetName(BtJob_Storage_res:Properties))
+        InitializeTimer()
+        With BtHistoryDataView_Storage_res
+            BtHistoryDataView_Storage_BtLabel_Title:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Storage_BtLabel_DataCountDisplay:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Storage_BtTableView_HistoryData:Create(BtHistoryDataViewCommon:GetName(:Properties), 1, 2)
+            BtHistoryDataView_Storage_BtF1Key_Back:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Storage_BtF2Key_Previous:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Storage_BtF3Key_Next:Create(BtHistoryDataViewCommon:GetName(:Properties))
+            BtHistoryDataView_Storage_BtF4Key_Delete:Create(BtHistoryDataViewCommon:GetName(:Properties))
+        End With
+
+        With BtHistoryDataView_Storage_BtLabel_Title
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, 0x0)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 0)
+            BtLabelCommon:SetInitialText(:Properties, "History data")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 0)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtHistoryDataView_Storage_BtF1Key_Back
+            BtButtonCommon:SetText(:Properties, "Back")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 0)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "255|0|0")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "255|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 3)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtHistoryDataView_Storage_BtLabel_DataCountDisplay
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 230)
+            BtLabelCommon:SetHeight(:Properties, 25)
+            BtLabelCommon:SetLeft(:Properties, 5)
+            BtLabelCommon:SetTop(:Properties, 35)
+            BtLabelCommon:SetInitialText(:Properties, "(000/000)")
+            BtLabelCommon:SetAlignment(:Properties, "right")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 20)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 1)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtHistoryDataView_Storage_BtTableView_HistoryData
+            BtTableViewCommon:SetWidth(:Properties, 230)
+            BtTableViewCommon:SetHeight(:Properties, 220)
+            BtTableViewCommon:SetLeft(:Properties, 5)
+            BtTableViewCommon:SetTop(:Properties, 60)
+            BtTableViewCommon:SetCellBackColor(:Properties, 0)
+            BtTableViewCommon:SetColumnNameVisible(:Properties, true)
+            BtTableViewCommon:SetDisplayColumnCount(:Properties, 2)
+            BtTableViewCommon:SetRowNumberVisible(:Properties, false)
+            BtTableViewCommon:SetFontSize(:Properties, 23)
+            BtTableViewCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtTableViewCommon:SetBold(:Properties, false)
+            BtTableViewCommon:SetIsPartOfControl(:Properties, true)
+            BtTableViewCommon:SetIsDisplayLog(:Properties, true)
+            BtTableViewCommon:SetMaxDataCount(:Properties, 100)
+            BtTableViewCommon:SetFilteringMatchType(:Properties, 0)
+            BtTableViewCommon:SetTabIndex(:Properties, 2)
+            BtTableViewCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtHistoryDataView_Storage_BtF2Key_Previous
+            BtButtonCommon:SetText(:Properties, "<")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 60)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "0|0|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|255")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 4)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtHistoryDataView_Storage_BtF3Key_Next
+            BtButtonCommon:SetText(:Properties, ">")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 120)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "34|139|34")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "34|139|34")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 5)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtHistoryDataView_Storage_BtF4Key_Delete
+            BtButtonCommon:SetText(:Properties, "Del")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetLeft(:Properties, 180)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "255|255|255")
+            BtButtonCommon:SetBackColor(:Properties, "255|215|0")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "255|215|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 6)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+
+        With BtHistoryDataView_Storage_res
+            BtHistoryDataViewCommon:SetDataEditingEnabled(:Properties, true)
+            BtHistoryDataViewCommon:SetBackColor(:Properties, "255|255|255")
+            BtHistoryDataViewCommon:SetWidth(:Properties, 240)
+            BtHistoryDataViewCommon:SetHeight(:Properties, 320)
+            BtHistoryDataViewCommon:SetLeft(:Properties, 0)
+            BtHistoryDataViewCommon:SetTop(:Properties, 0)
+        End With
+
+    End Method
+End Package

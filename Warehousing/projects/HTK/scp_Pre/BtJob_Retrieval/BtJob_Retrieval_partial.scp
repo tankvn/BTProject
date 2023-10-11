@@ -1,0 +1,115 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+
+
+Package BtJob_Retrieval_partial
+    Method Initialize()
+    Begin
+        CreateLogFormat(false)
+        DeleteBackupLogData()
+    End Method
+    
+    Method DeleteBackupLogData()
+        errorMessage
+    Begin
+        BtJob_Retrieval_RetrievalData:DeleteBackupLogData()
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return()
+        End If
+    End Method
+    
+    Method ReflectMasterCheckSentNum(logDataMaxRowId)
+    Begin
+        
+    End Method
+    
+    Method OpenLogDatabase()
+    Begin
+        DbAccess:Open(BtDataFormatControlCommon:GetPathDriveLogDataBase(BtJob_Retrieval_RetrievalData:Properties), "", "")
+    End Method
+    
+    Method CloseLogDatabase()
+    Begin
+        DbAccess:Close(BtDataFormatControlCommon:GetPathDriveLogDataBase(BtJob_Retrieval_RetrievalData:Properties))
+    End Method
+    
+    Method CreateLogFormat(enableFormatCheck)
+        errorMessage
+    Begin
+        ILogItem:New()
+        
+        With BtJob_Retrieval_RetrievalData
+            :New("BtJob_Retrieval", "RetrievalLog.csv", false, 0, 0)
+            BtDataFormatControlCommon:SetRecordType(:Properties, DATA_LENGTH_VARIABLE)
+            BtDataFormatControlCommon:SetOutputDestination(:Properties, DATA_LOCATION_LOCAL)
+            BtDataFormatControlCommon:SetSeparatorType(:Properties, LOG_SEPARATOR_TYPE_COMMA)
+        End With
+        
+        With BtJob_Retrieval_LogItem_0
+            :New("Date", SYSTEM_PARAMETER_TYPE_SYSTEM_DATE)
+            LogItemSystemParameterCommon:SetExclusionCharacters(:Properties, EXCLUSION_CHARACTERS_NONE)
+            LogItemSystemParameterCommon:SetOutputDoubleQuotation(:Properties, false)
+            LogItemSystemParameterCommon:SetDateFormatType(:Properties, DATE_PATTERN_YYYYMMDD)
+            LogItemSystemParameterCommon:SetDateSeparatorType(:Properties, DATE_SEPARATOR_SLASH)
+        End With
+        BtJob_Retrieval_RetrievalData:AddLogItem("BtJob_Retrieval_LogItem_0")
+        
+        With BtJob_Retrieval_LogItem_1
+            :New("Time", SYSTEM_PARAMETER_TYPE_SYSTEM_TIME)
+            LogItemSystemParameterCommon:SetExclusionCharacters(:Properties, EXCLUSION_CHARACTERS_NONE)
+            LogItemSystemParameterCommon:SetOutputDoubleQuotation(:Properties, false)
+            LogItemSystemParameterCommon:SetTimeFormatType(:Properties, TIME_FORMAT_HOURS_COLON_MINUTES_COLON_SECONDS)
+        End With
+        BtJob_Retrieval_RetrievalData:AddLogItem("BtJob_Retrieval_LogItem_1")
+        
+        With BtJob_Retrieval_LogItem_2
+            :New("Serial number", SYSTEM_PARAMETER_TYPE_SERIAL_NUMBER)
+            LogItemSystemParameterCommon:SetExclusionCharacters(:Properties, EXCLUSION_CHARACTERS_NONE)
+            LogItemSystemParameterCommon:SetOutputDoubleQuotation(:Properties, false)
+        End With
+        BtJob_Retrieval_RetrievalData:AddLogItem("BtJob_Retrieval_LogItem_2")
+        
+        With BtJob_Retrieval_LogItem_3
+            :New("Person", "BtJob_Retrieval", "BtWindow_Retrieval", "BtWindow_Retrieval_BtTextBox_Person", false, false, SQ_LITE_FIELD_TYPE_TEXT, 0)
+            LogItemScreenDataCommon:SetExclusionCharacters(:Properties, EXCLUSION_CHARACTERS_NONE)
+            LogItemScreenDataCommon:SetOutputDoubleQuotation(:Properties, false)
+        End With
+        BtJob_Retrieval_RetrievalData:AddLogItem("BtJob_Retrieval_LogItem_3")
+        
+        With BtJob_Retrieval_LogItem_4
+            :New("Location", "BtJob_Retrieval", "BtWindow_Retrieval", "BtWindow_Retrieval_BtTextBox_Location", false, false, SQ_LITE_FIELD_TYPE_TEXT, 0)
+            LogItemScreenDataCommon:SetExclusionCharacters(:Properties, EXCLUSION_CHARACTERS_NONE)
+            LogItemScreenDataCommon:SetOutputDoubleQuotation(:Properties, false)
+        End With
+        BtJob_Retrieval_RetrievalData:AddLogItem("BtJob_Retrieval_LogItem_4")
+        
+        With BtJob_Retrieval_LogItem_5
+            :New("Item", "BtJob_Retrieval", "BtWindow_Retrieval", "BtWindow_Retrieval_BtTextBox_ItemNo", false, false, SQ_LITE_FIELD_TYPE_TEXT, 0)
+            LogItemScreenDataCommon:SetExclusionCharacters(:Properties, EXCLUSION_CHARACTERS_NONE)
+            LogItemScreenDataCommon:SetOutputDoubleQuotation(:Properties, false)
+        End With
+        BtJob_Retrieval_RetrievalData:AddLogItem("BtJob_Retrieval_LogItem_5")
+        
+        With BtJob_Retrieval_LogItem_6
+            :New("Retrieval count", "BtJob_Retrieval", "BtWindow_Retrieval", "BtWindow_Retrieval_BtInputItemCountControl_1", false, false, SQ_LITE_FIELD_TYPE_INTEGER_NUMBER, INPUT_ITEM_NUMBER_DATA_QUANTITY_TEXT_BOX1)
+            LogItemScreenDataCommon:SetExclusionCharacters(:Properties, EXCLUSION_CHARACTERS_NONE)
+            LogItemScreenDataCommon:SetOutputDoubleQuotation(:Properties, false)
+        End With
+        BtJob_Retrieval_RetrievalData:AddLogItem("BtJob_Retrieval_LogItem_6")
+        
+        BtJob_Retrieval_RetrievalData:CreateLogFormatInfo(enableFormatCheck)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return (nil)
+        End If
+    End Method
+    
+End Package

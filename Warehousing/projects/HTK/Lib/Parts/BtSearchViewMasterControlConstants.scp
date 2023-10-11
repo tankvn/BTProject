@@ -1,0 +1,19 @@
+    #define DEF_COMMON BtSearchViewMasterControlCommon
+
+    #define DEF_NAME_PROPERTY 0
+    #define DEF_CONDITIONITEMS_PROPERTY 1                   
+    #define DEF_DISPLAYITEMS_PROPERTY 2                     
+    #define DEF_SEARCH_SOURCE_PROPERTY 3                    
+    #define DEF_SAVEDESTINATION_PROPERTY 4                  
+    #define DEF_MASTERDATANAME_PROPERTY 5                   
+    #define DEF_SHOWNOTFOUNDMASTERDATAERROR_PROPERTY 6      
+    #define DEF_MAXDATACOUNT_PROPERTY 7                     
+    #define DEF_USER_MASTER_TABLE_NAME_PROPERTY 8           
+    #define DEF_COMMUNICATION_ERROR_DISPLAY_MODE_PROPERTY 9 
+    #define DEF_PROPERTY_NUM 10
+
+
+    #define FIELD_NAME_PREFIX "field"
+
+    #define DB_ACCESS_MAX_DATA_COUNT 100
+

@@ -1,0 +1,86 @@
+#insert "\Lib\Utilities\Lr1DataItemConstants"
+
+
+    Method GetName(properties[]) Begin Return(properties[DEF_NAME_PROPERTY]) End Method
+
+    Method GetType(properties[]) Begin Return(properties[DEF_TYPE_PROPERTY]) End Method
+
+    Method GetLogItemId(properties[]) Begin Return(properties[DEF_LOGITEMID_PROPERTY]) End Method
+    Method SetLogItemId(properties[], value) Begin properties[DEF_LOGITEMID_PROPERTY] = value End Method
+
+    Method GetExclusionCharacters(properties[]) Begin Return(properties[DEF_EXCLUSIONCHARACTERS_PROPERTY]) End Method
+    Method SetExclusionCharacters(properties[], value) Begin properties[DEF_EXCLUSIONCHARACTERS_PROPERTY] = value End Method
+
+    Method GetOutputDoubleQuotation(properties[]) Begin Return(properties[DEF_OUTPUTDOUBLEQUOTATION_PROPERTY]) End Method
+    Method SetOutputDoubleQuotation(properties[], value) Begin properties[DEF_OUTPUTDOUBLEQUOTATION_PROPERTY] = value End Method
+
+    Method GetPaddingType(properties[]) Begin Return(properties[DEF_PADDINGTYPE_PROPERTY]) End Method
+    Method SetPaddingType(properties[], value) Begin properties[DEF_PADDINGTYPE_PROPERTY] = value End Method
+
+    Method GetDataAlignType(properties[]) Begin Return(properties[DEF_DATAALIGNTYPE_PROPERTY]) End Method
+    Method SetDataAlignType(properties[], value) Begin properties[DEF_DATAALIGNTYPE_PROPERTY] = value End Method
+
+    Method GetDateFormatType(properties[]) Begin Return(properties[DEF_DATEFORMATTYPE_PROPERTY]) End Method
+    Method SetDateFormatType(properties[], value) Begin properties[DEF_DATEFORMATTYPE_PROPERTY] = value End Method
+
+    Method GetDateSeparatorType(properties[]) Begin Return(properties[DEF_DATESEPARATORTYPE_PROPERTY]) End Method
+    Method SetDateSeparatorType(properties[], value) Begin properties[DEF_DATESEPARATORTYPE_PROPERTY] = value End Method
+
+    Method GetTimeFormatType(properties[]) Begin Return(properties[DEF_TIMEFORMATTYPE_PROPERTY]) End Method
+    Method SetTimeFormatType(properties[], value) Begin properties[DEF_TIMEFORMATTYPE_PROPERTY] = value End Method
+
+    Method GetCalculationType(properties[]) Begin Return(properties[DEF_CALCULATIONTYPE_PROPERTY]) End Method
+    Method SetCalculationType(properties[], value) Begin properties[DEF_CALCULATIONTYPE_PROPERTY] = value End Method
+
+    Method GetCalculationParameter(properties[]) Begin Return(properties[DEF_CALCULATIONPARAMETER_PROPERTY]) End Method
+    Method SetCalculationParameter(properties[], value) Begin properties[DEF_CALCULATIONPARAMETER_PROPERTY] = value End Method
+
+    Method GetDateCalculationUnitType(properties[]) Begin Return(properties[DEF_DATECALCULATIONUNITTYPE_PROPERTY]) End Method
+    Method SetDateCalculationUnitType(properties[], value) Begin properties[DEF_DATECALCULATIONUNITTYPE_PROPERTY] = value End Method
+
+    Method GetOutputRangeType(properties[]) Begin Return(properties[DEF_OUTPUTRANGETYPE_PROPERTY]) End Method
+    Method SetOutputRangeType(properties[], value) Begin properties[DEF_OUTPUTRANGETYPE_PROPERTY] = value End Method
+
+    Method GetOutputRangeStart(properties[]) Begin Return(properties[DEF_OUTPUTRANGESTART_PROPERTY]) End Method
+    Method SetOutputRangeStart(properties[], value) Begin properties[DEF_OUTPUTRANGESTART_PROPERTY] = value End Method
+
+    Method GetOutputRangeEnd(properties[]) Begin Return(properties[DEF_OUTPUTRANGEEND_PROPERTY]) End Method
+    Method SetOutputRangeEnd(properties[], value) Begin properties[DEF_OUTPUTRANGEEND_PROPERTY] = value End Method
+
+    Method GetOutputDigit(properties[]) Begin Return(properties[DEF_OUTPUTDIGIT_PROPERTY]) End Method
+    Method SetOutputDigit(properties[], value) Begin properties[DEF_OUTPUTDIGIT_PROPERTY] = value End Method
+
+    Method NewBase(properties[])
+    Begin
+        Lr1DataItemCommon:New(properties)
+    End Method
+
+    Method GetOutputData(properties[], dataLength)
+        outputValue
+    Begin
+        outputValue = OutputDataUtility:GetOutputData(GetLogData(properties), dataLength, GetTableItemTypes(properties),
+                                                      GetIsDate(properties), GetIsTime(properties), GetExclusionCharacters(properties),
+                                                      GetOutputRangeType(properties), GetOutputRangeStart(properties),
+                                                      GetOutputRangeEnd(properties), GetCalculationType(properties),
+                                                      GetCalculationParameter(properties), GetDateCalculationUnitType(properties),
+                                                      GetDecimalPlaces(properties), GetDateFormatType(properties),
+                                                      GetDateSeparatorType(properties), GetTimeFormatType(properties))
+        Return(outputValue)
+    End Method
+
+    Method GetFormattedData(properties[], dataLength, targetValue)
+        outputString
+    Begin
+        outputString = OutputDataUtility:GetFormattedData(targetValue, dataLength, GetIsDate(properties), GetIsTime(properties),
+                                                          GetOutputDoubleQuotation(properties), GetOutputDigit(properties),
+                                                          GetDataAlignType(properties), GetPaddingType(properties))
+        Return(outputString)
+    End Method
+
+    Method GetFixedFormattedData(properties[], dataLength, targetValue)
+        outputString
+    Begin
+        outputString = OutputDataUtility:GetFixedFormattedData(targetValue, dataLength, GetIsDate(properties), GetIsTime(properties),
+                                                               GetOutputDigit(properties), GetDataAlignType(properties), GetPaddingType(properties))
+        Return(outputString)
+    End Method

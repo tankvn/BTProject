@@ -1,0 +1,44 @@
+Package ComparisonStringItem
+
+    #define ID_JUDGEKIND 1
+    #define ID_SOURCESTR 2
+    #define ID_DESTINATIONSTR 3
+    #define ID_CALCULATIONTYPE 4
+    #define ID_CALCULATIONVALUE 5
+
+    Method New(name, judgeKind , sourceStr , destinationStr, calculationType, calculationValue)
+    Begin
+        With UserObj<name>
+            :Open()
+            :Set(0, "ComparisonStringItem")
+            :Set(ID_JUDGEKIND, judgeKind)
+            :Set(ID_SOURCESTR, sourceStr)
+            :Set(ID_DESTINATIONSTR, destinationStr)
+            :Set(ID_CALCULATIONTYPE, calculationType)
+            :Set(ID_CALCULATIONVALUE, calculationValue)
+        End With
+    End Method
+
+    Method DoJudgement(name)
+    Begin
+        With UserObj<name>
+            Return(StringUtility:Judge(:Get(ID_JUDGEKIND), :Get(ID_SOURCESTR), :Get(ID_DESTINATIONSTR), :Get(ID_CALCULATIONTYPE), :Get(ID_CALCULATIONVALUE)))
+        End With
+    End Method
+
+    Method GetType(name)
+    Begin
+        Return(UserObj<name>:Get(0))
+    End Method
+
+    Method SetSrcData(name, value)
+    Begin
+        UserObj<name>:Set(ID_SOURCESTR, value)
+    End Method
+
+    Method SetDstData(name, value)
+    Begin
+        UserObj<name>:Set(ID_DESTINATIONSTR, value)
+    End Method
+
+End Package

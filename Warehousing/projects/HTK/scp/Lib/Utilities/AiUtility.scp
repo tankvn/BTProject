@@ -1,0 +1,106 @@
+Package AiUtility
+    Const SEPARATOR_AI = "@"
+
+    Method GetAi(extractionTarget, extractionAiNumber, separatorEan128, separatorFulldetection, separatorComposite)
+        sep[3]
+        ary[256]
+        pstr[1]
+        i
+        data
+    Begin
+        AiList:Initialize()
+        If (extractionTarget.length == 0) Then
+            Return("")
+        End If
+
+        sep[0] = separatorEan128
+        sep[1] = separatorFulldetection
+        sep[2] = separatorComposite
+
+        data = extractionTarget
+        For i = 0 to 2
+            If Not sep[i] is nil Then
+                If sep[i].isString is false Then
+                    pstr[0] = sep[i]
+                    sep[i] = pstr.PackBin()
+                End If
+                If sep[i] ne "" And sep[i] ne "0" Then
+                    data = StringUtility:Replace(data, sep[i], SEPARATOR_AI)
+                End If
+            End If
+            i = i + 1
+        Next
+        ary = data.split(SEPARATOR_AI)
+        i = 0
+        While Not ary[i] is nil
+            data = findAI(ary[i], extractionAiNumber)
+            If Not data is nil Then
+                Return(data)
+            End If
+            i = i + 1
+        Wend
+        Return("")
+    End Method
+
+    Method getAiName(data)
+        i = 0
+        name
+        ai
+    Begin
+        While true
+            name = UserObj<AiList:Name>:Get(i)
+            If name is nil Then Return(nil) End If
+            ai = Ai:GetNumber(name)
+            If ai is nil Then Return(nil) End If
+            If ai eq data.Left(ai.length) Then
+                Return(name)
+            End If
+            i = i + 1
+        Wend
+    End Method
+
+    Method getLen(name, str)
+        pos
+    Begin
+        If Ai:GetDataLengthType(name) == 1 Then
+            pos = str.Find(SEPARATOR_AI, 0)
+            If pos is nil Then
+                pos = str.length
+            End If
+            If Ai:GetNumber(name).length + Ai:GetDigit(name) < pos Then
+                Return(-1)
+            End If
+        Else
+            pos = Ai:GetNumber(name).length + Ai:GetDigit(name)
+            If str.length < pos Then
+                Return(-1)
+            End If
+        End If
+        Return(pos)
+    End Method
+
+    Method findAI(str, ai)
+        pos = 0
+        tmpstr
+        len
+        name
+    Begin
+        While true
+            If str.length <= pos Then Return(nil) End If
+            If str.Mid(pos, 1) eq SEPARATOR_AI Then pos = pos + 1 End If
+            tmpstr = str.Mid(pos, str.length-pos)
+            name = getAiName(tmpstr)
+            If name is nil Then Return(nil) End If
+            len = getLen(name, tmpstr)
+            If len == -1 Then Return(nil) End If
+            If ai eq tmpstr.Left(ai.length) Then
+                Return(tmpstr.Mid(ai.length, len-ai.length))
+            End If
+            pos = pos + len
+            If tmpstr.Mid(len, 1) eq SEPARATOR_AI Then pos = pos + 1 End If
+        Wend
+        Return(nil)
+    End Method
+
+End Package
+

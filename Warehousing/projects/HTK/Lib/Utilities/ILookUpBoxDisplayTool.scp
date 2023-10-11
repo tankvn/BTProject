@@ -1,0 +1,34 @@
+#pushdefine
+
+Package ILookUpBoxDisplayTool
+
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    Names[DEF_IMPLEMENT_NAME_ARRAY@~]
+    ICommons[DEF_IMPLEMENT_NAME_ARRAY@~]
+#else
+    Names[1]
+    ICommons[1]
+#endif
+    
+    Method New()
+    Begin
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Names[@^] = "DEF_IMPLEMENT_NAME_ARRAY"
+        ICommons[@^] = DEF_IMPLEMENT_NAME_ARRAY:ILookUpBoxDisplayToolInvoke
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+    End Method
+
+    Method IsImplemented(toolName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(toolName, Names))
+    End Method
+
+    Method GetInitialText(toolName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(toolName, Names, "GetInitialText", args, ICommons))
+    End Method
+
+End Package
+
+#popdefine

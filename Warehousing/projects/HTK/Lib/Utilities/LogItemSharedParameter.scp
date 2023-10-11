@@ -1,0 +1,18 @@
+#insert "\Lib\Utilities\LogItemConstants"
+#insert "\Lib\Utilities\LogItemSharedParameterConstants"
+
+/*Public*/ Package DEF_PACKAGE_NAME
+    /*Inherits LogItem*/
+
+    Properties[DEF_PROPERTY_NUM + 1]
+
+
+
+#insert "\Lib\Utilities\ILogItemInvoke"
+
+    Method New(displayName, sharedParameterType, isDate)
+    Begin
+        LogItemSharedParameterCommon:New(Properties, "DEF_PACKAGE_NAME", displayName, sharedParameterType, isDate)
+    End Method
+
+End Package 

@@ -1,0 +1,61 @@
+Package ICollationConditionSetting
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetJudgeKind(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetJudgeKind", args, ICommons))
+    End Method
+    Method SetJudgeKind(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetJudgeKind", args, ICommons))
+    End Method
+
+    Method GetCalculationKind(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetCalculationKind", args, ICommons))
+    End Method
+    Method SetCalculationKind(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetCalculationKind", args, ICommons))
+    End Method
+
+    Method GetCalculationValue(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetCalculationValue", args, ICommons))
+    End Method
+    Method SetCalculationValue(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetCalculationValue", args, ICommons))
+    End Method
+
+    Method GetCalculationTarget(controlName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(controlName, Names, "GetCalculationTarget", args, ICommons))
+    End Method
+    Method SetCalculationTarget(controlName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(controlName, Names, "SetCalculationTarget", args, ICommons))
+    End Method
+End Package

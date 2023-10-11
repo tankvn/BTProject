@@ -1,0 +1,42 @@
+#pushdefine
+
+#insert "\Lib\Utilities\BtLr1OutputDataControlConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+#insert "\Lib\Utilities\IBtLr1OutputDataControlInvoke"
+
+    Method New(outputTerminalData)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        BtLr1OutputDataControlCommon:New(Properties, outputTerminalData)
+    End Method
+
+    Method Finalize()
+    Begin
+        BtLr1OutputDataControlCommon:Finalize(Properties)
+    End Method
+
+    Method AddLogItem(item)
+    Begin
+        BtLr1OutputDataControlCommon:AddLogItem(Properties, item)
+    End Method
+
+    Method RemoveLogItem(index)
+    Begin
+        BtLr1OutputDataControlCommon:RemoveLogItem(Properties, index)
+    End Method
+
+    Method RemoveLogItemAll()
+    Begin
+        BtLr1OutputDataControlCommon:RemoveLogItemAll(Properties)
+    End Method
+
+    Method GetLogItem(index)
+    Begin
+        Return (BtLr1OutputDataControlCommon:GetLogItem(Properties, index))
+    End Method
+
+End Package

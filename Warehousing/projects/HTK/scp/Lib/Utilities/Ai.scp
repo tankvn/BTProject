@@ -1,0 +1,27 @@
+Package Ai
+    _number = 0
+    Method GetNumber(name) Begin Return(UserObj<name>:Get(_number)) End Method
+    Method SetNumber(name, value) Begin UserObj<name>:Set(_number, value) End Method
+
+    _text = 1
+    Method GetText(name) Begin Return(UserObj<name>:Get(_text)) End Method
+    Method SetText(name, value) Begin UserObj<name>:Set(_text, value) End Method
+
+    _dataLengthType = 2
+    Method GetDataLengthType(name) Begin Return(UserObj<name>:Get(_dataLengthType)) End Method
+    Method SetDataLengthType(name, value) Begin UserObj<name>:Set(_dataLengthType, value) End Method
+
+    _digit = 3
+    Method GetDigit(name) Begin Return(UserObj<name>:Get(_digit)) End Method
+    Method SetDigit(name, value) Begin UserObj<name>:Set(_digit, value) End Method
+
+    Method New(name, number, text, dataLengthType, digit)
+    Begin
+        UserObj<"__SMALL_OBJ__" & name>:Open()
+        UserObj<name>:Open()
+        SetNumber(name, number)
+        SetText(name, text)
+        SetDataLengthType(name, dataLengthType)
+        SetDigit(name, digit)
+    End Method
+End Package

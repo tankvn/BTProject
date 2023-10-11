@@ -1,0 +1,12 @@
+#insert "\Lib\Utilities\LogItemConstants"
+
+#define DEF_COMMON LogItemSharedParameterCommon
+
+    #define DEF_SHARED_PARAMETER_TYPE_PROPERTY DEF_BASE_PROPERTY_NUM + 0
+    #define DEF_IS_DATE_PROPERTY DEF_BASE_PROPERTY_NUM + 1
+    #define DEF_PROPERTY_NUM DEF_BASE_PROPERTY_NUM + 2
+
+
+    #define FIELD_PREFIX "LogItemSharedParameter" 
+
+    

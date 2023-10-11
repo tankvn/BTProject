@@ -1,0 +1,33 @@
+Package ISearchViewConditionItem
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(conditionItemName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(conditionItemName, Names))
+    End Method
+
+    Method GetRangeExtractedString(conditionItemName, value)
+       args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(conditionItemName, Names, "GetRangeExtractedString", args, ICommons))
+    End Method
+
+    Method GetInputValue(conditionItemName)
+       args[1]
+    Begin
+        Return(InterfaceCommon:Call(conditionItemName, Names, "GetInputValue", args, ICommons))
+    End Method
+
+    Method GetTableFieldName(conditionItemName)
+       args[1]
+    Begin
+        Return(InterfaceCommon:Call(conditionItemName, Names, "GetTableFieldName", args, ICommons))
+    End Method
+
+End Package

@@ -1,0 +1,29 @@
+
+Package IMasterDataOwnerControl
+    Names[1]
+    ICommons[1]
+    Method New()
+    Begin
+        Names[0] = "BtHistoryDataView_Retrieval_BtTableView_HistoryData"
+        ICommons[0] = BtHistoryDataView_Retrieval_BtTableView_HistoryData:IMasterDataOwnerControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method UpdateMasterData(controlName)
+        args[1]
+    Begin
+        Return (InterfaceCommon:Call(controlName, Names, "UpdateMasterData", args, ICommons))
+    End Method
+
+    Method CloseMasterData(controlName)
+        args[1]
+    Begin
+        Return (InterfaceCommon:Call(controlName, Names, "CloseMasterData", args, ICommons))
+    End Method
+
+End Package
+

@@ -1,0 +1,60 @@
+#pushdefine
+
+Package ILookUpBoxInputTool
+
+#ifdef DEF_IMPLEMENT_NAME_ARRAY
+    Names[DEF_IMPLEMENT_NAME_ARRAY@~]
+    ICommons[DEF_IMPLEMENT_NAME_ARRAY@~]
+#else
+    Names[1]
+    ICommons[1]
+#endif
+    
+    Method New()
+    Begin
+#beginexpand DEF_IMPLEMENT_NAME_ARRAY
+        Names[@^] = "DEF_IMPLEMENT_NAME_ARRAY"
+        ICommons[@^] = DEF_IMPLEMENT_NAME_ARRAY:ILookUpBoxInputToolInvoke
+#endexpand DEF_IMPLEMENT_NAME_ARRAY
+    End Method
+
+    Method IsImplemented(toolName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(toolName, Names))
+    End Method
+
+    Method GetInitialText(toolName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(toolName, Names, "GetInitialText", args, ICommons))
+    End Method
+
+    Method UpdateData(toolName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(toolName, Names, "UpdateData", args, ICommons))
+    End Method
+
+    Method ShowCustomMessageBox(toolName, message, title, buttonType, iconType, defaultButton)
+        args[5]
+    Begin
+        args[0] = message
+        args[1] = title
+        args[2] = buttonType
+        args[3] = iconType
+        args[4] = defaultButton
+        Return(InterfaceCommon:Call(toolName, Names, "ShowCustomMessageBox", args, ICommons))
+    End Method
+
+    Method ChangeMode(toolName, mode, updateState)
+        args[2]
+    Begin
+        args[0] = mode
+        args[1] = updateState
+        Return(InterfaceCommon:Call(toolName, Names, "ChangeMode", args, ICommons))
+    End Method
+
+End Package
+
+#popdefine

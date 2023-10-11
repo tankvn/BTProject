@@ -1,0 +1,10 @@
+
+    #insert "\Lib\Parts\BtLabelBaseConstants"
+    #undef DEF_COMMON
+
+    #define DEF_COMMON BtSharedParameterLabelCommon
+
+    #define DEF_SHARED_PARAMETER_KEY_PROPERTY DEF_BASE_PROPERTY_NUM + 0
+    #define DEF_SHARED_PARAMETER_CLEAR_TIMING_PROPERTY DEF_BASE_PROPERTY_NUM + 1
+    #define DEF_IS_SHARED_PROPERTY DEF_BASE_PROPERTY_NUM + 2
+    #define DEF_PROPERTY_NUM DEF_BASE_PROPERTY_NUM + 3

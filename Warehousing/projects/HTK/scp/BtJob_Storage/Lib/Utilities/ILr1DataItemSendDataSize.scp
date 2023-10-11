@@ -1,0 +1,32 @@
+
+Package ILr1DataItemSendDataSize
+
+    Names[1]
+    ICommons[1]
+
+    Method New()
+    Begin
+    End Method
+
+    Method IsImplemented(lr1DataItemName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(lr1DataItemName, Names))
+    End Method
+
+    Method MaxDigit(lr1DataItemName, dataLength, maxValue)
+        args[2]
+    Begin
+        args[0] = dataLength
+        args[1] = maxValue
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "MaxDigit", args, ICommons))
+    End Method
+
+    Method SetDataSize(lr1DataItemName, value)
+        args[1]
+    Begin
+        args[0] = value
+        Return(InterfaceCommon:Call(lr1DataItemName, Names, "SetDataSize", args, ICommons))
+    End Method
+
+End Package
+

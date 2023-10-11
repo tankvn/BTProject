@@ -1,0 +1,69 @@
+
+#pushdefine
+
+#insert "\Lib\Parts\BtSharedParameterLabelConstants"
+
+Package BtSharedParameterLabelCommon
+
+#insert "\Lib\Parts\BtLabelBaseCommon"
+
+    Method GetSharedParameterKey(properties[])
+    Begin
+        Return (properties[DEF_SHARED_PARAMETER_KEY_PROPERTY])
+    End Method
+    Method SetSharedParameterKey(properties[], value)
+    Begin
+        properties[DEF_SHARED_PARAMETER_KEY_PROPERTY] = value
+    End Method
+
+    Method GetLogData(properties[], index)
+    Begin
+        Return (SharedParameterUtility:GetSharedParameter(GetSharedParameterKey(properties)))
+    End Method
+
+
+#insert "\Lib\Utilities\IBtSharedParameterLabelInvokeCommon"
+
+    Method SetHandler(properties[], afterResetHandler, comparisonValueCountUpdatedHandler, collationCountUpdatedHandler, dataUpdatedHandler)
+    Begin
+        SetAfterResetHandler(properties, afterResetHandler)
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountUpdatedHandler(properties, collationCountUpdatedHandler)
+        SetDataUpdatedHandler(properties, dataUpdatedHandler)
+    End Method
+
+    Method RestoreSharedParameter(properties[])
+        displayValue
+        parameter[1]
+    Begin
+        displayValue = SharedParameterUtility:GetSharedParameter(GetSharedParameterKey(properties))
+        If ((displayValue is nil) Or (displayValue eq "")) Then
+            displayValue = MESSAGE_MESSAGE_NOT_FOUND_SHARED_PARAMETER
+        End If
+        SetText(properties, displayValue)
+        EventUtility:Exec(GetDataUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method Reset(properties[])
+        parameter[1]
+    Begin
+        RestoreSharedParameter(properties)
+
+        EventUtility:Exec(GetAfterResetHandler(properties), GetName(properties), parameter)
+        EventUtility:Exec(GetComparisonValueCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method CollationCountInitialized(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex)
+    Begin
+        BaseSetSearchResult(properties, listId_SearchResult, columnIndex)
+    End Method
+
+End Package
+
+#popdefine

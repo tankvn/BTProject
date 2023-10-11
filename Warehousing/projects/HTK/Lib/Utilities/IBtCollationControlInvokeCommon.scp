@@ -1,0 +1,7 @@
+    Method IBtCollationControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+        End Select
+    End Method

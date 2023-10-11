@@ -1,0 +1,20 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtLr1BdAddressTextBoxConstants"
+
+Package DEF_PACKAGE_NAME
+
+#define DEF_INHERITS_BT_TEXTBOX
+#insert "\Lib\Parts\BtTextBox"
+#undef DEF_INHERITS_BT_TEXTBOX
+
+    Properties[DEF_PROPERTY_NUM]
+
+    Method OnScanned(sender)
+    Begin
+        BtLr1BdAddressTextBoxCommon:OnScanned(Properties, sender, OnScanned)
+    End Method
+
+End Package 
+
+#popdefine

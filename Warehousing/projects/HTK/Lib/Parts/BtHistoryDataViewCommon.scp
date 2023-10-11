@@ -1,0 +1,134 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtHistoryDataViewConstants"
+
+Package BtHistoryDataViewCommon
+
+#define DEF_INHERITS_BT_SCREEN
+#insert "\Lib\Parts\BtScreenCommon"
+
+    Method GetDataRemovingEnabled(properties[])
+    Begin
+        Return (properties[DEF_DATA_REMOVING_ENABLED_PROPERTY])
+    End Method
+    Method SetDataRemovingEnabled(properties[], value) 
+    Begin
+        properties[DEF_DATA_REMOVING_ENABLED_PROPERTY] = value
+    End Method
+
+    Method GetDataEditingEnabled(properties[]) 
+    Begin
+        Return (properties[DEF_DATA_EDITING_ENABLED_PROPERTY])
+    End Method
+    Method SetDataEditingEnabled(properties[], value)
+    Begin
+        properties[DEF_DATA_EDITING_ENABLED_PROPERTY] = value
+    End Method
+
+    Method GetReferenceSource(properties[])
+    Begin
+        Return (properties[DEF_REFERENCE_SOURCE_PROPERTY])
+    End Method
+    Method SetReferenceSource(properties[], value)
+    Begin
+        properties[DEF_REFERENCE_SOURCE_PROPERTY] = value
+    End Method
+
+    Method GetLogDbName(properties[])
+    Begin
+        Return (properties[DEF_LOG_DB_NAME_PROPERTY])
+    End Method
+    Method SetLogDbName(properties[], value)
+    Begin
+        properties[DEF_LOG_DB_NAME_PROPERTY] = value
+    End Method
+
+    Method GetLogTableName(properties[])
+    Begin
+        Return (properties[DEF_LOG_TABLE_NAME_PROPERTY])
+    End Method
+    Method SetLogTableName(properties[], value)
+    Begin
+        properties[DEF_LOG_TABLE_NAME_PROPERTY] = value
+    End Method
+
+    Method GetRecordNo(properties[])
+    Begin
+        Return (properties[DEF_RECORD_NO_PROPERTY])
+    End Method
+    Method SetRecordNo(properties[], value)
+    Begin
+        properties[DEF_RECORD_NO_PROPERTY] = value
+    End Method
+
+    Method GetAllRecCount(properties[])
+    Begin
+        Return (properties[DEF_ALL_RECORD_COUNT_PROPERTY])
+    End Method
+    Method SetAllRecCount(properties[], value)
+    Begin
+        properties[DEF_ALL_RECORD_COUNT_PROPERTY] = value
+    End Method
+
+    Method GetRealTimeMaxRecordId(properties[])
+    Begin
+        Return (properties[DEF_REAL_TIME_MAX_RECORD_ID])
+    End Method
+    Method SetRealTimeMaxRecordId(properties[], value)
+    Begin
+        properties[DEF_REAL_TIME_MAX_RECORD_ID] = value
+    End Method
+
+    Method GetPressedKey(properties[])
+    Begin
+        Return (properties[DEF_PRESS_KEY_PROPERTY])
+    End Method
+    Method SetPressedKey(properties[], value)
+    Begin
+        properties[DEF_PRESS_KEY_PROPERTY] = value
+    End Method
+
+    Method GetRecordData(properties[])
+    Begin
+        Return(properties[DEF_RECORD_DATA_PROPERTY])
+    End Method
+    Method SetRecordData(properties[], value)
+    Begin
+        properties[DEF_RECORD_DATA_PROPERTY] = value
+    End Method
+
+    Method ItemClear(Item[])
+        i
+    Begin
+        For i = 0 to Item.size - 1
+            Item[i] = ""
+        Next
+    End Method
+
+    Method ValidateRecordNo(properties[], currentRecordNo)
+    Begin
+        If (GetAllRecCount(properties) - 1 < currentRecordNo) Then
+            Return (GetAllRecCount(properties) - 1)
+        End If 
+
+        If (currentRecordNo < 0) Then
+            Return (0)
+        End If 
+
+        Return (currentRecordNo)
+    End Method
+
+    Method GetArrayItem(key, arr[])
+        i
+    Begin
+        For i = 0 to arr.size - 1
+            If arr[i] eq key Then
+                Return(i)
+            End If
+        Next
+        Return(-1)
+    End Method
+
+End Package 
+
+#popdefine

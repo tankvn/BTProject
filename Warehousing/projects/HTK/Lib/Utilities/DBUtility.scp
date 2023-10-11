@@ -1,0 +1,161 @@
+Package DB_UTIL
+
+    Method Open(dbName)
+    Begin
+        Return(SQLite:Open(dbName))
+    End Method
+
+    Method Close(db_idx)
+    Begin
+        SQLite:Close(db_idx)
+    End Method
+
+    Method AddDQ(targetValue)
+    Begin
+        Return("\"" & targetValue.Remove("\"") & "\"")
+    End Method
+
+    Method GetSelect(f_num, f_name[], f_select[])
+        sql = ""
+        i
+    Begin
+        For i = 0 to f_num-1
+            If not (f_select[i] is nil) Then
+                If sql ne "" Then sql = sql & ", " End If
+                sql = sql & AddDQ(f_name[i])
+            End If
+        Next
+        If sql eq "" Then
+            sql = "*"
+        End If
+        Return(sql)
+    End Method
+
+    Method GetWhere(f_num, f_name[], f_type[], k_data[])
+        sql = ""
+        i
+    Begin
+        For i = 0 to f_num-1
+            If not (k_data[i] is nil) Then
+                If sql ne "" Then sql = sql & "AND " End If
+                If f_type[i].Left(4) eq "text" Then sql = sql & AddDQ(f_name[i]) & " = " & AddDQ(k_data[i])
+                Else sql = sql & AddDQ(f_name[i]) & " = " & k_data[i] End If
+            End If
+        Next
+        If sql ne "" Then Return("WHERE " & sql)
+        Else Return("")
+        End If
+    End Method
+
+    Method GetSQL(mode, tblname, f_num, f_name[], f_type[], k_data[], f_select[], f_data[], order)
+        sql = ""
+        sql2 = ""
+        sql3 = ""
+        i
+    Begin
+        If mode eq "CREATE TABLE" Then
+            sql = "CREATE TABLE IF NOT EXISTS " & AddDQ(tblname) & " ("
+            For i = 0 to f_num-1
+                If sql2 ne "" Then sql2 = sql2 & ", " End If
+                sql2 = sql2 & AddDQ(f_name[i]) & " " & f_type[i]
+            Next
+            sql = sql & sql2 & ")"
+        ElseIf mode eq "DROP TABLE" Then
+            sql = "DROP TABLE IF EXISTS " & AddDQ(tblname)
+        ElseIf mode eq "INSERT" Then
+            sql = "INSERT INTO " & AddDQ(tblname) & " ("
+            For i = 0 to f_num-1
+                If not (f_data[i] is nil) Then
+                    If sql2 ne "" Then sql2 = sql2 & ", " End If
+                    sql2 = sql2 & AddDQ(f_name[i])
+                    If sql3 ne "" Then sql3 = sql3 & ", " End If
+                    If f_type[i].Left(4) eq "text" Then sql3 = sql3 & AddDQ(f_data[i])
+                    Else sql3 = sql3 & f_data[i] End If
+                End If
+            Next
+            sql = sql & sql2 & ") VALUES (" & sql3 & ")"
+        ElseIf mode eq "DELETE" Then
+            sql = "DELETE FROM " & AddDQ(tblname) & " " & GetWhere(f_num, f_name, f_type, k_data)
+        ElseIf mode eq "UPDATE" Then
+            sql = "UPDATE " & AddDQ(tblname) & " SET "
+            For i = 0 to f_num-1
+                If not (f_data[i] is nil) Then
+                    If sql2 ne "" Then sql2 = sql2 & ", " End If
+                    If f_type[i].Left(4) eq "text" Then sql2 = sql2 & AddDQ(f_name[i]) & " = " & AddDQ(f_data[i])
+                    Else sql2 = sql2 & AddDQ(f_name[i]) & " = " & f_data[i] End If
+                End If
+            Next
+            sql = sql & sql2 & " " & GetWhere(f_num, f_name, f_type, k_data)
+        ElseIf mode eq "SELECT COUNT" Then
+            sql = "SELECT COUNT(*) FROM " & AddDQ(tblname) & " " & GetWhere(f_num, f_name, f_type, k_data)
+        ElseIf mode eq "SELECT" Then
+            sql = "SELECT " & GetSelect(f_num, f_name, f_select) & " FROM " & AddDQ(tblname) & " " & GetWhere(f_num, f_name, f_type, k_data)
+            If order ne "" Then
+                sql = sql & order
+            End If
+        End If
+
+        Return(sql)
+    End Method
+
+    Method HasTable(db_idx, tableName)
+        sql
+        names[2]
+        types[2]
+        values[2]
+        dummy1[2]
+        dummy2[2]
+        dataCount
+        c_idx
+    Begin
+        names[0] = "type"
+        values[0] = "table"
+        types[0] = "text"
+
+        names[1] = "name"
+        values[1] = tableName
+        types[1] = "text"
+
+        sql = GetSQL("SELECT COUNT", "sqlite_master", 2, names, types, values, dummy1, dummy2, "")
+        c_idx = CreateCommand(db_idx, sql)
+        If ExecuteCommand(c_idx) == 1 Then
+            dataCount = GetData(c_idx, 0)
+        End If
+        DeleteCommand(c_idx)
+        If (0 < dataCount) Then
+            Return (true)
+        End If
+
+        Return (false)
+    End Method
+
+    Method Exec(db_idx, sql)
+    Begin
+        SQLite:Execute(db_idx, sql)
+    End Method
+
+    Method CreateCommand(db_idx, sql)
+        c_idx
+    Begin
+        c_idx = SQLiteCommand:Create(db_idx)
+        SQLiteCommand:SetCommandText(c_idx, sql)
+        Return(c_idx)
+    End Method
+
+    Method DeleteCommand(c_idx)
+    Begin
+        SQLiteCommand:Delete(c_idx)
+    End Method
+
+    Method ExecuteCommand(c_idx)
+    Begin
+        SQLiteCommand:ExecuteReader(c_idx)    
+        Return(SQLiteCommand:Read(c_idx))
+    End Method
+
+    Method GetData(c_idx, idx)
+    Begin
+        Return(SQLiteCommand:Value(c_idx, idx))
+    End Method
+
+End Package

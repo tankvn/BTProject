@@ -1,0 +1,21 @@
+    Method ISharedParameterInputToolInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetIsShared"
+                InterfaceCommon:Result = GetIsShared(properties)
+            Case "SetIsShared"
+                InterfaceCommon:Result = SetIsShared(properties, UserObj<this>:Get(2))
+            Case "GetSharedParameterKey"
+                InterfaceCommon:Result = GetSharedParameterKey(properties)
+            Case "SetSharedParameterKey"
+                InterfaceCommon:Result = SetSharedParameterKey(properties, UserObj<this>:Get(2))
+            Case "GetSharedParameterClearTiming"
+                InterfaceCommon:Result = GetSharedParameterClearTiming(properties)
+            Case "SetSharedParameterClearTiming"
+                InterfaceCommon:Result = SetSharedParameterClearTiming(properties, UserObj<this>:Get(2))
+            Case "RegisterSharedParameter"
+                InterfaceCommon:Result = RegisterSharedParameter(properties)
+            Case "RestoreSharedParameter"
+                InterfaceCommon:Result = RestoreSharedParameter(properties)
+        End Select
+    End Method

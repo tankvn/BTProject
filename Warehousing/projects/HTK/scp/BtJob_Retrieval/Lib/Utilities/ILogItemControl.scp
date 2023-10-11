@@ -1,0 +1,105 @@
+
+Package ILogItemControl
+
+    Names[15]
+    ICommons[15]
+
+    Method New()
+    Begin
+        Names[0] = "BtWindow_Retrieval_BtLabel_DataCount"
+        ICommons[0] = BtWindow_Retrieval_BtLabel_DataCount:ILogItemControlInvoke
+        Names[1] = "BtWindow_Retrieval_BtTextBox_Quantity"
+        ICommons[1] = BtWindow_Retrieval_BtTextBox_Quantity:ILogItemControlInvoke
+        Names[2] = "BtWindow_Retrieval_BtLabel_Quantity"
+        ICommons[2] = BtWindow_Retrieval_BtLabel_Quantity:ILogItemControlInvoke
+        Names[3] = "BtWindow_Retrieval_BtTextBox_ItemNo"
+        ICommons[3] = BtWindow_Retrieval_BtTextBox_ItemNo:ILogItemControlInvoke
+        Names[4] = "BtWindow_Retrieval_BtLabel_ItemNo"
+        ICommons[4] = BtWindow_Retrieval_BtLabel_ItemNo:ILogItemControlInvoke
+        Names[5] = "BtWindow_Retrieval_BtTextBox_Person"
+        ICommons[5] = BtWindow_Retrieval_BtTextBox_Person:ILogItemControlInvoke
+        Names[6] = "BtWindow_Retrieval_BtLabel_Person"
+        ICommons[6] = BtWindow_Retrieval_BtLabel_Person:ILogItemControlInvoke
+        Names[7] = "BtWindow_Retrieval_BtLabel_Location"
+        ICommons[7] = BtWindow_Retrieval_BtLabel_Location:ILogItemControlInvoke
+        Names[8] = "BtWindow_Retrieval_BtTextBox_Location"
+        ICommons[8] = BtWindow_Retrieval_BtTextBox_Location:ILogItemControlInvoke
+        Names[9] = "BtWindow_Retrieval_BtLabel_DataCountDisplay"
+        ICommons[9] = BtWindow_Retrieval_BtLabel_DataCountDisplay:ILogItemControlInvoke
+        Names[10] = "BtWindow_Retrieval_BtLabel_Title"
+        ICommons[10] = BtWindow_Retrieval_BtLabel_Title:ILogItemControlInvoke
+        Names[11] = "BtWindow_Retrieval_BtInputItemCountControl_1"
+        ICommons[11] = BtWindow_Retrieval_BtInputItemCountControl_1:ILogItemControlInvoke
+        Names[12] = "BtHistoryDataView_Retrieval_BtLabel_Title"
+        ICommons[12] = BtHistoryDataView_Retrieval_BtLabel_Title:ILogItemControlInvoke
+        Names[13] = "BtHistoryDataView_Retrieval_BtLabel_DataCountDisplay"
+        ICommons[13] = BtHistoryDataView_Retrieval_BtLabel_DataCountDisplay:ILogItemControlInvoke
+        Names[14] = "BtHistoryDataView_Retrieval_BtTableView_HistoryData"
+        ICommons[14] = BtHistoryDataView_Retrieval_BtTableView_HistoryData:ILogItemControlInvoke
+    End Method
+
+    Method IsImplemented(controlName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(controlName, Names))
+    End Method
+
+    Method GetLogEditType(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogEditType", args, ICommons))
+    End Method
+
+    Method GetDecimalPlaces(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetDecimalPlaces", args, ICommons))
+    End Method
+
+    Method GetCheckDuplicateReading(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetCheckDuplicateReading", args, ICommons))
+    End Method
+
+    Method GetIsSameLogItem(controlName, index, logItemControl)
+        args[2]
+    Begin
+        args[0] = index
+        args[1] = logItemControl
+        Return(InterfaceCommon:Call(controlName, Names, "GetIsSameLogItem", args, ICommons))
+    End Method
+
+    Method GetControlName(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetControlName", args, ICommons))
+    End Method
+
+    Method GetLogTableFieldType(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogTableFieldType", args, ICommons))
+    End Method
+
+    Method GetLogData(controlName, index)
+        args[1]
+    Begin
+        args[0] = index
+        Return(InterfaceCommon:Call(controlName, Names, "GetLogData", args, ICommons))
+    End Method
+
+    Method CheckValidInput(controlName, checkTarget, index)
+        args[2]
+    Begin
+        args[0] = checkTarget
+        args[1] = index
+        Return(InterfaceCommon:Call(controlName, Names, "CheckValidInput", args, ICommons))
+    End Method
+
+End Package
+

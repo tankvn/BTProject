@@ -1,0 +1,73 @@
+#pushdefine
+#insert "\Lib\Parts\BtSystemParameterLabelConstants"
+
+Package BtSystemParameterLabelCommon 
+    /*Inherits BtLabel*/
+
+#insert "\Lib\Parts\BtLabelBaseCommon"
+
+
+#define DATE_AND_TIME_UPDATING_INTERVAL 100
+
+
+
+    Properties[DEF_PROPERTY_NUM]
+
+    Method GetSystemParameterType(properties[]) 
+    Begin
+        Return (properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY])
+    End Method
+    Method SetSystemParameterType(properties[], value)
+    Begin
+        properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY] = value
+
+        UpdateData(properties)
+    End Method
+
+    Method GetLogData(properties[], index)
+    Begin
+        Return (GetText(properties))
+    End Method
+
+
+    Method New()
+    Begin
+    End Method
+
+    Method SetHandler(properties[], afterResetHandler, comparisonValueCountUpdatedHandler, collationCountUpdatedHandler)
+    Begin
+        SetAfterResetHandler(properties, afterResetHandler)
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountUpdatedHandler(properties, collationCountUpdatedHandler)
+    End Method
+
+    Method UpdateData(properties[])
+    Begin
+        SetText(properties, SystemParameterUtility:GetSystemParameter(properties[DEF_SYSTEM_PARAMETER_TYPE_PROPERTY]))
+        ErrorManager:GetError()
+    End Method
+
+    Method Reset(properties[])
+    Begin
+        UpdateData(properties)
+
+        UserObj<"__SMALL_OBJ__" & StringUtility:GetHandleTagNameEraseSymbol(GetAfterResetHandler(properties))>:Open()
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetAfterResetHandler(properties))>:Set(0, GetAfterResetHandler(properties))
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetAfterResetHandler(properties))>:Set(1, GetName(properties))
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetAfterResetHandler(properties))>:Exec(0)
+        UserObj<StringUtility:GetHandleTagNameEraseSymbol(GetAfterResetHandler(properties))>:Close()
+    End Method
+
+    Method CollationCountInitialized(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex)
+    Begin
+        BaseSetSearchResult(properties, listId_SearchResult, columnIndex)
+    End Method
+End Package
+
+#popdefine

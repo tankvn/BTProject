@@ -1,0 +1,13 @@
+    Method ISearchViewDisplayItemInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetRangeExtractedString"
+                InterfaceCommon:Result = GetRangeExtractedString(properties, UserObj<this>:Get(2))
+            Case "SetSearchResult"
+                InterfaceCommon:Result = SetSearchResult(properties, UserObj<this>:Get(2))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+            Case "GetTableFieldName"
+                InterfaceCommon:Result = GetTableFieldName(properties)
+        End Select
+    End Method

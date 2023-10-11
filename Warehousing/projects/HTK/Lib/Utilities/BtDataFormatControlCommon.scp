@@ -1,0 +1,1191 @@
+#pushdefine
+
+#insert "\Lib\Utilities\BtDataFormatControlConstants"
+
+Package BtDataFormatControlCommon
+
+
+
+    Method GetOutputDestination(properties[]) /*As DataLocation*/
+    Begin
+            Return (properties[DEF_OUTPUT_DESTINATION_PROPERTY])
+    End Method
+
+    Method SetOutputDestination(properties[], value) /*As DataLocation*/
+    Begin
+            properties[DEF_OUTPUT_DESTINATION_PROPERTY] = value
+    End Method
+
+    Method GetOutputToLocalWhenError(properties[]) /*As Boolean*/
+    Begin
+            Return (properties[DEF_OUTPUT_TO_LOCAL_WHEN_ERROR_PROPERTY])
+    End Method
+
+    Method SetOutputToLocalWhenError(properties[], value) /*As Boolean*/
+    Begin
+            properties[DEF_OUTPUT_TO_LOCAL_WHEN_ERROR_PROPERTY] = value
+    End Method
+
+    Method GetDataBaseName(properties[]) /*As String*/
+    Begin
+            Return (properties[DEF_DATA_BASE_NAME_PROPERTY] & DB_FILE_NAME_EXT)
+    End Method
+
+    Method GetTableName(properties[]) /*As String*/
+    Begin
+            Return (properties[DEF_TABLE_NAME_PROPERTY])
+    End Method
+
+    Method GetSavedTableName(properties[]) /*As String*/
+    Begin
+            Return (properties[DEF_SAVED_TABLE_NAME_PROPERTY])
+    End Method
+
+    Method GetRecordType(properties[]) /*As DataLength*/
+    Begin
+            Return (properties[DEF_RECORD_TYPE_PROPERTY])
+    End Method
+
+    Method SetRecordType(properties[], value) /*As DataLength*/
+    Begin
+            properties[DEF_RECORD_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetSeparatorType(properties[]) /*As LogSeparatorType*/
+    Begin
+            Return (properties[DEF_SEPARATOR_TYPE_PROPERTY])
+    End Method
+
+    Method SetSeparatorType(properties[], value) /*As LogSeparatorType*/
+    Begin
+            properties[DEF_SEPARATOR_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetNotOutputFields(properties[]) /*As String()*/
+        listId_NotOutputFields = INVALID_LIST_TABLE_ID
+    Begin
+        listId_NotOutputFields = ListTable:CreateList()
+        ListTable:Add(listId_NotOutputFields, NAME_ID_FIELD, "")
+        ListTable:Add(listId_NotOutputFields, NAME_DATE_FIELD, "")
+        Return (listId_NotOutputFields)
+    End Method
+
+    Method GetOutputTargetName(properties[]) /*As String*/
+    Begin
+            Return (properties[DEF_OUTPUT_TARGET_NAME_PROPERTY])
+    End Method
+
+    Method GetAddDateForFileName(properties[]) /*As Boolean*/
+    Begin
+            Return (properties[DEF_ADD_DATE_FOR_FILE_NAME_PROPERTY])
+    End Method
+
+    Method GetUpdateDateLimitTimeHour(properties[]) /*As Integer*/
+    Begin
+            Return (properties[DEF_UPDATE_DATE_LIMIT_TIME_HOUR_PROPERTY])
+    End Method
+
+    Method GetUpdateDateLimitTimeMinute(properties[]) /*As Integer*/
+    Begin
+            Return (properties[DEF_UPDATE_DATE_LIMIT_TIME_MINUTE_PROPERTY])
+    End Method
+
+    Method GetDataProcessPriorityType(properties[]) /*As LogDataProcessPriorityType*/
+    Begin
+            Return (properties[DEF_DATA_PROCESS_PRIORITY_TYPE_PROPERTY])
+    End Method
+
+    Method SetDataProcessPriorityType(properties[], value) /*As LogDataProcessPriorityType*/
+    Begin
+            properties[DEF_DATA_PROCESS_PRIORITY_TYPE_PROPERTY] = value
+    End Method
+
+    Method GetAppendNgData(properties[]) /*As Boolean*/
+    Begin
+            Return (properties[DEF_APPEND_NG_DATA_PROPERTY])
+    End Method
+
+    Method SetAppendNgData(properties[], value) /*As Boolean*/
+    Begin
+            properties[DEF_APPEND_NG_DATA_PROPERTY] = value
+    End Method
+
+    Method GetCount(properties[]) /*As Integer*/
+    Begin
+        If (properties[DEF_LIST_ID_LOG_ITEMS_PROPERTY] == INVALID_LIST_TABLE_ID) Then
+            Return (0)
+        End If
+        Return (ListTable:Count(properties[DEF_LIST_ID_LOG_ITEMS_PROPERTY]))
+    End Method
+
+    Method GetPathWindowsLogDataBase(properties[]) /*As String*/
+    Begin
+            Return (properties[DEF_PATH_WINDOWS_LOG_DATA_BASE_PROPERTY])
+    End Method
+
+    Method GetPathDriveLogDataBase(properties[]) /*As String*/
+    Begin
+            Return (properties[DEF_PATH_DRIVE_LOG_DATA_BASE_PROPERTY])
+    End Method
+
+
+
+#insert "\Lib\Utilities\IDataFormatControlInvokeCommon"
+
+    Method New(properties[], name, databaseName, outputTargetName, addDateForFileName, updateDateLimitTimeHour, updateDateLimitTimeMinute)
+    Begin
+        properties[DEF_NAME_PROPERTY] = name
+        properties[DEF_NEXT_LOG_ITEM_ID_PROPERTY] = OUTPUT_DATA_UTILITY_FIRST_LOGITEM_ID
+
+        properties[DEF_OUTPUT_DESTINATION_PROPERTY] = DATA_LOCATION_LOCAL
+        properties[DEF_OUTPUT_TO_LOCAL_WHEN_ERROR_PROPERTY] = false
+        properties[DEF_DATA_BASE_NAME_PROPERTY] = DB_FILE_NAME_PREFIX & "_" & databaseName
+        properties[DEF_TABLE_NAME_PROPERTY] = TABLE_NAME_JOB_DATA
+        properties[DEF_SAVED_TABLE_NAME_PROPERTY] = TABLE_NAME_SAVED_JOB_DATA
+        properties[DEF_RECORD_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_RECORD_TYPE
+        properties[DEF_SEPARATOR_TYPE_PROPERTY] = OUTPUT_DATA_UTILITY_DEFAULT_SEPARATOR_TYPE
+        properties[DEF_OUTPUT_TARGET_NAME_PROPERTY] = outputTargetName
+        properties[DEF_ADD_DATE_FOR_FILE_NAME_PROPERTY] =addDateForFileName
+        properties[DEF_UPDATE_DATE_LIMIT_TIME_HOUR_PROPERTY] = updateDateLimitTimeHour
+        properties[DEF_UPDATE_DATE_LIMIT_TIME_MINUTE_PROPERTY] = updateDateLimitTimeMinute
+        properties[DEF_DATA_PROCESS_PRIORITY_TYPE_PROPERTY] = DEFAULT_DATA_PROCESS_PRIORITY_TYPE
+        properties[DEF_APPEND_NG_DATA_PROPERTY] = DEFAULT_APPEND_NG_DATA
+        properties[DEF_LIST_ID_LOG_ITEMS_PROPERTY] = ListTable:CreateList()
+        properties[DEF_PATH_WINDOWS_LOG_DATA_BASE_PROPERTY] = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, GetDataBaseName(properties))
+        properties[DEF_PATH_DRIVE_LOG_DATA_BASE_PROPERTY] = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_DRIVE_NO_FOLDER, GetDataBaseName(properties))
+        properties[DEF_PROPERTY_NUM] = DEF_PROPERTY_NUM + 1
+    End Method
+
+    Method Finalize(properties[])
+    Begin
+        RemoveLogItemAll(properties)
+    End Method
+
+    Method AddLogItem(properties[], itemName)
+        listId
+        key
+    Begin
+        ILogItem:SetLogItemId(itemName, properties[DEF_NEXT_LOG_ITEM_ID_PROPERTY])
+        listId = properties[DEF_LIST_ID_LOG_ITEMS_PROPERTY]
+        key = properties[DEF_NEXT_LOG_ITEM_ID_PROPERTY]
+        ListTable:Add(listId, key, itemName)
+        properties[DEF_NEXT_LOG_ITEM_ID_PROPERTY] = key + 1
+    End Method
+
+    Method RemoveLogItem(properties[], targetIndex)
+        index
+        key
+        listId
+    Begin
+        If (GetCount(properties) <= targetIndex) Then
+            Return (nil)
+        End If
+        listId = properties[DEF_LIST_ID_LOG_ITEMS_PROPERTY]
+        For index = 0 to GetCount(properties) - 1
+            key = ListTable:Get(listId, index, "key")
+            If (targetIndex == key) Then
+                ListTable:Remove(listId, index)
+                Fbreak
+            End If
+        Next
+    End Method
+
+    Method RemoveLogItemAll(properties[])
+    Begin
+        If (properties[DEF_LIST_ID_LOG_ITEMS_PROPERTY] == INVALID_LIST_TABLE_ID) Then
+            Return (nil)
+        End If
+        ListTable:DeleteList(properties[DEF_LIST_ID_LOG_ITEMS_PROPERTY])
+        properties[DEF_LIST_ID_LOG_ITEMS_PROPERTY] = INVALID_LIST_TABLE_ID
+        properties[DEF_NEXT_LOG_ITEM_ID_PROPERTY] = OUTPUT_DATA_UTILITY_FIRST_LOGITEM_ID
+    End Method
+
+    Method GetLogItem(properties[], targetIndex)
+        listId
+    Begin
+        If GetCount(properties) <= targetIndex Then
+            Return (nil)
+        End If
+        listId = properties[DEF_LIST_ID_LOG_ITEMS_PROPERTY]
+        Return (ListTable:GetValue(listId, targetIndex))
+    End Method
+
+    Method GetFormattedLogDataCsv(properties[], index, value)
+    Begin
+        If GetCount(properties) <= index Then
+            Return ("")
+        End If
+        Return (ILogItem:GetFormattedLogDataCsv(GetLogItem(properties, index), GetRecordType(properties), value))
+    End Method
+
+    Method GetInnerDataFieldName() /*As List(Of String)*/
+        listId_InnerDataFieldName
+    Begin
+        listId_InnerDataFieldName = ListTable:CreateList()
+        ListTable:Add(listId_InnerDataFieldName, NAME_ID_FIELD, "")
+        ListTable:Add(listId_InnerDataFieldName, NAME_DATE_FIELD, "")
+        Return (listId_InnerDataFieldName)
+    End Method
+
+    Method GetJobDataTableItemTypes(properties[], isSavedTable) /*As List(Of FieldTypePair)*/
+        listId_tableFieldTypePairs
+        idFieldType
+        index
+        logItemName
+    Begin
+        listId_tableFieldTypePairs = ListTable:CreateList()
+
+        If isSavedTable Then
+            idFieldType = TYPE_SAVED_ID_FIELD
+        Else
+            idFieldType = TYPE_ID_FIELD
+        End If
+        ListTable:Add(listId_tableFieldTypePairs, NAME_ID_FIELD, idFieldType)
+
+        For index = 0 To GetCount(properties) - 1
+            logItemName = GetLogItem(properties, index)
+            ListTable:Add(listId_tableFieldTypePairs, ILogItem:GetTableItemName(logItemName), ILogItem:GetTableItemTypes(logItemName))
+        Next
+
+        ListTable:Add(listId_tableFieldTypePairs, NAME_DATE_FIELD, TYPE_DATE_FIELD)
+
+        Return (listId_tableFieldTypePairs)
+    End Method
+
+    Method GetJobDataTableFieldValuePairs(properties[]) /*As List(Of FieldValuePair)*/
+        listId_tableItemValuePairs
+        errorItem
+        itemIndex
+        logData
+        logDataIndex
+        logItemName
+        controlName
+        logItemType
+        hasData
+        recordByteCount = 0
+        recordType
+        tableItemName
+        tableName
+        pathDriveLogDataBase
+    Begin
+        listId_tableItemValuePairs = ListTable:CreateList()
+
+        recordType = GetRecordType(properties)
+        tableName = GetTableName(properties)
+        pathDriveLogDataBase = GetPathDriveLogDataBase(properties)
+
+        For itemIndex = 0 To GetCount(properties) - 1
+            logItemName = GetLogItem(properties, itemIndex)
+            logItemType = ILogItem:GetLogItemType(logItemName)
+
+            logData = ILogItem:GetLogData(logItemName)
+            logDataIndex = ILogItem:GetLogDataIndex(logItemName)
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                logData = ""
+            End If
+
+            controlName = ILogItemScreenData:GetLogItemControlName(logItemName)
+            errorItem = FindInputErrorLogItem(logItemName, logItemType, controlName, logData, logDataIndex)
+            If (Not errorItem is nil) Then
+                ErrorManager:SetError(MESSAGE_ERROR_INVALID_INPUT_TARGET_HEADER & errorItem & MESSAGE_ERROR_INVALID_INPUT_TARGET_FOOTER)
+                Return (listId_tableItemValuePairs)
+            End If
+
+            tableItemName = ILogItem:GetTableItemName(logItemName)
+
+            hasData = CheckDuplicateInput(logItemName, logItemType, controlName, logData, logDataIndex, tableItemName, recordType, tableName, pathDriveLogDataBase)
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                ErrorManager:SetError(MESSAGE_ERROR_WRITE_LOG)
+                Return (listId_tableItemValuePairs)
+            End If
+
+            If hasData Then
+                ErrorManager:SetError(MESSAGE_ERROR_WRITE_LOG_DUPLICATED)
+                Return (listId_tableItemValuePairs)
+            End If
+
+            recordByteCount = recordByteCount + GetFieldDataSize(logItemName, logData, recordType)
+
+            ListTable:Add(listId_tableItemValuePairs, tableItemName, ILogItem:GetFormattedLogDataDb(logItemName, recordType, logData))
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                ErrorManager:SetError(MESSAGE_ERROR_WRITE_LOG)
+                Return (listId_tableItemValuePairs)
+            End If
+        Next
+
+        If (MAX_RECORED_BYTES < recordByteCount) Then
+            ErrorManager:SetError(MESSAGE_ERROR_WRITE_LOG_SIZEOVER)
+        End If
+
+        Return (listId_tableItemValuePairs)
+    End Method
+
+    Method CheckDuplicateInput(logItemName, logItemType, controlName, logData, logDataIndex, tableItemName, recordType, tableName, pathDriveLogDataBase) /*As Boolean*/
+        formattedValue
+        listId_TableItemValuePairs
+        dataCount
+    Begin
+        If (logItemType <> LOG_ITEM_TYPE_SCREEN_DATA) Then
+            Return(false)
+        End If
+
+        If (controlName eq "") Then
+            Return(false)
+        End If
+
+        If (ILogItemControl:GetCheckDuplicateReading(controlName, logDataIndex) is false) Then
+            Return(false)
+        End If
+
+        formattedValue = ILogItem:GetFormattedLogDataDb(logItemName, recordType, logData)
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        listId_TableItemValuePairs = ListTable:CreateList()
+        ListTable:Add(listId_TableItemValuePairs, tableItemName, formattedValue)
+
+        dataCount = DbAccess:SelectCount(pathDriveLogDataBase, tableName, listId_TableItemValuePairs, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        ListTable:DeleteList(listId_TableItemValuePairs)
+        If (0 < dataCount) Then
+            Return (true)
+        End If
+
+        Return (false)
+    End Method
+
+    Method GetLogFormatInfoTableItemTypes() /*As List(Of FieldTypePair)*/
+        listId_TableFieldTypePairs
+    Begin
+        listId_TableFieldTypePairs = ListTable:CreateList()
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_CSV_ENCODING_FIELD, TYPE_CSV_ENCODING_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_CSV_FILE_NAME_FIELD, TYPE_CSV_FILE_NAME_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_ADD_DATE_FOR_FILE_NAME_FIELD, TYPE_ADD_DATE_FOR_FILE_NAME_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_UPDATE_DATE_LIMIT_TIME_HOUR_FIELD, TYPE_UPDATE_DATE_LIMIT_TIME_HOUR_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_UPDATE_DATE_LIMIT_TIME_MINUTE_FIELD, TYPE_UPDATE_DATE_LIMIT_TIME_MINUTE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_RECORD_TYPE_FIELD, TYPE_RECORD_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_SEPARATOR_TYPE_FIELD, TYPE_SEPARATOR_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_DATA_PROCESS_PRIORITY_TYPE_FIELD, TYPE_DATA_PROCESS_PRIORITY_TYPE_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_APPEND_NG_DATA_FIELD, TYPE_APPEND_NG_DATA_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_LOG_ITEM_COUNT_FIELD, TYPE_LOG_ITEM_COUNT_FIELD)
+
+        ListTable:Add(listId_TableFieldTypePairs, NAME_LOG_ITEM_TYPE_INFO_FIELD, TYPE_LOG_ITEM_TYPE_INFO_FIELD)
+
+        Return (listId_TableFieldTypePairs)
+    End Method
+
+    Method GetLogFormatInfoTableFieldValuePairs(properties[]) /*As List(Of FieldValuePair)*/
+        listId_TableItemValuePairs
+        booleanValue
+        logItemTypeInfo
+        itemIndex
+        logItemName
+    Begin
+        listId_TableItemValuePairs = ListTable:CreateList()
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_CSV_ENCODING_FIELD, TERMINAL_SETTING_ENCODE_NAME)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_CSV_FILE_NAME_FIELD, properties[DEF_OUTPUT_TARGET_NAME_PROPERTY])
+
+        If (properties[DEF_ADD_DATE_FOR_FILE_NAME_PROPERTY] is true) Then
+            booleanValue = "1"
+        Else
+            booleanValue = "0"
+        End If
+        ListTable:Add(listId_TableItemValuePairs, NAME_ADD_DATE_FOR_FILE_NAME_FIELD, booleanValue)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_UPDATE_DATE_LIMIT_TIME_HOUR_FIELD, properties[DEF_UPDATE_DATE_LIMIT_TIME_HOUR_PROPERTY].toInt)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_UPDATE_DATE_LIMIT_TIME_MINUTE_FIELD, properties[DEF_UPDATE_DATE_LIMIT_TIME_MINUTE_PROPERTY].toInt)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_RECORD_TYPE_FIELD, GetRecordType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_SEPARATOR_TYPE_FIELD, GetSeparatorType(properties))
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_DATA_PROCESS_PRIORITY_TYPE_FIELD, GetDataProcessPriorityType(properties))
+
+        If (GetAppendNgData(properties) is true) Then
+            booleanValue = "1"
+        Else
+            booleanValue = "0"
+        End If
+        ListTable:Add(listId_TableItemValuePairs, NAME_APPEND_NG_DATA_FIELD, booleanValue)
+
+        ListTable:Add(listId_TableItemValuePairs, NAME_LOG_ITEM_COUNT_FIELD, GetCount(properties).toInt)
+
+        logItemTypeInfo = ""
+        For itemIndex = 0 To GetCount(properties) - 1
+            If (logItemTypeInfo ne "") Then
+                logItemTypeInfo = logItemTypeInfo & ","
+            End If
+            logItemName = GetLogItem(properties, itemIndex)
+            logItemTypeInfo = logItemTypeInfo & ILogItem:GetLogItemTypeInfo(logItemName)
+        Next
+        ListTable:Add(listId_TableItemValuePairs, NAME_LOG_ITEM_TYPE_INFO_FIELD, logItemTypeInfo)
+
+        Return (listId_TableItemValuePairs)
+    End Method
+
+    Method HasLogDatabase(properties[])
+    Begin
+        If Not PathUtility:IsFileExist(GetPathDriveLogDataBase(properties)) Then
+            Return (false)
+        End If
+
+        If (DbAccess:HasTable(GetPathDriveLogDataBase(properties), TABLE_NAME_LOG_FORMAT_INFO) is false) Then
+            Return (false)
+        End If
+
+        If (LogItemCommon:HasLogItemTable(GetPathDriveLogDataBase(properties)) is false) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method IsFormatChanged(properties[]) /*As Boolean*/
+        listId_TableItemValuePairs
+        dataCount
+        itemIndex
+        logItemName
+    Begin
+
+        listId_TableItemValuePairs = GetLogFormatInfoTableFieldValuePairs(properties)
+
+        dataCount = DbAccess:SelectCount(GetPathDriveLogDataBase(properties), TABLE_NAME_LOG_FORMAT_INFO, listId_TableItemValuePairs, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        ListTable:DeleteList(listId_TableItemValuePairs)    
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (true)
+        End If
+        If dataCount <= 0 Then
+            Return (true)
+        End If
+
+        For itemIndex = 0 To GetCount(properties) - 1
+            logItemName = GetLogItem(properties, itemIndex)
+            If (ILogItem:IsFormatChanged(logItemName, GetPathDriveLogDataBase(properties), ILogItem:GetLogDataIndex(logItemName)) is true) Then
+                Return (true)
+            End If
+        Next
+
+        Return (false)
+    End Method
+
+    Method CreateLogFormatInfoTable(properties[], dbName) /*As Boolean*/
+        listId_TableFieldTypePairs
+        listId_TableFieldValuePairs
+    Begin
+
+        listId_TableFieldTypePairs = GetLogFormatInfoTableItemTypes()
+        DbAccess:CreateTable(dbName, TABLE_NAME_LOG_FORMAT_INFO, listId_TableFieldTypePairs)
+        ListTable:DeleteList(listId_TableFieldTypePairs)    
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        listId_TableFieldValuePairs = GetLogFormatInfoTableFieldValuePairs(properties)
+        DbAccess:InsertRecord(dbName, TABLE_NAME_LOG_FORMAT_INFO, listId_TableFieldValuePairs)
+        ListTable:DeleteList(listId_TableFieldValuePairs)    
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method DeleteLogFormatInfoTable(dbName) /*As Boolean*/
+    Begin
+
+        DbAccess:DropTable(dbName, TABLE_NAME_LOG_FORMAT_INFO)
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method CreateJobDataTable(properties[], dbName) /*As Boolean*/
+    Begin
+        Return (CreateJobDataTableCore(properties, dbName, false))
+    End Method
+
+    Method CreateSavedJobDataTable(properties[], dbName) /*As Boolean*/
+    Begin
+        Return (CreateJobDataTableCore(properties, dbName, true))
+    End Method
+
+    Method CreateJobDataTableCore(properties[], dbName, isSavedTable) /*As Boolean*/
+        listId_TableFieldTypePairs
+        dataTableName
+    Begin
+        If isSavedTable Then
+            dataTableName = GetSavedTableName(properties)
+        Else
+            dataTableName = GetTableName(properties)
+        End If
+
+        If (DbAccess:HasTable(dbName, dataTableName)) Then
+            Return (true)
+        End If
+
+        listId_TableFieldTypePairs = GetJobDataTableItemTypes(properties, isSavedTable)
+
+        DbAccess:CreateTable(dbName, dataTableName, listId_TableFieldTypePairs)
+        ListTable:DeleteList(listId_TableFieldTypePairs)    
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method DeleteJobDataTable(properties[], dbName) /*As Boolean*/
+    Begin
+        Return (DeleteJobDataTableCore(properties, dbName, false))
+    End Method
+
+    Method DeleteSavedJobDataTable(properties[], dbName) /*As Boolean*/
+    Begin
+        Return (DeleteJobDataTableCore(properties, dbName, true))
+    End Method
+
+    Method DeleteJobDataTableCore(properties[], dbName, isSavedTable) /*As Boolean*/
+        dataTableName
+    Begin
+        If isSavedTable Then
+            dataTableName = GetSavedTableName(properties)
+        Else
+            dataTableName = GetTableName(properties)
+        End If
+        DbAccess:DropTable(dbName, dataTableName)
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method CreateLogFormatInfo(properties[], enableFormatCheck)
+        isBackupFileCreated = false
+        itemIndex
+        logItemName
+    Begin
+        If HasLogDatabase(properties) Then
+            If (enableFormatCheck is false) Then
+                Return (isBackupFileCreated)
+            End If
+            If (IsFormatChanged(properties) is false) Then
+                Return (isBackupFileCreated)
+            End If
+
+            isBackupFileCreated = CreateBackupFile(properties, BACKUP_PREFIX_NAME_LOGFORMATCHANGED)
+        End If
+
+        If (DeleteJobDataTable(properties, GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_CREATE_LOG_FORMAT_INFO)
+            Return (isBackupFileCreated)
+        End If
+        If (DeleteSavedJobDataTable(properties, GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_CREATE_LOG_FORMAT_INFO)
+            Return (isBackupFileCreated)
+        End If
+        If (DeleteLogFormatInfoTable(GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_CREATE_LOG_FORMAT_INFO)
+            Return (isBackupFileCreated)
+        End If
+        If (LogItemCommon:DeleteLogItemInfoTable(GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_CREATE_LOG_FORMAT_INFO)
+            Return (isBackupFileCreated)
+        End If
+
+        If (CreateJobDataTable(properties, GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_CREATE_LOG_FORMAT_INFO)
+            Return (isBackupFileCreated)
+        End If
+        If (CreateSavedJobDataTable(properties, GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_CREATE_LOG_FORMAT_INFO)
+            Return (isBackupFileCreated)
+        End If
+        If (CreateLogFormatInfoTable(properties, GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_CREATE_LOG_FORMAT_INFO)
+            Return (isBackupFileCreated)
+        End If
+        If (LogItemCommon:CreateLogItemInfoTable(GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_CREATE_LOG_FORMAT_INFO)
+            Return (isBackupFileCreated)
+        End If
+        For itemIndex = 0 To GetCount(properties) - 1
+            logItemName = GetLogItem(properties, itemIndex)
+            If (ILogItem:AddLogItemInfo(logItemName, GetPathDriveLogDataBase(properties), ILogItem:GetLogDataIndex(logItemName)) is false) Then
+                ErrorManager:SetError(MESSAGE_ERROR_CREATE_LOG_FORMAT_INFO)
+                Return (isBackupFileCreated)
+            End If
+        Next
+
+        Return (isBackupFileCreated)
+    End Method
+
+    Method CreateBackupFile(properties[], prefix)
+        date
+        time
+        timeStamp
+        backupFileName
+        pathBackupFile
+        result
+    Begin
+        date = Handy:date
+        time = Handy:time
+        timeStamp = date.Remove("/") & time.Remove(":")
+        backupFileName = prefix & PathUtility:GetFileNameWithoutExtension(GetDataBaseName(properties)) & "_" & timeStamp & DB_FILE_NAME_EXT
+        pathBackupFile = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, backupFileName)
+
+        DbAccess:Close(GetPathDriveLogDataBase(properties))
+        result = FileSystem:Copy(GetPathDriveLogDataBase(properties), pathBackupFile, false)
+        DbAccess:Open(GetPathDriveLogDataBase(properties), "", "")
+        Return (result)
+    Catch
+        Return (false)
+    End Method
+
+    Method IsRecordDataSizeOver(properties[], listId_TableFieldValuePairs)
+        recordByteCount = 0
+        itemIndex
+        logItemName
+        logData
+    Begin
+        For itemIndex = 0 To GetCount(properties) - 1
+            logItemName = GetLogItem(properties, itemIndex)
+            logData = ListTable:Get(listId_TableFieldValuePairs, itemIndex, "val")
+            recordByteCount = recordByteCount + GetFieldDataSize(logItemName, logData, GetRecordType(properties))
+        Next
+
+        If (MAX_RECORED_BYTES < recordByteCount) Then
+            Return (true)
+        End If
+
+        Return (false)
+    End Method
+
+    Method GetFieldDataSize(logItemName, logData, recordType)
+    Begin
+        If (recordType == DATA_LENGTH_FIXED) And (ILogItem:GetIsDate(logItemName) is false) And (ILogItem:GetIsTime(logItemName) is false) And (ILogItem:GetTableItemTypes(logItemName) eq DB_ACCESS_SQLITE_DATA_TYPE_TEXT) Then
+            Return (ILogItem:GetOutputDigit(logItemName))
+        Else
+            Return (logData.length)
+        End If
+    End Method
+
+    Method WriteJobData(properties[], parentWindow)
+        listId_TableFieldValuePairs
+        listId_Result
+        errorMessage
+    Begin
+
+        If Not CreateJobDataTable(properties, GetPathDriveLogDataBase(properties)) Then
+            ErrorManager:SetError(MESSAGE_ERROR_WRITE_LOG)
+            Return (GetWriteJobDataLocalResult(false))
+        End If
+
+        If (GetCount(properties) == 0) Then
+            Return (GetWriteJobDataLocalResult(true))
+        End If
+
+        listId_TableFieldValuePairs = GetJobDataTableFieldValuePairs(properties)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            ErrorManager:SetError(errorMessage)
+            ListTable:DeleteList(listId_TableFieldValuePairs)
+            Return (GetWriteJobDataLocalResult(false))
+        End If
+
+        If (GetOutputDestination(properties) == DATA_LOCATION_LOCAL) Then
+            listId_Result = OutputToLocal(properties, listId_TableFieldValuePairs)
+        Else
+            listId_Result = OutputToRemote(properties, listId_TableFieldValuePairs, parentWindow)
+        End If
+        ListTable:DeleteList(listId_TableFieldValuePairs)    
+
+        Return (listId_Result)
+    End Method
+
+    Method GetWriteJobDataLocalResult(isSuccess)
+        listId_WriteJobDataResult = INVALID_LIST_TABLE_ID
+    Begin
+        listId_WriteJobDataResult = ListTable:CreateList()
+        ListTable:Add(listId_WriteJobDataResult, "IsSuccess", isSuccess)
+        ListTable:Add(listId_WriteJobDataResult, "WriteLocation", DATA_LOCATION_LOCAL)
+        ListTable:Add(listId_WriteJobDataResult, "SentDataMaxRowId", -1)
+        Return (listId_WriteJobDataResult)
+    End Method
+
+    Method GetWriteJobDataRemoteResult(isSuccess, writeLocation, sentDataMaxRowId)
+        listId_WriteJobDataResult = INVALID_LIST_TABLE_ID
+    Begin
+        listId_WriteJobDataResult = ListTable:CreateList()
+        ListTable:Add(listId_WriteJobDataResult, "IsSuccess", isSuccess)
+        ListTable:Add(listId_WriteJobDataResult, "WriteLocation", writeLocation)
+        ListTable:Add(listId_WriteJobDataResult, "SentDataMaxRowId", sentDataMaxRowId)
+        Return (listId_WriteJobDataResult)
+    End Method
+
+    Method OutputToLocal(properties[], listId_TableFieldValuePairs)
+        errorMessage
+    Begin
+        DbAccess:InsertRecord(GetPathDriveLogDataBase(properties), GetTableName(properties), listId_TableFieldValuePairs)
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            ErrorManager:SetError(errorMessage)
+            Return (GetWriteJobDataLocalResult(false))
+        End If
+
+        Return (GetWriteJobDataLocalResult(true))
+    End Method
+
+    Method OutputToRemote(properties[], listId_TableFieldValuePairs, parentWindow)
+        sentMaxRowId
+        errorMessage
+        listId_Result = INVALID_LIST_TABLE_ID
+        isSuccessLocal
+        realTimeDisplayErrorScreen = TERMINAL_SETTING_REALTIME_DISPLAY_ERROR_SCREEN
+    Begin
+
+        RealTimeConnectionController:NewWithFormat(properties[DEF_NAME_PROPERTY])
+        RealTimeConnectionController:SendJobData(GetOutputTargetName(properties), listId_TableFieldValuePairs, parentWindow)
+        sentMaxRowId = RealTimeConnectionController:GetSentLocalDataMaxRowId()
+
+        If ErrorManager:GetCommunicationError() Then
+            If GetOutputToLocalWhenError(properties) Then
+                listId_Result = OutputToLocal(properties, listId_TableFieldValuePairs)
+                isSuccessLocal = ListTable:GetValue(listId_Result, "IsSuccess")
+                ListTable:DeleteList(listId_Result)    
+            End If
+
+            If realTimeDisplayErrorScreen <> COMMUNICATION_ERROR_DISPLAY_MODE_NEVER Then
+                ErrorManager:SetCommunicationError()
+            End If
+
+            Return (GetWriteJobDataRemoteResult(isSuccessLocal, DATA_LOCATION_LOCAL, sentMaxRowId))
+        End If
+
+        errorMessage = ErrorManager:GetError()
+        If errorMessage ne MESSAGE_ERROR_NONE Then
+            ErrorManager:SetError(errorMessage)
+            Return (GetWriteJobDataRemoteResult(false, DATA_LOCATION_REMOTE, sentMaxRowId))
+        End If
+
+        Return (GetWriteJobDataRemoteResult(true, DATA_LOCATION_REMOTE, sentMaxRowId))
+    End Method
+
+    Method DeleteJobData(properties[], maxRowId)
+        sql
+    Begin
+        sql = "DELETE FROM " & GetTableName(properties) & " WHERE ROWID <= " & maxRowId
+        DbAccess:ExecuteUpdateTypeSql(GetPathDriveLogDataBase(properties), sql)
+    End Method
+
+    Method FindInputErrorLogItem(logItemName, logItemType, controlName, logData, logDataIndex)
+        currentSetting
+        errorItem = nil
+    Begin
+
+        If (logItemType <> LOG_ITEM_TYPE_SCREEN_DATA) Then
+            Return(nil)
+        End If
+
+        If (controlName eq "") Then
+            Return(nil)
+        End If
+
+        currentSetting = MessageUtility:GetDisableMessage()
+        MessageUtility:SetDisableMessage(true)
+
+        If (ILogItemControl:CheckValidInput(controlName, logData, logDataIndex) is false) Then
+            errorItem = ILogItem:GetDisplayName(logItemName)
+        End If
+
+        MessageUtility:SetDisableMessage(currentSetting)
+
+        Return (errorItem)
+    End Method
+
+    Method PrepareForSendLog(properties[]) /*As Boolean*/
+        recordCount
+        savedRecordCount
+        errorMessage
+    Begin
+        recordCount = DbAccess:SelectCount(GetPathDriveLogDataBase(properties), GetTableName(properties), 0, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        savedRecordCount = DbAccess:SelectCount(GetPathDriveLogDataBase(properties), GetSavedTableName(properties), 0, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        errorMessage = ErrorManager:GetError()
+        If (errorMessage ne MESSAGE_ERROR_NONE) Then
+            Return (false)
+        End If
+
+        If ((recordCount + savedRecordCount) == 0) Then
+            Return (false)
+        End If
+
+        DbAccess:Close(GetPathDriveLogDataBase(properties))
+        Return (true)
+    End Method
+
+    Method BackupLogData(properties[])
+    Begin
+        CreateBackupFile(properties, BACKUP_PREFIX_NAME_SENDDATA)
+
+        DeleteJobDataTable(properties, GetPathDriveLogDataBase(properties))
+        DeleteSavedJobDataTable(properties, GetPathDriveLogDataBase(properties))
+        If (CreateJobDataTable(properties, GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_BACKUP_DATA)
+        End If
+        If (CreateSavedJobDataTable(properties, GetPathDriveLogDataBase(properties)) is false) Then
+            ErrorManager:SetError(MESSAGE_ERROR_BACKUP_DATA)
+        End If
+
+        DeleteBackupLogData(properties)
+    End Method
+
+    Method IsDateTime(targetString)
+        year
+        month
+        day
+        hour
+        minute
+        second
+    Begin
+        If (targetString.length < FORMAT_BACKUPFILENAMEDATE.length) Then
+            Return (false)
+        End If
+
+        year = targetString.Mid(0,4)
+        month = targetString.Mid(4,2)
+        day = targetString.Mid(6,2)
+        If (year.isDigit is false) Or (month.isDigit is false) Or (day.isDigit is false)Then
+            Return (false)
+        End If
+        hour = targetString.Mid(8,2)
+        minute = targetString.Mid(10,2)
+        second = targetString.Mid(12,2)
+        If (hour.isDigit is false) Or (minute.isDigit is false) Or (second.isDigit is false)Then
+            Return (false)
+        End If
+        If (hour < 0 Or 23 < hour ) Then
+            Return (false)
+        End If
+        If (minute < 0 Or 59 < minute ) Then
+            Return (false)
+        End If
+        If (second < 0 Or 59 < second ) Then
+            Return (false)
+        End If
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+
+    Method GetElapsedDate(targetString)
+        curDate = Handy:date
+        curTime = Handy:time
+        targetDate
+        days = 0
+        targetHour
+        targetMinute
+        targetSecond
+        curHour
+        curMinute
+        curSecond
+    Begin
+        targetDate = targetString.Mid(0,4) & "/" & targetString.Mid(4,2) & "/" & targetString.Mid(6,2)
+        days = Utility:DiffDate(curDate, targetDate)
+
+        targetHour = targetString.Mid(8,2)
+        targetMinute = targetString.Mid(10,2)
+        targetSecond = targetString.Mid(12,2)
+        curHour = curTime.Mid(0,2)
+        curMinute = curTime.Mid(3,2)
+        curSecond = curTime.Mid(6,2)
+        If ((curHour * 60 * 60 + curMinute * 60 + curSecond) < (targetHour * 60 * 60 + targetMinute * 60 + targetSecond)) Then
+            days = days - 1
+        End If
+        Return (days)
+    Catch
+        Return (0)
+    End Method
+
+    Method GetBackupLogFileDate(filePath)
+        fileNameDate = filePath
+    Begin
+        fileNameDate = PathUtility:GetFileNameWithoutExtension(fileNameDate)
+        If fileNameDate.length < FORMAT_BACKUPFILENAMEDATE.length Then
+            Return ("")
+        End If
+        fileNameDate = fileNameDate.Mid(fileNameDate.length - FORMAT_BACKUPFILENAMEDATE.length, FORMAT_BACKUPFILENAMEDATE.length)
+        Return (fileNameDate)
+    End Method
+
+    Method GetBackupLogFile(properties[], backupLogFileArray[])
+        Const PrefixSendDataBackupLog = BACKUP_PREFIX_NAME_SENDDATA & DB_FILE_NAME_PREFIX
+        Const PrefixFormatChangedLog = BACKUP_PREFIX_NAME_LOGFORMATCHANGED & DB_FILE_NAME_PREFIX
+        pathLogDatabase
+        ret
+        pathSearch
+        nameSearch
+        filename
+        filesize
+        prefixLog = ""
+        fileNameDateTime
+        fileIndex = 0
+        index
+    Begin
+
+        pathLogDatabase = GetPathDriveLogDataBase(properties)
+        With FileSystem
+            :Initialize()
+            pathSearch = PathUtility:GetDirectoryName(pathLogDatabase)
+            nameSearch = PathUtility:GetDirectoryName(pathLogDatabase) & "!" & PathUtility:GetExtension(pathLogDatabase)
+            ret = :FindFirst(pathSearch)
+            While ret
+                filename = :findFileName
+                If (filename weq nameSearch) Then
+                    filesize = :findFileSize
+                    prefixLog = ""
+                    If (pathSearch.length + PrefixSendDataBackupLog.length < filename.length) Then
+                        If (filename.Mid(pathSearch.length, PrefixSendDataBackupLog.length) eq PrefixSendDataBackupLog) Then
+                            prefixLog = PrefixSendDataBackupLog
+                        End If
+                    End If
+                    If (pathSearch.length + PrefixFormatChangedLog.length < filename.length) Then
+                        If (filename.Mid(pathSearch.length, PrefixFormatChangedLog.length) eq PrefixFormatChangedLog) Then
+                            prefixLog = PrefixFormatChangedLog
+                        End If
+                    End If
+                    If (prefixLog ne "") Then
+                        fileNameDateTime = GetBackupLogFileDate(filename)
+                        If (IsDateTime(fileNameDateTime) is true) Then
+                            If (fileIndex < MAX_NUM_BACKUP_FILE_IN_FOLDER) Then
+                                backupLogFileArray[fileIndex] = fileNameDateTime & "," & filename & "," & filesize
+                                fileIndex = fileIndex + 1
+                            End If
+                        End If
+                    End If
+                End If
+
+                ret = :FindNext()
+            Wend
+        End With
+
+        For index = fileIndex To MAX_NUM_BACKUP_FILE_IN_FOLDER - 1
+            backupLogFileArray[index] = "99999999999999" & "," & "" & "," & "0"
+        Next
+
+    End Method
+
+    Method DeleteOneWeekPassedBackupLogFile(backupLogFileArray[])
+        index
+        deleteCount = 0
+        fileInfo[3]
+        fileNameDate
+    Begin
+        Utility:Sort(backupLogFileArray, "string", "ascending")
+
+        For index = 0 To MAX_NUM_BACKUP_FILE_IN_FOLDER - 1
+            If (backupLogFileArray[index].Mid(0, 14) eq "99999999999999") Then
+                Fbreak
+            End If
+
+            fileInfo = backupLogFileArray[index].split(",")
+            fileNameDate = fileInfo[0]
+            If (GetElapsedDate(fileNameDate) < NUMDAYS_KEEP_BACKUPLOGDATA) Then
+                Fbreak
+            End If
+            FileSystem:Delete(fileInfo[1])
+            deleteCount = deleteCount + 1
+        Next
+
+        For index = 0 To MAX_NUM_BACKUP_FILE_IN_FOLDER - 1
+            If (backupLogFileArray[index].Mid(0, 14) eq "99999999999999") Then
+                Fbreak
+            End If
+            If (MAX_NUM_BACKUP_FILE_IN_FOLDER - 1) < (index + deleteCount) Then
+                backupLogFileArray[index] = "99999999999999" & "," & "" & "," & "0"
+            Else
+                backupLogFileArray[index] = backupLogFileArray[index + deleteCount]
+            End If
+        Next
+    End Method
+
+    Method DeleteFileNumberOverBackupLogFile(backupLogFileArray[])
+        index
+        fileCount = 0
+        deleteFileCount = 0
+        fileInfo[3]
+    Begin
+        Utility:Sort(backupLogFileArray, "string", "ascending")
+
+        For index = 0 To MAX_NUM_BACKUP_FILE_IN_FOLDER - 1
+            If (backupLogFileArray[index].Mid(0, 14) eq "99999999999999") Then
+                Fbreak
+            End If
+            fileCount = fileCount + 1
+        Next
+
+        If (NUMFILE_KEEP_BACKUPLOGDATA < fileCount) Then
+            deleteFileCount = fileCount - NUMFILE_KEEP_BACKUPLOGDATA
+            For index = 0 To fileCount - 1
+                fileInfo = backupLogFileArray[index].split(",")
+                FileSystem:Delete(fileInfo[1])
+                deleteFileCount = deleteFileCount - 1
+                If (deleteFileCount == 0) Then
+                    Fbreak
+                End If
+            Next
+            deleteFileCount = fileCount - NUMFILE_KEEP_BACKUPLOGDATA
+            For index = 0 To fileCount - 1
+                If (backupLogFileArray[index].Mid(0, 14) eq "99999999999999") Then
+                    Fbreak
+                End If
+                If (MAX_NUM_BACKUP_FILE_IN_FOLDER - 1) < (index + deleteFileCount) Then
+                    backupLogFileArray[index] = "99999999999999" & "," & "" & "," & "0"
+                Else
+                    backupLogFileArray[index] = backupLogFileArray[index + deleteFileCount]
+                End If
+            Next
+        End If
+    End Method
+
+    Method DeleteFileSizeOverBackupLogFile(backupLogFileArray[])
+        index
+        isDeleteAll = False
+        isSizeOver = False
+        totalFileSize = 0
+        fileInfo[3]
+    Begin
+        Utility:Sort(backupLogFileArray, "string", "descending")
+
+        For index = 0 To MAX_NUM_BACKUP_FILE_IN_FOLDER - 1
+            If (backupLogFileArray[index].Mid(0, 14) eq "99999999999999") Then
+                Fcontinue
+            End If
+            fileInfo = backupLogFileArray[index].split(",")
+            If (isSizeOver is true) Then
+                FileSystem:Delete(fileInfo[1])
+                Fcontinue
+            End If
+
+            If (FILESIZE_KEEP_BACKUPLOGDATA < fileInfo[2]) Then
+                isDeleteAll = True
+                Fbreak
+            End If
+            totalFileSize = totalFileSize + fileInfo[2]
+            If (FILESIZE_KEEP_BACKUPLOGDATA < totalFileSize) Then
+                isSizeOver = True
+                FileSystem:Delete(fileInfo[1])
+            End If
+        Next
+
+        If (isDeleteAll is true) Then
+            For index = 1 To MAX_NUM_BACKUP_FILE_IN_FOLDER - 1
+                If (backupLogFileArray[index].Mid(0, 14) eq "99999999999999") Then
+                    Fbreak
+                End If
+                fileInfo = backupLogFileArray[index].split(",")
+                FileSystem:Delete(fileInfo[1])
+            Next
+        End If
+    End Method
+
+    Method DeleteBackupLogData(properties[])
+        backupLogFileArray[MAX_NUM_BACKUP_FILE_IN_FOLDER]     
+    Begin
+        GetBackupLogFile(properties, backupLogFileArray)
+
+        DeleteOneWeekPassedBackupLogFile(backupLogFileArray)
+
+        DeleteFileNumberOverBackupLogFile(backupLogFileArray)
+
+        DeleteFileSizeOverBackupLogFile(backupLogFileArray)
+
+    Catch
+    End Method
+
+    Method HasSameControlValue(properties[], logItemControl) /*As Boolean*/
+        logDataIndex
+        tableItemName
+        formattedValue
+        listId_TableItemValuePairs
+        dataCount
+        itemIndex
+        logItemName
+        controlName
+        logData
+    Begin
+
+        For itemIndex = 0 To GetCount(properties) - 1
+            logItemName = GetLogItem(properties, itemIndex)
+            If (ILogItem:GetLogItemType(logItemName) <> LOG_ITEM_TYPE_SCREEN_DATA) Then
+                Fcontinue
+            End If
+
+            controlName = ILogItemScreenData:GetLogItemControlName(logItemName)
+            If (controlName eq "") Then
+                Fcontinue
+            End If
+
+            logDataIndex = ILogItem:GetLogDataIndex(logItemName)
+            If (ILogItemControl:GetIsSameLogItem(controlName, logDataIndex, logItemControl) is false) Or (ILogItemControl:GetCheckDuplicateReading(controlName, logDataIndex) is false) Then
+                Fcontinue
+            End If
+
+            tableItemName = ILogItem:GetTableItemName(logItemName)
+            logData = ILogItemControl:GetLogData(logItemControl, logDataIndex)
+            formattedValue = ILogItem:GetFormattedLogDataDb(logItemName,GetRecordType(properties), logData)
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                Return (false)
+            End If
+
+            listId_TableItemValuePairs = ListTable:CreateList()
+            ListTable:Add(listId_TableItemValuePairs, tableItemName, formattedValue)
+
+            dataCount = DbAccess:SelectCount(GetPathDriveLogDataBase(properties), GetTableName(properties), listId_TableItemValuePairs, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+            ListTable:DeleteList(listId_TableItemValuePairs)
+            Return (0 < dataCount)
+        Next
+
+        Return (false)
+    End Method
+
+    Method GetSerialNumberItemIndex(properties[]) /*As Integer*/
+        logItemName
+        itemIndex
+    Begin
+        For itemIndex = 0 to GetCount(properties) - 1
+            logItemName = GetLogItem(properties, itemIndex)
+            If (ILogItem:GetLogItemType(logItemName) == LOG_ITEM_TYPE_SYSTEM_PARAMETER) Then
+                If (ILogItemSystemParameter:GetSystemParameter(logItemName) == SYSTEM_PARAMETER_TYPE_SERIAL_NUMBER) Then
+                    Return (itemIndex)
+                End If
+            End If
+        Next
+
+        Return (-1)
+    End Method
+
+
+End Package
+
+#popdefine

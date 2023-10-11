@@ -1,0 +1,9 @@
+    Method ILr1DataItemSendDataSizeInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "MaxDigit"
+                InterfaceCommon:Result = MaxDigit(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "SetDataSize"
+                InterfaceCommon:Result = SetDataSize(properties, UserObj<this>:Get(2))
+        End Select
+    End Method

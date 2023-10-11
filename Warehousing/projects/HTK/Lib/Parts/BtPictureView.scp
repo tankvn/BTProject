@@ -1,0 +1,46 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtPictureViewConstants"
+
+Package DEF_PACKAGE_NAME
+    /*Inherits PictureBox*/
+    /*Implements IBtInputControl, ISearchViewDisplayControl*/
+
+    Properties[DEF_PROPERTY_NUM]
+
+
+#insert "\Lib\Utilities\IControlInvoke"
+#insert "\Lib\Utilities\IBtInputControlInvoke"
+#insert "\Lib\Utilities\ISearchViewDisplayControlInvoke"
+
+    Method New()
+    Begin
+        BtPictureViewCommon:New(Properties)
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        BtPictureViewCommon:Create(Properties, parentName)
+        New() 
+    End Method
+
+    Method Focus() 
+    Begin
+        BtPictureViewCommon:Focus(Properties)
+    End Method
+
+    Method SetImage(pathImageFile)
+    Begin
+        BtPictureViewCommon:SetImage(Properties, pathImageFile)
+    End Method
+    
+    Method Invalidate()
+    Begin
+        BtPictureViewCommon:Invalidate(Properties)
+    End Method
+
+
+End Package 
+
+#popdefine

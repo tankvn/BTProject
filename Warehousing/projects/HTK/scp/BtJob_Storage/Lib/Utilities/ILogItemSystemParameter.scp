@@ -1,0 +1,46 @@
+
+Package ILogItemSystemParameter
+    Names[3]
+    ICommons[3]
+
+    Method New()
+    Begin
+        Names[0] = "BtJob_Storage_LogItem_0"
+        ICommons[0] = BtJob_Storage_LogItem_0:ILogItemSystemParameterInvoke
+        Names[1] = "BtJob_Storage_LogItem_1"
+        ICommons[1] = BtJob_Storage_LogItem_1:ILogItemSystemParameterInvoke
+        Names[2] = "BtJob_Storage_LogItem_2"
+        ICommons[2] = BtJob_Storage_LogItem_2:ILogItemSystemParameterInvoke
+    End Method
+
+    Method IsImplemented(logItemName)
+    Begin
+        Return(InterfaceCommon:IsImplemented(logItemName, Names))
+    End Method
+
+    Method GetSystemParameter(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetSystemParameter", args, ICommons))
+    End Method
+
+    Method GetDateFormatType(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetDateFormatType", args, ICommons))
+    End Method
+
+    Method GetDateSeparatorType(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetDateSeparatorType", args, ICommons))
+    End Method
+
+    Method GetTimeFormatType(logItemName)
+        args[1]
+    Begin
+        Return(InterfaceCommon:Call(logItemName, Names, "GetTimeFormatType", args, ICommons))
+    End Method
+
+End Package
+

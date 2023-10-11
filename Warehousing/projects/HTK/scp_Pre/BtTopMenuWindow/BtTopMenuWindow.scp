@@ -1,0 +1,112 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+Include "Lib\Parts\BtScreenCommon"
+Include "Lib\Utilities\ErrorManager"
+Include "Lib\Utilities\MathUtility"
+Include "Lib\Utilities\StringUtility"
+Include "Lib\Utilities\PathUtility"
+Include "Lib\Utilities\DateUtility"
+Include "Lib\Utilities\TimeUtility"
+Include "Lib\Utilities\InterfaceCommon"
+Include "Lib\Utilities\EventUtility"
+Include "Lib\Utilities\Dispatcher"
+Include "Lib\Utilities\FocusTransitionUtilityCommon"
+Include "Lib\Utilities\LayoutUtility"
+Include "Lib\Utilities\SystemParameterUtility"
+Include "Lib\Utilities\SystemSettingFileUtility"
+Include "Lib\Utilities\SharedParameterUtility"
+Include "Lib\Utilities\OutputDataUtility"
+Include "Lib\Utilities\OcrSettings"
+Include "Lib\Utilities\ReadableCodeSettings"
+Include "Lib\Utilities\CodeReadDetailSettings"
+Include "Lib\Utilities\AiUtility"
+Include "Lib\Utilities\AiList"
+Include "Lib\Utilities\Ai"
+Include "Lib\Utilities\ReadResultProcessor"
+Include "Lib\Utilities\DbAccess"
+Include "Lib\Utilities\DBData"
+Include "Lib\Utilities\TransmissionController"
+Include "Lib\Utilities\TransmissionLogUtility"
+Include "Lib\Utilities\RealTimeConnectionController"
+Include "Lib\Utilities\IndicatorUtility"
+Include "Lib\Utilities\BtMasterCheckUtility"
+Include "Lib\Parts\MessageUtility"
+Include "Lib\Parts\BtLabelCommon"
+Include "Lib\Parts\BtTextBoxCommon"
+Include "Lib\Parts\BtButtonCommon"
+Include "Lib\Parts\BtPictureViewCommon"
+Include "Lib\Parts\BtFocusTransitionControllerCommon"
+Include "Lib\Parts\TransmittingForm"
+Include "Lib\Parts\RES\TransmittingForm_res"
+Include "Lib\Parts\BackGroundActionForm"
+Include "Lib\Parts\RES\BackGroundActionForm_res"
+Include "Lib\Parts\BtDropDownBoxCommon"
+Include "Lib\Parts\BtInputDateBoxCommon"
+Include "Lib\Parts\BtSystemParameterLabelCommon"
+Include "Lib\Parts\BtFormCommon"
+
+Include "BtTopMenuWindow\RES\BtTopMenuWindow_res"
+
+
+
+Package BtTopMenuWindow
+    _isInitialized = false
+    
+    Method New()
+    Begin
+        BtTopMenuWindow_res:InitializeComponent()
+        
+        BtTopMenuWindow_FocusTransitionUtility:SetControl("BtTopMenuWindow_BtMenuItem_Storage")
+        BtTopMenuWindow_FocusTransitionUtility:SetControl("BtTopMenuWindow_BtMenuItem_Retrieval")
+        BtTopMenuWindow_FocusTransitionUtility:SetControl("BtTopMenuWindow_BtMenuItem_Configuration")
+        BtTopMenuWindow_FocusTransitionUtility:SetControl("BtTopMenuWindow_BtButton_Exit")
+    End Method
+    
+    Method Initialize()
+    Begin
+        BtTopMenuWindow_res:InitializeChildren()
+        
+        BtTopMenuWindow_BtMenuItem_Storage:Invalidate()
+        BtTopMenuWindow_BtMenuItem_Retrieval:Invalidate()
+        BtTopMenuWindow_BtMenuItem_Configuration:Invalidate()
+        BtTopMenuWindow_BtButton_Exit:Invalidate()
+        _isInitialized = true
+    End Method
+    
+    Method Finalized()
+    Begin
+        BtTopMenuWindow_res:Dispose()
+    End Method
+    
+    Method BtMenuItem_Storage_DataInput(sender, result)
+    Begin
+        BtTopMenuWindowForm:ShowBtJob_Storage()
+        Return (result)
+    End Method
+    
+    Method BtMenuItem_Retrieval_DataInput(sender, result)
+    Begin
+        BtTopMenuWindowForm:ShowBtJob_Retrieval()
+        Return (result)
+    End Method
+    
+    Method BtMenuItem_Configuration_DataInput(sender, result)
+    Begin
+        BtTopMenuWindowForm:ShowConfiguration()
+        Return (result)
+    End Method
+    
+    Method BtButton_Exit_DataInput(sender, result)
+    Begin
+        If MessageUtility:ShowMessage(MESSAGE_QUESTION_APPLICATION_EXIT, "", MESSAGE_BOX_BUTTONS_YES_NO, MESSAGE_BOX_ICON_QUESTION, MESSAGE_BOX_DEFAULT_BUTTON_BUTTON1) == DIALOG_RESULT_YES Then
+            BtTopMenuWindowForm:ExitTerminal()
+        End If
+        
+        Return (result)
+    End Method
+End Package

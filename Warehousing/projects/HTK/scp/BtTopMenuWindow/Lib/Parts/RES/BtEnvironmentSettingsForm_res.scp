@@ -1,0 +1,554 @@
+
+Package BtEnvironmentSettingsForm_res
+
+Properties[11]
+
+_ctrl[15]
+_components[1]
+
+    Method New()
+    Begin
+        _ctrl[0] = "BtEnvironmentSettingsForm_BtLabelTitle"
+        _ctrl[1] = "BtEnvironmentSettingsForm_BtLabelBacklight"
+        _ctrl[2] = "BtEnvironmentSettingsForm_BtDropDownBoxBacklight"
+        _ctrl[3] = "BtEnvironmentSettingsForm_BtTextBoxBackLighttime"
+        _ctrl[4] = "BtEnvironmentSettingsForm_BtLabelBackLighttimeUnit"
+        _ctrl[5] = "BtEnvironmentSettingsForm_BtLabelAutoPowerOffTime"
+        _ctrl[6] = "BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime"
+        _ctrl[7] = "BtEnvironmentSettingsForm_BtLabelAutoPowerOffTimeUnit"
+        _ctrl[8] = "BtEnvironmentSettingsForm_BtLabelScanningSound"
+        _ctrl[9] = "BtEnvironmentSettingsForm_BtDropDownBoxScanningSound"
+        _ctrl[10] = "BtEnvironmentSettingsForm_BtLabelKeyTouchSound"
+        _ctrl[11] = "BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound"
+        _ctrl[12] = "BtEnvironmentSettingsForm_BtButtonDateTimeSetting"
+        _ctrl[13] = "BtEnvironmentSettingsForm_BtButtonCancel"
+        _ctrl[14] = "BtEnvironmentSettingsForm_BtButtonOK"
+
+        Properties[0] = "BtEnvironmentSettingsForm"
+        BtFormCommon:New(Properties)
+    End Method
+
+    Method InitializeChildren()
+    Begin
+        UpdateChildren(False)
+    End Method
+
+    Method UpdateChildren(updateScreen)
+    Begin
+        BtFormCommon:UpdateChildren(_ctrl, _components)
+
+        If updateScreen Then
+        End If
+    End Method
+
+    Method UpdateLogData(updateScreen)
+    Begin
+        If updateScreen Then
+        End If
+    End Method
+
+    Method UpdateMasterData(updateScreen)
+    Begin
+    End Method
+
+    Method ReflectMasterCheckSentNum(logDataMaxRowId)
+    Begin
+    End Method
+
+    Method ReflectMasterCheckSentNumByRealTime()
+    Begin
+    End Method
+
+    Method RegisterSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:RegisterSharedParameter(_ctrl)
+
+        If updateScreen Then
+        End If
+    End Method
+
+    Method UpdateSharedParameterInputTool(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameterInputTool(_ctrl, _components)
+
+        If updateScreen Then
+        End If
+    End Method
+
+    Method UpdateSharedParameter(updateScreen)
+    Begin
+        BtFormCommon:UpdateSharedParameter(_ctrl)
+
+        If updateScreen Then
+        End If
+
+        UpdateSharedParameterInputTool(updateScreen)
+    End Method
+
+    Method ClearSharedParameterWhenWroteLog()
+    Begin
+
+        RegisterSharedParameter(true)
+        UpdateSharedParameter(true)
+    End Method
+
+    Method ClearSharedParameterWhenJobClose()
+    Begin
+
+        RegisterSharedParameter(true)
+    End Method
+
+    Method CloseDatabase()
+    Begin
+        BtFormCommon:CloseDatabase(_ctrl, _components)
+    End Method
+
+    Method KeyAssignedAction(sender)
+    Begin
+        Select Case sender
+            Case 0x00000001
+                BtEnvironmentSettingsForm:KeyActionCancel(sender)
+            Case 0x00000002
+            Case 0x00000004
+            Case 0x02000000
+                BtEnvironmentSettingsForm:KeyActionOk(sender)
+            Case 0x00200000
+            Case 0x00400000
+        End Select
+    End Method
+
+    Method GetActiveControl(checkControl)
+    Begin
+        Return (Window<Properties[0]>:GetFocus())
+    End Method
+
+    Method ResetInvalidInput()
+        focusedControl
+    Begin
+        focusedControl = Window<Properties[0]>:GetFocus()
+        Select Case focusedControl
+            Case "BtEnvironmentSettingsForm_BtTextBoxBackLighttime"
+                BtEnvironmentSettingsForm_BtTextBoxBackLighttime:ResetInvalidInput()
+            Case "BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime"
+                BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime:ResetInvalidInput()
+        End Select
+    End Method
+
+    Method OnShown(e)
+    Begin
+    End Method
+
+    Method Close()
+    Begin
+        BtFormCommon:Close(Properties)
+    End Method
+
+    Method Dispose()
+    Begin
+        BtFormCommon:Dispose(_ctrl)
+    End Method
+
+    Method Show(value)
+    Begin
+        BtFormCommon:ShowDisplay(Properties, _ctrl, value)
+    End Method
+
+    Method EventWait()
+    Begin
+        BtFormCommon:EventWait(Properties)
+    End Method
+
+    Method KeyAssignedActionForBtScreen(controlId, sender)
+    Begin
+    End Method
+
+    _inputKeysList[4]
+    Method AddInputKeysList(value)
+    Begin
+        BtFormCommon:AddInputKeysList(_inputKeysList, value)
+    End Method
+    Method CheckFullInputKeysList()
+    Begin
+        Return(_inputKeysList[3] is nil)
+    End Method
+    Method CheckJudgeInputKeyList()
+    Begin
+        Return(BtFormCommon:CheckJudgeInputKeyList(_inputKeysList))
+    End Method
+
+    Method Focus()
+    Begin
+        Window<Properties[0]>:SetFocus()
+    End Method
+    Method SetEnable(value)
+    Begin
+        Window<Properties[0]>:enable = value
+    End Method
+
+    Method InitializeTimer()
+    Begin
+        BtFormCommon:StartTimer(Properties, OnTimeUp)
+    End Method
+
+    Method TerminateTimer()
+    Begin
+        BtFormCommon:StopTimer(Properties)
+    End Method
+
+    Method OnTimeUp(sender)
+        currentTime
+    Begin
+        currentTime = Handy:GetTickCount1()
+
+        If currentTime < BtFormCommon:GetLastTime(Properties) Then
+            BtFormCommon:SetLastTime(Properties, -1 * 50)
+        End If
+
+        If currentTime < (BtFormCommon:GetLastTime(Properties) + 50) Then Return() End If
+        BtFormCommon:SetLastTime(Properties, Handy:GetTickCount1())
+    End Method
+
+    Method InvertControlColor(sender)
+    Begin
+        If Not Window<Properties[0]>:visible Then
+            Return()
+        End If
+
+        Window<"__UPDATE_OFF__">:Update()
+        Window<"ROOT_WINDOW">:Update()
+    End Method
+
+    Method InitializeComponent()
+    Begin
+        New()
+        BtEnvironmentSettingsForm_BtLabelTitle:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtLabelBacklight:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtDropDownBoxBacklight:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtTextBoxBackLighttime:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtLabelBackLighttimeUnit:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtLabelAutoPowerOffTime:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtLabelAutoPowerOffTimeUnit:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtLabelScanningSound:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtDropDownBoxScanningSound:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtLabelKeyTouchSound:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtButtonDateTimeSetting:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtButtonCancel:Create(BtFormCommon:GetName(Properties))
+        BtEnvironmentSettingsForm_BtButtonOK:Create(BtFormCommon:GetName(Properties))
+        With BtEnvironmentSettingsForm_BtLabelTitle
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 0)
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetFontSize(:Properties, 24)
+            BtLabelCommon:SetBold(:Properties, true)
+            BtLabelCommon:SetInitialText(:Properties, "Configuration")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, 1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With BtEnvironmentSettingsForm_BtLabelBacklight
+            BtLabelCommon:SetLeft(:Properties, 2)
+            BtLabelCommon:SetTop(:Properties, 40)
+            BtLabelCommon:SetWidth(:Properties, 108)
+            BtLabelCommon:SetHeight(:Properties, 30)
+            BtLabelCommon:SetFontSize(:Properties, 18)
+            BtLabelCommon:SetBold(:Properties, true)
+            BtLabelCommon:SetInitialText(:Properties, "Backlight")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetForeColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, 1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With BtEnvironmentSettingsForm_BtDropDownBoxBacklight
+            BtDropDownBoxCommon:SetLeft(:Properties, 110)
+            BtDropDownBoxCommon:SetTop(:Properties, 40)
+            BtDropDownBoxCommon:SetWidth(:Properties, 125)
+            BtDropDownBoxCommon:SetHeight(:Properties, 114)
+            BtDropDownBoxCommon:SetForeColor(:Properties, "0|0|0")
+            BtDropDownBoxCommon:SetBackColor(:Properties, "255|255|255")
+            BtDropDownBoxCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtDropDownBoxCommon:SetFocusedBackColor(:Properties, "162|255|255")
+            BtDropDownBoxCommon:SetFontSize(:Properties, 24)
+            BtDropDownBoxCommon:SetVisible(:Properties, true)
+        End With
+        With BtEnvironmentSettingsForm_BtTextBoxBackLighttime
+            BtTextBoxCommon:SetLeft(:Properties, 110)
+            BtTextBoxCommon:SetTop(:Properties, 75)
+            BtTextBoxCommon:SetWidth(:Properties, 50)
+            BtTextBoxCommon:SetHeight(:Properties, 29)
+            BtTextBoxCommon:SetFontSize(:Properties, 18)
+            BtTextBoxCommon:SetAlignment(:Properties, "left")
+            BtTextBoxCommon:SetDecimalPlaces(:Properties, 0)
+            BtTextBoxCommon:SetEnableOcrFormatRegistrationNumbers(:Properties, false)
+            BtTextBoxCommon:SetEnableOcrSettingsFile(:Properties, false)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "162|255|255")
+            BtTextBoxCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtTextBoxCommon:SetForeColor(:Properties, "0|0|0")
+            BtTextBoxCommon:SetFullDetectionCount(:Properties, 0)
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetInputMode(:Properties, 4)
+            BtTextBoxCommon:SetIsCheckRepdigit(:Properties, false)
+            BtTextBoxCommon:SetIsEditOnF2(:Properties, false)
+            BtTextBoxCommon:SetIsEmptyProhibited(:Properties, true)
+            BtTextBoxCommon:SetIsPartOfControl(:Properties, false)
+            BtTextBoxCommon:SetIsShared(:Properties, false)
+            BtTextBoxCommon:SetIsShowOutOfRangeError(:Properties, true)
+            BtTextBoxCommon:SetLightingEnabled(:Properties, true)
+            BtTextBoxCommon:SetMinimum(:Properties, 1)
+            BtTextBoxCommon:SetMaximum(:Properties, 127)
+            BtTextBoxCommon:SetOcrEnableType(:Properties, 1)
+            BtTextBoxCommon:SetOcrSettingsFileName(:Properties, "")
+            BtTextBoxCommon:SetPreventDuplicateReading(:Properties, false)
+            BtTextBoxCommon:SetScanEnableCodeType(:Properties, 0xBFFF)
+            BtTextBoxCommon:SetScanInverseType(:Properties, "both")
+            BtTextBoxCommon:SetScanMirrorType(:Properties, "normal")
+            BtTextBoxCommon:SetScanRangeType(:Properties, "first")
+            BtTextBoxCommon:SetSharedParameterKey(:Properties, "")
+            BtTextBoxCommon:SetStorageDestination(:Properties, 1)
+            BtTextBoxCommon:SetTriggerMode(:Properties, 1)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        With BtEnvironmentSettingsForm_BtLabelBackLighttimeUnit
+            BtLabelCommon:SetLeft(:Properties, 165)
+            BtLabelCommon:SetTop(:Properties, 75)
+            BtLabelCommon:SetWidth(:Properties, 75)
+            BtLabelCommon:SetHeight(:Properties, 29)
+            BtLabelCommon:SetFontSize(:Properties, 18)
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetInitialText(:Properties, "(Sec.)")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetForeColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, 1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With BtEnvironmentSettingsForm_BtLabelAutoPowerOffTime
+            BtLabelCommon:SetEnabled(:Properties, false)
+            BtLabelCommon:SetLeft(:Properties, 2)
+            BtLabelCommon:SetTop(:Properties, 110)
+            BtLabelCommon:SetWidth(:Properties, 108)
+            BtLabelCommon:SetHeight(:Properties, 31)
+            BtLabelCommon:SetFontSize(:Properties, 18)
+            BtLabelCommon:SetBold(:Properties, true)
+            BtLabelCommon:SetInitialText(:Properties, "Auto-off")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetForeColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, 1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With BtEnvironmentSettingsForm_BtTextBoxAutoPowerOffTime
+            BtTextBoxCommon:SetEnabled(:Properties, false)
+            BtTextBoxCommon:SetLeft(:Properties, 110)
+            BtTextBoxCommon:SetTop(:Properties, 110)
+            BtTextBoxCommon:SetWidth(:Properties, 50)
+            BtTextBoxCommon:SetHeight(:Properties, 29)
+            BtTextBoxCommon:SetFontSize(:Properties, 18)
+            BtTextBoxCommon:SetAlignment(:Properties, "left")
+            BtTextBoxCommon:SetDecimalPlaces(:Properties, 0)
+            BtTextBoxCommon:SetEnableOcrFormatRegistrationNumbers(:Properties, false)
+            BtTextBoxCommon:SetEnableOcrSettingsFile(:Properties, false)
+            BtTextBoxCommon:SetFocusedBackColor(:Properties, "162|255|255")
+            BtTextBoxCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtTextBoxCommon:SetForeColor(:Properties, "0|0|0")
+            BtTextBoxCommon:SetFullDetectionCount(:Properties, 0)
+            BtTextBoxCommon:SetInitialText(:Properties, "")
+            BtTextBoxCommon:SetInputMode(:Properties, 4)
+            BtTextBoxCommon:SetIsCheckRepdigit(:Properties, false)
+            BtTextBoxCommon:SetIsEditOnF2(:Properties, false)
+            BtTextBoxCommon:SetIsEmptyProhibited(:Properties, true)
+            BtTextBoxCommon:SetIsPartOfControl(:Properties, false)
+            BtTextBoxCommon:SetIsShared(:Properties, false)
+            BtTextBoxCommon:SetIsShowOutOfRangeError(:Properties, true)
+            BtTextBoxCommon:SetLightingEnabled(:Properties, true)
+            BtTextBoxCommon:SetMinimum(:Properties, 0)
+            BtTextBoxCommon:SetMaximum(:Properties, 60)
+            BtTextBoxCommon:SetOcrEnableType(:Properties, 1)
+            BtTextBoxCommon:SetOcrSettingsFileName(:Properties, "")
+            BtTextBoxCommon:SetPreventDuplicateReading(:Properties, false)
+            BtTextBoxCommon:SetScanEnableCodeType(:Properties, 0xBFFF)
+            BtTextBoxCommon:SetScanInverseType(:Properties, "both")
+            BtTextBoxCommon:SetScanMirrorType(:Properties, "normal")
+            BtTextBoxCommon:SetScanRangeType(:Properties, "first")
+            BtTextBoxCommon:SetSharedParameterKey(:Properties, "")
+            BtTextBoxCommon:SetStorageDestination(:Properties, 1)
+            BtTextBoxCommon:SetTriggerMode(:Properties, 1)
+            BtTextBoxCommon:SetVisible(:Properties, true)
+        End With
+        With BtEnvironmentSettingsForm_BtLabelAutoPowerOffTimeUnit
+            BtLabelCommon:SetEnabled(:Properties, false)
+            BtLabelCommon:SetEnabled(:Properties, false)
+            BtLabelCommon:SetLeft(:Properties, 165)
+            BtLabelCommon:SetTop(:Properties, 110)
+            BtLabelCommon:SetWidth(:Properties, 75)
+            BtLabelCommon:SetHeight(:Properties, 29)
+            BtLabelCommon:SetFontSize(:Properties, 18)
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetInitialText(:Properties, "(Min.)")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetForeColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, 1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With BtEnvironmentSettingsForm_BtLabelScanningSound
+            BtLabelCommon:SetLeft(:Properties, 2)
+            BtLabelCommon:SetTop(:Properties, 146)
+            BtLabelCommon:SetWidth(:Properties, 108)
+            BtLabelCommon:SetHeight(:Properties, 29)
+            BtLabelCommon:SetFontSize(:Properties, 18)
+            BtLabelCommon:SetBold(:Properties, true)
+            BtLabelCommon:SetInitialText(:Properties, "Scan Vol.")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetForeColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, 1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With BtEnvironmentSettingsForm_BtDropDownBoxScanningSound
+            BtDropDownBoxCommon:SetLeft(:Properties, 110)
+            BtDropDownBoxCommon:SetTop(:Properties, 146)
+            BtDropDownBoxCommon:SetWidth(:Properties, 125)
+            BtDropDownBoxCommon:SetHeight(:Properties, 114)
+            BtDropDownBoxCommon:SetForeColor(:Properties, "0|0|0")
+            BtDropDownBoxCommon:SetBackColor(:Properties, "255|255|255")
+            BtDropDownBoxCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtDropDownBoxCommon:SetFocusedBackColor(:Properties, "162|255|255")
+            BtDropDownBoxCommon:SetFontSize(:Properties, 24)
+            BtDropDownBoxCommon:SetVisible(:Properties, true)
+        End With
+        With BtEnvironmentSettingsForm_BtLabelKeyTouchSound
+            BtLabelCommon:SetLeft(:Properties, 2)
+            BtLabelCommon:SetTop(:Properties, 182)
+            BtLabelCommon:SetWidth(:Properties, 108)
+            BtLabelCommon:SetHeight(:Properties, 30)
+            BtLabelCommon:SetFontSize(:Properties, 18)
+            BtLabelCommon:SetBold(:Properties, true)
+            BtLabelCommon:SetInitialText(:Properties, "Key Vol.")
+            BtLabelCommon:SetAlignment(:Properties, "left")
+            BtLabelCommon:SetForeColor(:Properties, "51|51|51")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetImageFileName(:Properties, nil)
+            BtLabelCommon:SetImaging(:Properties, false)
+            BtLabelCommon:SetIsPartOfControl(:Properties, false)
+            BtLabelCommon:SetStorageDestination(:Properties, 1)
+            BtLabelCommon:SetTabStop(:Properties, false)
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetVisible(:Properties, true)
+            BtLabelCommon:Invalidate(:Properties)
+        End With
+        With BtEnvironmentSettingsForm_BtDropDownBoxKeyTouchSound
+            BtDropDownBoxCommon:SetLeft(:Properties, 110)
+            BtDropDownBoxCommon:SetTop(:Properties, 182)
+            BtDropDownBoxCommon:SetWidth(:Properties, 125)
+            BtDropDownBoxCommon:SetHeight(:Properties, 114)
+            BtDropDownBoxCommon:SetForeColor(:Properties, "0|0|0")
+            BtDropDownBoxCommon:SetBackColor(:Properties, "255|255|255")
+            BtDropDownBoxCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtDropDownBoxCommon:SetFocusedBackColor(:Properties, "162|255|255")
+            BtDropDownBoxCommon:SetFontSize(:Properties, 24)
+            BtDropDownBoxCommon:SetVisible(:Properties, true)
+        End With
+        With BtEnvironmentSettingsForm_BtButtonDateTimeSetting
+            BtButtonCommon:SetLeft(:Properties, 10)
+            BtButtonCommon:SetTop(:Properties, 220)
+            BtButtonCommon:SetWidth(:Properties, 220)
+            BtButtonCommon:SetHeight(:Properties, 35)
+            BtButtonCommon:SetText(:Properties, "Set Date / Time")
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetNormalImageFileName(:Properties, nil)
+            BtButtonCommon:SetStorageDestination(:Properties, 1)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        With BtEnvironmentSettingsForm_BtButtonCancel
+            BtButtonCommon:SetLeft(:Properties, 5)
+            BtButtonCommon:SetTop(:Properties, 260)
+            BtButtonCommon:SetWidth(:Properties, 110)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetText(:Properties, "Cancel")
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetNormalImageFileName(:Properties, nil)
+            BtButtonCommon:SetStorageDestination(:Properties, 1)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        With BtEnvironmentSettingsForm_BtButtonOK
+            BtButtonCommon:SetLeft(:Properties, 126)
+            BtButtonCommon:SetTop(:Properties, 260)
+            BtButtonCommon:SetWidth(:Properties, 110)
+            BtButtonCommon:SetHeight(:Properties, 30)
+            BtButtonCommon:SetText(:Properties, "OK")
+            BtButtonCommon:SetFontSize(:Properties, 18)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetButtonType(:Properties, 0)
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetNormalImageFileName(:Properties, nil)
+            BtButtonCommon:SetStorageDestination(:Properties, 1)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        BtFormCommon:SetLeft(Properties, 0)
+        BtFormCommon:SetTop(Properties, 0)
+        BtFormCommon:SetWidth(Properties, 240)
+        BtFormCommon:SetHeight(Properties, 320)
+    End Method
+End Package

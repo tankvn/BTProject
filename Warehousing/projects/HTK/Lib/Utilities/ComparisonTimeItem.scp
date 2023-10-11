@@ -1,0 +1,41 @@
+Package ComparisonTimeItem
+    #define ID_JUDGEKIND 1
+    #define ID_SOURCETIME 2
+    #define ID_DESTINATIONTIME 3
+    #define ID_ISCOMPAREINCLUDESECONDS 4
+
+    Method New(name, judgeKind, sourceTime, destinationTime, isCompareIncludeSeconds)
+    Begin
+        With UserObj<name>
+            :Open()
+            :Set(0, "ComparisonTimeItem")
+            :Set(ID_JUDGEKIND, judgeKind)
+            :Set(ID_SOURCETIME, sourceTime)
+            :Set(ID_DESTINATIONTIME, destinationTime)
+            :Set(ID_ISCOMPAREINCLUDESECONDS, isCompareIncludeSeconds)
+        End With
+    End Method
+
+    Method DoJudgement(name)
+    Begin
+        With UserObj<name>
+            Return(TimeUtility:Judge(:Get(ID_JUDGEKIND), :Get(ID_SOURCETIME), :Get(ID_DESTINATIONTIME), :Get(ID_ISCOMPAREINCLUDESECONDS)))
+        End With
+    End Method
+
+    Method GetType(name)
+    Begin
+        Return(UserObj<name>:Get(0))
+    End Method
+
+    Method SetSrcData(name, value)
+    Begin
+        UserObj<name>:Set(ID_SOURCETIME, value)
+    End Method
+
+    Method SetDstData(name, value)
+    Begin
+        UserObj<name>:Set(ID_DESTINATIONTIME, value)
+    End Method
+
+End Package

@@ -1,0 +1,262 @@
+
+Package MathUtility
+
+    Const SIGNIFICANT_DIGITS = 12
+
+    Method Round(value, numberofDecimals)
+        newValue
+        roundValue
+        integerValue
+        numCalc
+    Begin
+        newValue = value
+        For numCalc = 0 to numberofDecimals - 1
+            newValue = newValue * 10
+        Next
+
+        roundValue = 0.5
+        If newValue < 0 Then
+            roundValue = 0 - roundValue
+        End If
+        newValue = newValue + roundValue
+        integerValue = newValue.toint
+
+        newValue = integerValue
+        For numCalc = 0 to numberofDecimals - 1
+            newValue = newValue / 10
+        Next
+
+        Return(newValue)
+    End Method
+
+    Method CalculateByOperator(targetValue, calculationType, value)
+    Begin
+        If calculationType == 0 Then
+            Return(targetValue)
+        ElseIf calculationType == 1 Then
+            Return(targetValue + value)
+        ElseIf calculationType == 2 Then
+            Return(targetValue - value)
+        ElseIf calculationType == 3 Then
+            Return(targetValue * value)
+        ElseIf calculationType == 4 Then
+            If value == 0 Then
+                ErrorManager:SetError("The calculation failed.")
+                Return(targetValue)
+            End If
+            Return(targetValue / value)
+        End If
+        Return(targetValue)
+    Catch
+        ErrorManager:SetError("The calculation failed.")
+    End Method
+
+    Method ParseToDecimal(targetString)
+        decimalPointIndex
+        splitNumber[2]
+        negativeNumber = false
+    Begin
+        If Not targetString.isDigit Then ErrorManager:SetError("The conversion from a character string to a numerical value failed.") Return (0) End If
+        If targetString is nil Or targetString eq "" Then ErrorManager:SetError("The conversion from a character string to a numerical value failed.") Return(0) End If
+
+        If targetString.Left(1) eq "-" Then
+            negativeNumber = true
+            targetString = targetString.Mid(1, targetString.length - 1)
+        End If
+
+        If (targetString eq ".") Then ErrorManager:SetError("The conversion from a character string to a numerical value failed.") Return (0) End If
+
+        If targetString.Left(1) eq "." Then targetString = "0" & targetString End If
+        If targetString.Right(1) eq "." Then targetString = targetString & "0" End If
+        decimalPointIndex = targetString.Find(".", 0)
+        If (decimalPointIndex is nil) Then
+            targetString = targetString.toInt
+        Else
+            splitNumber = targetString.split(".")
+            splitNumber[0] = splitNumber[0].toInt
+            targetString = splitNumber.Merge(".")
+        End If
+
+        If (negativeNumber) And (Not targetString == 0) Then Return ("-" & targetString) End If
+        Return(targetString)
+    Catch
+        ErrorManager:SetError("The conversion from a character string to a numerical value failed.")
+        Return(0)
+    End Method
+
+    Method ParseToInteger(targetString)
+    Begin
+        If targetString is nil Or targetString eq "" Then ErrorManager:SetError("The conversion from a character string to a numerical value failed.") Return(0) End If
+        If Not targetString.Find(".", 0) is nil Then ErrorManager:SetError("The conversion from a character string to a numerical value failed.") Return(0) End If
+        Return(targetString.toInt)
+    Catch
+        ErrorManager:SetError("The conversion from a character string to a numerical value failed.")
+        Return(0)
+    End Method
+
+    Method IsNumeric(targetString)
+    Begin
+        Return(targetString.isDigit)
+    End Method
+
+    Method DecimalCompare(leftValue, rightValue)
+        integerAbsoluteValue
+        integerDigits
+        threshold
+        val1
+        val2
+        pos
+        i,j
+    Begin
+        If leftValue < 0 And rightValue > 0 Then Return(-1) End If
+        If leftValue > 0 And rightValue < 0 Then Return(1) End If
+        val1 = leftValue
+        If leftValue < 0 Then val1 = 0 - leftValue End If
+        val2 = rightValue
+        If rightValue < 0 Then val2 = 0 - rightValue End If
+        If val1 > val2 Then integerAbsoluteValue = val1
+        Else integerAbsoluteValue = val2 End If
+
+        If integerAbsoluteValue == 0 Then
+            integerDigits = 1
+        Else
+            pos = integerAbsoluteValue.Find(".", 0)
+            If pos is nil Then integerDigits = integerAbsoluteValue.length
+            Else integerDigits = pos End If
+        End If
+
+        i = integerDigits - SIGNIFICANT_DIGITS - 1
+        If i < 0 Then
+            i = 0 - i
+            threshold = 1
+            For j = 1 to i
+                threshold = threshold * 0.1
+            Next
+        Else
+            threshold = 1
+            For j = 1 to i
+                threshold = threshold * 10
+            Next
+        End If
+
+        If leftValue > rightValue Then
+            If leftValue - rightValue < threshold Then Return(0) End If
+        Else
+            If rightValue - leftValue < threshold Then Return(0) End If
+        End If
+
+        If leftValue > rightValue Then Return(1)
+        ElseIf leftValue < rightValue Then Return(-1)
+        Else Return(0) End If
+    End Method
+
+    Method GetDegitGroupingText(inputText)
+        decimalPointIndex
+        integerPartText
+        amari
+        pos = 0
+        str = ""
+        i
+        ch
+        p_cnt = 0
+    Begin
+        If inputText.Mid(0, 1) eq "-" Then pos = 1 End If
+        For i = pos to inputText.length - 1
+            ch = inputText.Mid(i, 1)
+            If ch eq "." Then p_cnt = p_cnt + 1
+            ElseIf ch eq "-" Then Return(inputText)
+            ElseIf ch.isDigit is false Then Return(inputText)
+            End If
+            If p_cnt > 1 Then Return(inputText) End If
+        Next
+        pos = 0
+
+        decimalPointIndex = inputText.Find(".", 0)
+        If decimalPointIndex is nil Then decimalPointIndex = inputText.length End If
+
+        integerPartText = inputText.Left(decimalPointIndex)
+
+        If integerPartText ne "" Then
+            If integerPartText.Left(1) eq "+" Or integerPartText.Left(1) eq "-" Then
+                str = integerPartText.Left(1)
+                integerPartText = integerPartText.Mid(1, integerPartText.length-1)
+            End If
+            If integerPartText.length < 3 Then Return(inputText) End If
+
+            amari = integerPartText.length % 3
+            If amari <> 0 Then str = str & integerPartText.Mid(0, amari) & "," End If
+            pos = pos + amari
+            While true
+                str = str & integerPartText.Mid(pos, 3)
+                str = str & ","
+                pos = pos + 3
+                If pos >= integerPartText.length Then Wbreak End If
+            Wend
+            If str.Right(1) eq "," Then str = str.Mid(0, str.length-1) End If
+
+            If decimalPointIndex < inputText.length Then
+                str = str & inputText.Right(inputText.length-decimalPointIndex)
+            End If
+            Return(str)
+        Else
+            Return(inputText)
+        End If
+    End Method
+
+    Method InRange(targetNumber, lower, upper)
+    Begin
+        If (targetNumber < lower) Or (upper < targetNumber) Then
+            Return(False)
+        End If
+        Return(True)
+    End Method
+
+    Method GetDecimalDigit(number)
+        decimalPointIndex
+    Begin
+        decimalPointIndex = number.Find(".", 0)
+        If decimalPointIndex is nil Then Return(0) End If
+        Return((number.length-1) - decimalPointIndex)
+    End Method
+
+    Method AdjustDecimalPlaces(adjustDecimalDigit, displayText)
+        decimalValue
+        decimalString
+        decimalDigit
+    Begin
+        decimalValue = MathUtility:ParseToDecimal(displayText)
+        decimalString = decimalValue
+        decimalDigit = MathUtility:GetDecimalDigit(decimalString)
+
+        If (decimalDigit < adjustDecimalDigit) Then
+            Return (ComplementDecimalDigit(adjustDecimalDigit, decimalString, decimalDigit))
+        ElseIf (adjustDecimalDigit < decimalDigit) Then
+            Return (TruncateDecimalDigit(adjustDecimalDigit, decimalString, decimalDigit))
+        Else
+            Return (decimalString)
+        End If
+    End Method
+
+    Method TruncateDecimalDigit(adjustDecimalDigit, truncatingTarget, decimalDigit)
+    Begin
+        If (adjustDecimalDigit < decimalDigit) Then
+            truncatingTarget = truncatingTarget.Left(truncatingTarget.length - (decimalDigit - adjustDecimalDigit))
+            If (adjustDecimalDigit == 0) Then
+                truncatingTarget = truncatingTarget.Left(truncatingTarget.length - 1)
+            End If
+        End If
+
+        Return (truncatingTarget)
+    End Method
+
+    Method ComplementDecimalDigit(adjustDecimalDigit, displayText, decimalDigit)
+        Const paddingCharacter = "0"
+    Begin
+        If ((decimalDigit == 0) And (displayText.Right(1) ne ".")) Then
+            displayText = displayText & "."
+        End If
+        Return (displayText & paddingCharacter.Repeat(adjustDecimalDigit - decimalDigit))
+    End Method
+
+End Package
+

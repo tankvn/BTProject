@@ -1,0 +1,348 @@
+
+Package BtPictureViewCommon
+
+    Method GetType(properties[])
+    Begin
+        Return (properties[1])
+    End Method
+    Method SetType(properties[], value)
+    Begin
+        properties[1] = value
+    End Method
+
+    Method GetName(properties[])
+    Begin
+        Return (properties[0])
+    End Method
+    Method SetName(properties[], value)
+    Begin
+        properties[0] = value
+    End Method
+
+    Method GetText(properties[])
+    Begin
+        Return ("")
+    End Method
+    Method SetText(properties[], value)
+    Begin
+    End Method
+
+    Method GetTabIndex(properties[])
+    Begin
+        Return (properties[2])
+    End Method
+    Method SetTabIndex(properties[], value)
+    Begin
+        properties[2] = value
+    End Method
+
+    Method GetVisible(properties[])
+    Begin
+        Return (Canvas<properties[0]>:visible)
+    End Method
+    Method SetVisible(properties[], value)
+    Begin
+        properties[9] = value
+    End Method
+
+    Method UpdateVisible(properties[])
+    Begin
+        Canvas<properties[0]>:visible = properties[9]
+    End Method
+
+    Method GetEnabled(properties[])
+    Begin
+        Return (Canvas<properties[0]>:enable)
+    End Method
+    Method SetEnabled(properties[], value)
+    Begin
+        Canvas<properties[0]>:enable = value
+    End Method
+
+    Method GetIsPartOfControl(properties[])
+    Begin
+        Return (properties[3])
+    End Method
+    Method SetIsPartOfControl(properties[], value)
+    Begin
+        properties[3] = value
+    End Method
+
+    Method GetInitialStorageDestination(properties[])
+    Begin
+        Return (properties[4])
+    End Method
+    Method SetInitialStorageDestination(properties[], value)
+    Begin
+        properties[4] = value
+        SetStorageDestination(properties, value)
+    End Method
+
+    Method GetInitialImageFileName(properties[])
+    Begin
+        Return (properties[5])
+    End Method
+    Method SetInitialImageFileName(properties[], value)
+    Begin
+        properties[5] = value
+        SetImageFileName(properties, value)
+    End Method
+
+    Method GetStorageDestination(properties[])
+    Begin
+        Return (properties[6])
+    End Method
+    Method SetStorageDestination(properties[], value)
+    Begin
+        properties[6] = value
+    End Method
+
+    Method GetImageFileName(properties[])
+    Begin
+        Return (properties[7])
+    End Method
+    Method SetImageFileName(properties[], value)
+    Begin
+        properties[7] = value
+    End Method
+
+    Method GetBackColor(properties[])
+    Begin
+        Return (Canvas<properties[0]>:backColor)
+    End Method
+    Method SetBackColor(properties[], value)
+    Begin
+        Canvas<properties[0]>:backColor = value
+    End Method
+
+    Method GetForeColor(properties[])
+    Begin
+    End Method
+    Method SetForeColor(properties[], value)
+    Begin
+    End Method
+
+    Method GetWidth(properties[])
+    Begin
+        Return (Canvas<properties[0]>:width)
+    End Method
+    Method SetWidth(properties[], value)
+    Begin
+        Canvas<properties[0]>:width = value
+    End Method
+
+    Method GetHeight(properties[])
+    Begin
+        Return (Canvas<properties[0]>:height)
+    End Method
+    Method SetHeight(properties[], value)
+    Begin
+        Canvas<properties[0]>:height = value
+    End Method
+
+    Method GetBorderStyle(properties[])
+    Begin
+        Return (Canvas<properties[0]>:frame)
+    End Method
+    Method SetBorderStyle(properties[], value)
+    Begin
+        Canvas<properties[0]>:frame = value
+    End Method
+
+    Method GetLeft(properties[])
+    Begin
+        Return (Canvas<properties[0]>:left)
+    End Method
+    Method SetLeft(properties[], value)
+    Begin
+        Canvas<properties[0]>:left = value
+    End Method
+
+    Method GetTop(properties[])
+    Begin
+        Return (Canvas<properties[0]>:top)
+    End Method
+    Method SetTop(properties[], value)
+    Begin
+        Canvas<properties[0]>:top = value
+    End Method
+
+    Method IControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetType"
+                InterfaceCommon:Result = GetType(properties)
+            Case "GetName"
+                InterfaceCommon:Result = GetName(properties)
+            Case "GetText"
+                InterfaceCommon:Result = GetText(properties)
+            Case "SetText"
+                SetText(properties, UserObj<this>:Get(2))
+            Case "Focus"
+                Focus(properties)
+            Case "InvokeFocusHandler"
+                InvokeFocusHandler(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetEnabled"
+                InterfaceCommon:Result = GetEnabled(properties)
+            Case "SetEnabled"
+                SetEnabled(properties, UserObj<this>:Get(2))
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "TemporaryHide"
+                InterfaceCommon:Result = TemporaryHide(properties)
+            Case "UpdateVisible"
+                InterfaceCommon:Result = UpdateVisible(properties)
+            Case "Dispose"
+                InterfaceCommon:Result = Dispose(properties)
+        End Select
+    End Method
+    Method IBtInputControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "GetTabIndex"
+                InterfaceCommon:Result = GetTabIndex(properties)
+            Case "SetTabIndex"
+                InterfaceCommon:Result = SetTabIndex(properties, UserObj<this>:Get(2))
+            Case "GetVisible"
+                InterfaceCommon:Result = GetVisible(properties)
+            Case "SetVisible"
+                InterfaceCommon:Result = SetVisible(properties, UserObj<this>:Get(2))
+            Case "GetIsPartOfControl"
+                InterfaceCommon:Result = GetIsPartOfControl(properties)
+            Case "SetIsPartOfControl"
+                InterfaceCommon:Result = SetIsPartOfControl(properties, UserObj<this>:Get(2))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+            Case "StoreTemporaryText"
+                InterfaceCommon:Result = StoreTemporaryText(properties)
+            Case "ResetTemporaryText"
+                InterfaceCommon:Result = ResetTemporaryText(properties)
+        End Select
+    End Method
+    Method ISearchViewDisplayControlInvokeCommon(this, properties[])
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "SetSearchResult"
+                InterfaceCommon:Result = SetSearchResult(properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+            Case "Reset"
+                InterfaceCommon:Result = Reset(properties)
+        End Select
+    End Method
+
+    Method New(properties[])
+    Begin
+        SetStorageDestination(properties, 1)
+        SetInitialStorageDestination(properties, 1)
+        SetInitialImageFileName(properties, "")
+        SetImageFileName(properties, "")
+        SetIsPartOfControl(properties, false)
+        SetBorderStyle(properties, "none")
+        SetTabIndex(properties, 0)
+    End Method
+
+    Method Create(properties[], parentName)
+    Begin
+        SetType(properties, "PictureBox")
+
+        With Canvas<properties[0]>
+            :Create(parentName)
+            :enable = true
+        End With
+    End Method
+
+    Method Reset(properties[])
+    Begin
+        SetStorageDestination(properties, GetInitialStorageDestination(properties))
+        SetImageFileName(properties, GetInitialImageFileName(properties))
+        UpdateImage(properties, PathUtility:StorageTypeToPath(GetStorageDestination(properties)), GetImageFileName(properties))
+    End Method
+
+    Method Focus(properties[])
+    Begin
+    End Method
+
+    Method InvokeFocusHandler(properties[], isFocused)
+    Begin
+    End Method
+
+    Method SetImage(properties[], pathImageFile)
+        Const DriveNameIndex = 0
+        Const ImageFileNameIndex = 1
+        pathInfo[2]
+    Begin
+        PathUtility:SplitDriveNameAndPath(pathImageFile, pathInfo)
+        If (pathInfo[DriveNameIndex] is nil) Then
+            SetStorageDestination(properties, 2)
+            pathInfo[DriveNameIndex] = 2
+        End If
+        SetImageFileName(properties, pathInfo[ImageFileNameIndex])
+        UpdateImage(properties, pathInfo[DriveNameIndex], pathInfo[ImageFileNameIndex])
+    End Method
+
+    Method GetDriveName(pathImageFile)
+        separatorIndex
+    Begin
+        separatorIndex = pathImageFile.Find(":", 0)
+        Return (pathImageFile.Left(separatorIndex + 1))
+    End Method
+
+    Method GetImagePath(pathImageFile)
+        separatorIndex
+    Begin
+        separatorIndex = pathImageFile.Rfind(":", pathImageFile.length - 1)
+        Return (pathImageFile.Right(separatorIndex))
+    End Method
+
+    Method UpdateImage(properties[], storageDestination, fileName)
+        isSuccess
+    Begin
+        isSuccess = Canvas<properties[0]>:SetImage(PathUtility:Combine(storageDestination, fileName))
+        If Not isSuccess Then
+            Canvas<properties[0]>:backColor = GetBackColor(properties)
+        End If
+
+        Invalidate(properties)
+    End Method
+
+    Method Invalidate(properties[])
+    Begin
+        Canvas<properties[0]>:Update()
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex)
+        newImageFileName = ""
+    Begin
+        If (listId_SearchResult <> 0) Then
+            If (0 < ListTable:Count(listId_SearchResult)) Then
+                newImageFileName = ListTable:Get(listId_SearchResult, 0, "val")
+            End If
+        End If
+
+        SetImage(properties, newImageFileName)
+
+    End Method
+
+    Method TemporaryHide(properties[])
+    Begin
+        Canvas<properties[0]>:visible = false
+    End Method
+
+    Method Dispose(properties[])
+    Begin
+        Canvas<properties[0]>:Delete()
+    End Method
+
+    Method StoreTemporaryText(properties[])
+    Begin
+    End Method
+
+    Method ResetTemporaryText(properties[])
+    Begin
+    End Method
+
+End Package
+

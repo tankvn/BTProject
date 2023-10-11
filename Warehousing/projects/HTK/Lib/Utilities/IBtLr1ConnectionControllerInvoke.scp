@@ -1,0 +1,17 @@
+    Method IBtLr1ConnectionControllerInvoke(this)
+    Begin
+        Select Case UserObj<this>:Get(1)
+            Case "Connect"
+                InterfaceCommon:Result = Connect(InterfaceCommon:Properties)
+            Case "ConnectSpecifiedTarget"
+                InterfaceCommon:Result = ConnectSpecifiedTarget(InterfaceCommon:Properties, UserObj<this>:Get(2))
+            Case "Disconnect"
+                InterfaceCommon:Result = Disconnect(InterfaceCommon:Properties)
+            Case "GetIsConnecting"
+                InterfaceCommon:Result = GetIsConnecting(InterfaceCommon:Properties)
+            Case "Search"
+                InterfaceCommon:Result = Search(InterfaceCommon:Properties, UserObj<this>:Get(2))
+            Case "Send"
+                InterfaceCommon:Result = Send(InterfaceCommon:Properties, UserObj<this>:Get(2), UserObj<this>:Get(3))
+        End Select
+    End Method

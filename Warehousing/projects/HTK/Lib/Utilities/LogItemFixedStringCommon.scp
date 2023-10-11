@@ -1,0 +1,79 @@
+#insert "\Lib\Utilities\LogItemConstants"
+#insert "\Lib\Utilities\LogItemFixedStringConstants"
+
+/*Public*/ Package LogItemFixedStringCommon
+    /*Inherits LogItem*/
+
+#pushdefine
+#insert "\Lib\Utilities\LogItem"
+#popdefine
+
+
+
+    Method GetId(properties[]) /*As String*/
+    Begin
+        Return (properties[DEF_ID_PROPERTY])
+    End Method
+
+    Method GetLogData(properties[]) /*As String*/
+    Begin
+        Return (properties[DEF_LOG_DATA_PROPERTY])
+    End Method
+
+    Method GetLogDataIndex(properties[]) /*As Integer*/
+    Begin
+        Return (0)
+    End Method
+
+    Method GetLogItemTypeInfo(properties[]) /*As String*/
+    Begin
+        Return (FIELD_PREFIX & ":(" & properties[DEF_ID_PROPERTY] & ")" & "(" & GetLogItemId(properties) & ")")
+    End Method
+
+    Method GetTableItemTypes(properties[]) /*As String*/
+    Begin
+        Return (DB_ACCESS_SQLITE_DATA_TYPE_TEXT)
+    End Method
+
+    Method GetIsDate(properties[]) /*As Boolean*/
+    Begin
+        Return (false)
+    End Method
+
+    Method GetIsTime(properties[]) /*As Boolean*/
+    Begin
+        Return (false)
+    End Method
+
+    Method GetDecimalPlaces(properties[]) /*As Integer*/
+    Begin
+        Return (OUTPUT_DATA_UTILITY_DEFAULT_DECIMALPLACE)
+    End Method
+
+
+
+#insert "\Lib\Utilities\ILogItemInvokeCommon"
+
+    Method New(properties[], name, displayName, id, logData)
+    Begin
+        NewBase(properties, name, displayName, LOG_ITEM_TYPE_FIXED_STRING)
+        properties[DEF_ID_PROPERTY] = id
+        properties[DEF_LOG_DATA_PROPERTY] = logData
+    End Method
+
+    Method IsFormatChanged(properties[], databaseName, index) /*As Boolean*/
+    Begin
+        Return (IsFormatChangedBase(properties, GetTableItemTypes(properties), databaseName, index))
+    End Method
+
+    Method AddLogItemInfo(properties[], databaseName, index) /*As Boolean*/
+    Begin
+        Return (AddLogItemInfoBase(properties, GetTableItemTypes(properties), databaseName, index))
+    End Method
+
+    Method GetFormattedLogDataDb(properties[], dataLength, value)
+    Begin
+        Return (GetFormattedLogDataDbBase(properties, GetTableItemTypes(properties), GetDecimalPlaces(properties), dataLength, value))
+    End Method
+
+End Package 

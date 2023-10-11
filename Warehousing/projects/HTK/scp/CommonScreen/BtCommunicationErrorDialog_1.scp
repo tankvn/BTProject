@@ -1,0 +1,52 @@
+
+Include "CommonScreen\RES\BtCommunicationErrorDialog_1_res"
+
+Package BtCommunicationErrorDialog_1
+    _isInitialized = false
+
+    Method New()
+    Begin
+        BtCommunicationErrorDialog_1_res:InitializeComponent()
+
+        BtCommunicationErrorDialog_1_FocusTransitionUtility:SetControl("BtCommunicationErrorDialog_1_BtButton_Exit")
+    End Method
+
+    Method Initialize()
+    Begin
+        BtCommunicationErrorDialog_1_res:InitializeChildren()
+
+        BtCommunicationErrorDialog_1_BtButton_Exit:Invalidate()
+        _isInitialized = true
+    End Method
+
+    Method Finalized()
+    Begin
+        BtCommunicationErrorDialog_1_res:Dispose()
+    End Method
+
+    Method ShowDialog()
+    Begin
+        Key:onPress = BtCommunicationErrorDialog_1:OnKeyDown
+        BtCommunicationErrorDialog_1_res:Show(true)
+        BtCommunicationErrorDialog_1_BtButton_Exit:Focus()
+        IndicatorUtility:StartBVLAction(1, 2, 3, 1, True, 1)
+
+        BtCommunicationErrorDialog_1_res:EventWait()
+    End Method
+
+    Method CloseDialog(sender, result)
+    Begin
+        Key:onPress = nil
+        BtCommunicationErrorDialog_1_res:Show(false)
+        IndicatorUtility:StopBVLAction()
+        BtCommunicationErrorDialog_1_res:TerminateTimer()
+
+        Event:Exit()
+    End Method
+
+    Method OnKeyDown(sender)
+    Begin
+        BtCommunicationErrorDialog_1_res:KeyAssignedAction(sender)
+    End Method
+
+End Package

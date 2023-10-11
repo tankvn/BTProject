@@ -1,0 +1,400 @@
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\ErrorManager.scp(4) : ErrorManager:_errorMessage PROPERTY 0
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\ErrorManager.scp(6) : ErrorManager:_communicationError PROPERTY 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(4) : DateUtility:SEPARATOR_HYPHEN CONSTPROPERTY 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(6) : DateUtility:SEPARATOR_DOT CONSTPROPERTY 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(8) : DateUtility:SEPARATOR_SLASH CONSTPROPERTY 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(10) : DateUtility:SEPARATOR_SPACE CONSTPROPERTY 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(12) : DateUtility:COMMON_DATE_FORMAT CONSTPROPERTY 6
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(14) : DateUtility:COMMON_DATE_SEPARATOR CONSTPROPERTY 7
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(16) : DateUtility:COMMON_TIME_FORMAT CONSTPROPERTY 8
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(18) : DateUtility:SHORT_YEAR_MAX CONSTPROPERTY 9
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(20) : DateUtility:HANDY_DATE_FORMAT CONSTPROPERTY 10
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(22) : DateUtility:HANDY_DATE_SEPARATOR CONSTPROPERTY 11
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(24) : DateUtility:FormatTable PROPERTYARRAY 12
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(4) : TransmissionLogUtility:vbTab CONSTPROPERTY 13
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(6) : TransmissionLogUtility:newLine CONSTPROPERTY 14
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(4) : MessageUtility:_properties PROPERTYARRAY 15
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(6) : MessageUtility:frm CONSTPROPERTY 16
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(7) : MessageUtility:font CONSTPROPERTY 17
+[ErrorManager:SetError] : 1592
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\ErrorManager.scp(8) : errorMessage ARG 1
+[ErrorManager:GetError] : 1644
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\ErrorManager.scp(14) : errorMessage LOCAL 1
+[ErrorManager:GetCommunicationError] : 1784
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\ErrorManager.scp(27) : communicationError LOCAL 1
+[DateUtility:ToDateFromCommonFormat] : 1872
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(37) : dateText ARG 1
+[DateUtility:ToDate] : 1960
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(42) : dateText ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(42) : dateFormat ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(42) : dateSeparator ARG 3
+[DateUtility:GetDateFormatString] : 2120
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(50) : dateFormat ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(50) : separator ARG 2
+[DateUtility:GetOcrDateFormatString] : 2180
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(55) : dateFormat ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(55) : separator ARG 2
+[DateUtility:FormatCommonDate] : 2452
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(63) : formatTarget ARG 1
+[DateUtility:FormatDate] : 2540
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(68) : formatTarget ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(68) : dateFormat ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(68) : dateSeparatorType ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(69) : separatorString LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(70) : formatString LOCAL 2
+[DateUtility:GetDateSeparator] : 2800
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(81) : dateSeparator ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(82) : separator LOCAL 1
+[DateUtility:RoundDate] : 3108
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(96) : targetDate ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(96) : minDateTime ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(96) : maxDateTime ARG 3
+[DateUtility:Judge] : 3344
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(106) : judgeKind ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(106) : sourceDate ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(106) : destinationDate ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(106) : calculationType ARG 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(106) : calculationUnit ARG 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(106) : calculationValue ARG 6
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(106) : isCompareIncludeDay ARG 7
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(107) : result LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(108) : sourceFixedDate LOCAL 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(109) : destinationCalculatedDate LOCAL 3
+[DateUtility:CalculateDate] : 4528
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(139) : targetDate ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(139) : calculationType ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(139) : calculationTarget ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(139) : value ARG 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(140) : processType LOCAL 1
+[DateUtility:IsIncludeDay] : 5096
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(166) : datePattern ARG 1
+[DateUtility:Compare] : 5316
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(174) : sourceDate ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(174) : destinationDate ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(174) : compareIncludeDay ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(175) : src LOCALARRAY 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(176) : dst LOCALARRAY 2
+[DateUtility:ChangeHandyDate] : 6032
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(193) : dateText ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(193) : format ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(193) : separator ARG 3
+[DateUtility:IsLeapYear] : 6136
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(198) : year ARG 1
+[DateUtility:IsDateFormat] : 6408
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(208) : date ARG 1
+[DateUtility:IsTimeFormat] : 6544
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(216) : time ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(217) : val LOCAL 1
+[DateUtility:IsDateTimeFormat] : 6932
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(229) : date ARG 1
+[DateUtility:IsNumber] : 7308
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(238) : str ARG 1
+[DateUtility:CheckDate] : 7376
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(243) : year ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(243) : month ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(243) : day ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(244) : daysOfMonth LOCALARRAY 1
+[DateUtility:SeparateDate] : 8380
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(260) : str ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(260) : format ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(260) : separator ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(260) : dateString ARGARRAY 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(261) : index LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(262) : separatorLength LOCAL 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(263) : date LOCALARRAY 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(264) : dateLength LOCALARRAY 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(265) : offset LOCAL 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(266) : yearLength LOCAL 6
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(267) : monthLength LOCAL 7
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(268) : dayLength LOCAL 8
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(269) : dateFormat LOCAL 9
+[DateUtility:CombineDate] : 11196
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(341) : date ARGARRAY 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(341) : format ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(341) : separator ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(342) : index LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(343) : year LOCAL 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(344) : offset LOCAL 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(345) : yearLength LOCAL 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(346) : monthLength LOCAL 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(347) : dayLength LOCAL 6
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(348) : dateFormat LOCAL 7
+[DateUtility:ConvertDateStringToInt] : 12772
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(383) : dateString ARGARRAY 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(383) : date ARGARRAY 2
+[DateUtility:ChangeDate] : 13736
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(410) : str ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(410) : processType ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(410) : format ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(410) : separator ARG 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(411) : ret LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(412) : sourceDateString LOCALARRAY 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(413) : sourceDate LOCALARRAY 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(414) : calculatedDate LOCALARRAY 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(415) : daysOfMonth LOCALARRAY 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(416) : add LOCAL 6
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(417) : buf LOCAL 7
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(418) : withoutDay LOCAL 8
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(419) : monthIndex LOCAL 9
+[DateUtility:CalculateDay] : 16668
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(481) : str ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(481) : add ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(482) : addValue LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(483) : addTotal LOCAL 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(484) : tmpDate LOCAL 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(485) : AddMaxValue CONSTLOCAL 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(486) : AddMinValue CONSTLOCAL 5
+[DateUtility:CalculateDateCore] : 17296
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(519) : str ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(519) : processType ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(519) : val ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(520) : count LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(521) : date LOCALARRAY 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(522) : daysOfMonth LOCALARRAY 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(523) : monthIndex LOCAL 4
+[DateUtility:ChangeFormat2Default] : 19432
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(574) : str ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(574) : format ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(574) : separator ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(575) : ret LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(576) : date LOCALARRAY 2
+[DateUtility:ChangeDefault2Format] : 19896
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(586) : str ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(586) : format ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(586) : separator ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(587) : ret LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(588) : date LOCALARRAY 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(589) : dateString LOCAL 3
+[DateUtility:ChangeFormat] : 20708
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(604) : str ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(604) : srcFormat ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(604) : srcSeparator ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(604) : dstFormat ARG 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(604) : dstSeparator ARG 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(605) : ret LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(606) : date LOCALARRAY 2
+[DateUtility:ConvertToDatePatternString] : 21032
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(619) : format ARG 1
+[DateUtility:ConvertToSeparatorString] : 21904
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\DateUtility.scp(639) : separator ARG 1
+[SystemParameterUtility:GetSystemParameter] : 22456
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(4) : parameterType ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(5) : parameter LOCAL 1
+[SystemParameterUtility:IsSupportBtDesignTool] : 23280
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(45) : version LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(46) : intVersion LOCAL 2
+[SystemParameterUtility:GetBackLightData] : 24132
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(101) : value ARGARRAY 1
+[SystemParameterUtility:SetBackLightLevel] : 24420
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(120) : backLightLevel ARG 1
+[SystemParameterUtility:SetBackLightTime] : 24540
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(128) : backLightTime ARG 1
+[SystemParameterUtility:SetResume] : 24720
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(141) : enable ARG 1
+[SystemParameterUtility:SetAutoPowerOffTime] : 24840
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(149) : autoPowerOffTime ARG 1
+[SystemParameterUtility:SetScanningSuccessSoundLevel] : 25084
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(167) : soundLevel ARG 1
+[SystemParameterUtility:SetScanningErrorSoundLevel] : 25136
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(172) : soundLevel ARG 1
+[SystemParameterUtility:SetOperationSoundLevel] : 25252
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemParameterUtility.scp(182) : soundLevel ARG 1
+[SystemSettingFileUtility:WriteSetting] : 25364
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(4) : section ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(4) : key ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(4) : newValue ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(5) : result LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(6) : srcFileName LOCAL 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(7) : destFileName LOCAL 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(8) : currentLine LOCAL 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(9) : sectionName LOCAL 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(10) : sectionFound LOCAL 6
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(11) : keyInfo LOCALARRAY 7
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(12) : isUpdated LOCAL 8
+[SystemSettingFileUtility:ReadSetting] : 26568
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(71) : section ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(71) : key ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(71) : As LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(71) : String LOCAL 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(72) : result LOCAL 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(73) : srcFileName LOCAL 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(74) : sectionName LOCAL 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(75) : currentLine LOCAL 6
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(76) : sectionFound LOCAL 7
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(77) : keyInfo LOCALARRAY 8
+[SystemSettingFileUtility:WriteNewSettings] : 27236
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(115) : destFileName ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(115) : sectionName ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(115) : keyName ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(115) : newValue ARG 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(116) : keyInfo LOCAL 1
+[SystemSettingFileUtility:WriteValue] : 27400
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(125) : destFileName ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(125) : newValue ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(126) : newLine LOCAL 1
+[SystemSettingFileUtility:ReadValue] : 27496
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(132) : srcFileName ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(133) : readValue LOCAL 1
+[SystemSettingFileUtility:IsSection] : 27664
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(141) : targetString ARG 1
+[SystemSettingFileUtility:UpdateKeyOperationSoundData] : 27812
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(146) : soundLevel ARG 1
+[SystemSettingFileUtility:UpdateTouchOperationSoundData] : 27936
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(154) : soundLevel ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(155) : isTouchPanel LOCAL 1
+[SystemSettingFileUtility:LoadKeyOperationSoundData] : 28152
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(170) : soundLevel LOCAL 1
+[SystemSettingFileUtility:GetBuzzerOnTime] : 28400
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(186) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(187) : ontime LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(188) : section LOCAL 2
+[SystemSettingFileUtility:GetBuzzerOffTime] : 28656
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(203) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(204) : offtime LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(205) : section LOCAL 2
+[SystemSettingFileUtility:GetBuzzerLoopCount] : 28912
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(220) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(221) : repeatcount LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(222) : section LOCAL 2
+[SystemSettingFileUtility:GetBuzzerPitch] : 29132
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(236) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(237) : tone LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(238) : section LOCAL 2
+[SystemSettingFileUtility:GetBuzzerVolume] : 29352
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(252) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(253) : volume LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(254) : section LOCAL 2
+[SystemSettingFileUtility:GetBuzzerEnable] : 29624
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(271) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(272) : buzzerEnable LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(273) : section LOCAL 2
+[SystemSettingFileUtility:GetVibratorOnTime] : 29836
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(287) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(288) : ontime LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(289) : section LOCAL 2
+[SystemSettingFileUtility:GetVibratorOffTime] : 30092
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(304) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(305) : offtime LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(306) : section LOCAL 2
+[SystemSettingFileUtility:GetVibratorLoopCount] : 30348
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(321) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(322) : repeatcount LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(323) : section LOCAL 2
+[SystemSettingFileUtility:GetVibratorEnable] : 30568
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(337) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(338) : vibratorEnable LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(339) : section LOCAL 2
+[SystemSettingFileUtility:GetLedOnTime] : 30780
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(353) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(354) : ontime LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(355) : section LOCAL 2
+[SystemSettingFileUtility:GetLedOffTime] : 31036
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(370) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(371) : offtime LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(372) : section LOCAL 2
+[SystemSettingFileUtility:GetLedLoopCount] : 31292
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(387) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(388) : repeatcount LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(389) : section LOCAL 2
+[SystemSettingFileUtility:GetLedColor] : 31512
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(403) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(404) : color LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(405) : section LOCAL 2
+[SystemSettingFileUtility:GetLedEnable] : 31932
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(423) : isError ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(424) : ledEnable LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(425) : section LOCAL 2
+[SystemSettingFileUtility:GetBuzzerData] : 32252
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(448) : pattern ARG 1
+[SystemSettingFileUtility:WriteScanSoundLevel] : 32332
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(453) : soundLevel ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(453) : section ARG 2
+[SystemSettingFileUtility:SetScanningSuccessSoundLevel] : 32536
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(467) : soundLevel ARG 1
+[SystemSettingFileUtility:SetScanningErrorSoundLevel] : 32728
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(480) : soundLevel ARG 1
+[SystemSettingFileUtility:SetKeyOperationSoundData] : 32928
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\SystemSettingFileUtility.scp(493) : soundLevel ARG 1
+[PathUtility:IsFileExist] : 33232
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(8) : filename ARG 1
+[PathUtility:StorageTypeToPath] : 33388
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(16) : storageDestination ARG 1
+[PathUtility:SplitDriveNameAndPath] : 33704
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(33) : drivePath ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(33) : value ARGARRAY 2
+[PathUtility:Combine] : 34000
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(44) : filePath ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(44) : fileName ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(45) : result LOCAL 1
+[PathUtility:GetFileNameWithoutExtension] : 34364
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(68) : pathFile ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(69) : nameLength LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(70) : lastNamePos LOCAL 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(71) : startNamePos LOCAL 3
+[PathUtility:GetDirectoryName] : 34916
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(97) : pathFile ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(98) : nameLength LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(99) : lastDirectoryPos LOCAL 2
+[PathUtility:GetExtension] : 35248
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(112) : pathFile ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(113) : nameLength LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\PathUtility.scp(114) : startExtPos LOCAL 2
+[TransmissionLogUtility:WriteLog] : 35504
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(8) : fileName ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(8) : log ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(9) : enableErrorLog LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(10) : allLog LOCALARRAY 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(11) : rowCount LOCAL 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(12) : nowDate LOCAL 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(13) : nowTime LOCAL 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(14) : logFilePath LOCAL 6
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(15) : result LOCAL 7
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(16) : currentLine LOCAL 8
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\TransmissionLogUtility.scp(17) : index LOCAL 9
+[OcrSettings:SetOcrEnable] : 36432
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(3) : enableType ARG 1
+[OcrSettings:SetOcrPattern] : 36580
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(11) : patternType ARG 1
+[OcrSettings:SetOcrOutDispCheck] : 36876
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(24) : outDispCheckType ARG 1
+[OcrSettings:SetOcrDigitAdType] : 37220
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(38) : digitAdType ARG 1
+[OcrSettings:SetOcrDayExistType] : 37576
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(52) : dayExistType ARG 1
+[OcrSettings:SetOcrReadOneDegitMonthAndDay] : 37932
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(66) : readOneDegitMonthAndDay ARG 1
+[OcrSettings:SetOcrOutputDatePattern] : 38080
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(74) : pattern ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(75) : dat LOCALARRAY 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(76) : patternString LOCAL 2
+[OcrSettings:SetOcrOutputDateSeparator] : 38420
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(90) : separator ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(91) : dat LOCALARRAY 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(92) : separatorString LOCAL 2
+[OcrSettings:LoadConfigFile] : 38680
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(102) : filename ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(103) : result LOCAL 1
+[OcrSettings:SaveConfigFile] : 38860
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(113) : filename ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(114) : result LOCAL 1
+[OcrSettings:SetOcrEnableFormat] : 39044
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(124) : enableOcrFormat ARGARRAY 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(125) : i LOCAL 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(125) : j LOCAL 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(126) : fmtstr LOCAL 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(127) : dat LOCALARRAY 4
+[OcrSettings:ConvertPatternString] : 39416
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(139) : pattern ARG 1
+[OcrSettings:ConvertSeparatorString] : 39724
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Utilities\OCRSettings.scp(153) : separator ARG 1
+[MessageUtility:SetDisableMessage] : 40344
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(13) : value ARG 1
+[MessageUtility:ShowMessageOk] : 40408
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(18) : message ARG 1
+[MessageUtility:ShowMessage] : 40640
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(29) : message ARG 1
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(29) : title ARG 2
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(29) : buttonType ARG 3
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(29) : icon ARG 4
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(29) : defaultButton ARG 5
+D:\ASP\BTProject\Warehousing\projects\HTK\scp\Lib\Parts\MessageUtility.scp(30) : btn LOCAL 1

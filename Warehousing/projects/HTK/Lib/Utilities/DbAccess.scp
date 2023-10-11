@@ -1,0 +1,1039 @@
+Package DbAccess
+    Const MAX_VALUE_STRING_LENGTH = 8192
+    Const SQLITE_DATA_TYPE_TEXT = "text"
+    Const SQLITE_DATA_TYPE_INTEGER = "integer"
+    Const SQLITE_DATA_TYPE_REAL = "real"
+    Const ERROR_DBINDEX = -1
+    Const ESCAPE_CHAR = "\\"
+    Const ESCAPE_WILDCARD_CHARS[2] = {"*", "%"}
+
+    Const DATABASE_NAME = "DatabaseName"
+    Const SUB_DATABASE_NAME = "SubDatabaseName"
+    Const DB_INDEX = "DbIndex"
+
+    _id_fieldInfo = 0
+    _cachedConnections = 0
+
+    Method Open(dbName, subDbName, subDbAlias)
+        dbIndex = ERROR_DBINDEX
+        connectionItem = ERROR_DBINDEX
+        connectionCount
+        cache
+        openNum
+        removeNum
+        i
+    Begin
+        If _cachedConnections == 0 Then _cachedConnections = ListTable:CreateList() End If
+
+        CloseCollisionDatabase(dbName, subDbName)
+
+        connectionItem = FindDatabaseConnection(dbName)
+
+        If connectionItem <> ERROR_DBINDEX Then
+            Return (ListTable:GetValue(connectionItem, DB_INDEX))
+        End If
+
+        connectionCount = 0
+        For i = 0  to ListTable:Count(_cachedConnections)-1
+            cache = ListTable:Get(_cachedConnections, i, "val")
+
+            If ListTable:GetValue(cache, SUB_DATABASE_NAME) eq "" Then
+                openNum = 1
+            Else
+                openNum = 2
+            End If
+
+            connectionCount = connectionCount + openNum
+        Next
+
+        If subDbName eq "" Then
+            openNum = 1
+        Else
+            openNum = 2
+        End If
+        removeNum = (connectionCount + openNum) - TERMINAL_SETTING_MAX_CACHED_CONNECTION
+        If 0 < removeNum Then
+            For i = 0 to removeNum-1
+                Close(ListTable:GetValue(ListTable:Get(_cachedConnections, 0, "val"), DATABASE_NAME))
+            Next
+        End If
+
+        dbIndex = SQLite:Open(dbName)
+        If dbIndex is false Then
+            ErrorManager:SetError(MESSAGE_ERROR_OPEN_DB)
+            Return(ERROR_DBINDEX)
+        End If
+
+        If subDbName ne "" Then
+            SQLite:Execute(dbIndex, "ATTACH \"" & subDbName & "\" AS " & subDbAlias)
+        End If
+
+        SQLite:Execute(dbIndex, "begin;")
+
+        connectionItem = ListTable:CreateList()
+        ListTable:Add(connectionItem, DATABASE_NAME, dbName)
+        ListTable:Add(connectionItem, SUB_DATABASE_NAME, subDbName)
+        ListTable:Add(connectionItem, DB_INDEX, dbIndex)
+        ListTable:AddList(_cachedConnections, "", connectionItem)
+
+        Return(dbIndex)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_OPEN_DB)
+        Return(ERROR_DBINDEX)
+    End Method
+
+    Method Close(dbName)
+        dbIndex = ERROR_DBINDEX
+        connectionItem
+    Begin
+        connectionItem = FindDatabaseConnectionWithSubDb(dbName)
+        If connectionItem == ERROR_DBINDEX Then
+            Return()
+        End If
+
+        dbIndex = ListTable:GetValue(connectionItem, DB_INDEX)
+        SQLite:Execute(dbIndex, "commit;")
+
+        SQLite:Close(dbIndex)
+        RemoveDatabaseConnection(ListTable:GetValue(connectionItem, DATABASE_NAME))
+    Catch
+    End Method
+
+    Method CloseAll()
+        cache
+    Begin
+        While True
+            If ListTable:Count(_cachedConnections) == 0 Then
+                Wbreak
+            End If
+
+            cache = ListTable:Get(_cachedConnections, 0, "val")
+            Close(ListTable:GetValue(cache, DATABASE_NAME))
+        Wend
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_CLOSE_DB)
+    End Method
+
+    Method CloseCollisionDatabase(dbName, subDbName)
+        index
+        cache
+    Begin
+        For index =  ListTable:Count(_cachedConnections) - 1  to  0 step -1
+            cache = ListTable:Get(_cachedConnections, index, "val")
+
+            If ListTable:GetValue(cache, SUB_DATABASE_NAME) eq dbName Then
+                Close(ListTable:GetValue(cache, DATABASE_NAME))
+                Fcontinue
+            End If
+
+            If subDbName ne  "" Then
+                If (ListTable:GetValue(cache, DATABASE_NAME) eq dbName)
+                      And (ListTable:GetValue(cache, SUB_DATABASE_NAME) ne subDbName)  Then
+                    Close(ListTable:GetValue(cache, DATABASE_NAME))
+                    Fcontinue
+                End If
+
+                If ListTable:GetValue(cache, DATABASE_NAME) eq subDbName Then
+                    Close(ListTable:GetValue(cache, DATABASE_NAME))
+                    Fcontinue
+                End If
+
+                If ListTable:GetValue(cache, DATABASE_NAME) ne dbName
+                      And (ListTable:GetValue(cache, SUB_DATABASE_NAME) eq subDbName)  Then
+                    Close(ListTable:GetValue(cache, DATABASE_NAME))
+                    Fcontinue
+                End If
+            End If
+        Next
+    End Method
+
+    Method FindDatabaseConnection(dbName)
+        index
+        cache
+    Begin
+
+        For index = 0  to ListTable:Count(_cachedConnections)-1
+            cache = ListTable:Get(_cachedConnections, index, "val")
+            If ListTable:GetValue(cache, DATABASE_NAME) eq dbName Then
+                Return (cache)
+            End If
+        Next
+        Return(ERROR_DBINDEX)
+    End Method
+
+    Method FindDatabaseConnectionWithSubDb(dbName)
+        index
+        cache
+    Begin
+        For index = 0  to ListTable:Count(_cachedConnections)-1
+            cache = ListTable:Get(_cachedConnections, index, "val")
+            If ListTable:GetValue(cache, DATABASE_NAME) eq dbName Then
+                Return (cache)
+            End If
+        Next
+        For index = 0  to ListTable:Count(_cachedConnections)-1
+            cache = ListTable:Get(_cachedConnections, index, "val")
+            If ListTable:GetValue(cache, SUB_DATABASE_NAME) eq dbName Then
+                Return (cache)
+            End If
+        Next
+        Return(ERROR_DBINDEX)
+    End Method
+
+    Method RemoveDatabaseConnection(dbName)
+        removeItemIndex = -1
+        index
+        cache
+    Begin
+        For index = 0  to ListTable:Count(_cachedConnections)-1
+            cache = ListTable:Get(_cachedConnections, index, "val")
+            If ListTable:GetValue(cache, DATABASE_NAME) eq dbName Then
+                removeItemIndex = index
+                Fbreak
+            End If
+        Next
+
+        If removeItemIndex <> -1 Then
+            ListTable:Remove(_cachedConnections, removeItemIndex)
+            ListTable:DeleteList(cache)
+        End If
+    End Method
+
+    Method EncloseDoubleQuotations(targetValue)
+    Begin
+        Return("\"" & targetValue.Remove("\"") & "\"")
+    End Method
+
+    Method CreateTable(dbName, tableName, id_fieldTypePairs)
+        i
+        sql = ""
+        sql2 = ""
+        dbIndex = ERROR_DBINDEX
+        val1, val2
+    Begin
+        If HasTable(dbName, tableName) is true Then
+            Return(false)
+        End If
+
+        sql = "CREATE TABLE " & EncloseDoubleQuotations(tableName) & "("
+
+        For i = 0  to ListTable:Count(id_fieldTypePairs)-1
+            val1 = ListTable:Get(id_fieldTypePairs, i, "key")    
+            val2 = ListTable:Get(id_fieldTypePairs, i, "val")    
+            sql2 = sql2 & EncloseDoubleQuotations(val1) & " " & val2
+            If i <> ListTable:Count(id_fieldTypePairs)-1 Then
+                sql2 = sql2 & ", "
+            End If
+        Next
+        sql = sql & sql2 & ");"
+
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+            If SQLite:Execute(dbIndex, sql) is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_CREATE_TABLE)
+                Return(false)
+            End If
+            Return(true)
+        End If
+        Return(false)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_CREATE_TABLE)
+        Return(false)
+    End Method
+
+    Method CreateIndex(dbName, tableName, indexName, listId_Fields)
+        sql
+        sql2 = ""
+        i
+        dbIndex = ERROR_DBINDEX
+    Begin
+        If HasTable(dbName, tableName) is true Then
+            Return(false)
+        End If
+
+        sql = "CREATE INDEX " & EncloseDoubleQuotations(indexName) & " ON " & EncloseDoubleQuotations(tableName) & "("
+        For i = 0 to ListTable:Count(listId_Fields) - 1
+            If sql2 ne "" Then sql2 = sql2 & ", " End If
+            sql2 = sql2 & ListTable:Get(listId_Fields, i, "val")
+        Next
+        sql = sql & sql2 & ");"
+
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+            If SQLite:Execute(dbIndex, sql) is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_CREATE_TABLE)
+                Return(false)
+            End If
+            Return(true)
+        End If
+        Return(false)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_CREATE_TABLE)
+        Return(false)
+    End Method
+
+    Method DropTable(dbName, tableName)
+        sql = ""
+        dbIndex = ERROR_DBINDEX
+    Begin
+        If HasTable(dbName, tableName) is false Then
+            Return(false)
+        End If
+
+        sql = "DROP TABLE " & EncloseDoubleQuotations(tableName) & ";"
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+            If SQLite:Execute(dbIndex, sql) is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_DROP_TABLE)
+                Return(false)
+            End If
+            SQLite:Execute(dbIndex, "commit;")
+            SQLite:Execute(dbIndex, "vacuum;")
+            SQLite:Execute(dbIndex, "begin;")
+            Return(true)
+        End If
+        Return(false)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_DROP_TABLE)
+        Return(false)
+    End Method
+
+    Method HasTable(dbName, tableName)
+        id
+        ret = false
+        cnt
+    Begin
+        id = ListTable:CreateList()
+        ListTable:Add(id, "type", "table")
+        ListTable:Add(id, "tbl_name", tableName)
+        cnt = SelectCount(dbName, "sqlite_master", id, false, FILTERING_MATCH_TYPE_EXACT_MATCH)
+        If cnt > 0 Then
+            ret = true
+        End If
+        ListTable:DeleteList(id)
+        Return(ret)
+    End Method
+
+    Method ExecuteUpdateTypeSql(dbName, targetCommand)
+    Begin
+        Return(ExecuteUpdateTypeSqlWithCacheOption(dbName, targetCommand, false))
+    End Method
+
+    Method ExecuteUpdateTypeSqlWithCacheOption(dbName, targetCommand, noCache)
+        dbIndex
+    Begin
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+
+            If ExecuteSqlWithCacheOption(dbIndex, targetCommand, noCache) is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_DELETE_RECORD)
+                Return(false)
+            End If
+        End If
+        Return()
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_UPDATE_VALUE)
+        Return(ERROR_DBINDEX)
+    End Method
+
+    Method ExecuteQueryTypeSql(dbName, targetCommand, id_fieldTypePairs)
+        dbIndex
+        stateIndex
+        fieldCount
+        id_fieldValuePairs = INVALID_LIST_TABLE_ID
+        id
+        cnt = 0
+        val1, val2
+        i
+    Begin
+
+        dbIndex = Open(dbName, "", "")
+        If dbIndex == ERROR_DBINDEX Then Return(INVALID_LIST_TABLE_ID) End If
+        stateIndex = CmdCreate(dbIndex)
+        If CmdSetCommandText(dbIndex, stateIndex, targetCommand) <> 0 Then SQLiteCommand:Delete(stateIndex) Return(INVALID_LIST_TABLE_ID) End If
+        CmdExecuteReader(stateIndex)
+        fieldCount = ListTable:Count(id_fieldTypePairs)
+        id_fieldValuePairs = ListTable:CreateList()
+        While (SQLiteCommand:Read(stateIndex) == 1)
+            id = ListTable:CreateList()
+            ListTable:AddList(id_fieldValuePairs, cnt, id)
+
+            For i = 0 to fieldCount - 1
+                val1 = ListTable:Get(id_fieldTypePairs, i, "key")    
+                val2 = CmdGetValue(stateIndex, i)    
+                If val1 eq "" And val2.toLower eq SQLITE_DATA_TYPE_TEXT Then
+                    val1 = nil
+                End If
+                ListTable:Add(id, val1, val2)
+            Next
+            cnt = cnt + 1
+        Wend
+
+        SQLiteCommand:ResetParam(stateIndex)
+        SQLiteCommand:Delete(stateIndex)
+        If cnt == 0 Then
+            ListTable:DeleteList(id_fieldValuePairs)
+            Return(INVALID_LIST_TABLE_ID)
+        End If
+        Return(id_fieldValuePairs)
+    Catch
+        If (id_fieldValuePairs <> INVALID_LIST_TABLE_ID) Then
+            ListTable:DeleteList(id_fieldValuePairs)
+        End If
+        ErrorManager:SetError(MESSAGE_ERROR_SELECT_VALUES)
+        Return(INVALID_LIST_TABLE_ID)
+    End Method
+
+    Method InsertRecord(dbName, tableName, id_fieldValuePairs)
+    Begin
+        Return(InsertRecordWithCacheOption(dbName, tableName, id_fieldValuePairs,false))
+    End Method
+
+    Method InsertRecordWithCacheOption(dbName, tableName, id_fieldValuePairs, noCache)
+        i
+        sql = ""
+        sql2 = ""
+        sql3 = ""
+        dbIndex = ERROR_DBINDEX
+        fieldType
+        val1, val2
+    Begin
+        If _id_fieldInfo <> 0 Then ListTable:DeleteList(_id_fieldInfo) _id_fieldInfo = 0 End If
+        _id_fieldInfo = GetFieldInfoDictionary(dbName, tableName, true)
+        If _id_fieldInfo == 0 Then ErrorManager:SetError(MESSAGE_ERROR_INSERT_RECORD) Return(false) End If
+
+        sql = "INSERT INTO " & EncloseDoubleQuotations(tableName) & " ("
+        For i = 0  to ListTable:Count(id_fieldValuePairs)-1
+            val1 = ListTable:Get(id_fieldValuePairs, i, "key")  
+            val2 = ListTable:Get(id_fieldValuePairs, i, "val")  
+            sql2 = sql2 & EncloseDoubleQuotations(val1)
+
+            fieldType = FieldPairs:TryGetValue(_id_fieldInfo, val1)
+            If CheckTypeOfValue(val2, fieldType) is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_INSERT_RECORD) Return(false)
+            End If
+            If fieldType ne "" Then
+                sql3 = sql3 & FormatSqlValue(fieldType, val2)
+            End If
+            If i <> ListTable:Count(id_fieldValuePairs)-1 Then
+                sql2 = sql2 & ", "
+                sql3 = sql3 & ", "
+            End If
+        Next
+        sql = sql & sql2 & ") VALUES (" & sql3 & ");"
+
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+            If ExecuteSqlWithCacheOption(dbIndex, sql, noCache) is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_INSERT_RECORD)
+            End If
+        End If
+        Return(true)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_INSERT_RECORD)
+        Return(false)
+    End Method
+
+    Method CheckTypeOfValue(fieldValue, fieldType)
+    Begin
+        If (fieldValue eq "") Or (fieldValue is nil) Then
+            Return (true)
+        End If
+
+        If fieldType eq SQLITE_DATA_TYPE_TEXT Then
+            Return(true)
+        ElseIf fieldType eq SQLITE_DATA_TYPE_INTEGER Then
+            MathUtility:ParseToInteger(fieldValue)
+        ElseIf fieldType eq SQLITE_DATA_TYPE_REAL Then
+            MathUtility:ParseToDecimal(fieldValue)
+        Else
+            Return(false)
+        End If
+        Return(ErrorManager:GetError() eq MESSAGE_ERROR_NONE)
+    End Method
+
+    Method GetSqlCondition(dbName, tableName, id_fieldValuePairs)
+        i
+        sql = ""
+        fieldType
+        val1, val2
+    Begin
+        If _id_fieldInfo <> 0 Then ListTable:DeleteList(_id_fieldInfo) _id_fieldInfo = 0 End If
+        _id_fieldInfo = GetFieldInfoDictionary(dbName, tableName, true)
+        For i = 0  to ListTable:Count(id_fieldValuePairs)-1
+            If sql eq "" Then sql = "WHERE " End If
+            val1 = ListTable:Get(id_fieldValuePairs, i, "key")    
+            val2 = ListTable:Get(id_fieldValuePairs, i, "val")    
+            fieldType = FieldPairs:TryGetValue(_id_fieldInfo, val1)
+            If fieldType ne "" Then
+                sql = sql & EncloseDoubleQuotations(val1) & " = " & FormatSqlValue(fieldType, val2)
+            End If
+            If i <> ListTable:Count(id_fieldValuePairs)-1 Then
+                sql = sql & " AND "
+            End If
+        Next
+        Return(sql)
+    End Method
+
+    Method DeleteRecord(dbName, tableName, id_fieldValuePairs)
+    Begin
+        Return(DeleteRecordWithCacheOption(dbName, tableName, id_fieldValuePairs, false))
+    End Method
+
+    Method DeleteRecordWithCacheOption(dbName, tableName, id_fieldValuePairs, noCache)
+        sql = ""
+        sql2 = ""
+        dbIndex = ERROR_DBINDEX
+    Begin
+        sql = "DELETE FROM " & EncloseDoubleQuotations(tableName) & " "
+        sql2 = GetSqlCondition(dbName, tableName, id_fieldValuePairs)
+        sql = sql & sql2 & ";"
+
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+            If ExecuteSqlWithCacheOption(dbIndex, sql, noCache) is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_DELETE_RECORD)
+                Return(false)
+            End If
+        End If
+        Return(true)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_DELETE_RECORD)
+        Return(false)
+    End Method
+
+    Method UpdateValue(dbName, tableName, id_fieldValuePairs, id_newfieldValuePairs)
+    Begin
+        Return(UpdateValueWithCacheOption(dbName, tableName, id_fieldValuePairs, id_newfieldValuePairs, false))
+    End Method
+
+    Method UpdateValueWithCacheOption(dbName, tableName, id_fieldValuePairs, id_newfieldValuePairs, noCache)
+        dbIndex = ERROR_DBINDEX
+        i
+        sql
+        setValues = ""
+        condition
+        fieldType
+        val1, val2
+    Begin
+        If _id_fieldInfo <> 0 Then ListTable:DeleteList(_id_fieldInfo) _id_fieldInfo = 0 End If
+        _id_fieldInfo = GetFieldInfoDictionary(dbName, tableName, true)
+        If _id_fieldInfo == 0 Then ErrorManager:SetError(MESSAGE_ERROR_UPDATE_VALUE) Return(false) End If
+
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+
+            For i = 0  to ListTable:Count(id_newfieldValuePairs)-1
+                If setValues ne "" Then setValues = setValues & ", " End If
+                val1 = ListTable:Get(id_newfieldValuePairs, i, "key")   
+                val2 = ListTable:Get(id_newfieldValuePairs, i, "val")   
+                fieldType = FieldPairs:TryGetValue(_id_fieldInfo, val1)
+                If CheckTypeOfValue(val2, fieldType) is false Then
+                    ErrorManager:SetError(MESSAGE_ERROR_UPDATE_VALUE) Return(false)
+                End If
+                If fieldType ne "" Then
+                    setValues = setValues & EncloseDoubleQuotations(val1) & " = " & FormatSqlValue(fieldType, val2)
+                End If
+            Next
+            condition = GetSqlCondition(dbName, tableName, id_fieldValuePairs)
+            sql = "UPDATE " & EncloseDoubleQuotations(tableName) & " SET " & setValues & " " & condition & ";"
+            If ExecuteSqlWithCacheOption(dbIndex, sql, noCache) is false Then
+                ErrorManager:SetError(MESSAGE_ERROR_UPDATE_VALUE)
+                Return(false)
+            End If
+        End If
+        Return(true)
+    Catch
+        ErrorManager:SetError(MESSAGE_ERROR_UPDATE_VALUE)
+        Return(false)
+    End Method
+
+    Method GetSelectSqlCondition(dbName, tableName, id_fieldValuePairs, isOrCondition, matchType)
+    Begin
+        Return(GetSelectSqlCondition2(dbName, tableName, id_fieldValuePairs, isOrCondition, matchType, nil))
+    End Method
+
+    Method GetSelectSqlCondition2(dbName, tableName, id_fieldValuePairs, isOrCondition, matchType, exCondition)
+        i
+        sql = ""
+        fieldType
+        val1, val2
+    Begin
+        If _id_fieldInfo <> 0 Then ListTable:DeleteList(_id_fieldInfo) _id_fieldInfo = 0 End If
+        _id_fieldInfo = GetFieldInfoDictionary(dbName, tableName, true)
+        If _id_fieldInfo == 0 Then Return("") End If
+        For i = 0  to ListTable:Count(id_fieldValuePairs)-1
+            val1 = ListTable:Get(id_fieldValuePairs, i, "key")    
+            val2 = ListTable:Get(id_fieldValuePairs, i, "val")    
+            fieldType = FieldPairs:TryGetValue(_id_fieldInfo, val1)
+            If fieldType is nil Then fieldType = "" End If
+                If sql ne "" Then
+                    If isOrCondition is true Then
+                        sql = sql & " Or "
+                    Else
+                        sql = sql & " AND "
+                    End If
+                Else sql = "WHERE " End If
+
+                If matchType <> FILTERING_MATCH_TYPE_EXACT_MATCH Then
+                    If (Not (val2 is nil)) Or (fieldType.toLower eq SQLITE_DATA_TYPE_TEXT) Then
+                        sql = sql & EncloseDoubleQuotations(val1) & " LIKE ?"
+                    End If
+                Else
+                    If (Not (val2 is nil)) Or (fieldType.toLower eq SQLITE_DATA_TYPE_TEXT) Then
+                        sql = sql & EncloseDoubleQuotations(val1) & " = ?"
+                    Else
+                        sql = sql & EncloseDoubleQuotations(val1) & " IS NULL"
+                    End If
+                End If
+        Next
+
+        If Not exCondition Is nil Then
+            If sql.Find(exCondition, 0) is nil Then
+                If sql eq "" Then
+                    sql = "WHERE"
+                Else
+                    sql = sql & " AND"
+                End If
+                sql = sql & " " & exCondition
+            End If
+        End If
+
+        If matchType <> FILTERING_MATCH_TYPE_EXACT_MATCH And sql ne "" Then
+            sql = sql & " ESCAPE '" & ESCAPE_CHAR & "'"
+        End If
+
+        Return(sql)
+    End Method
+
+    Method ReplacePlaceholder(id_fieldValuePairs, stateIndex, id_fieldTypePairs, matchType)
+        i
+        val1, val2
+        val
+    Begin
+        For i = 0 to ListTable:Count(id_fieldValuePairs)-1
+            val1 = ListTable:Get(id_fieldValuePairs, i, "val")    
+            val2 = ListTable:Get(id_fieldTypePairs, i, "val")    
+            If not (val1 is nil) Or (val2.toLower eq SQLITE_DATA_TYPE_TEXT) Then
+                If matchType <> FILTERING_MATCH_TYPE_EXACT_MATCH Then
+                    val = CreateLikeConditionValue(val1, matchType)
+                Else
+                    val = val1
+                End If
+                SQLiteCommand:SetParam(stateIndex, i, val)
+            End If
+        Next
+    Catch
+    End Method
+
+    Method CreateLikeConditionValue(value, matchType)
+        str
+        i, j
+        ch
+    Begin
+        str = ""
+        For i = 0 to value.length -1
+            ch = value.Mid(i, 1)
+            If ch eq ESCAPE_CHAR Or ch eq ESCAPE_WILDCARD_CHARS[0] Or ch eq ESCAPE_WILDCARD_CHARS[1] Then str = str & ESCAPE_CHAR & ch
+            Else str = str & ch End If
+        Next
+
+        If matchType == FILTERING_MATCH_TYPE_FORWARD_MATCH Then
+            Return(str & "%")
+        ElseIf matchType == FILTERING_MATCH_TYPE_BACKWARD_MATCH Then
+            Return("%" & str)
+        ElseIf matchType == FILTERING_MATCH_TYPE_PARTIAL_MATCH Then
+            Return("%" & str & "%")
+        Else
+            Return(str)
+        End If
+    End Method
+
+    Method SelectCount(dbName, tableName, id_fieldValuePairs, isOrCondition, matchType)
+    Begin
+        Return(SelectCount2(dbName, tableName, id_fieldValuePairs, isOrCondition, matchType, nil))
+    End Method
+
+    Method SelectCount2(dbName, tableName, id_fieldValuePairs, isOrCondition, matchType, exCondition)
+        dbIndex = ERROR_DBINDEX
+        stateIndex = ERROR_DBINDEX
+        ret
+        sql
+        sql2
+        recordCount = 0
+    Begin
+        If _id_fieldInfo <> 0 Then ListTable:DeleteList(_id_fieldInfo) _id_fieldInfo = 0 End If
+        _id_fieldInfo = GetFieldInfoDictionary(dbName, tableName, true)
+        If _id_fieldInfo == 0 Then ErrorManager:SetError(MESSAGE_ERROR_SELECT_COUNT) Return(-1) End If
+
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+            stateIndex = CmdCreate(dbIndex)
+            sql2 = GetSelectSqlCondition2(dbName, tableName, id_fieldValuePairs, isOrCondition, matchType, exCondition)
+            sql = "SELECT COUNT(*) FROM " & EncloseDoubleQuotations(tableName) & " " & sql2 & ";"
+            ret = CmdSetCommandText(dbIndex, stateIndex, sql)
+            If ret <> 0 Then
+                SQLiteCommand:Delete(stateIndex)
+                Return(recordCount)
+            End If
+
+            If id_fieldValuePairs > 0 Then
+                ReplacePlaceholder(id_fieldValuePairs, stateIndex, _id_fieldInfo, matchType)
+            End If
+
+            CmdExecuteReader(stateIndex)
+
+            SQLiteCommand:Read(stateIndex)
+            recordCount = CmdGetValue(stateIndex, 0)
+
+            SQLiteCommand:ResetParam(stateIndex)
+            SQLiteCommand:Delete(stateIndex)
+        End If
+
+        Return(recordCount)
+    Catch
+        If stateIndex <> ERROR_DBINDEX Then
+            SQLiteCommand:ResetParam(stateIndex)
+            SQLiteCommand:Delete(stateIndex)
+        End If
+
+        ErrorManager:SetError(MESSAGE_ERROR_SELECT_COUNT)
+        Return(-1)
+    End Method
+
+    Method SelectValue(dbName, tableName, targetFieldName, id_keyFieldValuePairs, isOrCondition, matchType)
+    Begin
+        Return(SelectValue2(dbName, tableName, targetFieldName, id_keyFieldValuePairs, isOrCondition, matchType, nil))
+    End Method
+
+    Method SelectValue2(dbName, tableName, targetFieldName, id_keyFieldValuePairs, isOrCondition, matchType, exCondition)
+        id_selectFields
+        ret
+    Begin
+        id_selectFields = ListTable:CreateList()
+        If not (targetFieldName is nil) And targetFieldName ne "" Then
+            ListTable:Add(id_selectFields, targetFieldName, "")
+        End If
+        ret = SelectValues2(dbName, tableName, id_selectFields, id_keyFieldValuePairs, isOrCondition, matchType, false, 0, 1, 0, exCondition)
+        ListTable:DeleteList(id_selectFields)
+        Return(ret)
+    End Method
+
+    Method SelectValues(dbName, tableName, id_selectFields, id_keyFieldValuePairs, isOrCondition, matchType, isDescending, id_sortFields, limit, offset)
+    Begin
+        Return(SelectValues2(dbName, tableName, id_selectFields, id_keyFieldValuePairs, isOrCondition, matchType, isDescending, id_sortFields, limit, offset, nil))
+    End Method
+
+    Method SelectValues2(dbName, tableName, id_selectFields, id_keyFieldValuePairs, isOrCondition, matchType, isDescending, id_sortFields, limit, offset, exCondition)
+        dbIndex = ERROR_DBINDEX
+        stateIndex = ERROR_DBINDEX
+        ret
+        i
+        cnt = 0
+        sql
+        selectFieldsText = ""
+        condition = ""
+        sort = ""
+        fieldCount
+        id
+        val1, val2
+        id_fieldValuePairs = INVALID_LIST_TABLE_ID
+        type, type2
+        deleteSelectFields = false
+    Begin
+        If _id_fieldInfo <> 0 Then ListTable:DeleteList(_id_fieldInfo) _id_fieldInfo = 0 End If
+        _id_fieldInfo = GetFieldInfoDictionary(dbName, tableName, true)
+        If _id_fieldInfo == 0 Then Return(-1) End If
+
+        If id_selectFields == 0 Or ListTable:Count(id_selectFields) == 0 Then
+            selectFieldsText = "*"
+            id_selectFields = GetFieldInfoDictionary(dbName, tableName, false)
+            If id_selectFields == 0 Then Return(-1) End If
+            deleteSelectFields = true
+            fieldCount = ListTable:Count(id_selectFields)
+        Else
+            For i = 0  to ListTable:Count(id_selectFields)-1
+                If selectFieldsText ne "" Then selectFieldsText = selectFieldsText & ", " End If
+                val1 = ListTable:Get(id_selectFields, i, "key")    
+                If (StringUtility:ToUpper(val1) eq ROWID_FIELD_NAME) Then
+                    selectFieldsText = selectFieldsText & val1
+                Else
+                    selectFieldsText = selectFieldsText & EncloseDoubleQuotations(val1)
+                End If
+            Next
+            fieldCount = ListTable:Count(id_selectFields)
+        End If
+
+        condition = GetSelectSqlCondition2(dbName, tableName, id_keyFieldValuePairs, isOrCondition, matchType, exCondition)
+
+        If id_sortFields <> 0 Then
+            For i = 0  to ListTable:Count(id_sortFields)-1
+                If sort ne "" Then sort = sort & ", " End If
+                val1 = ListTable:Get(id_sortFields, i, "key")    
+                sort = sort & EncloseDoubleQuotations(val1)
+            Next
+        End If
+
+        If (sort ne "") Then
+            sort = sort & ", "
+        End If
+        sort = sort & "ROWID"
+
+        If isDescending is true Then
+            sort = sort & " DESC"
+        End If
+
+        sql = "SELECT " & selectFieldsText & " FROM " & EncloseDoubleQuotations(tableName) & " " & condition & " ORDER BY " & sort & ""
+        If 0 < limit Then
+            sql = sql & " LIMIT " & limit
+        End If
+        If 0 < offset Then
+            sql = sql & " OFFSET " & offset
+        End If
+        sql = sql & ";"
+
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+            stateIndex = CmdCreate(dbIndex)
+            ret = CmdSetCommandText(dbIndex, stateIndex, sql)
+            If ret <> 0 Then
+                SQLiteCommand:Delete(stateIndex)
+                If deleteSelectFields Then
+                    ListTable:DeleteList(id_selectFields)
+                    deleteSelectFields = false
+                End If
+                Return(-1)
+            End If
+
+            If id_keyFieldValuePairs > 0 Then
+                ReplacePlaceholder(id_keyFieldValuePairs, stateIndex, _id_fieldInfo, matchType)
+            End If
+
+            CmdExecuteReader(stateIndex)
+
+            id_fieldValuePairs = ListTable:CreateList()
+            While (SQLiteCommand:Read(stateIndex) == 1)
+                If limit <> 1 Then
+                    id = ListTable:CreateList()
+                    ListTable:AddList(id_fieldValuePairs, cnt, id)
+                Else
+                    id = id_fieldValuePairs
+                End If
+                For i = 0 to fieldCount - 1
+
+                    val1 = ListTable:Get(id_selectFields, i, "key")    
+                    val2 = CmdGetValue(stateIndex, i)    
+                    If val1 eq "" And val2.toLower eq SQLITE_DATA_TYPE_TEXT Then
+                        val1 = nil
+                    End If
+                    ListTable:Add(id, val1, val2)
+
+                    type = CmdGetValue(stateIndex, 2)    
+                    If type eq SQLITE_DATA_TYPE_TEXT Then type2 = SQ_LITE_FIELD_TYPE_TEXT
+                    ElseIf type eq SQLITE_DATA_TYPE_INTEGER Then type2 = SQ_LITE_FIELD_TYPE_INTEGER_NUMBER
+                    ElseIf type eq SQLITE_DATA_TYPE_REAL Then type2 = SQ_LITE_FIELD_TYPE_REAL_NUMBER
+                    Else type2 = SQ_LITE_FIELD_TYPE_TEXT
+                    End If
+                    ListTable:Set(id, i, "val2", type2)    
+                Next
+                cnt = cnt + 1
+            Wend
+
+            If deleteSelectFields Then
+                ListTable:DeleteList(id_selectFields)
+                deleteSelectFields = false
+            End If
+            SQLiteCommand:ResetParam(stateIndex)
+            SQLiteCommand:Delete(stateIndex)
+            If cnt == 0 Then
+                ListTable:DeleteList(id_fieldValuePairs)
+                Return(0)
+            End If
+            Return(id_fieldValuePairs)
+        End If
+    Catch
+        If deleteSelectFields Then
+            If (id_selectFields <> INVALID_LIST_TABLE_ID) Then
+                ListTable:DeleteList(id_selectFields)
+            End If
+        End If
+        If (id_fieldValuePairs <> INVALID_LIST_TABLE_ID) Then
+            ListTable:DeleteList(id_fieldValuePairs)
+        End If
+        ErrorManager:SetError(MESSAGE_ERROR_SELECT_VALUES)
+        Return(ERROR_DBINDEX)
+    End Method
+
+    Method GetFieldInfo(dbName, tableName)
+    Begin
+        Return(GetFieldInfoDictionary(dbName, tableName, false))
+    End Method
+
+    Method GetFieldInfoDictionary(dbName, tableName, addRowId)
+        dbIndex = ERROR_DBINDEX
+        stateIndex = ERROR_DBINDEX
+        ret
+        commandText
+        id = INVALID_LIST_TABLE_ID
+        type
+    Begin
+        dbIndex = Open(dbName, "", "")
+        If dbIndex <> ERROR_DBINDEX Then
+            stateIndex = CmdCreate(dbIndex)
+            commandText = "PRAGMA table_info(" & EncloseDoubleQuotations(tableName) & ");"
+            ret = CmdSetCommandText(dbIndex, stateIndex, commandText)
+            If ret <> 0 Then
+                SQLiteCommand:Delete(stateIndex)
+                Return(INVALID_LIST_TABLE_ID)
+            End If
+            CmdExecuteReader(stateIndex)
+
+            id = ListTable:CreateList()
+            While (SQLiteCommand:Read(stateIndex) == 1)
+                type = CmdGetValue(stateIndex, 2)
+                If type eq "" Then type = SQLITE_DATA_TYPE_TEXT End If
+                ListTable:Add(id, CmdGetValue(stateIndex, 1), type)
+            Wend
+            If addRowId Then
+                ListTable:Add(id, ROWID_FIELD_NAME, SQLITE_DATA_TYPE_INTEGER)
+            End If
+
+            SQLiteCommand:ResetParam(stateIndex)
+            SQLiteCommand:Delete(stateIndex)
+        End If
+
+        Return(id)
+    Catch
+        If stateIndex <> ERROR_DBINDEX Then
+            SQLiteCommand:ResetParam(stateIndex)
+            SQLiteCommand:Delete(stateIndex)
+        End If
+        If id <> INVALID_LIST_TABLE_ID Then
+            ListTable:DeleteList(id)
+        End If
+
+        ErrorManager:SetError(MESSAGE_ERROR_GET_COLUMN_INFO)
+        Return(INVALID_LIST_TABLE_ID)
+    End Method
+
+    Method CmdCreate(dbIndex)
+        stateIndex
+    Begin
+        stateIndex = SQLiteCommand:Create(dbIndex)
+        If stateIndex < 0 Then
+            Return(-1)
+        End If
+        Return(stateIndex)
+    End Method
+
+    Method CmdSetCommandText(dbIndex, stateIndex, commandText)
+        ret
+    Begin
+        ret = SQLiteCommand:SetCommandText(stateIndex, commandText)
+        If ret is false Then
+            Return(-1)
+        End If
+        Return(0)
+    End Method
+
+    Method ExecuteSql(dbIndex, sql)
+        ret
+    Begin
+        ret = SQLite:Execute(dbIndex, sql)
+        Return(ret)
+    End Method
+
+    Method ExecuteSqlWithCacheOption(dbIndex, sql, noCache)
+    Begin
+        If noCache Then
+            Return (ExecuteSqlNoCache(dbIndex, sql))
+        End If
+        Return(ExecuteSql(dbIndex, sql))
+    End Method
+
+    Method ExecuteSqlNoCache(dbIndex, sql)
+        stateIndex
+        ret
+    Begin
+        stateIndex = CmdCreate(dbIndex)
+
+        ret = CmdSetCommandText(dbIndex, stateIndex, sql)
+        If ret <> 0 Then
+            ret = false
+        Else
+            ret = SQLiteCommand:ExecuteNonQuery(stateIndex)
+        End If
+
+        SQLiteCommand:Delete(stateIndex)
+
+        Return(ret)
+    End Method
+
+    Method CmdExecuteReader(stateIndex)
+    Begin
+        Return(SQLiteCommand:ExecuteReader(stateIndex))
+    End Method
+
+    Method CmdGetValue(stateIndex, col)
+        ret
+    Begin
+        ret = SQLiteCommand:Value(stateIndex, col)
+        Return(ret)
+    End Method
+
+    Method FormatSqlValue(fieldType, value)
+    Begin
+        If value is nil Then
+            Return("NULL")
+        ElseIf fieldType.toLower eq SQLITE_DATA_TYPE_TEXT Then
+            Return("'" & value.Remove("'") & "'")
+        ElseIf value eq "" Then
+            Return("NULL")
+        Else
+            Return(value)
+        End If
+    End Method
+
+    Method FormatSqlValue2(fieldType, matchType, value)
+    Begin
+        If value is nil Then
+            Return("NULL")
+        ElseIf fieldType.toLower eq SQLITE_DATA_TYPE_TEXT Then
+            If matchType == FILTERING_MATCH_TYPE_EXACT_MATCH Then
+                Return("'" & value.Remove("'") & "'")
+            Else
+                If value eq "%" Then
+                    Return("'" & value.Remove("'") & "%'")
+                ElseIf matchType == FILTERING_MATCH_TYPE_FORWARD_MATCH Then
+                    Return("'" & value.Remove("'") & "%'")
+                ElseIf matchType == FILTERING_MATCH_TYPE_BACKWARD_MATCH Then
+                    Return("'%" & value.Remove("'") & "'")
+                ElseIf matchType == FILTERING_MATCH_TYPE_PARTIAL_MATCH Then
+                    Return("'%" & value.Remove("'") & "%'")
+                End If
+            End If
+        Else
+            Return(value)
+        End If
+    End Method
+
+End Package
+
+
+
+
+
+Package FieldPairs
+    Method TryGetValue(id_pairs, key)
+        i
+        val1, val2
+    Begin
+        For i = 0  to ListTable:Count(id_pairs)-1
+            val1 = ListTable:Get(id_pairs, i, "key")
+            val2 = ListTable:Get(id_pairs, i, "val")
+            If key eq val1 Then Return(val2) End If
+        Next
+        Return("")
+    End Method
+End Package
+

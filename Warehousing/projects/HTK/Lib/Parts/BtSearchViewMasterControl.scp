@@ -1,0 +1,266 @@
+#pushdefine
+
+#insert "\Lib\Parts\BtSearchViewMasterControlConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+    _conditionItems[8]
+
+    _displayItems[DEF_DISPLAY_ITEM_NUM]
+
+#insert "\Lib\Utilities\IMasterDataOwnerControlInvoke"
+
+    Method New()
+    Begin
+        BtSearchViewMasterControlCommon:New(Properties, "DEF_PACKAGE_NAME")
+    End Method
+
+    Method Initialize(conditionItems[], displayItems[], masterFileSaveDestination, masterDataFileName, showNotFoundMasterDataError, source)
+        i
+    Begin
+        Properties[DEF_CONDITIONITEMS_PROPERTY] = 0
+        For i = 0 to conditionItems.size-1
+            _conditionItems[i] = conditionItems[i]
+            If Not _conditionItems[i] is nil Then Properties[DEF_CONDITIONITEMS_PROPERTY] = Properties[DEF_CONDITIONITEMS_PROPERTY] + 1 End If
+        Next
+
+        Properties[DEF_DISPLAYITEMS_PROPERTY] = 0
+        For i = 0 to displayItems.size-1
+            _displayItems[i] = displayItems[i]
+            If Not _displayItems[i] is nil Then Properties[DEF_DISPLAYITEMS_PROPERTY] = Properties[DEF_DISPLAYITEMS_PROPERTY] + 1 End If
+        Next
+
+        Properties[DEF_SAVEDESTINATION_PROPERTY] = masterFileSaveDestination
+        Properties[DEF_MASTERDATANAME_PROPERTY] = masterDataFileName
+        Properties[DEF_SHOWNOTFOUNDMASTERDATAERROR_PROPERTY] = showNotFoundMasterDataError
+        Properties[DEF_SEARCH_SOURCE_PROPERTY] = source
+        Properties[DEF_MAXDATACOUNT_PROPERTY] = 100
+    End Method
+
+    Method Execute(parentWindow)
+    Begin
+        ExtractFromMaster(parentWindow)
+    End Method
+
+    Method ResetDisplayControls()
+        i = 0
+    Begin
+        While Not _displayItems[i] is nil
+            ISearchViewDisplayItem:Reset(_displayItems[i])
+            i = i + 1
+        Wend
+    End Method
+
+    Method ExtractFromMaster(parentWindow)
+        fieldValuePairs
+        conditionValue
+        errormessage
+        savePath
+        commErrorDispMode
+        listId_Conditions = INVALID_LIST_TABLE_ID
+        listId_ConditionCollection = INVALID_LIST_TABLE_ID
+        listId_IndexValues = INVALID_LIST_TABLE_ID
+        listId_IndexValuePair = INVALID_LIST_TABLE_ID
+        fieldIndex
+        tableName
+        searchRecords
+        searchRecord
+        listId_Result
+        fieldName
+        fieldValue
+        displayValue
+        i, j, k, l
+    Begin
+        ErrorManager:SetError(MESSAGE_ERROR_NONE)
+
+        If (BtSearchViewMasterControlCommon:GetSearchSource(Properties) == DATA_LOCATION_LOCAL) Then
+            fieldValuePairs = ListTable:CreateList()
+
+            For i = 0 to Properties[DEF_CONDITIONITEMS_PROPERTY] - 1
+                conditionValue = ISearchViewConditionItem:GetRangeExtractedString(_conditionItems[i] , ISearchViewConditionItem:GetInputValue(_conditionItems[i]))
+                errormessage = ErrorManager:GetError()
+                If (errormessage ne MESSAGE_ERROR_NONE) Then
+                    ResetDisplayControls()
+                    ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+                    ListTable:DeleteList(fieldValuePairs)
+                    Return()
+                End If
+                ListTable:Add(fieldValuePairs, ISearchViewConditionItem:GetTableFieldName(_conditionItems[i]), conditionValue)
+            Next
+
+            savePath = PathUtility:StorageTypeToPath(Properties[DEF_SAVEDESTINATION_PROPERTY])
+            searchRecords = DbAccess:SelectValues(PathUtility:Combine(savePath, Properties[DEF_MASTERDATANAME_PROPERTY]), TERMINAL_SETTING_MASTER_TABLE_NAME, 0, fieldValuePairs, False, FILTERING_MATCH_TYPE_EXACT_MATCH, False, 0, BtSearchViewMasterControlCommon:GetMaxDataCountForDbAccess(Properties), 0)
+            ListTable:DeleteList(fieldValuePairs)
+        Else
+            commErrorDispMode = BtSearchViewMasterControlCommon:GetCommunicationErrorDisplayMode(Properties)
+            If (commErrorDispMode == COMMUNICATION_ERROR_DISPLAY_MODE_TERMINAL_SETTING) Then
+                commErrorDispMode = TERMINAL_SETTING_REALTIME_DISPLAY_ERROR_SCREEN
+            End If
+
+            listId_IndexValues = ListTable:CreateList()
+            For i = 0 to Properties[DEF_CONDITIONITEMS_PROPERTY] - 1
+                conditionValue = ISearchViewConditionItem:GetRangeExtractedString(_conditionItems[i] , ISearchViewConditionItem:GetInputValue(_conditionItems[i]))
+
+                errormessage = ErrorManager:GetError()
+                If (errormessage ne MESSAGE_ERROR_NONE) Then
+                    ResetDisplayControls()
+                    ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+                    ListTable:DeleteList(listId_IndexValues)
+                    Return (nil)
+                End If
+
+                fieldIndex = GetFieldIndexFromFieldName(ISearchViewConditionItem:GetTableFieldName(_conditionItems[i]))
+                If fieldIndex < 0 Then
+                    ResetDisplayControls()
+                    ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+                    ListTable:DeleteList(listId_IndexValues)
+                    Return (nil)
+                End If
+                listId_IndexValuePair = ListTable:CreateList()
+                ListTable:Add(listId_IndexValuePair, "Index", fieldIndex)
+                ListTable:Add(listId_IndexValuePair, "Value", conditionValue)
+                ListTable:Add(listId_IndexValuePair, "MatchType", FILTERING_MATCH_TYPE_EXACT_MATCH)
+                ListTable:AddList(listId_IndexValues, i, listId_IndexValuePair)
+            Next
+            listId_ConditionCollection = ListTable:CreateList()
+            ListTable:Add(listId_ConditionCollection, "IsOrCondition", false)
+            ListTable:AddList(listId_ConditionCollection, "IndexValueList", listId_IndexValues)
+            listId_Conditions = ListTable:CreateList()
+            ListTable:AddList(listId_Conditions, "0", listId_ConditionCollection)
+
+            If BtSearchViewMasterControlCommon:GetMasterDataName(Properties) ne "" Then
+                tableName = TERMINAL_SETTING_MASTER_TABLE_NAME
+            Else
+                tableName = BtSearchViewMasterControlCommon:GetUserMasterTableName(Properties)
+            End If
+
+            RealTimeConnectionController:New()
+            searchRecords = RealTimeConnectionController:SelectMultiple(BtSearchViewMasterControlCommon:GetMasterDataName(Properties),
+                                                    tableName,
+                                                    INVALID_LIST_TABLE_ID, listId_Conditions,
+                                                    BtSearchViewMasterControlCommon:GetMaxDataCountForDbAccess(Properties), parentWindow)
+            ListTable:DeleteList(listId_Conditions)
+
+            If ErrorManager:GetCommunicationError() Then
+                ResetDisplayControls()
+                If (commErrorDispMode <> COMMUNICATION_ERROR_DISPLAY_MODE_NEVER) Then
+                    ErrorManager:SetCommunicationError()
+                Else
+                    If (Properties[DEF_SHOWNOTFOUNDMASTERDATAERROR_PROPERTY]) Then
+                        ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_NOTFOUND)
+                    End If
+                End If
+                If searchRecords <> INVALID_LIST_TABLE_ID Then
+                    ListTable:DeleteList(searchRecords)
+                End If
+                Return (nil)
+            End If
+        End If
+
+        If searchRecords <= 0 Then
+            ResetDisplayControls()
+            If (Properties[DEF_SHOWNOTFOUNDMASTERDATAERROR_PROPERTY] is true) Then
+                ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_NOTFOUND)
+            End If
+            Return()
+        End If
+
+        For i = 0 to Properties[DEF_DISPLAYITEMS_PROPERTY] - 1
+            ISearchViewDisplayItem:SetSearchResult(_displayItems[i], INVALID_LIST_TABLE_ID)
+        Next
+
+        If ListTable:Count(searchRecords) == 0 Then
+            ResetDisplayControls()
+            If Properties[DEF_SHOWNOTFOUNDMASTERDATAERROR_PROPERTY] is true Then
+                ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_NOTFOUND)
+            End If
+            ListTable:DeleteList(searchRecords)
+            Return()
+        End If
+
+        For i = 0 to Properties[DEF_DISPLAYITEMS_PROPERTY] - 1
+            l = 0
+            listId_Result = ListTable:CreateList()
+            For j = 0 To ListTable:Count(searchRecords)-1   
+                searchRecord = ListTable:Get(searchRecords, j, "val")
+                For k = 0 To ListTable:Count(searchRecord)-1        
+                    fieldName = ListTable:Get(searchRecord, k, "key")
+                    If fieldName is nil Then
+                        ResetDisplayControls()
+                        ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+                        ListTable:DeleteList(searchRecords)
+                        ListTable:DeleteList(listId_Result)
+                        Return()
+                    End If
+                    If (fieldName ne ISearchViewDisplayItem:GetTableFieldName(_displayItems[i])) Then
+                        Fcontinue
+                    End If
+
+                    fieldValue = ListTable:Get(searchRecord, k, "val")
+                    displayValue = ISearchViewDisplayItem:GetRangeExtractedString(_displayItems[i] , fieldValue)
+                    If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                        ResetDisplayControls()
+                        ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+                        ListTable:DeleteList(searchRecords)
+                        ListTable:DeleteList(listId_Result)
+                        Return()
+                    End If
+                    ListTable:Add(listId_Result, l, displayValue)
+                    l = l + 1
+                Next
+            Next
+
+            ISearchViewDisplayItem:SetSearchResult(_displayItems[i], listId_Result)
+            ListTable:DeleteList(listId_Result)
+            If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+                ResetDisplayControls()
+                ErrorManager:SetError(MESSAGE_ERROR_REFERENCE_ACTION)
+                ListTable:DeleteList(searchRecords)
+                Return()
+            End If
+        Next
+        ListTable:DeleteList(searchRecords)
+    End Method
+
+    Method UpdateMasterData()
+    Begin
+    End Method
+
+    Method CloseMasterData()
+    Begin
+        If (BtSearchViewMasterControlCommon:GetSearchSource(Properties) == DATA_LOCATION_REMOTE) Then
+            Return (nil)
+        End If
+        BtSearchViewMasterControlCommon:CloseMasterData(Properties)
+    End Method
+
+    Method GetFieldIndexFromFieldName(fieldName) /*As Integer*/
+        fPos
+        prefix = FIELD_NAME_PREFIX
+        indexString
+        indexValue
+    Begin
+        fPos = fieldName.Find(prefix, 0)
+        If fPos is nil Then
+            Return (-1)
+        End If
+        If fPos <> 0 Then
+            Return (-1)
+        End If
+
+        indexString = fieldName.Mid(prefix.Length, fieldName.Length - prefix.Length)
+
+        indexValue = MathUtility:ParseToInteger(indexString)
+        If (ErrorManager:GetError() ne MESSAGE_ERROR_NONE) Then
+            Return (-1)
+        End If
+
+        Return (indexValue - 1)
+
+    End Method
+
+End Package
+
+#popdefine

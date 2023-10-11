@@ -1,0 +1,228 @@
+// <builder-version>2.3.3.0</builder-version>
+#insert "\Lib\Utilities\Enums"
+#insert "\Lib\Utilities\CommonConstants"
+#insert "\Lib\Utilities\DbAccessConstants"
+#insert "\Lib\Utilities\OutputDataUtilityConstants"
+#insert "\Lib\Utilities\MessageResources"
+#insert "\Lib\Utilities\TerminalSetting"
+#define DEF_FOCUS_TRANSITION_UTILITY BtTopMenuWindow_FocusTransitionUtility
+#define DEF_EVENT_FORM_KEY_DOWN ActiveForm:OnKeyDown
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtTopMenuWindow_FocusTransitionUtility
+#include "\Lib\Utilities\FocusTransitionUtility" "..\Lib\Utilities\BtTopMenuWindow_FocusTransitionUtility"
+#popdefine
+#define DEF_EVENT_ONKEYDOWN BtTopMenuWindow:OnKeyDown
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtTopMenuWindow_BtLabel_Version
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtTopMenuWindow_BtLabel_Version"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtTopMenuWindow_BtSystemParameter_Version
+#include "\Lib\Parts\BtSystemParameterLabel" "..\Lib\Parts\BtTopMenuWindow_BtSystemParameter_Version"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtTopMenuWindow_BtLabel_Title
+#include "\Lib\Parts\BtLabel" "..\Lib\Parts\BtTopMenuWindow_BtLabel_Title"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtTopMenuWindow_BtMenuItem_Storage
+#define DEF_EVENT_DATA_INPUT BtTopMenuWindow:BtMenuItem_Storage_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtTopMenuWindow_BtMenuItem_Storage"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtTopMenuWindow_BtMenuItem_Retrieval
+#define DEF_EVENT_DATA_INPUT BtTopMenuWindow:BtMenuItem_Retrieval_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtTopMenuWindow_BtMenuItem_Retrieval"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtTopMenuWindow_BtMenuItem_Configuration
+#define DEF_EVENT_DATA_INPUT BtTopMenuWindow:BtMenuItem_Configuration_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtTopMenuWindow_BtMenuItem_Configuration"
+#popdefine
+
+#pushdefine
+#define DEF_PACKAGE_NAME BtTopMenuWindow_BtButton_Exit
+#define DEF_EVENT_DATA_INPUT BtTopMenuWindow:BtButton_Exit_DataInput
+#include "\Lib\Parts\BtButton" "..\Lib\Parts\BtTopMenuWindow_BtButton_Exit"
+#popdefine
+
+
+Package BtTopMenuWindow_res
+    #define DEF_PACKAGE_NAME BtTopMenuWindow
+    #defineexpand DEF_EVENT_TIMER BtTopMenuWindow_BtSystemParameter_Version:OnTimer
+    #defineexpand DEF_CONTROL BtTopMenuWindow_BtLabel_Title,BtLabelCommon|BtTopMenuWindow_BtMenuItem_Storage,BtButtonCommon|BtTopMenuWindow_BtMenuItem_Retrieval,BtButtonCommon|BtTopMenuWindow_BtMenuItem_Configuration,BtButtonCommon|BtTopMenuWindow_BtButton_Exit,BtButtonCommon|BtTopMenuWindow_BtLabel_Version,BtLabelCommon|BtTopMenuWindow_BtSystemParameter_Version,BtSystemParameterLabelCommon
+    #insert "\Lib\Parts\BtScreen"
+    Method InitializeComponent()
+    Begin
+        New(BtFormCommon:GetName(BtTopMenuWindowForm_res:Properties))
+        InitializeTimer()
+        With BtTopMenuWindow_res
+            BtTopMenuWindow_BtLabel_Title:Create(BtScreenCommon:GetName(:Properties))
+            BtTopMenuWindow_BtMenuItem_Storage:Create(BtScreenCommon:GetName(:Properties))
+            BtTopMenuWindow_BtMenuItem_Retrieval:Create(BtScreenCommon:GetName(:Properties))
+            BtTopMenuWindow_BtMenuItem_Configuration:Create(BtScreenCommon:GetName(:Properties))
+            BtTopMenuWindow_BtButton_Exit:Create(BtScreenCommon:GetName(:Properties))
+            BtTopMenuWindow_BtLabel_Version:Create(BtScreenCommon:GetName(:Properties))
+            BtTopMenuWindow_BtSystemParameter_Version:Create(BtScreenCommon:GetName(:Properties))
+        End With
+        
+        With BtTopMenuWindow_BtLabel_Version
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtLabelCommon:SetWidth(:Properties, 45)
+            BtLabelCommon:SetHeight(:Properties, 25)
+            BtLabelCommon:SetLeft(:Properties, 125)
+            BtLabelCommon:SetTop(:Properties, 295)
+            BtLabelCommon:SetInitialText(:Properties, "ver.")
+            BtLabelCommon:SetAlignment(:Properties, "right")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 20)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 5)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtTopMenuWindow_BtSystemParameter_Version
+            BtSystemParameterLabelCommon:SetSystemParameterType(:Properties, SYSTEM_PARAMETER_TYPE_APPLICATION_VERSION)
+            BtSystemParameterLabelCommon:SetForeColor(:Properties, "0|0|0")
+            BtSystemParameterLabelCommon:SetBackColor(:Properties, "255|255|255")
+            BtSystemParameterLabelCommon:SetWidth(:Properties, 70)
+            BtSystemParameterLabelCommon:SetHeight(:Properties, 25)
+            BtSystemParameterLabelCommon:SetLeft(:Properties, 165)
+            BtSystemParameterLabelCommon:SetTop(:Properties, 295)
+            BtSystemParameterLabelCommon:SetAlignment(:Properties, "right")
+            BtSystemParameterLabelCommon:SetBorderStyle(:Properties, "none")
+            BtSystemParameterLabelCommon:SetFontSize(:Properties, 20)
+            BtSystemParameterLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtSystemParameterLabelCommon:SetBold(:Properties, false)
+            BtSystemParameterLabelCommon:SetTabIndex(:Properties, 6)
+            BtSystemParameterLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtTopMenuWindow_BtLabel_Title
+            BtLabelCommon:SetUseNumberGroupSeparator(:Properties, false)
+            BtLabelCommon:SetIsShared(:Properties, false)
+            BtLabelCommon:SetSharedParameterKey(:Properties, "")
+            BtLabelCommon:SetSharedParameterClearTiming(:Properties, SHARED_PARAMETER_CLEAR_TIMING_NONE)
+            BtLabelCommon:SetForeColor(:Properties, "255|255|255")
+            BtLabelCommon:SetBackColor(:Properties, "51|51|51")
+            BtLabelCommon:SetWidth(:Properties, 240)
+            BtLabelCommon:SetHeight(:Properties, 35)
+            BtLabelCommon:SetLeft(:Properties, 0)
+            BtLabelCommon:SetTop(:Properties, 0)
+            BtLabelCommon:SetInitialText(:Properties, "Menu")
+            BtLabelCommon:SetAlignment(:Properties, "center")
+            BtLabelCommon:SetBorderStyle(:Properties, "none")
+            BtLabelCommon:SetFontSize(:Properties, 30)
+            BtLabelCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtLabelCommon:SetBold(:Properties, false)
+            BtLabelCommon:SetTabIndex(:Properties, 0)
+            BtLabelCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtTopMenuWindow_BtMenuItem_Storage
+            BtButtonCommon:SetText(:Properties, "Storage")
+            BtButtonCommon:SetWidth(:Properties, 230)
+            BtButtonCommon:SetHeight(:Properties, 32)
+            BtButtonCommon:SetLeft(:Properties, 5)
+            BtButtonCommon:SetTop(:Properties, 40)
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "168|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 30)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 1)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtTopMenuWindow_BtMenuItem_Retrieval
+            BtButtonCommon:SetText(:Properties, "Retrieval")
+            BtButtonCommon:SetWidth(:Properties, 230)
+            BtButtonCommon:SetHeight(:Properties, 32)
+            BtButtonCommon:SetLeft(:Properties, 5)
+            BtButtonCommon:SetTop(:Properties, 71)
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "168|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 30)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 2)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtTopMenuWindow_BtMenuItem_Configuration
+            BtButtonCommon:SetText(:Properties, "Configuration")
+            BtButtonCommon:SetWidth(:Properties, 230)
+            BtButtonCommon:SetHeight(:Properties, 32)
+            BtButtonCommon:SetLeft(:Properties, 5)
+            BtButtonCommon:SetTop(:Properties, 257)
+            BtButtonCommon:SetBorderStyle(:Properties, "thin")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetBackColor(:Properties, "255|255|255")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "168|255|255")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 30)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, false)
+            BtButtonCommon:SetTabIndex(:Properties, 3)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtTopMenuWindow_BtButton_Exit
+            BtButtonCommon:SetText(:Properties, "Exit")
+            BtButtonCommon:SetWidth(:Properties, 60)
+            BtButtonCommon:SetHeight(:Properties, 29)
+            BtButtonCommon:SetLeft(:Properties, 5)
+            BtButtonCommon:SetTop(:Properties, 290)
+            BtButtonCommon:SetBorderStyle(:Properties, "raised")
+            BtButtonCommon:SetShowFocusedBorder(:Properties, true)
+            BtButtonCommon:SetAlignment(:Properties, "center")
+            BtButtonCommon:SetForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetBackColor(:Properties, "220|220|220")
+            BtButtonCommon:SetFocusedForeColor(:Properties, "0|0|0")
+            BtButtonCommon:SetFocusedBackColor(:Properties, "220|220|220")
+            BtButtonCommon:SetButtonType(:Properties, BUTTON_TYPE_TEXT)
+            BtButtonCommon:SetFontSize(:Properties, 20)
+            BtButtonCommon:SetFontName(:Properties, "TT Hira UD Sans Rd Mono StdN W4")
+            BtButtonCommon:SetBold(:Properties, true)
+            BtButtonCommon:SetTabIndex(:Properties, 4)
+            BtButtonCommon:SetVisible(:Properties, true)
+        End With
+        
+        With BtTopMenuWindow_res
+            BtScreenCommon:SetBackColor(:Properties, "255|255|255")
+            BtScreenCommon:SetWidth(:Properties, 240)
+            BtScreenCommon:SetHeight(:Properties, 320)
+            BtScreenCommon:SetLeft(:Properties, 0)
+            BtScreenCommon:SetTop(:Properties, 0)
+        End With
+        
+    End Method
+End Package

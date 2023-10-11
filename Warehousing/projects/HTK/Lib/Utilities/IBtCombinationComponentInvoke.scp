@@ -1,0 +1,4 @@
+    Method IBtCombinationComponentInvoke(this)
+    Begin
+        DEF_COMMON:IBtCombinationComponentInvokeCommon(this, Properties)
+    End Method

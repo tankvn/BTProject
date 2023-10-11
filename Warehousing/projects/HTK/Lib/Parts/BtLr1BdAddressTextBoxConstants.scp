@@ -1,0 +1,5 @@
+
+    #insert "\Lib\Parts\BtTextBoxConstants"
+    #undef DEF_COMMON
+
+    #define DEF_COMMON BtLr1BdAddressTextBoxCommon

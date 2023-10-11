@@ -1,0 +1,93 @@
+
+Package HistoryDataEditDialog_cancelButton
+
+    Properties[17]
+
+    Method DataInput(this)
+    Begin
+        Return (HistoryDataEditDialog:CancelButton_Click(BtButtonCommon:GetName(Properties), EventUtility:GetParameter(this, 0)))
+    End Method
+
+    Method FocusTransitionRequested(this)
+        result = false
+    Begin
+        Return (result)
+    End Method
+
+    Method New()
+    Begin
+        BtButtonCommon:New(Properties)
+        BtButtonCommon:SetHandler(Properties, DataInput, FocusTransitionRequested, MoveNextControl, MovePreviousControl)
+    End Method
+
+    Method IControlInvoke(this)
+    Begin
+        BtButtonCommon:IControlInvokeCommon(this, Properties)
+    End Method
+
+    Method Create(parentName)
+    Begin
+        Properties[0] = "HistoryDataEditDialog_cancelButton"
+        BtButtonCommon:Create(Properties, parentName)
+        BtButtonCommon:SetEventHandler(Properties, OnClick, OnGotFocus, OnLostFocus)
+        New()
+    End Method
+
+    Method Invalidate()
+    Begin
+        BtButtonCommon:Invalidate(Properties)
+    End Method
+
+    Method PerformClick()
+    Begin
+        OnClick(nil)
+    End Method
+
+    Method Focus()
+    Begin
+        BtButtonCommon:Focus(Properties)
+    End Method
+
+    Method MoveNextControl(this)
+    Begin
+        Return(HistoryDataEditDialog_FocusTransitionUtility:GetMoveNextControlId(BtButtonCommon:GetName(Properties)))
+    End Method
+
+    Method MovePreviousControl(this)
+    Begin
+        Return(HistoryDataEditDialog_FocusTransitionUtility:GetMovePreviousControlId(BtButtonCommon:GetName(Properties)))
+    End Method
+
+    Method OnGotFocus(sender)
+    Begin
+        BtButtonCommon:OnGotFocus(Properties, OnKeyDown, OnGotFocus)
+    End Method
+
+    Method OnLostFocus(sender)
+    Begin
+        BtButtonCommon:OnLostFocus(Properties, HistoryDataEditDialog:LogEditDialog_KeyDown, OnLostFocus)
+    End Method
+
+    Method OnKeyDown(sender)
+    Begin
+        If Not BtScreenCommon:IsEnabledControl(Properties[0]) Then
+            Return()
+        End If
+
+        Key:onPress = nil
+
+        HistoryDataEditDialog:LogEditDialog_KeyDown(sender)
+        BtButtonCommon:OnKeyDown(Properties, sender)
+
+        If (Key:onPress is nil) Then
+            Key:onPress = OnKeyDown
+        End If
+    End Method
+
+    Method OnClick(sender)
+    Begin
+        BtButtonCommon:OnClick(Properties, OnClick)
+    End Method
+
+End Package
+

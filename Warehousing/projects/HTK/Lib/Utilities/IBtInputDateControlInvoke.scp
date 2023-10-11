@@ -1,0 +1,4 @@
+    Method IBtInputDateControlInvoke(this)
+    Begin
+        DEF_COMMON:IBtInputDateControlInvokeCommon(this, Properties)
+    End Method

@@ -1,0 +1,295 @@
+
+ Package TransmissionController
+
+    _properties[6 + 1]
+
+    Method Create()
+    Begin
+        If (_properties[0] is nil) Then
+            _properties[0] = 0
+        Else
+            _properties[0] = _properties[0] + 1
+        End If
+        Return (_properties[0])
+    End Method
+
+    Method GetIsCancelled()
+    Begin
+            Return (_properties[5])
+    End Method
+
+    Method StartTransmitting(processingId)
+    Begin
+        If _properties[3] Then
+            Return (false)
+        End If
+
+        _properties[1] = processingId
+        _properties[3] = true
+        _properties[2] = true
+
+        Return (true)
+
+    End Method
+
+    Method FinishTransmitting(processingId)
+    Begin
+        If (_properties[2] is false) Then
+            Return (nil)
+        End If
+        If (_properties[1] <> processingId) Then
+            Return (nil)
+        End If
+        _properties[3] = false
+        _properties[2] = false
+        _properties[1] = nil
+    End Method
+
+    Method Connect(transmissionRoute, timeout, retryCount)
+        connectResult
+        count
+        retryWLanOpen = false
+    Begin
+
+        If (_properties[2] is false) Then
+            Return (false)
+        End If
+
+        _properties[5] = false
+
+        If (WLAN:isOpen is true) Then
+            retryWLanOpen = true
+        End If
+
+        connectResult = false
+        For count = 0 to retryCount - 1
+
+            If (_properties[5] is true) Then
+               Fbreak
+            End If
+
+            If (ConnectCore(transmissionRoute, timeout) is true) Then
+                _properties[4] = true
+                connectResult = true
+                Fbreak
+            End If
+
+            If (retryWLanOpen is true) Then
+                WLAN:Close()
+                WLAN:Open("sync")
+                retryWLanOpen = false
+            End If
+        Next
+
+        Return (connectResult)
+
+    End Method
+
+    Method ConnectCore(transmissionRoute, timeout)
+        useRoute
+        route
+        connectRet
+    Begin
+
+        useRoute = transmissionRoute
+
+        If (transmissionRoute == 0) Then
+            useRoute = 1
+        End If
+
+        Select Case useRoute
+            Case 1
+                route = "CRADLE"
+            Case 2
+                If (True is true) Then
+                    route = "SOCK_PASSIVE"
+                Else
+                    route = "SOCK_COMPATIBLE"
+                End If
+                If (Network:IsOpen("LanCradle") is false) Then
+                    Network:Open("sync", "LanCradle")
+                End If
+            Case 3
+                If (True is true) Then
+                    route = "SOCK_PASSIVE"
+                Else
+                    route = "SOCK_COMPATIBLE"
+                End If
+                If (WLAN:isOpen is false) Then
+                    WLAN:Open("sync")
+                End If
+        End Select
+
+        With Comm
+            :Initialize()
+            :cancelKey = "C"
+            :deviceId = route
+            :timeOut = timeout
+            connectRet = :Connect()
+            If (connectRet is false) Then
+                WriteErrorLog("Connect(false)")
+                If (:error eq "CANCELED") Then
+                    _properties[5] = true
+                End If
+                Return (false)
+            End If
+            :cancelKey = nil
+        End With
+
+        Return (true)
+
+    Catch
+        Return (false)
+    End Method
+
+    Method Disconnect(timeout, retryCount)
+        count
+        disconnectResult
+    Begin
+
+        If (_properties[2] is false) Then
+            Return (false)
+        End If
+
+        disconnectResult = false
+        For count = 0 to retryCount - 1
+
+            If (_properties[5] is true) Then
+                Fbreak
+            End If
+
+            If (DisconnectCore(timeout) is true) Then
+                _properties[4] = false
+                disconnectResult = true
+                Fbreak
+            End If
+        Next
+
+        Return (disconnectResult)
+    End Method
+
+    Method DisconnectCore(timeout)
+        disconnectRet
+    Begin
+
+        With Comm
+            :timeOut = timeout
+            disconnectRet = :Disconnect()
+            If (disconnectRet is false) Then
+                WriteErrorLog("Disconnect(false)")
+                If (:error eq "CANCELED") Then
+                    _properties[5] = true
+                End If
+                Return (false)
+            End If
+        End With
+
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+
+    Method PutFile(localFileName, remoteFileName, timeout, retryCount)
+        count
+        putFileResult
+    Begin
+
+        If (_properties[2] is false) Then
+            Return (false)
+        End If
+
+        putFileResult = false
+        For count = 0 to retryCount - 1
+
+            If (_properties[5] is true) Then
+                Fbreak
+            End If
+
+            If (PutFileCore(localFileName, remoteFileName, timeout) is true) Then
+                putFileResult = true
+                Fbreak
+            End If
+        Next
+
+        Return (putFileResult)
+    End Method
+
+    Method PutFileCore(localFileName, remoteFileName, timeout)
+        putFileRet
+    Begin
+
+        If (_properties[5] is true) Then
+            Return (false)
+        End If
+
+        With Comm
+            :timeOut = timeout
+            putFileRet = :PutFile(localFileName, remoteFileName)
+            If (putFileRet is false) Then
+                WriteErrorLog("PutFile(false)")
+                If (:error eq "CANCELED") Then
+                    _properties[5] = true
+                End If
+                Return (false)
+            End If
+        End With
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+
+    Method GetFile(localFileName, remoteFileName, timeout, retryCount)
+        count
+        getFileResult
+    Begin
+
+        If (_properties[2] is false) Then
+            Return (false)
+        End If
+
+        getFileResult = false
+        For count = 0 to retryCount - 1
+
+            If (_properties[5] is true) Then
+                Fbreak
+            End If
+
+            If (GetFileCore(localFileName, remoteFileName, timeout) is true) Then
+                getFileResult = true
+                Fbreak
+            End If
+        Next
+
+        Return (getFileResult)
+    End Method
+
+    Method GetFileCore(localFileName, remoteFileName, timeout)
+        getFileRet
+    Begin
+
+        If (_properties[5] is true) Then
+            Return (false)
+        End If
+
+        With Comm
+            :timeOut = timeout
+            getFileRet = :GetFile(remoteFileName, localFileName)
+            If (getFileRet is false) Then
+                WriteErrorLog("GetFile(false)")
+                If (:error eq "CANCELED") Then
+                    _properties[5] = true
+                End If
+                Return (false)
+            End If
+        End With
+        Return (true)
+    Catch
+        Return (false)
+    End Method
+
+    Method WriteErrorLog(log)
+    Begin
+        TransmissionLogUtility:WriteLog("_log_CommunicationError.txt", log)
+    End Method
+
+End Package

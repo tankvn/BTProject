@@ -1,0 +1,112 @@
+#insert "\Lib\Utilities\LogItemConstants"
+#insert "\Lib\Utilities\LogItemScreenDataConstants"
+
+/*Public*/ Package LogItemScreenDataCommon
+    /*Inherits LogItem*/
+
+#pushdefine
+#insert "\Lib\Utilities\LogItem"
+#popdefine
+
+
+
+    Method GetJobName(properties[]) /*As String*/
+    Begin
+        Return (properties[DEF_JOB_NAME_PROPERTY])
+    End Method
+
+    Method GetScreenName(properties[]) /*As String*/
+    Begin
+        Return (properties[DEF_SCREEN_NAME_PROPERTY])
+    End Method
+
+    Method GetLogItemControlName(properties[]) /*As ILogItemControl*/
+    Begin
+        Return (properties[DEF_LOG_ITEM_CONTROL_NAME_PROPERTY])
+    End Method
+
+    Method GetLogEditType(properties[]) /*As InputControl*/
+    Begin
+        Return (ILogItemControl:GetLogEditType(GetLogItemControlName(properties), GetLogDataIndex(properties)))
+    End Method
+
+    Method GetLogData(properties[]) /*As String*/
+    Begin
+        Return (ILogItemControl:GetLogData(GetLogItemControlName(properties), GetLogDataIndex(properties)))
+    End Method
+
+    Method GetLogDataIndex(properties[]) /*As Integer*/
+    Begin
+        Return (properties[DEF_LOG_DATA_INDEX_PROPERTY])
+    End Method
+
+    Method GetLogItemTypeInfo(properties[]) /*As String*/
+    Begin
+        Return (FIELD_PREFIX & ":(" &  GetJobName(properties) & ")" & "(" & GetScreenName(properties) & ")" & "(" & GetLogItemControlName(properties) & ")" & "(" & GetLogItemId(properties) & ")") 
+    End Method
+
+    Method GetIsDate(properties[]) /*As Boolean*/
+    Begin
+        Return (properties[DEF_IS_DATE_PROPERTY])
+    End Method
+
+    Method GetIsTime(properties[]) /*As Boolean*/
+    Begin
+        Return (properties[DEF_IS_TIME_PROPERTY])
+    End Method
+    
+    Method GetTableItemTypes(properties[]) /*As String*/
+    Begin
+        Select Case properties[DEF_TABLE_ITEM_TYPE_PROPERTY]
+            Case SQ_LITE_FIELD_TYPE_INTEGER_NUMBER
+                Return (DB_ACCESS_SQLITE_DATA_TYPE_INTEGER)
+            Case SQ_LITE_FIELD_TYPE_REAL_NUMBER
+                Return (DB_ACCESS_SQLITE_DATA_TYPE_REAL)
+            Case SQ_LITE_FIELD_TYPE_TEXT
+                Return (DB_ACCESS_SQLITE_DATA_TYPE_TEXT)
+        End Select
+        Return (DB_ACCESS_SQLITE_DATA_TYPE_TEXT)
+    End Method
+
+    Method GetDecimalPlaces(properties[]) /*As Integer*/
+    Begin
+        Return (ILogItemControl:GetDecimalPlaces(GetLogItemControlName(properties), GetLogDataIndex(properties)))
+    End Method
+    
+    Method GetIsLogItemScreenData() /*As Boolean*/
+    Begin
+        Return (true)
+    End Method
+
+
+#insert "\Lib\Utilities\ILogItemScreenDataInvokeCommon"
+#insert "\Lib\Utilities\ILogItemInvokeCommon"
+
+    Method New(properties[], name, displayName, jobName, screenName, logItemControlName, isDate, isTime, tableItemTypes, index)
+    Begin
+        NewBase(properties, name, displayName, LOG_ITEM_TYPE_SCREEN_DATA)
+        properties[DEF_JOB_NAME_PROPERTY] = jobName
+        properties[DEF_SCREEN_NAME_PROPERTY] = screenName
+        properties[DEF_LOG_ITEM_CONTROL_NAME_PROPERTY] = logItemControlName
+        properties[DEF_IS_DATE_PROPERTY] = isDate
+        properties[DEF_IS_TIME_PROPERTY] = isTime
+        properties[DEF_TABLE_ITEM_TYPE_PROPERTY] = tableItemTypes
+        properties[DEF_LOG_DATA_INDEX_PROPERTY] = index
+    End Method
+
+    Method IsFormatChanged(properties[], databaseName, index) /*As Boolean*/
+    Begin
+        Return (IsFormatChangedBase(properties, GetTableItemTypes(properties), databaseName, index))
+    End Method
+
+    Method AddLogItemInfo(properties[], databaseName, index) /*As Boolean*/
+    Begin
+        Return (AddLogItemInfoBase(properties, GetTableItemTypes(properties), databaseName, index))
+    End Method
+
+    Method GetFormattedLogDataDb(properties[], dataLength, value)
+    Begin
+        Return (GetFormattedLogDataDbBase(properties, GetTableItemTypes(properties), GetDecimalPlaces(properties), dataLength, value))
+    End Method
+
+End Package 

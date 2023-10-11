@@ -1,0 +1,199 @@
+#pushdefine
+
+#insert "\Lib\Utilities\BtMasterCheckUtilityConstants"
+#insert "\Lib\Parts\BtMasterCheckControlConstants"
+
+Package DEF_PACKAGE_NAME
+
+    Properties[DEF_PROPERTY_NUM]
+
+#insert "\Lib\Utilities\IMasterCheckDataOwnerControlInvoke"
+#insert "\Lib\Utilities\IBtMasterCheckControlInvoke"
+
+    Method New(parentName)
+    Begin
+        Properties[DEF_NAME_PROPERTY] = "DEF_PACKAGE_NAME"
+        BtMasterCheckControlCommon:New(Properties, parentName)
+    End Method
+
+    Method Create(parentName)
+    Begin
+        New(parentName)
+    End Method
+
+    Method OnFormShown()
+    Begin
+        Return(BtMasterCheckControlCommon:OnFormShown(Properties))
+    End Method
+
+    Method ConfirmRestart()
+    Begin
+        Return(BtMasterCheckControlCommon:ConfirmRestart(Properties))
+    End Method
+
+    Method ExistIncompleteData()
+    Begin
+        Return(BtMasterCheckControlCommon:ExistIncompleteData(Properties))
+    End Method
+
+    Method ExistHalfwayItem()
+    Begin
+        Return(BtMasterCheckControlCommon:ExistHalfwayItem(Properties))
+    End Method
+
+    Method SetLogFormat(btDataFormatControl)
+    Begin
+        Return(BtMasterCheckControlCommon:SetLogFormat(Properties, btDataFormatControl))
+    End Method
+
+    Method CloseMasterCheckData()
+    Begin
+        Return(BtMasterCheckControlCommon:CloseMasterCheckData(Properties))
+    End Method
+
+    Method UpdateLogData()
+    Begin
+        Return(BtMasterCheckControlCommon:UpdateLogData(Properties))
+    End Method
+
+    Method RefrectSentNum()
+    Begin
+        Return(BtMasterCheckControlCommon:RefrectSentNum(Properties))
+    End Method
+
+    Method ResetCurrentVoucherData()
+    Begin
+        Return(BtMasterCheckControlCommon:ResetCurrentVoucherData(Properties))
+    End Method
+
+    Method CheckInputAllKeys()
+    Begin
+        Return(BtMasterCheckControlCommon:CheckInputAllKeys(Properties))
+    End Method
+
+    Method GetFirstInputWithoutVoucher()
+    Begin
+        Return(BtMasterCheckControlCommon:GetFirstInputWithoutVoucher(Properties))
+    End Method
+
+    Method GetVoucherMasterDataByRealTime(newCurrentVoucher) /*As Boolean*/
+        logFilePath
+        listId_Vouchers
+        errorMessage
+    Begin
+
+        logFilePath = PathUtility:Combine(TERMINAL_SETTING_PATH_LOG_WINDOWS_FOLDER, IDataFormatControl:GetDataBaseName(BtMasterCheckControlCommon:GetBtDataFormatControl(Properties)))
+
+        listId_Vouchers = ListTable:CreateList()
+        ListTable:Add(listId_Vouchers, newCurrentVoucher, "")
+        BtMasterCheckUtility:UpdateMasterFileByRealTime(BtMasterCheckControlCommon:GetCommunicationErrorDisplayMode(Properties), listId_Vouchers, BtMasterCheckControlCommon:GetUserMasterDataInfo(Properties), logFilePath, false, Window<BtMasterCheckControlCommon:GetParent(Properties)>:parent)
+        ListTable:DeleteList(listId_Vouchers)
+        errorMessage = ErrorManager:GetError()
+        If (ErrorManager:GetCommunicationError()) Then
+#ifdef DEF_EVENT_COMMUNICATION_ERROR_OCCURRED
+            DEF_EVENT_COMMUNICATION_ERROR_OCCURRED:CommunicationErrorOccurred()
+#endif
+        ElseIf (errorMessage ne MESSAGE_ERROR_NONE) Then
+            MessageUtility:ShowMessageOk(errorMessage)
+            Return (false)
+        End If
+
+        Return (true)
+    End Method
+
+    Method _inputVoucher_AfterReset(sender)
+    Begin
+        BtMasterCheckControlCommon:ResetVoucherInfo(Properties)
+    End Method
+
+    Method _inputVoucher_DataInput(sender, sw)
+        newCurrentVoucher
+        updateVoucherInfoResult
+        itemCount
+    Begin
+        If BtMasterCheckControlCommon:GetDataInfo(Properties) is false Then
+            BtMasterCheckControlCommon:UpdateDataTableFieldNameInfo(Properties)
+
+            If BtMasterCheckControlCommon:GetDataInfo(Properties) is false Then
+                Return (false)
+            End If
+        End If
+
+        newCurrentVoucher = IControl:GetText(BtMasterCheckControlCommon:GetInputVoucher(Properties))
+        If BtMasterCheckControlCommon:GetInputVoucher(Properties) ne "" Then
+            BtMasterCheckControlCommon:ResetVoucherInfo(Properties)
+        End If
+
+        If (BtMasterCheckControlCommon:GetUserMasterDataInfo(Properties) <> INVALID_LIST_TABLE_ID) Then
+            If Not GetVoucherMasterDataByRealTime(newCurrentVoucher) Then
+                Return (false)
+            End If
+        End If
+
+        itemCount = BtMasterCheckControlCommon:GetItemCountInVoucher(Properties, newCurrentVoucher)
+        If (DEF_MAX_LISTTABLE_DATA < itemCount) Then
+            MessageUtility:ShowMessageOk(MESSAGE_ERROR_DATA_COUNT_OVER)
+            Return (false)
+        End If
+
+        updateVoucherInfoResult = BtMasterCheckControlCommon:UpdateCurrentVoucherInfo(Properties, newCurrentVoucher)
+        If Not updateVoucherInfoResult Then
+#ifdef DEF_EVENT_NOT_EXIST_VOUCHER_INPUTED
+            DEF_EVENT_NOT_EXIST_VOUCHER_INPUTED:NotExistVoucherInputed(updateVoucherInfoResult)
+#endif
+            Return (false)
+        End If
+        Return (true)
+    End Method
+
+    Method _inputLastItemKeys_AfterReset(sender)
+    Begin
+        BtMasterCheckControlCommon:ResetItemInfo(Properties)
+    End Method
+
+    Method OnInputLastItemKeysDataInput()
+        itemKeys[BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM]
+        result
+        i
+    Begin
+        For i = 0 To BT_MASTER_CHECK_UTILITY_MAX_ITEM_KEY_NUM - 1
+            If (i < BtMasterCheckControlCommon:GetItemKeysCount(Properties)) Then
+                itemKeys[i] = IControl:GetText(BtMasterCheckControlCommon:GetInputItemKeys(Properties, i))
+            Else
+                itemKeys[i] = ""
+            End If
+        Next
+
+        BtMasterCheckControlCommon:ResetItemInfo(Properties)
+        result = BtMasterCheckControlCommon:UpdateCurrentItemInfo(Properties, itemKeys)
+
+        If result == BtMasterCheckControlCommon:INPUT_ITEM_RESULT_NOT_EXIST Then
+#ifdef DEF_EVENT_NOT_EXIST_ITEM_INPUTED
+            DEF_EVENT_NOT_EXIST_ITEM_INPUTED:NotExistItemInputed(result)
+#endif
+        End If
+        If result == BtMasterCheckControlCommon:INPUT_ITEM_RESULT_IVALID_SEQUENCE Then
+#ifdef DEF_EVENT_INVALID_SEQUENCE_INPUTED
+            DEF_EVENT_INVALID_SEQUENCE_INPUTED:InvalidSequenceInputed(result)
+#endif
+        End If
+
+        If (result <> BtMasterCheckControlCommon:INPUT_ITEM_RESULT_SUCCESS) Then
+            Return(false)
+        Else
+            Return(true)
+        End If
+    End Method
+
+    Method _inputQuantityTool_DataInputCheck(sender)
+    Begin
+        If Not BtMasterCheckControlCommon:CheckInputQuantity(Properties) Then
+            Return(false)
+        Else
+            Return(true)
+        End If
+    End Method
+
+End Package
+
+#popdefine

@@ -1,0 +1,23 @@
+
+Package BtTopMenuWindowForm_ScreenManager
+
+    Method ShowScreen(targetScreen)
+    Begin
+        If Not(BtScreenCommon:GetName(BtTopMenuWindow_res:Properties) eq targetScreen) Then
+            BtTopMenuWindow_res:Show(false)
+        End If
+        If BtScreenCommon:GetName(BtTopMenuWindow_res:Properties) eq targetScreen Then
+            BtTopMenuWindow_res:Show(true)
+            BtTopMenuWindow_res:OnShown()
+        End If
+    End Method
+
+    Method GetCurrentScreen()
+    Begin
+        If BtScreenCommon:GetVisible(BtTopMenuWindow_res:Properties) Then
+            Return(BtScreenCommon:GetName(BtTopMenuWindow_res:Properties))
+        End If
+        Return(nil)
+    End Method
+
+End Package

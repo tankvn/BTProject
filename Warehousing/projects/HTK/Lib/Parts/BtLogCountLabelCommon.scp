@@ -1,0 +1,66 @@
+
+#insert "\Lib\Parts\BtLogCountLabelConstants"
+
+/*Public*/ Package BtLogCountLabelCommon
+
+#insert "\Lib\Parts\BtLabelBaseCommon"
+
+    Method GetBtDataFormatControl(properties[]) /*As String*/
+    Begin
+        Return (properties[DEF_BT_DATA_FORMAT_CONTROL_PROPERTY])
+    End Method
+
+    Method GetLogData(properties[], index)
+    Begin
+        Return (GetText(properties))
+    End Method
+
+
+
+    Method SetHandler(properties[], afterResetHandler, comparisonValueCountUpdatedHandler, collationCountUpdatedHandler)
+    Begin
+        SetAfterResetHandler(properties, afterResetHandler)
+        SetComparisonValueCountUpdatedHandler(properties, comparisonValueCountUpdatedHandler)
+        SetCollationCountUpdatedHandler(properties, collationCountUpdatedHandler)
+    End Method
+
+    Method SetLogFormat(properties[], btDataFormatControl)
+    Begin
+        properties[DEF_BT_DATA_FORMAT_CONTROL_PROPERTY] = btDataFormatControl
+    End Method
+
+    Method UpdateLogCount(properties[])
+    Begin
+        If (properties[DEF_BT_DATA_FORMAT_CONTROL_PROPERTY].isString is true) Then
+            If (properties[DEF_BT_DATA_FORMAT_CONTROL_PROPERTY] eq "") Then
+                Return (nil)
+            End If
+        Else
+            If (properties[DEF_BT_DATA_FORMAT_CONTROL_PROPERTY] is nil) Then
+                Return (nil)
+            End If
+        End If
+
+        SetInitialText(properties, DbAccess:SelectCount(IDataFormatControl:GetPathDriveLogDataBase(GetBtDataFormatControl(properties)),
+                                                        IDataFormatControl:GetTableName(GetBtDataFormatControl(properties)),
+                                                        INVALID_LIST_TABLE_ID, false, FILTERING_MATCH_TYPE_EXACT_MATCH))
+    End Method
+
+    Method Reset(properties[])
+    Begin
+        UpdateLogCount(properties)
+    End Method
+
+    Method CollationCountInitialized(properties[])
+        parameter[1]
+    Begin
+        EventUtility:Exec(GetCollationCountUpdatedHandler(properties), GetName(properties), parameter)
+    End Method
+
+    Method SetSearchResult(properties[], listId_SearchResult, columnIndex)
+    Begin
+        BaseSetSearchResult(properties, listId_SearchResult, columnIndex)
+    End Method
+
+
+End Package
